@@ -184,8 +184,8 @@ event Timer5()
 
                         if(rPlayer.IsHuman)
                         {
-							SetStateDelay(150);
-							state Defeat;
+                            SetStateDelay(150);
+                            state Defeat;
                         }
                     }
                     else

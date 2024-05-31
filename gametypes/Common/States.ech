@@ -5,54 +5,54 @@ state Defeat;
     
 state Nothing
 {
-	return Nothing;
+    return Nothing;
 }
 
 state Victory
 {
-	int i;
-	player rPlayer;
+    int i;
+    player rPlayer;
 
-	for(i=0; i<8; i=i+1)
-	{
-		rPlayer = GetPlayer(i);
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
 
-		if(rPlayer!=null && rPlayer.IsAlive()) 
-		{
-			if(rPlayer.GetScriptData(1)==1)
-			{
-				rPlayer.Defeat();
-			}
-			else
-			{
-				rPlayer.Victory();
-			}
-		}
-	}
+        if(rPlayer!=null && rPlayer.IsAlive()) 
+        {
+            if(rPlayer.GetScriptData(1)==1)
+            {
+                rPlayer.Defeat();
+            }
+            else
+            {
+                rPlayer.Victory();
+            }
+        }
+    }
 
-	return Nothing;
+    return Nothing;
 }
 
 state Defeat
 {
-	int i;
-	player rPlayer;
+    int i;
+    player rPlayer;
 
-	for(i=0; i<8; i=i+1)
-	{
-		rPlayer = GetPlayer(i);
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
 
-		if(rPlayer!=null)
-		{
-			if(rPlayer.IsAlive()) 
-			{
-				if(rPlayer.GetScriptData(1)==1)
-				{
-					rPlayer.Defeat();
-				}
-			}
-		}
-	}
+        if(rPlayer!=null)
+        {
+            if(rPlayer.IsAlive()) 
+            {
+                if(rPlayer.GetScriptData(1)==1)
+                {
+                    rPlayer.Defeat();
+                }
+            }
+        }
+    }
 
-	return Nothing;
+    return Nothing;
 }

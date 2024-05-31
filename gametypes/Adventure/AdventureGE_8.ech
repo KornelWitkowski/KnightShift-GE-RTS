@@ -24,12 +24,12 @@ function void InitializePlayerAdventureGE8()
 
             rPlayer.RegisterGoal(0, "translateAdventureGE08_WoodcutterMustSurvive");
 
-			SetStringBuffTranslate(2, "translateAdventureGE08_KillAllEnemy");
-			SetStringBuff(3, GetStringBuff(2), rPlayerEnemy.GetNumberOfUnits());
+            SetStringBuffTranslate(2, "translateAdventureGE08_KillAllEnemy");
+            SetStringBuff(3, GetStringBuff(2), rPlayerEnemy.GetNumberOfUnits());
 
             rPlayer.RegisterGoal(1, GetStringBuff(3));
-			rPlayer.EnableGoal(0, true, true);
-			rPlayer.EnableGoal(1, true, true);
+            rPlayer.EnableGoal(0, true, true);
+            rPlayer.EnableGoal(1, true, true);
             
             rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 1);
         }
@@ -92,8 +92,8 @@ state KillingBanditsAdventureGE8
         {   
             iNumberOfUnits = rPlayerEnemy.GetNumberOfUnits();
 
-			SetStringBuffTranslate(2, "translateAdventureGE08_KillAllEnemy");
-			SetStringBuff(3, GetStringBuff(2), iNumberOfUnits);
+            SetStringBuffTranslate(2, "translateAdventureGE08_KillAllEnemy");
+            SetStringBuff(3, GetStringBuff(2), iNumberOfUnits);
 
             if(iNumberOfUnits == 0)
             {
@@ -104,7 +104,7 @@ state KillingBanditsAdventureGE8
             }
 
             rPlayer.RegisterGoal(1, GetStringBuff(3));
-			rPlayer.EnableGoal(1, true);
+            rPlayer.EnableGoal(1, true);
         }
     }
     return KillingBanditsAdventureGE8, 20;

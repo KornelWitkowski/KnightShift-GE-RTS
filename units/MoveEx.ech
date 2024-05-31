@@ -20,7 +20,7 @@ state StartMovingAndDefend
     {
         return StartMovingAndDefend,5;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state MovingAndDefend
 {
@@ -33,22 +33,22 @@ state MovingAndDefend
         TRACE("MovingAndDefend -> MovingToAttackTarget\n");
         return MovingToAttackTarget, 0;
     }
-	if (IsMoving() && !IsWaitingBeforeClosedGate())
-	{
-		TRACE("MovingAndDefend\n");
+    if (IsMoving() && !IsWaitingBeforeClosedGate())
+    {
+        TRACE("MovingAndDefend\n");
         return MovingAndDefend;
-	}
-	else
-	{
-		TRACE("MovingAndDefend -> Nothing\n");
-		NextCommand(1);
+    }
+    else
+    {
+        TRACE("MovingAndDefend -> Nothing\n");
+        NextCommand(1);
 #ifdef STATE_AFTER_MOVE
         return STATE_AFTER_MOVE, 5;
 #else
-		return Nothing, 0;
+        return Nothing, 0;
 #endif STATE_AFTER_MOVE
-	}
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+    }
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 #endif USE_MOVEANDDEFEND
 
@@ -68,9 +68,9 @@ command MoveAndDefend(int nGx, int nGy, int nLz) hidden button TRL_MOVE
     m_nStartMoveGx = GetLocationX();
     m_nStartMoveGy = GetLocationY();
     m_nStartMoveLz = GetLocationZ();
-	m_nMoveToGx = nGx;
-	m_nMoveToGy = nGy;
-	m_nMoveToLz = nLz;
+    m_nMoveToGx = nGx;
+    m_nMoveToGy = nGy;
+    m_nMoveToLz = nLz;
 #ifdef USE_MOVEANDDEFEND
     //od razu sprawdzamy czy walczymy zeby niepotrzebnie nie ruszyc
     if (m_bSelfAttackTarget && ((state == MovingToAttackTarget) || (state == WaitingForAttackedTarget) || (state == TurningToAttackTarget) || (state == AttackingTarget)))
@@ -83,13 +83,13 @@ command MoveAndDefend(int nGx, int nGy, int nLz) hidden button TRL_MOVE
         return true;
     }
 #endif
-	CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+    CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
 #ifdef USE_MOVEANDDEFEND
-	state StartMovingAndDefend;
+    state StartMovingAndDefend;
 #else
     state StartMoving;
 #endif
     return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 #endif MOVEEX_ECH

@@ -77,8 +77,8 @@ function void InitializePlayerAdventureGE1()
             rPlayer.RegisterGoal(1, "translateAdventureGE01_BanditVillage");
             rPlayer.RegisterGoal(2, "translateAdventureGE01_FindArmour");
 
-			rPlayer.EnableGoal(0, true, true);
-			rPlayer.EnableGoal(1, true, true);
+            rPlayer.EnableGoal(0, true, true);
+            rPlayer.EnableGoal(1, true, true);
             rPlayer.EnableGoal(2, true, true);
             
             rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
@@ -151,7 +151,7 @@ state InitializeAdventureGE1
     CreateArtefacts("ART_ARMOUR4",        20, 20, 0, false);
     CreateArtefacts("ARTIFACT_INVISIBLE", 20, 20, 20, false);
 
-	SetTimer(0, 100);
+    SetTimer(0, 100);
     SetTimer(1, 400);
     SetTimer(2, 2400);//2min
     SetTimer(3, 4800);//4min

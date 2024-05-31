@@ -49,17 +49,17 @@ function int FindStateNothingTarget();
 
 function void ResetCurrentTarget()
 {
-	m_uCurrTarget = null;
-	SetRepairObject(null);
+    m_uCurrTarget = null;
+    SetRepairObject(null);
     m_nStartTargetGx = 0;
     m_nStartTargetGy = 0;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function void SetCurrentTarget(unit uTarget, int bSelfTarget)
 {
-	m_uCurrTarget = uTarget;
+    m_uCurrTarget = uTarget;
     m_bSelfTarget = bSelfTarget;
-	SetRepairObject(m_uCurrTarget);
+    SetRepairObject(m_uCurrTarget);
     if (uTarget != null)
     {
         m_nStartTargetGx = uTarget.GetLocationX();
@@ -70,89 +70,89 @@ function void SetCurrentTarget(unit uTarget, int bSelfTarget)
         m_nStartTargetGx = 0;
         m_nStartTargetGy = 0;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 //znalezienie krowy do przejecia
 //znajdujemy tylko te ktore stoja po to aby pastuszek nie chodzil bez sensu za krowa ktora idzie gdzies daleko na 
 //pastwisko, lub wraca do bazy wroga
 function unit FindTargetToConvert(int nFindType)
 {
-	int nIndex, nTargetsCount;
-	unit uTarget;
+    int nIndex, nTargetsCount;
+    unit uTarget;
     int nLocGx, nLocGy, nLocLz;
-	
-	BuildTargetsArray(nFindType, findEnemyUnit);
-	SortFoundTargetsArray();
-	nTargetsCount = GetTargetsCount();
-	if (nTargetsCount != 0)
-	{
-		StartEnumTargetsArray();
-		for (nIndex = 0; nIndex < nTargetsCount; ++nIndex)
-		{
-			uTarget = GetNextTarget();
-			if (CanBeConverted(uTarget) && !uTarget.IsMoving() &&
+    
+    BuildTargetsArray(nFindType, findEnemyUnit);
+    SortFoundTargetsArray();
+    nTargetsCount = GetTargetsCount();
+    if (nTargetsCount != 0)
+    {
+        StartEnumTargetsArray();
+        for (nIndex = 0; nIndex < nTargetsCount; ++nIndex)
+        {
+            uTarget = GetNextTarget();
+            if (CanBeConverted(uTarget) && !uTarget.IsMoving() &&
                 (DistanceTo(uTarget.GetLocationX(), uTarget.GetLocationY()) < 8))
-			{
+            {
                 nLocGx = GetOperateOnTargetLocationX(uTarget);
                 nLocGy = GetOperateOnTargetLocationY(uTarget);
                 nLocLz = GetOperateOnTargetLocationZ(uTarget);
-				if (IsGoodPointForOperateOnTarget(uTarget, nLocGx, nLocGy, nLocLz))
-				{
-					EndEnumTargetsArray();
-					return uTarget;
-				}
+                if (IsGoodPointForOperateOnTarget(uTarget, nLocGx, nLocGy, nLocLz))
+                {
+                    EndEnumTargetsArray();
+                    return uTarget;
+                }
             }
-		}
-		EndEnumTargetsArray();
-	}
-	return null;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+        }
+        EndEnumTargetsArray();
+    }
+    return null;
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 //znajdujemy budynek do przejecia
 function unit FindTargetToCapture()
 {
-	int nIndex, nTargetsCount;
-	unit uTarget;
-	
-	BuildTargetsArray(findTargetBuilding, findEnemyUnit);
-	SortFoundTargetsArray();
-	nTargetsCount = GetTargetsCount();
-	if (nTargetsCount != 0)
-	{
-		StartEnumTargetsArray();
-		for (nIndex = 0; nIndex < nTargetsCount; ++nIndex)
-		{
-			uTarget = GetNextTarget();
-			if (CanBeCaptured(uTarget))
+    int nIndex, nTargetsCount;
+    unit uTarget;
+    
+    BuildTargetsArray(findTargetBuilding, findEnemyUnit);
+    SortFoundTargetsArray();
+    nTargetsCount = GetTargetsCount();
+    if (nTargetsCount != 0)
+    {
+        StartEnumTargetsArray();
+        for (nIndex = 0; nIndex < nTargetsCount; ++nIndex)
+        {
+            uTarget = GetNextTarget();
+            if (CanBeCaptured(uTarget))
             {
-				EndEnumTargetsArray();
-				return uTarget;
+                EndEnumTargetsArray();
+                return uTarget;
             }
-		}
-		EndEnumTargetsArray();
-	}
-	return null;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+        }
+        EndEnumTargetsArray();
+    }
+    return null;
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function int MoveToTarget(unit uTarget)
 {
-	m_nMoveToGx = GetOperateOnTargetLocationX(uTarget);
-	m_nMoveToGy = GetOperateOnTargetLocationY(uTarget);
-	m_nMoveToLz = GetOperateOnTargetLocationZ(uTarget);
+    m_nMoveToGx = GetOperateOnTargetLocationX(uTarget);
+    m_nMoveToGy = GetOperateOnTargetLocationY(uTarget);
+    m_nMoveToLz = GetOperateOnTargetLocationZ(uTarget);
     if (IsGoodPointForOperateOnTarget(uTarget, m_nMoveToGx, m_nMoveToGy, m_nMoveToLz))
     {
         CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
         return true;
     }
     return false;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function void StopConverting()
 {
-	CallStopMoving();
-	ResetCurrentTarget();
-	NextCommand(1);
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+    CallStopMoving();
+    ResetCurrentTarget();
+    NextCommand(1);
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function int StopCurrentAction()
 {
@@ -164,7 +164,7 @@ function int StopCurrentAction()
     ResetCurrentTarget();
     m_bSelfTarget = false;
     return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function int TryFindNewConvertTarget()
 {
@@ -178,14 +178,14 @@ function int TryFindNewConvertTarget()
     {
         return false;
     }
-	uTarget = FindTargetToConvert(m_nFindType);
+    uTarget = FindTargetToConvert(m_nFindType);
     if ((uTarget != null) && MoveToTarget(uTarget))
     {
         SetCurrentTarget(uTarget, true);
         return true;
     }
     return false;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function int TryFindNewCaptureTarget()
 {
@@ -199,15 +199,15 @@ function int TryFindNewCaptureTarget()
     {
         return false;
     }
-	uTarget = FindTargetToCapture();
+    uTarget = FindTargetToCapture();
     if (uTarget != null)
     {
- 	    CallMoveInsideObject(uTarget);
+         CallMoveInsideObject(uTarget);
         SetCurrentTarget(uTarget, true);
         return true;
     }
     return false;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function int FindStateNothingTarget()
 {
@@ -227,7 +227,7 @@ function int FindStateNothingTarget()
         return true;
     }
     return false;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 ////    States    ////
 
@@ -237,7 +237,7 @@ state Initialize
     m_nStayGx = GetLocationX();
     m_nStayGy = GetLocationY();
     return Nothing;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state Nothing
 {
@@ -278,7 +278,7 @@ state Nothing
         return Nothing;
     }
     //else state ustawiony w FindStateNothingTarget
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state AfterConversion
 {
@@ -296,7 +296,7 @@ state AfterConversion
     }
     CallMoveToPoint(m_nStayGx, m_nStayGy, GetLocationZ());
     return MovingToStay;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state MovingToStay
 {
@@ -317,22 +317,22 @@ state MovingToStay
         m_bSelfTarget = false;
         return Nothing, 0;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state MovingToConvertTarget
 {
-	TRACE("MovingToConvertTarget\n");
+    TRACE("MovingToConvertTarget\n");
     if (IsWaitingBeforeClosedGate())
     {
-		TRACE("IsWaitingBeforeClosedGate\n");
+        TRACE("IsWaitingBeforeClosedGate\n");
         StopConverting();
-		return AfterConversion, 0;
+        return AfterConversion, 0;
     }
     else if (IsMoving())
-	{
-		//sprawdzanie czy cel jeszcze mozna przejac i czy sie ruszyl (wtedy trzeba zmienic kierunek jazdy)
+    {
+        //sprawdzanie czy cel jeszcze mozna przejac i czy sie ruszyl (wtedy trzeba zmienic kierunek jazdy)
         //sprawdzanie m_nStartTargetGx,y - zabezpieczenie zeby nie poszedl za krowa do obozu wroga
-		if (CanBeConverted(m_uCurrTarget) && 
+        if (CanBeConverted(m_uCurrTarget) && 
             (Distance(m_uCurrTarget.GetLocationX(), m_uCurrTarget.GetLocationY(), m_nStartTargetGx, m_nStartTargetGy) < 8) &&
             ((IsGoodPointForOperateOnTarget(m_uCurrTarget, m_nMoveToGx, m_nMoveToGy, m_nMoveToLz) && IsFreePoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz)) ||
              MoveToTarget(m_uCurrTarget)))
@@ -341,69 +341,69 @@ state MovingToConvertTarget
         }
         else
         {
-			TRACE("IsMoving - unable to find operation point for target or target converted/dead\n");
+            TRACE("IsMoving - unable to find operation point for target or target converted/dead\n");
             StopConverting();
-			return AfterConversion, 0;
+            return AfterConversion, 0;
         }
-	}
-	else
-	{
-		//sprawdzic czy w punkcie w ktorym jestesmy mozemy zaczac naprawe
-		if (IsInGoodPointForOperateOnTarget(m_uCurrTarget))
-		{
-			if (CanBeConverted(m_uCurrTarget))
-			{
-				CallConvert(m_uCurrTarget);
-				return Converting;
-			}
-			else
-			{
+    }
+    else
+    {
+        //sprawdzic czy w punkcie w ktorym jestesmy mozemy zaczac naprawe
+        if (IsInGoodPointForOperateOnTarget(m_uCurrTarget))
+        {
+            if (CanBeConverted(m_uCurrTarget))
+            {
+                CallConvert(m_uCurrTarget);
+                return Converting;
+            }
+            else
+            {
                 TRACE(" - target converted/dead\n");
                 StopConverting();
-				return AfterConversion, 0;
-			}
-		}
-		else
-		{
+                return AfterConversion, 0;
+            }
+        }
+        else
+        {
             if (MoveToTarget(m_uCurrTarget))
             {
-				return MovingToConvertTarget;
-			}
-			else
-			{//unable to find operation point for target
-				TRACE("IsNotMoving - unable to find operation point for target\n");
+                return MovingToConvertTarget;
+            }
+            else
+            {//unable to find operation point for target
+                TRACE("IsNotMoving - unable to find operation point for target\n");
                 StopConverting();
-				return AfterConversion, 0;
-			}
-		}
-	}
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+                return AfterConversion, 0;
+            }
+        }
+    }
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state Converting
 {
-	if (IsConverting())
-	{
-		return Converting, 5;
-	}
-	else
-	{
-		//z jakiegos powodu jeszcze go nie skonvertowaliœmy - odjechal ?
-		if (CanBeConverted(m_uCurrTarget) && MoveToTarget(m_uCurrTarget))
-		{
-			return MovingToConvertTarget;
-		}
-		else
-		{
+    if (IsConverting())
+    {
+        return Converting, 5;
+    }
+    else
+    {
+        //z jakiegos powodu jeszcze go nie skonvertowaliï¿½my - odjechal ?
+        if (CanBeConverted(m_uCurrTarget) && MoveToTarget(m_uCurrTarget))
+        {
+            return MovingToConvertTarget;
+        }
+        else
+        {
             StopConverting();
             if (IsFlyable())
             {
                 //podniesc sie - po StopConverting
                 CallMoveToPoint(GetLocationX(), GetLocationY(), GetLocationZ());
             }
-			return AfterConversion, 0;
-		}
-	}
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+            return AfterConversion, 0;
+        }
+    }
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state StartMovingToCaptureBuilding
 {
@@ -415,7 +415,7 @@ state StartMovingToCaptureBuilding
     {
         return StartMovingToCaptureBuilding,5;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state MovingToCaptureBuilding
 {
@@ -447,7 +447,7 @@ state MovingToCaptureBuilding
         StopConverting();
         return AfterConversion, 0;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state StartMovingToWatchRepair
 {
@@ -460,7 +460,7 @@ state StartMovingToWatchRepair
     {
         return StartMovingToWatchRepair,5;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state MovingToWatchRepair
 {
@@ -485,7 +485,7 @@ state MovingToWatchRepair
     {
         return WatchingRepair;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state WatchingRepair
 {
@@ -497,7 +497,7 @@ state WatchingRepair
         return Nothing;
     }
     return WatchingRepair, 5;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state StartMovingToWatchBuild
 {
@@ -510,7 +510,7 @@ state StartMovingToWatchBuild
     {
         return StartMovingToWatchBuild,5;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state MovingToWatchBuild
 {
@@ -535,7 +535,7 @@ state MovingToWatchBuild
     {
         return WatchingBuild;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state WatchingBuild
 {
@@ -547,7 +547,7 @@ state WatchingBuild
         return Nothing;
     }
     return WatchingBuild, 5;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 ////    Events    ////
 
@@ -570,7 +570,7 @@ event OnHit(unit uByUnit)
         nPosY = GetLocationY();
         nDistX = 0 - nRange/2 + RAND(nRange);
         nDistY = 0 - nRange/2 + RAND(nRange);
-    	MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
+        MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
         state StartMoving;
     }
 #endif AI_SCRIPT
@@ -605,24 +605,24 @@ event OnHit(unit uByUnit)
                 nDistX = 0 - nRange/2 + RAND(nRange);
                 nDistY = 0 - nRange/2 + RAND(nRange);
             }
-    	    MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
+            MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
             state StartMoving;
         }
         else
         {
             //uciekamy do wioski
-    	    MoveToPoint(uBuilding.GetLocationX(), uBuilding.GetLocationY(), uBuilding.GetLocationZ());
+            MoveToPoint(uBuilding.GetLocationX(), uBuilding.GetLocationY(), uBuilding.GetLocationZ());
             state StartMoving;
         }
     }
-	return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+    return true;
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 event OnKilled()
 {
     ResetCurrentTarget();
     return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 ////    Commands    ////
 
@@ -645,85 +645,85 @@ command Initialize()
     //inicjacja StayGx,y na wszelki wypadek aby w przypadku jakiegos bledu nie poszedl do 0, 0 w AfterConverting
     m_nStayGx = GetLocationX();
     m_nStayGy = GetLocationY();
-	return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+    return true;
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 command Uninitialize()
 {
-	//wykasowac referencje
+    //wykasowac referencje
     ResetEnterBuilding();
-	ResetCurrentTarget();
+    ResetCurrentTarget();
     ResetCustomAnim();
-	return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+    return true;
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 //bez nazwy - wywolywany przez kursor
 command Convert(unit uTarget) hidden button TRL_CONVERT
 {
     EXIT_COMMAND_IN_SLEEP_MODE();
     if (CanBeConverted(uTarget) && MoveToTarget(uTarget))
-	{
+    {
         CHECK_STOP_CURR_ACTION();
-		SetCurrentTarget(uTarget, false);
-		state MovingToConvertTarget;
-	}
-	else
-	{
-		NextCommand(0);
-	}
-	return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+        SetCurrentTarget(uTarget, false);
+        state MovingToConvertTarget;
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 command CaptureBuilding(unit uTarget) hidden button TRL_CAPTUREBUILDING
 {
     EXIT_COMMAND_IN_SLEEP_MODE();
     if (CanBeCaptured(uTarget) || uTarget.IsVisibleFake())
-	{
+    {
         CHECK_STOP_CURR_ACTION();
-	    CallMoveInsideObject(uTarget);
-		SetCurrentTarget(uTarget, false);
-		state StartMovingToCaptureBuilding;
-	}
-	else
-	{
-		NextCommand(0);
-	}
-	return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+        CallMoveInsideObject(uTarget);
+        SetCurrentTarget(uTarget, false);
+        state StartMovingToCaptureBuilding;
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 command Repair(unit uTarget) hidden button TRL_REPAIR
 {
     EXIT_COMMAND_IN_SLEEP_MODE();
     if ((uTarget != null) && uTarget.IsLive() && uTarget.IsDamaged() && 
         HaveLookRoundEquipment(lookRoundTypeBuildSpeedIncrease) && MoveToTarget(uTarget))
-	{
+    {
         CHECK_STOP_CURR_ACTION();
         m_uCurrTarget = uTarget;
         TRACE1("command Repair->StartMovingToWatchRepair");
-		state StartMovingToWatchRepair;
-	}
-	else
-	{
-		NextCommand(0);
-	}
-	return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+        state StartMovingToWatchRepair;
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 command BuildObject(unit uObjectToBuild) hidden button TRL_BUILDOBJECT
 {
     EXIT_COMMAND_IN_SLEEP_MODE();
     if ((uObjectToBuild != null) && uObjectToBuild.IsLive() && uObjectToBuild.IsDamaged() && 
         HaveLookRoundEquipment(lookRoundTypeBuildSpeedIncrease) && MoveToTarget(uObjectToBuild))
-	{
+    {
         CHECK_STOP_CURR_ACTION();
         m_uCurrTarget = uObjectToBuild;
         TRACE1("command BuildObject->StartMovingToWatchBuild");
-		state StartMovingToWatchBuild;
-	}
-	else
-	{
-		NextCommand(0);
-	}
-	return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+        state StartMovingToWatchBuild;
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 }

@@ -50,7 +50,7 @@ consts {
 #else
 #define STOPATTACKING_RETURNSTATE() \
         StopAttacking(); \
-		return Nothing, 0;
+        return Nothing, 0;
 #endif STATE_AFTER_ATTACK
 
 ////    Functions    ////
@@ -99,7 +99,7 @@ function void ResetAttackTarget()
     {
         m_uAttackTarget.SetEventOnEndAttack(GetUnitRef());
     }
-	m_uAttackTarget = null;
+    m_uAttackTarget = null;
     m_bTowerUnitAttackTarget = false;
     m_bAttackedTarget = false;
     m_bAllyTarget = false;
@@ -169,7 +169,7 @@ function void SetAttackTarget(unit uTarget, int bCommandTarget, int bSelfTarget,
     {
         m_uAttackTarget.SetEventOnEndAttack(GetUnitRef());
     }
-	m_uAttackTarget = uTarget;
+    m_uAttackTarget = uTarget;
     if (uTarget.IsBuilding() && uTarget.HaveUnitOnTower())
     {
         m_bTowerUnitAttackTarget = true;
@@ -211,9 +211,9 @@ function void SetAttackTarget(unit uTarget, int bCommandTarget, int bSelfTarget,
 
 function void StopAttacking()
 {
-	CallStopMoving();
-	ResetAttackTarget();
-	NextCommand(1);
+    CallStopMoving();
+    ResetAttackTarget();
+    NextCommand(1);
 }//����������������������������������������������������������������������������������������������������|
 
 //funkcja dla lucznika wywolywana na poczatku sprawdzania celu - szukamy takich ktore atakuja take same jak
@@ -832,11 +832,11 @@ function int MoveToAttackTarget(unit uTarget, int bSelfTarget, int nInRange)
         }
         return true;
     }
-	if (nInRange == inRangeTooClose)
-	{
-		MoveAwayFromPoint(m_nAttackTargetGx, m_nAttackTargetGy, m_nAttackTargetLz, uTarget);
-		return true;
-	}
+    if (nInRange == inRangeTooClose)
+    {
+        MoveAwayFromPoint(m_nAttackTargetGx, m_nAttackTargetGy, m_nAttackTargetLz, uTarget);
+        return true;
+    }
     nDistance = DistanceTo(m_nAttackTargetGx, m_nAttackTargetGy);
     if ((nInRange == inRangeBadAngleBeta) || ((nInRange == inRangeBadHit) && HaveFlatShootCannon()))
     {//w zasiegu strzalu ale zly kat beta
@@ -892,7 +892,7 @@ function int TryFindNewAttackTarget(int bInTower, int bForceHoldPos, int bOnlyCl
         if (bCheckIfCloseToStartAttackPos)
         {
             nFindFromStartAttackRange = SwitchSmartAttackMode(eMaxRangeFromStartAttackAfterAttack, eCannonMaxRangeFromStartAttackAfterAttack, GetSightRange() + 4);
-		    if (DistanceTo(m_nStartAttackGx, m_nStartAttackGy) > nFindFromStartAttackRange)
+            if (DistanceTo(m_nStartAttackGx, m_nStartAttackGy) > nFindFromStartAttackRange)
             {
                 return false;
             }
@@ -900,13 +900,13 @@ function int TryFindNewAttackTarget(int bInTower, int bForceHoldPos, int bOnlyCl
         else if (!bSetStartAttackPos)
         {
             nFindFromStartAttackRange = SwitchSmartAttackMode(eMaxRangeFromStartAttackNextTarget, eCannonMaxRangeFromStartAttackNextTarget, 3*GetSightRange()/2);
-		    if (DistanceTo(m_nStartAttackGx, m_nStartAttackGy) > nFindFromStartAttackRange)
+            if (DistanceTo(m_nStartAttackGx, m_nStartAttackGy) > nFindFromStartAttackRange)
             {
                 return false;
             }
         }
     }
-	uTarget = FindAttackTarget(m_nTargetTypes, IsInHoldPosMode() | bInTower | bForceHoldPos, bOnlyCloseTargets, nFindFromStartAttackRange);
+    uTarget = FindAttackTarget(m_nTargetTypes, IsInHoldPosMode() | bInTower | bForceHoldPos, bOnlyCloseTargets, nFindFromStartAttackRange);
     if (uTarget != null)
     {
         TRACE1("TryFindNewAttackTarget->uTarget!=null");
@@ -979,7 +979,7 @@ function int AttackEventOnEndAttackByUnit(unit uByUnit)
             state STATE_AFTER_ATTACK;
 #else
             StopAttacking();
-		    state Nothing;
+            state Nothing;
 #endif STATE_AFTER_ATTACK
         }
     }
@@ -1045,11 +1045,11 @@ function int MoveToAttackPoint(int nGx, int nGy, int nLz)
         }
         return true;
     }
-	if (nInRange == inRangeTooClose)
-	{
-		MoveAwayFromPoint(nGx, nGy, nLz, null);
-		return true;
-	}
+    if (nInRange == inRangeTooClose)
+    {
+        MoveAwayFromPoint(nGx, nGy, nLz, null);
+        return true;
+    }
     nDistance = DistanceTo(nGx, nGy);
     if ((nInRange == inRangeBadAngleBeta) || ((nInRange == inRangeBadHit) && HaveFlatShootCannon()))
     {//w zasiegu strzalu ale zly kat beta
@@ -1138,7 +1138,7 @@ function int CheckTargetMoveInsideTower()
 state MovingToAttackTarget
 {
     unit uNewTarget;
-	int nInRange;
+    int nInRange;
     int nDist, nAttackersCnt, nSmartModeCannonDist;
     int bWaiting, bMoving, bSword, bCheckNewTarget;
 
@@ -1184,13 +1184,13 @@ state MovingToAttackTarget
             if (m_bAttackingCommandTarget && !m_bAttackedTarget && (m_uAttackTarget != null) && (DistanceTo(m_uAttackTarget) >= GetSightRange()))
             {
                 TRACE1("MovingToAttackTarget -> Target killed -> moving to target");
-	            m_nMoveToGx = m_uAttackTarget.GetLocationX();
-	            m_nMoveToGy = m_uAttackTarget.GetLocationY();
-	            m_nMoveToLz = m_uAttackTarget.GetLocationZ();
+                m_nMoveToGx = m_uAttackTarget.GetLocationX();
+                m_nMoveToGy = m_uAttackTarget.GetLocationY();
+                m_nMoveToLz = m_uAttackTarget.GetLocationZ();
                 CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
                 //StopAttacking:
-    	        ResetAttackTarget();
-	            NextCommand(1);
+                ResetAttackTarget();
+                NextCommand(1);
                 return STATE_AFTER_KILLED_TARGET, 0;
             }
 #endif STATE_AFTER_KILLED_TARGET
@@ -1292,7 +1292,7 @@ state MovingToAttackTarget
         {
             nSmartModeCannonDist = eCannonMaxRangeFromStartAttack;
         }
-		if (DistanceTo(m_nStartAttackGx, m_nStartAttackGy) > SwitchSmartAttackMode(eMaxRangeFromStartAttack, nSmartModeCannonDist, 3*GetSightRange()/2 + 4))
+        if (DistanceTo(m_nStartAttackGx, m_nStartAttackGy) > SwitchSmartAttackMode(eMaxRangeFromStartAttack, nSmartModeCannonDist, 3*GetSightRange()/2 + 4))
         {
             //zaszlismy za daleko w pogoni za celem - wracamy sie
             STOPATTACKING_RETURNSTATE();
@@ -1593,7 +1593,7 @@ state AttackingTarget
 
 state MovingToAttackPoint
 {
-	int nInRange;
+    int nInRange;
     int nDist, nAttackersCnt;
     int bCheckNewTarget;
 
@@ -1809,12 +1809,12 @@ command Attack(unit uTarget) button TRL_ATTACK description TRL_ATTACK item ITEM_
     }
 #endif RPG_UNIT_EC
     if ((GetHPDamageOnObject(uTarget) == 0) || (uTarget == GetUnitRef()))
-	{
+    {
         NextCommand(0);
-		return true;
-	}
-	else
-	{
+        return true;
+    }
+    else
+    {
         if ((m_uAttackTarget == uTarget) && !m_bSelfAttackTarget && IsAttacking())
         {
             NextCommand(1);
@@ -1832,13 +1832,13 @@ command Attack(unit uTarget) button TRL_ATTACK description TRL_ATTACK item ITEM_
 #endif CAMOUFLAGE_ECH
             SetAttackTarget(uTarget, true, false, false, false, false);
             SetStateDelay(0);
-		    state MovingToAttackTarget;
+            state MovingToAttackTarget;
         }
         else
         {
             NextCommand(0);
         }
-	}
+    }
     return true;
 }//����������������������������������������������������������������������������������������������������|
 
@@ -1848,13 +1848,13 @@ command AttackOnPoint(int nX, int nY, int nZ) button TRL_ATTACK hidden
 {
     EXIT_COMMAND_IN_SLEEP_MODE();
     CHECK_STOP_CURR_ACTION();
-	ResetAttackTarget();
-	m_nAttackTargetGx = nX;
-	m_nAttackTargetGy = nY;
-	m_nAttackTargetLz = nZ;
+    ResetAttackTarget();
+    m_nAttackTargetGx = nX;
+    m_nAttackTargetGy = nY;
+    m_nAttackTargetLz = nZ;
     TRACE5(GetUnitRef(), "command AttackOnPoint", nX, nY, nZ);
     MoveToAttackPoint(nX, nY, nZ);
-	state MovingToAttackPoint;
+    state MovingToAttackPoint;
     return true;
 }//����������������������������������������������������������������������������������������������������|
 */

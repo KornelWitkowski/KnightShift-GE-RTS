@@ -49,22 +49,22 @@ function void InitializePlayerAdventureGE9()
             rPlayer.RegisterGoal(1, "translateAdventureGE09_BelzebubMustSurvive");
             rPlayer.RegisterGoal(2, "translateAdventureGE09_FindDragonEgg");
 
-			rPlayer.EnableGoal(0, true, true);
-			rPlayer.EnableGoal(1, true, true);
+            rPlayer.EnableGoal(0, true, true);
+            rPlayer.EnableGoal(1, true, true);
             rPlayer.EnableGoal(2, true, true);
 
-			rPlayer.SetMaxCountLimitForObject("SORCERER", 0);
-			rPlayer.SetMaxCountLimitForObject("PRIESTESS", 0);
-			rPlayer.SetMaxCountLimitForObject("PRIEST", 0);
-			rPlayer.SetMaxCountLimitForObject("WITCH", 0);
-			rPlayer.SetMaxCountLimitForObject("DIPLOMAT", 0);
-			rPlayer.SetMaxCountLimitForObject("KNIGHT", 0);
-			rPlayer.SetMaxCountLimitForObject("COW", 0);
-			rPlayer.SetMaxCountLimitForObject("SHEPHERD", 0);
-			rPlayer.SetMaxCountLimitForObject("WOODCUTTER", 0);
-			rPlayer.SetMaxCountLimitForObject("HUNTER", 0);
-			rPlayer.SetMaxCountLimitForObject("FOOTMAN", 0);
-			rPlayer.SetMaxCountLimitForObject("SPEARMAN", 0);
+            rPlayer.SetMaxCountLimitForObject("SORCERER", 0);
+            rPlayer.SetMaxCountLimitForObject("PRIESTESS", 0);
+            rPlayer.SetMaxCountLimitForObject("PRIEST", 0);
+            rPlayer.SetMaxCountLimitForObject("WITCH", 0);
+            rPlayer.SetMaxCountLimitForObject("DIPLOMAT", 0);
+            rPlayer.SetMaxCountLimitForObject("KNIGHT", 0);
+            rPlayer.SetMaxCountLimitForObject("COW", 0);
+            rPlayer.SetMaxCountLimitForObject("SHEPHERD", 0);
+            rPlayer.SetMaxCountLimitForObject("WOODCUTTER", 0);
+            rPlayer.SetMaxCountLimitForObject("HUNTER", 0);
+            rPlayer.SetMaxCountLimitForObject("FOOTMAN", 0);
+            rPlayer.SetMaxCountLimitForObject("SPEARMAN", 0);
             
             rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
         }

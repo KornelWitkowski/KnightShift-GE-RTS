@@ -26,8 +26,8 @@ function void InitializePlayerAdventureGE5()
             rPlayer.RegisterGoal(0, "translateAdventureGE05_DiplomatMustSurvive");
             rPlayer.RegisterGoal(1, "translateAdventureGE05_FindHusband");
 
-			rPlayer.EnableGoal(0, true, true);
-			rPlayer.EnableGoal(1, true, true);
+            rPlayer.EnableGoal(0, true, true);
+            rPlayer.EnableGoal(1, true, true);
             
             rPlayer.LookAt(GetPointX(0), GetPointY(0), 6, 32, 20, 0);
         }

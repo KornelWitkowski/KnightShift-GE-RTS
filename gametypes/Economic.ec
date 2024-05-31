@@ -6,17 +6,17 @@ mission "translateEconomic"
     #include "Common\Events.ech"
     #include "Common\Teleports.ech"
 
-	// ECONOMIC
+    // ECONOMIC
     enum comboMilkToWin
     {
         "5000",
         "10000",
-	    "20000",
-	    "50000",
-	    "100 000",
+        "20000",
+        "50000",
+        "100 000",
         "200 000",
         "500 000",
-			multi:
+        multi:
         "translateMilkToWin"
     }
 
@@ -24,8 +24,8 @@ mission "translateEconomic"
     {
         "translateMilkPerGrassNormal",
         "translateMilkPerGrassHigh",
-	    "translateMilkPerGrassEnormous",
-		    multi:
+        "translateMilkPerGrassEnormous",
+            multi:
         "translateMilkPerGrass"
     }
 
@@ -34,13 +34,13 @@ mission "translateEconomic"
         "translateGrassGrowSpeedLow",
         "translateGrassGrowSpeedNormal",
         "translateGrassGrowSpeedHigh",
-			multi:
+            multi:
         "translateGrassGrowSpeed"
     }
     // ECONOMIC
 
-	function void ShowEndingScreen(player rPlayerWinner)
-	{
+    function void ShowEndingScreen(player rPlayerWinner)
+    {
         int i;
         int iNumberOfUnits;
         unitex uCow;
@@ -48,8 +48,8 @@ mission "translateEconomic"
 
         SetBufferSideColorName(6, rPlayerWinner.GetSideColor());
         SetStringBuff(4, "Koniec gry! Wygrywa %s!", GetStringBuff(6));
-		SetCutsceneText(GetStringBuff(4));
-		ShowInterfaceBlackBorders(true, 15, 15, 0xFF000000, 0xFF000000, 0, 0);
+        SetCutsceneText(GetStringBuff(4));
+        ShowInterfaceBlackBorders(true, 15, 15, 0xFF000000, 0xFF000000, 0, 0);
 
         iNumberOfUnits = rPlayerWinner.GetNumberOfUnits();
 
@@ -91,22 +91,22 @@ mission "translateEconomic"
             }
         }
 
-		
-	}
+              
+    }
 
     function int CreateDefaultUnitEconomic(player rPlayer, int nX, int nY, int nZ)
     {
-	    rPlayer.CreateUnit(nX, nY, nZ, 0, "WOODCUTTER");
+        rPlayer.CreateUnit(nX, nY, nZ, 0, "WOODCUTTER");
         rPlayer.CreateUnit(nX+1, nY, nZ, 0, "WOODCUTTER");
-	    rPlayer.CreateUnit(nX+2, nY, nZ, 0, "WOODCUTTER");
-	    rPlayer.CreateUnit(nX+3, nY, nZ, 0, "DIPLOMAT");
+        rPlayer.CreateUnit(nX+2, nY, nZ, 0, "WOODCUTTER");
+        rPlayer.CreateUnit(nX+3, nY, nZ, 0, "DIPLOMAT");
 
-	    rPlayer.CreateUnit(nX, nY+1, nZ, 0, "COW");
+        rPlayer.CreateUnit(nX, nY+1, nZ, 0, "COW");
         rPlayer.CreateUnit(nX+1, nY+1, nZ, 0, "COW");
-	    rPlayer.CreateUnit(nX+2, nY+1, nZ, 0, "COW");
-	    rPlayer.CreateUnit(nX+3, nY+1, nZ, 0, "SHEPHERD");
-		
-	    return true;
+        rPlayer.CreateUnit(nX+2, nY+1, nZ, 0, "COW");
+        rPlayer.CreateUnit(nX+3, nY+1, nZ, 0, "SHEPHERD");
+              
+        return true;
     }
 
     state Initialize;
@@ -117,12 +117,12 @@ mission "translateEconomic"
         player rPlayer;
         int i;
     
-		// Wyłączenie podpowiedzi
-		EnableAssistant(0xffffff, false);
+        // Wyłączenie podpowiedzi
+        EnableAssistant(0xffffff, false);
 
-		// TELEPORTY
-		CreateTeleportsAndSwitches();
-		// TELEPORTY
+        // TELEPORTY
+        CreateTeleportsAndSwitches();
+        // TELEPORTY
 
         // Czary dla gracza 14, czyli od czarnego od potworków na mapie
         EnablePlayer14Spells();
@@ -138,7 +138,7 @@ mission "translateEconomic"
             rPlayer=GetPlayer(i);
             if(rPlayer!=null) 
             {
-		        rPlayer.SetScriptData(0, 0);
+                rPlayer.SetScriptData(0, 0);
 
                 // ECONOMIC
                 // ilość mleka potrzebna do wygranej
@@ -155,31 +155,31 @@ mission "translateEconomic"
                 rPlayer.SetScriptData(0, 0);
                 rPlayer.SetMoney(1000);
 
-				SetStringBuffTranslate(2, "translateEconomicGoal");
-				SetStringBuff(3, GetStringBuff(2), iMilkToWin);
+                SetStringBuffTranslate(2, "translateEconomicGoal");
+                SetStringBuff(3, GetStringBuff(2), iMilkToWin);
                 RegisterGoal(0, GetStringBuff(3));
-				EnableGoal(0, true);
+                EnableGoal(0, true);
 
-		        // dowolna ilość obór i dworów
-		        rPlayer.SetMaxCountLimitForObject("COWSHED", -1);
+                // dowolna ilość obór i dworów
+                rPlayer.SetMaxCountLimitForObject("COWSHED", -1);
                 rPlayer.SetMaxCountLimitForObject("COURT", -1);
-		        // ECONOMIC		
-		
+                // ECONOMIC        
+        
                 rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
 
                 if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
                     CreateDefaultUnitEconomic(rPlayer, rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 0);
-	        }
+            }
         }
 
-		SetTimer(0, 1);
+        SetTimer(0, 1);
 
         // Efektywne czary dla najtrudniejszych botów
         SetTimer(3, SECOND);
 
-		SetTimer(4, 60*SECOND);
+        SetTimer(4, 60*SECOND);
         SetTimer(7, GetWindTimerTicks());
-		StartWind();
+        StartWind();
 
         InitializeStatistics();
 
@@ -188,7 +188,7 @@ mission "translateEconomic"
 
     state EconomicVictory
     {
-		return Nothing;
+        return Nothing;
     }
 
     event RemoveUnits()
@@ -196,16 +196,16 @@ mission "translateEconomic"
         return true;
     }
     
-	event SetupInterface()
-	{
+    event SetupInterface()
+    {
         SetInterfaceOptions(
             lockToolbarSwitchMode |
             lockToolbarLevelName |
             lockToolbarMoney |
-			lockToolbarHelpMode |
+            lockToolbarHelpMode |
             lockDisplayToolbarMoney |
             0);
-	}
+    }
         
     event Timer0()
     {
@@ -219,18 +219,18 @@ mission "translateEconomic"
         player rPlayer;
         player rPlayer2;
 
-		if ( state != Nothing ) return;
+        if ( state != Nothing ) return;
 
         // Sprawdzamy, czy gracz został pokonany. Zmienna określa czy jakikolwiek gracz został wyeliminowany z mapy.
         bOneHasBeenDestroyed = CheckIfPlayerWasDestroyed(true);
 
         // ECONOMIC  
         // Celem gry jest uzyskanie odpowiedniej ilości mleka. 
-	    // Wyniki poszczególnych wyświetlamy graczy na górze ekranu
+        // Wyniki poszczególnych wyświetlamy graczy na górze ekranu
 
-	    // Przygotowujemy buffer do wyświetlenia wyników
+        // Przygotowujemy buffer do wyświetlenia wyników
 
-	    SetStringBuff(0, "");
+        SetStringBuff(0, "");
 
         for(i=0; i<maxNormalPlayersCnt; i=i+1)
         {
@@ -245,11 +245,11 @@ mission "translateEconomic"
                 SetStringBuff(1, " %s: %d ", GetStringBuff(5), iMoney);
                 SetStringBuff(0, " %s %s ", GetStringBuff(0), GetStringBuff(1));
 
-                if(iMoney >= iMilkToWin)		
+                if(iMoney >= iMilkToWin)        
                 {
                     ShowEndingScreen(rPlayer);
 
-             		SetStateDelay(250);
+                     SetStateDelay(250);
                     
                     for(j=0; j<maxNormalPlayersCnt; j=j+1)
                     {
@@ -264,21 +264,21 @@ mission "translateEconomic"
 
         }
 
-	//Wyświetlamy wyniki. Żeby połączyć string 'translate...' trzeba użyć specjalną funkcję.
-	
-		// Na początku misji wyświetlamy na górze dodatkowo cel gry
-		if (GetMissionTime() < 10*60*SECOND)
-		{
+    //Wyświetlamy wyniki. Żeby połączyć string 'translate...' trzeba użyć specjalną funkcję.
+    
+        // Na początku misji wyświetlamy na górze dodatkowo cel gry
+        if (GetMissionTime() < 10*60*SECOND)
+        {
             SetStringBuff(2, "translateEconomicGoalConsole");
             SetStringBuffTranslate(3, GetStringBuff(2));
-			SetStringBuff(4, "%s%s%s", GetStringBuff(3), "\n", GetStringBuff(0));
-			SetConsoleText(GetStringBuff(4), iMilkToWin);	
-		}
-		// Potem wyświetlamy tylko informacje o wynikach
-		else
-		{
-			SetConsoleText(GetStringBuff(0));
-		}
+            SetStringBuff(4, "%s%s%s", GetStringBuff(3), "\n", GetStringBuff(0));
+            SetConsoleText(GetStringBuff(4), iMilkToWin);    
+        }
+        // Potem wyświetlamy tylko informacje o wynikach
+        else
+        {
+            SetConsoleText(GetStringBuff(0));
+        }
 
 
         // ECONOMIC
@@ -289,15 +289,15 @@ mission "translateEconomic"
         if(bActiveEnemies) return;
         if(!bOneHasBeenDestroyed) return;
         
-		SetStateDelay(250);
-		state Victory;
+        SetStateDelay(250);
+        state Victory;
     }
 
     command Initialize()
     {   
         // Wartości przypisywane tutaj odpowiadają, która wartość z comboButton bedzie pokazana po wyborze trybu.
         // np. comboMilkToWin = 1 odpowiada wartości 10000, dla comboMilkToWin = 2 byłoby 20000, a dla comboMilkToWin = 0 - 5000
-	    comboMilkToWin = 1;
+        comboMilkToWin = 1;
         comboMilkPerGrass = 1;
         comboGrassGrowSpeed = 1;
         return true;
@@ -312,7 +312,7 @@ mission "translateEconomic"
     command Combo1(int nMode) button comboMilkToWin 
     {
         comboMilkToWin = nMode;
-		return true;
+        return true;
     }
     
     command Combo2(int nMode) button comboMilkPerGrass 

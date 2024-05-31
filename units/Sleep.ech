@@ -11,10 +11,10 @@ state EnteringSleepMode;
 
 enum sleepMode
 {
-	TRL_SLEEP_0 item ITEM_SLEEP_0 description TRL_SLEEP_0,
-	TRL_SLEEP_1 item ITEM_SLEEP_1 description TRL_SLEEP_1,
+    TRL_SLEEP_0 item ITEM_SLEEP_0 description TRL_SLEEP_0,
+    TRL_SLEEP_1 item ITEM_SLEEP_1 description TRL_SLEEP_1,
 multi:
-	TRL_SLEEP_X item ITEM_SLEEP_X description TRL_SLEEP_X
+    TRL_SLEEP_X item ITEM_SLEEP_X description TRL_SLEEP_X
 }//����������������������������������������������������������������������������������������������������|
 
 ////    Functions    ////
@@ -196,7 +196,7 @@ command SleepMode(int nMode) button sleepMode priority PRIOR_SLEEP hotkey
 
 #undef EXIT_COMMAND_IN_SLEEP_MODE
 #define EXIT_COMMAND_IN_SLEEP_MODE() \
-	if ((state == InSleepMode) || (state == EnteringSleepMode)) \
+    if ((state == InSleepMode) || (state == EnteringSleepMode)) \
     { \
         return false; \
     }

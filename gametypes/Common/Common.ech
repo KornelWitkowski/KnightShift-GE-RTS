@@ -5,7 +5,7 @@
 
 consts
 {
-	SECOND = 20;
+    SECOND = 20;
     MINUTE = 1200;
 }
 
@@ -35,96 +35,96 @@ function void AiChooseEnemy()
    na niego rzucać czary np. kruki. Funkcja nie jest deterministyczna, ale największe prawodpobieństwo mają
     gracze najbliżsi gtczowi AI. */
 {
-	int i, j;
-	int iX, iY;
-	int iDistance, iShortestDistance;
-	int iStd;
+    int i, j;
+    int iX, iY;
+    int iDistance, iShortestDistance;
+    int iStd;
 
-	player rPlayer, rPlayerMainEnemy, rPlayerNewMainEnemy, rPlayer2;
+    player rPlayer, rPlayerMainEnemy, rPlayerNewMainEnemy, rPlayer2;
 
-	iShortestDistance = 10000;
+    iShortestDistance = 10000;
 
-	// Wybieramy szum zależny od rozmiaru mapy który wykorzystamy w dalszej części kodu do wyboru przeciwnika
-	iStd = (GetRight() + GetBottom())/10;
+    // Wybieramy szum zależny od rozmiaru mapy który wykorzystamy w dalszej części kodu do wyboru przeciwnika
+    iStd = (GetRight() + GetBottom())/10;
 
-	for(i=0; i<8; ++i)
-	{
-		rPlayer = GetPlayer(i);
-		if(rPlayer.IsAI())
-		{
-			rPlayerNewMainEnemy = null; 
-			iShortestDistance = 10000;
+    for(i=0; i<8; ++i)
+    {
+        rPlayer = GetPlayer(i);
+        if(rPlayer.IsAI())
+        {
+            rPlayerNewMainEnemy = null; 
+            iShortestDistance = 10000;
 
-			for(j=0; j<8; j=j+1)
-			{
-				if(i==j) continue;
+            for(j=0; j<8; j=j+1)
+            {
+                if(i==j) continue;
 
-				rPlayer2 = GetPlayer(j);
-				if(rPlayer.IsEnemy(rPlayer2)!=0 && rPlayer2.IsAlive() && rPlayer2.GetScriptData(1)!=1)
-				{
-					/* 
-						Jako głównego przeciwnika wybieramy przeciwników najbliżej gracza. Aby algorytm nie był
-						w pełni deterministyczny do pozycji gracza dodajemy szum. Prawodpobieństwo wybrania najbliższego
-						przeciwnika będzie największe, ale jestm możliwe wybranie innych przeciwników.
-						Im przeciwnik dalej tym mniejsza szansa na wybranie
-					*/
-					iDistance = Distance(rPlayer.GetStartingPointX(),
-										 rPlayer.GetStartingPointY(),
-										 rPlayer2.GetStartingPointX() + GaussianDistribution(iStd),
-										 rPlayer2.GetStartingPointY() + GaussianDistribution(iStd));
-					
-					if(iDistance < iShortestDistance)
-					{
-						iShortestDistance = iDistance;
-						rPlayerNewMainEnemy = GetPlayer(j);
-					}
-				}
-			}
+                rPlayer2 = GetPlayer(j);
+                if(rPlayer.IsEnemy(rPlayer2)!=0 && rPlayer2.IsAlive() && rPlayer2.GetScriptData(1)!=1)
+                {
+                    /* 
+                        Jako głównego przeciwnika wybieramy przeciwników najbliżej gracza. Aby algorytm nie był
+                        w pełni deterministyczny do pozycji gracza dodajemy szum. Prawodpobieństwo wybrania najbliższego
+                        przeciwnika będzie największe, ale jestm możliwe wybranie innych przeciwników.
+                        Im przeciwnik dalej tym mniejsza szansa na wybranie
+                    */
+                    iDistance = Distance(rPlayer.GetStartingPointX(),
+                                         rPlayer.GetStartingPointY(),
+                                         rPlayer2.GetStartingPointX() + GaussianDistribution(iStd),
+                                         rPlayer2.GetStartingPointY() + GaussianDistribution(iStd));
+                    
+                    if(iDistance < iShortestDistance)
+                    {
+                        iShortestDistance = iDistance;
+                        rPlayerNewMainEnemy = GetPlayer(j);
+                    }
+                }
+            }
 
-			if(rPlayerNewMainEnemy!=null)
-			{
-				rPlayer.SetMainEnemyIFFNum(rPlayerNewMainEnemy.GetIFFNumber());
-			}
-		}
-	}
+            if(rPlayerNewMainEnemy!=null)
+            {
+                rPlayer.SetMainEnemyIFFNum(rPlayerNewMainEnemy.GetIFFNumber());
+            }
+        }
+    }
 }
 
 function void SetBufferSideColorName(int iBuffer, int iSideColor)
 /* Zapisuje nazwę koloru w wybranych bufforze dla stringa. Używane w trybach KotH
    i ekonomicznym do wyświetlania wyników */
 {
-	if(iSideColor==0)
-	{
-		SetStringBuffTranslate(iBuffer, "translateYellow");
-	}
-	else if(iSideColor==1)
-	{
-		SetStringBuffTranslate(iBuffer, "translateRed");
-	}
-	else if(iSideColor==2)
-	{
-		SetStringBuffTranslate(iBuffer, "translateBlue");
-	}
-	else if(iSideColor==3)
-	{
-		SetStringBuffTranslate(iBuffer, "translateGreen");
-	}
-	else if(iSideColor==4)
-	{
-		SetStringBuffTranslate(iBuffer, "translatePurple");
-	}
-	else if(iSideColor==5)
-	{
-		SetStringBuffTranslate(iBuffer, "translateOrange");
-	}
-	else if(iSideColor==6)
-	{
-		SetStringBuffTranslate(iBuffer, "translateBlack");
-	}
-	else
-	{
-		SetStringBuffTranslate(iBuffer, "translateGray");
-	}
+    if(iSideColor==0)
+    {
+        SetStringBuffTranslate(iBuffer, "translateYellow");
+    }
+    else if(iSideColor==1)
+    {
+        SetStringBuffTranslate(iBuffer, "translateRed");
+    }
+    else if(iSideColor==2)
+    {
+        SetStringBuffTranslate(iBuffer, "translateBlue");
+    }
+    else if(iSideColor==3)
+    {
+        SetStringBuffTranslate(iBuffer, "translateGreen");
+    }
+    else if(iSideColor==4)
+    {
+        SetStringBuffTranslate(iBuffer, "translatePurple");
+    }
+    else if(iSideColor==5)
+    {
+        SetStringBuffTranslate(iBuffer, "translateOrange");
+    }
+    else if(iSideColor==6)
+    {
+        SetStringBuffTranslate(iBuffer, "translateBlack");
+    }
+    else
+    {
+        SetStringBuffTranslate(iBuffer, "translateGray");
+    }
 }
 
 
@@ -132,17 +132,17 @@ function void SetBufferSideColorName(int iBuffer, int iSideColor)
 function void MakeWeather()
 // Losowe efekty pogodowe
 {
-	if ( RAND(100) < 10 ) // 10 %
-	{
-		if ( GetCurrentTerrainNum() == 5 ) // zima
-		{
-			Snow((GetLeft() + GetRight())/2, (GetTop() + GetBottom())/2, 128, 100, 1000, 100, 5+Rand(6));
-		}
-		else if ( Rand(5) == 0 )
-		{
-			Rain((GetLeft() + GetRight())/2, (GetTop() + GetBottom())/2, 128, 100, 1000, 100, 5+Rand(6));
-		}
-	}
+    if ( RAND(100) < 10 ) // 10 %
+    {
+        if ( GetCurrentTerrainNum() == 5 ) // zima
+        {
+            Snow((GetLeft() + GetRight())/2, (GetTop() + GetBottom())/2, 128, 100, 1000, 100, 5+Rand(6));
+        }
+        else if ( Rand(5) == 0 )
+        {
+            Rain((GetLeft() + GetRight())/2, (GetTop() + GetBottom())/2, 128, 100, 1000, 100, 5+Rand(6));
+        }
+    }
 }
 
 
@@ -162,14 +162,14 @@ function void EnablePlayer14Spells()
 {
     int i, iNumberOfUnits;
     unitex uUnit;
-	player rPlayer;
-	rPlayer = GetPlayer(14);
+    player rPlayer;
+    rPlayer = GetPlayer(14);
 
-	rPlayer.ResearchUpdate("SPELL_CAPTURE3");
-	rPlayer.ResearchUpdate("SPELL_SHIELD3");
-	rPlayer.ResearchUpdate("SPELL_CONVERSION3");
+    rPlayer.ResearchUpdate("SPELL_CAPTURE3");
+    rPlayer.ResearchUpdate("SPELL_SHIELD3");
+    rPlayer.ResearchUpdate("SPELL_CONVERSION3");
 
-	rPlayer.ResearchUpdate("SPELL_TELEPORTATION3");
+    rPlayer.ResearchUpdate("SPELL_TELEPORTATION3");
 
     // Magom trzeba włączyć zamiane w krowę na auto - w przeciwnym wypadku nie bedą używać czaru.
     iNumberOfUnits = rPlayer.GetNumberOfUnits();
@@ -188,8 +188,8 @@ function void EnablePlayer14Milk()
 {
     /* Jeśli gracz 15 ma na mapie postawione obory, to krowy będą się normalnie pasły, a nie stały przy oborze
        dzięki zwiększonemu limitowi mleka */
-	player rPlayer;
-	rPlayer = GetPlayer(14);
+    player rPlayer;
+    rPlayer = GetPlayer(14);
     
     rPlayer.SetMaxMoney(100000);
 }
@@ -197,11 +197,11 @@ function void EnablePlayer14Milk()
 function void InitializeStatistics()
 // Funkcja przygotowuje statystyki wykorzystywane na ekranie po zakończonej grze RTS.
 {
-		StatisticReset();
-		StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
-		StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
-		StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
-		StatisticSetSortOrder(0, 3, true);
+        StatisticReset();
+        StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
+        StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
+        StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
+        StatisticSetSortOrder(0, 3, true);
 }
 
 function void CheckMilkPool(int iMaxCowSheds)
@@ -428,18 +428,18 @@ function void UseMagic(player rPlayer)
         else
         {
             iRandNum = RAND(8);
-			for(j=0; j<8; j=j+1)
-			{
+            for(j=0; j<8; j=j+1)
+            {
                 rPlayer2 = GetPlayer((j+iRandNum) % 8);
 
                 if(rPlayer2 == null)
                     continue;
 
-				if(rPlayer.GetIFFNumber()==rPlayer2.GetIFFNumber())
+                if(rPlayer.GetIFFNumber()==rPlayer2.GetIFFNumber())
                     continue;
 
-				if(rPlayer.IsEnemy(rPlayer2)!=0 && rPlayer2.IsAlive() && rPlayer2.GetScriptData(1)!=1)
-				{
+                if(rPlayer.IsEnemy(rPlayer2)!=0 && rPlayer2.IsAlive() && rPlayer2.GetScriptData(1)!=1)
+                {
                     rPlayerEnemy = rPlayer2;
                     break;
                 }

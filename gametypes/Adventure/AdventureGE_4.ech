@@ -20,8 +20,8 @@ function void InitializePlayerAdventureGE4()
             rPlayer.RegisterGoal(0, "translateAdventureGE04_HunterMustSurvive");
             rPlayer.RegisterGoal(1, "translateAdventureGE04_FindWayOut");
 
-			rPlayer.EnableGoal(0, true, true);
-			rPlayer.EnableGoal(1, true, true);
+            rPlayer.EnableGoal(0, true, true);
+            rPlayer.EnableGoal(1, true, true);
             
             rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 1);
         }

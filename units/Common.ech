@@ -9,7 +9,7 @@
 
 #ifdef STOPCURRENTACTION
 #define CHECK_STOP_CURR_ACTION() \
-	if (!StopCurrentAction()) \
+    if (!StopCurrentAction()) \
     { \
         return false; \
     }
@@ -45,7 +45,7 @@ function int ABS(int nVal)
         return 0 - nVal;
     }
     return nVal;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function int MIN(int nVal1, int nVal2)
 {
@@ -54,7 +54,7 @@ function int MIN(int nVal1, int nVal2)
         return nVal1;
     }
     return nVal2;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function int MAX(int nVal1, int nVal2)
 {
@@ -63,20 +63,20 @@ function int MAX(int nVal1, int nVal2)
         return nVal1;
     }
     return nVal2;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function int CLAMP(int nVal1, int nVal2, int nVal3)
 {
-	if (nVal1 < nVal2)
+    if (nVal1 < nVal2)
     {
-		return nVal2;
+        return nVal2;
     }
-	if (nVal1 > nVal3)
+    if (nVal1 > nVal3)
     {
-		return nVal3;
+        return nVal3;
     }
-	return nVal1;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+    return nVal1;
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 #ifdef AI_SCRIPT
 #define ON_AI_SCRIPT(AIScriptVal) AIScriptVal
@@ -100,18 +100,18 @@ function int CLAMP(int nVal1, int nVal2, int nVal3)
 
 /*
 Zmiany w EarthC.exe:
-- dzia³a state XXX gdy powy¿ej jest jego definicja a poni¿ej deklaracja.
-- wywo³anie state XXX nie jest dopuszczalne w œrodku state'a.
-- mo¿na u¿ywaæ return w definicji command.
-- podpiêcie preprocesora, poprawki w wyœwietlaniu nazw plików na wyjœciu.
-- mo¿liwoœæ deklaracji funkcji przed jej u¿yciem (function int ABC();).
-- usuniêcie wieszania siê przy niektórych b³êdach.
-- consts mog¹ byæ deklarowane w dowolnym miejscu skryptu.
-- funkcje w skrypcie mog¹ zwracaæ unit itp., lub moga "zwracac" void
-- kontrola wartoœci zwracanych przez funkcje, komendy, eventy (mog³y zwracaæ cokolwiek);
+- dziaï¿½a state XXX gdy powyï¿½ej jest jego definicja a poniï¿½ej deklaracja.
+- wywoï¿½anie state XXX nie jest dopuszczalne w ï¿½rodku state'a.
+- moï¿½na uï¿½ywaï¿½ return w definicji command.
+- podpiï¿½cie preprocesora, poprawki w wyï¿½wietlaniu nazw plikï¿½w na wyjï¿½ciu.
+- moï¿½liwoï¿½ï¿½ deklaracji funkcji przed jej uï¿½yciem (function int ABC();).
+- usuniï¿½cie wieszania siï¿½ przy niektï¿½rych bï¿½ï¿½dach.
+- consts mogï¿½ byï¿½ deklarowane w dowolnym miejscu skryptu.
+- funkcje w skrypcie mogï¿½ zwracaï¿½ unit itp., lub moga "zwracac" void
+- kontrola wartoï¿½ci zwracanych przez funkcje, komendy, eventy (mogï¿½y zwracaï¿½ cokolwiek);
 - w state mozna zrobic return state, expression; (np return Nothing, Fun(4)/3;
-- automatyczna konwersja typów w operatorze przypisania i w return (unit = unitex).
-- dokoñczenie implementacji tablic int'owych. Dodanie tablic unitow. Automatyczne kasowanie tablic.
+- automatyczna konwersja typï¿½w w operatorze przypisania i w return (unit = unitex).
+- dokoï¿½czenie implementacji tablic int'owych. Dodanie tablic unitow. Automatyczne kasowanie tablic.
 - tablice moga byc parametrami funkcji (rowniez ew. eventow i komend)
 - dodane operatory << i >>.
 - w ostatniej linii funkcji, eventow i komend ktore cos zwracaja musi byc return

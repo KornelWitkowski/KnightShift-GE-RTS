@@ -81,7 +81,7 @@ function int StopCurrentAction()
     ResetRPG();
 #endif RPG_UNIT_EC
     m_bSelfAttackTarget = false;
-	return true;
+    return true;
 }//����������������������������������������������������������������������������������������������������|
 
 //wywolywane w czasie wykonywania komendy MoveTo, zwracamy true jesli znalezlismy cel do ataku lub false jesli nie
@@ -290,7 +290,7 @@ event OnHit(unit uByUnit)
         nPosY = GetLocationY();
         nDistX = 0 - nRange/2 + RAND(nRange);
         nDistY = 0 - nRange/2 + RAND(nRange);
-    	MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
+        MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
         state StartMoving;
     }
 #endif AI_SCRIPT
@@ -310,7 +310,7 @@ event OnHit(unit uByUnit)
                 nDistX = nRange*nDistX/nDist;
                 nDistY = nRange*nDistY/nDist;
             }
-    	    MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
+            MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
             state StartMoving;
         }
         return true;
@@ -374,7 +374,7 @@ event OnHit(unit uByUnit)
         }
         */
         //Wlocznik nie ucieka; uciekaja tylko unity AI
-	// Jednostki z piorunami te� nie uciekaj�. (nWeaponType != 6)
+    // Jednostki z piorunami te� nie uciekaj�. (nWeaponType != 6)
 #ifdef AI_SCRIPT
         /*else */if ((nWeaponType != cannonTypeSword) && (nWeaponType != 6) && !HaveShooterSwordHit() && (nByUnitWeaponType == cannonTypeSword) && !IsInHoldPosMode())
         {
@@ -404,7 +404,7 @@ event OnHit(unit uByUnit)
                     nDistY = (nRange*nDistY)/nDist;
                 }
                     
-    	        MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
+                MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
                 state StartMoving;
             }
         }
@@ -538,13 +538,13 @@ event OnHit(unit uByUnit)
                         nDistX = nRange*nDistX/nDist;
                         nDistY = nRange*nDistY/nDist;
                     }
-    	            MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
+                    MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
                     state StartMoving;
                 }
             }
         }
     }
-	return true;
+    return true;
 }//����������������������������������������������������������������������������������������������������|
 
 //event OnHit gdy jestesmy na wiezy

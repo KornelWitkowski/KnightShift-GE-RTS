@@ -13,9 +13,9 @@ mission "translateSwordsandsandals"
     {
         player rPlayer;
         int i;
-		int j;
-		int iNumberOfUnits;
-		unitex uUnit;
+        int j;
+        int iNumberOfUnits;
+        unitex uUnit;
 
         rPlayer = GetPlayer(i);
         uUnit = rPlayer.GetScriptUnit(0);
@@ -43,80 +43,80 @@ mission "translateSwordsandsandals"
     {
         player rPlayer;
         int i;
-		int j;
-		int iNumberOfUnits;
-		unitex uUnit;
+        int j;
+        int iNumberOfUnits;
+        unitex uUnit;
     
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
-		
-		CreateTeleportsAndSwitches();
+        
+        CreateTeleportsAndSwitches();
 
-		// Wyłączenie podpowiedzi
-		EnableAssistant(0xffffff, false);
+        // Wyłączenie podpowiedzi
+        EnableAssistant(0xffffff, false);
 
         // Czary dla gracza 14, czyli od czarnego od potworków na mapie
         EnablePlayer14Spells();
         // Nieskończony milk pool dla gracza 14 dzięki czemu krowy tego gracza będą się pasły w nieskończoność
         EnablePlayer14Milk();
-		
+        
         for(i=0; i<8; i=i+1)
         {
             rPlayer=GetPlayer(i);
             if(rPlayer!=null) 
             {
-				if(rPlayer.IsAI())
-				{
-					// boty na start dostają bonus mleka, ponieważ czasem startując z 2 drwalami i z 2 krowami, kupują na start drogę zamiast obory :>
-					rPlayer.SetMaxMoney(400);
-					rPlayer.SetMoney(400);
-				}
-				else
-				{
-                    CheckMilkPool(4);	
-					rPlayer.SetMoney(100);	
-				}
+                if(rPlayer.IsAI())
+                {
+                    // boty na start dostają bonus mleka, ponieważ czasem startując z 2 drwalami i z 2 krowami, kupują na start drogę zamiast obory :>
+                    rPlayer.SetMaxMoney(400);
+                    rPlayer.SetMoney(400);
+                }
+                else
+                {
+                    CheckMilkPool(4);    
+                    rPlayer.SetMoney(100);    
+                }
 
                 RegisterGoal(0, "translateSwordsAndSandalsGoal");
-				EnableGoal(0, true);
+                EnableGoal(0, true);
 
-				rPlayer.SetScriptData(0, 0);
+                rPlayer.SetScriptData(0, 0);
 
-				// Budynki - GE
-				
-				rPlayer.SetMaxCountLimitForObject("TEMPLE", 0);
-				rPlayer.SetMaxCountLimitForObject("SHRINE", 0);
-				rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
+                // Budynki - GE
+                
+                rPlayer.SetMaxCountLimitForObject("TEMPLE", 0);
+                rPlayer.SetMaxCountLimitForObject("SHRINE", 0);
+                rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
                 rPlayer.SetMaxCountLimitForObject("COURT", 2);
-				
-				// Postacie - GE
-				
-				rPlayer.SetMaxCountLimitForObject("SORCERER", 0);
-				rPlayer.SetMaxCountLimitForObject("PRIESTESS", 0);
-				rPlayer.SetMaxCountLimitForObject("PRIEST", 0);
-				rPlayer.SetMaxCountLimitForObject("WITCH", 0);
+                
+                // Postacie - GE
+                
+                rPlayer.SetMaxCountLimitForObject("SORCERER", 0);
+                rPlayer.SetMaxCountLimitForObject("PRIESTESS", 0);
+                rPlayer.SetMaxCountLimitForObject("PRIEST", 0);
+                rPlayer.SetMaxCountLimitForObject("WITCH", 0);
 
                 rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
                 if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
                     CreateStartingUnits(rPlayer, comboStartingUnits, false);
 
-	        }
+            }
         }
 
         RemoveMagicUnits();
 
-		// SOJUSZE
-		CreateTeamsFromComboButton(comboAlliedVictory);
-		AiChooseEnemy();
-		// SOJUSZE
+        // SOJUSZE
+        CreateTeamsFromComboButton(comboAlliedVictory);
+        AiChooseEnemy();
+        // SOJUSZE
 
-		SetTimer(0, 5*SECOND);  // Sprawdzenie stanu graczy, obór itd.
-		SetTimer(1, 20*SECOND); // Artefakty
-		SetTimer(2, 4*MINUTE);  // Wybór przeciwników przez AI. Przeciwnicy są też wybierani po pokonaniu gracza.
+        SetTimer(0, 5*SECOND);  // Sprawdzenie stanu graczy, obór itd.
+        SetTimer(1, 20*SECOND); // Artefakty
+        SetTimer(2, 4*MINUTE);  // Wybór przeciwników przez AI. Przeciwnicy są też wybierani po pokonaniu gracza.
 
-		SetTimer(4, 60*SECOND);
+        SetTimer(4, 60*SECOND);
         SetTimer(7, GetWindTimerTicks());
-		StartWind();
+        StartWind();
 
         InitializeStatistics();
         
@@ -130,23 +130,23 @@ mission "translateSwordsandsandals"
 
     }
     
-	event SetupInterface()
-	{
+    event SetupInterface()
+    {
         SetInterfaceOptions(
             lockToolbarSwitchMode |
             lockToolbarLevelName |
             lockToolbarMoney |
-			lockToolbarHelpMode |
+            lockToolbarHelpMode |
             lockDisplayToolbarMoney |
             0);
-	}
+    }
         
     event Timer0()
     {
         int bActiveEnemies;
         int bOneHasBeenDestroyed;
 
-		if ( state != Nothing ) return;
+        if ( state != Nothing ) return;
 
         // Sprawdzamy ile obór mają gracze i ile maksymalnie mleka mogą mieć
         CheckMilkPool(4);
@@ -160,19 +160,19 @@ mission "translateSwordsandsandals"
         if(bActiveEnemies) return;
         if(!bOneHasBeenDestroyed) return;
         
-		SetStateDelay(150);
-		state Victory;
+        SetStateDelay(150);
+        state Victory;
     }
     
-	event Timer1()
+    event Timer1()
     {
-		MakeEquipmentFromTimeToTime(comboArtifacts, false);
-	}
+        MakeEquipmentFromTimeToTime(comboArtifacts, false);
+    }
 
-	event Timer2()
-	{
-		AiChooseEnemy();
-	}
+    event Timer2()
+    {
+        AiChooseEnemy();
+    }
     
     event BuildingCreated(unitex uBuilding)
     {
@@ -181,11 +181,11 @@ mission "translateSwordsandsandals"
             uBuilding.KillUnit();
     }
 
-	command Initialize()
+    command Initialize()
     {
-		comboAlliedVictory = 1;
+        comboAlliedVictory = 1;
         comboArtifacts = 3;
-		comboStartingUnits = 0;
+        comboStartingUnits = 0;
         return true;
     }
     
@@ -197,7 +197,7 @@ mission "translateSwordsandsandals"
     command Combo1(int nMode) button comboStartingUnits 
     {
         comboStartingUnits = nMode;
-		return true;
+        return true;
     }
     command Combo2(int nMode) button comboAlliedVictory
     {

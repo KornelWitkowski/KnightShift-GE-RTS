@@ -1,53 +1,53 @@
 enum comboAlliedVictory
 {
-	"translateGameMenuAllVsAll",
-	"translateGameMenuHumansVsAI",
-	"translateGameMenuHumansSoloVsAI",
-	"translateGameMenuTwoTeams1",
-	"translateGameMenuTwoTeams2",
-	"translateGameMenuTwoTeams3",
-	"translateGameMenuTwoTeams4",
-	"translateGameMenuTwoTeams5",
-	"translateGameMenuTwoTeams6",
-	"translateGameMenuTwoTeams7",
-	"translateGameMenuTwoTeams8",
-	"translateGameMenuTwoTeams9",
-	"translateGameMenuFourTeams1",
-	"translateGameMenuFourTeams2",
-		multi:
-	"translateGameMenuAlliedVictory"
+    "translateGameMenuAllVsAll",
+    "translateGameMenuHumansVsAI",
+    "translateGameMenuHumansSoloVsAI",
+    "translateGameMenuTwoTeams1",
+    "translateGameMenuTwoTeams2",
+    "translateGameMenuTwoTeams3",
+    "translateGameMenuTwoTeams4",
+    "translateGameMenuTwoTeams5",
+    "translateGameMenuTwoTeams6",
+    "translateGameMenuTwoTeams7",
+    "translateGameMenuTwoTeams8",
+    "translateGameMenuTwoTeams9",
+    "translateGameMenuFourTeams1",
+    "translateGameMenuFourTeams2",
+        multi:
+    "translateGameMenuAlliedVictory"
 }
 
 function void CreateTeam(int m_TeamPlayers[])
 // Tworzy drużyny na podstawie tabeli z numerami graczy
 {
-	int i;
-	int j;
-	int iTeamSize;
-	player rPlayer0;
-	player rPlayer1;
-	int bIsAlly;
-	int m_Enemies[];
+    int i;
+    int j;
+    int iTeamSize;
+    player rPlayer0;
+    player rPlayer1;
+    int bIsAlly;
+    int m_Enemies[];
 
-	iTeamSize = m_TeamPlayers.GetSize();
+    iTeamSize = m_TeamPlayers.GetSize();
 
-	for (i = 0; i < iTeamSize; ++i) 
-	{
+    for (i = 0; i < iTeamSize; ++i) 
+    {
         rPlayer0 = GetPlayer(m_TeamPlayers[i]);
-        for(j=i+1; j < iTeamSize; ++j)	
+        for(j=i+1; j < iTeamSize; ++j)    
         {
-			rPlayer1 = GetPlayer(m_TeamPlayers[j]);
+            rPlayer1 = GetPlayer(m_TeamPlayers[j]);
 
- 			if (rPlayer0.IsHuman())
-			{
-				// Funkcje SetAlly, SetEnemies, SetNeutral mają asercje sprawdzające, czy gracze istnieją
-				SetAlly(rPlayer0, rPlayer1);
-			}
-			else
-			// Jeśli gracz AI proponuje sojusz, to na początku misji wyświetla się okienko. Chcemy tego uniknąć
-			{
-				SetAlly(rPlayer1, rPlayer0);
-			}
+             if (rPlayer0.IsHuman())
+            {
+                // Funkcje SetAlly, SetEnemies, SetNeutral mają asercje sprawdzające, czy gracze istnieją
+                SetAlly(rPlayer0, rPlayer1);
+            }
+            else
+            // Jeśli gracz AI proponuje sojusz, to na początku misji wyświetla się okienko. Chcemy tego uniknąć
+            {
+                SetAlly(rPlayer1, rPlayer0);
+            }
         }
     }
 }
@@ -55,340 +55,340 @@ function void CreateTeam(int m_TeamPlayers[])
 function void MakeEnemies()
 // Ustawia graczy jako przeciwników, jeśli nie są sojusznikami
 {
-	int i, j;
-	player rPlayer0, rPlayer1;
+    int i, j;
+    player rPlayer0, rPlayer1;
 
-	for (i = 0; i < 8; ++i) 
-	{
+    for (i = 0; i < 8; ++i) 
+    {
         rPlayer0 = GetPlayer(i);
-		if(rPlayer0!=null && rPlayer0.IsAlive()) 
-		{
-			for(j=0; j < 8; ++j)	
-			{
-				if(i==j) continue;
+        if(rPlayer0!=null && rPlayer0.IsAlive()) 
+        {
+            for(j=0; j < 8; ++j)    
+            {
+                if(i==j) continue;
 
-				rPlayer1 = GetPlayer(j);
-				if(rPlayer1!=null && rPlayer1.IsAlive()) 
-				{
-					if(rPlayer0.IsAlly(rPlayer1)==0)
-					{
-						if(!rPlayer0.IsEnemy(rPlayer1))
-						{
-							SetEnemies(rPlayer0, rPlayer1);
-						}
-					}		
-				}
-			} 
-		}
+                rPlayer1 = GetPlayer(j);
+                if(rPlayer1!=null && rPlayer1.IsAlive()) 
+                {
+                    if(rPlayer0.IsAlly(rPlayer1)==0)
+                    {
+                        if(!rPlayer0.IsEnemy(rPlayer1))
+                        {
+                            SetEnemies(rPlayer0, rPlayer1);
+                        }
+                    }        
+                }
+            } 
+        }
     }
 }
 
 function void CreateTeamsFromComboButton(int comboAlliedVictory)
 // Tworzy drużyne na podstawie wyboru w menu RTS
 {
-	int i;
-	int j;
-	player rPlayer1;
-	player rPlayer2;
-	int m_PlayersTeam1[];
-	int m_PlayersTeam2[];
-	int m_PlayersTeam3[];
-	int m_PlayersTeam4[];
+    int i;
+    int j;
+    player rPlayer1;
+    player rPlayer2;
+    int m_PlayersTeam1[];
+    int m_PlayersTeam2[];
+    int m_PlayersTeam3[];
+    int m_PlayersTeam4[];
 
 
-	for(i=0; i<8; i=i+1)
-	{
-		rPlayer1=GetPlayer(i);
-		if(rPlayer1!=null) 
-		{
-			if(rPlayer1.IsAI())
-			{
-				rPlayer1.EnableAIFeatures(aiNeutralForAI, false);
-				rPlayer1.EnableAIFeatures(aiChooseEnemy, false);
-				rPlayer1.EnableAIFeatures(aiRejectAlliance, false);
-			}
-		}
-	}
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer1=GetPlayer(i);
+        if(rPlayer1!=null) 
+        {
+            if(rPlayer1.IsAI())
+            {
+                rPlayer1.EnableAIFeatures(aiNeutralForAI, false);
+                rPlayer1.EnableAIFeatures(aiChooseEnemy, false);
+                rPlayer1.EnableAIFeatures(aiRejectAlliance, false);
+            }
+        }
+    }
 
-	// Każdy na każdego
-	if(comboAlliedVictory==0)
-	{
-	   for(i=0;i<8; i=i+1)
+    // Każdy na każdego
+    if(comboAlliedVictory==0)
+    {
+       for(i=0;i<8; i=i+1)
         {
             rPlayer1 = GetPlayer(i);
             if(rPlayer1!=null) 
             {
                 for(j=i+1; j<8; j=j+1)
                 {
-		     		rPlayer2 = GetPlayer(j);
-		     		if(rPlayer2!=null) SetEnemies(rPlayer1, rPlayer2);
+                     rPlayer2 = GetPlayer(j);
+                     if(rPlayer2!=null) SetEnemies(rPlayer1, rPlayer2);
                 }
             }
         }
-	}
-	// Gracze vs AI	
-	if(comboAlliedVictory==1)
-	{
-	   for(i=0; i<8; i=i+1)
-        {
-            rPlayer1 = GetPlayer(i);
-            if(rPlayer1!=null) 
-            {
-                for(j=i+1; j<8; j=j+1)
-            	{
-					rPlayer2 = GetPlayer(j);
-					if(rPlayer2==null) continue;
-
-					if((rPlayer1.IsAI() && rPlayer2.IsAI()))
-					{
-						SetAlly(rPlayer1, rPlayer2);
-					}
-					else if( (rPlayer1.IsHuman() && rPlayer2.IsHuman()))
-					{
-						SetAlly(rPlayer1, rPlayer2);
-					}
-					else
-					{
-						if(!rPlayer1.IsEnemy(rPlayer2))
-						{
-							SetEnemies(rPlayer1, rPlayer2);
-						}
-					}
-                }
-            }
-        }
-	}
-	// Gracze solo vs AI
-	if(comboAlliedVictory==2)
-	{
-	    for(i=0; i<8; i=i+1)
+    }
+    // Gracze vs AI    
+    if(comboAlliedVictory==1)
+    {
+       for(i=0; i<8; i=i+1)
         {
             rPlayer1 = GetPlayer(i);
             if(rPlayer1!=null) 
             {
                 for(j=i+1; j<8; j=j+1)
                 {
-		     		rPlayer2 = GetPlayer(j);
-		     		if(rPlayer1.IsAI() && rPlayer2.IsAI())
-		    		{
-						SetAlly(rPlayer1, rPlayer2);
-		     		}
+                    rPlayer2 = GetPlayer(j);
+                    if(rPlayer2==null) continue;
+
+                    if((rPlayer1.IsAI() && rPlayer2.IsAI()))
+                    {
+                        SetAlly(rPlayer1, rPlayer2);
+                    }
+                    else if( (rPlayer1.IsHuman() && rPlayer2.IsHuman()))
+                    {
+                        SetAlly(rPlayer1, rPlayer2);
+                    }
                     else
-		    		{
-						if(!rPlayer1.IsEnemy(rPlayer2))
-						{
-							SetEnemies(rPlayer1, rPlayer2);
-						}
-		    		}
+                    {
+                        if(!rPlayer1.IsEnemy(rPlayer2))
+                        {
+                            SetEnemies(rPlayer1, rPlayer2);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // Gracze solo vs AI
+    if(comboAlliedVictory==2)
+    {
+        for(i=0; i<8; i=i+1)
+        {
+            rPlayer1 = GetPlayer(i);
+            if(rPlayer1!=null) 
+            {
+                for(j=i+1; j<8; j=j+1)
+                {
+                     rPlayer2 = GetPlayer(j);
+                     if(rPlayer1.IsAI() && rPlayer2.IsAI())
+                    {
+                        SetAlly(rPlayer1, rPlayer2);
+                     }
+                    else
+                    {
+                        if(!rPlayer1.IsEnemy(rPlayer2))
+                        {
+                            SetEnemies(rPlayer1, rPlayer2);
+                        }
+                    }
                 }
             }
     }
-	}
-	// Dwie druzyny (1, 2) vs (3, 4)
-	if(comboAlliedVictory==3)
-	{
-		m_PlayersTeam1.Create(2);
-		m_PlayersTeam1[0] = 0;
-		m_PlayersTeam1[1] = 1;
-		CreateTeam(m_PlayersTeam1);
+    }
+    // Dwie druzyny (1, 2) vs (3, 4)
+    if(comboAlliedVictory==3)
+    {
+        m_PlayersTeam1.Create(2);
+        m_PlayersTeam1[0] = 0;
+        m_PlayersTeam1[1] = 1;
+        CreateTeam(m_PlayersTeam1);
 
-		m_PlayersTeam2.Create(2);
-		m_PlayersTeam2[0] = 2;
-		m_PlayersTeam2[1] = 3;
-		CreateTeam(m_PlayersTeam2);
+        m_PlayersTeam2.Create(2);
+        m_PlayersTeam2[0] = 2;
+        m_PlayersTeam2[1] = 3;
+        CreateTeam(m_PlayersTeam2);
 
-		MakeEnemies();
-	}
-	// Dwie druzyny (2, 3) vs (4, 1)
-	if(comboAlliedVictory==4)
-	{
-		m_PlayersTeam1.Create(2);
-		m_PlayersTeam1[0] = 1;
-		m_PlayersTeam1[1] = 2;
-		CreateTeam(m_PlayersTeam1);
+        MakeEnemies();
+    }
+    // Dwie druzyny (2, 3) vs (4, 1)
+    if(comboAlliedVictory==4)
+    {
+        m_PlayersTeam1.Create(2);
+        m_PlayersTeam1[0] = 1;
+        m_PlayersTeam1[1] = 2;
+        CreateTeam(m_PlayersTeam1);
 
-		m_PlayersTeam2.Create(2);
-		m_PlayersTeam2[0] = 3;
-		m_PlayersTeam2[1] = 0;
-		CreateTeam(m_PlayersTeam2);
+        m_PlayersTeam2.Create(2);
+        m_PlayersTeam2[0] = 3;
+        m_PlayersTeam2[1] = 0;
+        CreateTeam(m_PlayersTeam2);
 
-		MakeEnemies();
-	}
-	// Dwie druzyny (1, 2, 3) vs (4, 5, 6)
-	if(comboAlliedVictory==5)
-	{
-		m_PlayersTeam1.Create(3);
-		m_PlayersTeam1[0] = 0;
-		m_PlayersTeam1[1] = 1;
-		m_PlayersTeam1[2] = 2;
-		CreateTeam(m_PlayersTeam1);
+        MakeEnemies();
+    }
+    // Dwie druzyny (1, 2, 3) vs (4, 5, 6)
+    if(comboAlliedVictory==5)
+    {
+        m_PlayersTeam1.Create(3);
+        m_PlayersTeam1[0] = 0;
+        m_PlayersTeam1[1] = 1;
+        m_PlayersTeam1[2] = 2;
+        CreateTeam(m_PlayersTeam1);
 
-		m_PlayersTeam2.Create(3);
-		m_PlayersTeam2[0] = 3;
-		m_PlayersTeam2[1] = 4;
-		m_PlayersTeam2[2] = 5;
-		CreateTeam(m_PlayersTeam2);
+        m_PlayersTeam2.Create(3);
+        m_PlayersTeam2[0] = 3;
+        m_PlayersTeam2[1] = 4;
+        m_PlayersTeam2[2] = 5;
+        CreateTeam(m_PlayersTeam2);
 
-		MakeEnemies();
-	}
-	// Dwie druzyny (2, 3, 4) vs (5, 6, 1)
-	if(comboAlliedVictory==6)
-	{
-		m_PlayersTeam1.Create(3);
-		m_PlayersTeam1[0] = 1;
-		m_PlayersTeam1[1] = 2;
-		m_PlayersTeam1[2] = 3;
-		CreateTeam(m_PlayersTeam1);
+        MakeEnemies();
+    }
+    // Dwie druzyny (2, 3, 4) vs (5, 6, 1)
+    if(comboAlliedVictory==6)
+    {
+        m_PlayersTeam1.Create(3);
+        m_PlayersTeam1[0] = 1;
+        m_PlayersTeam1[1] = 2;
+        m_PlayersTeam1[2] = 3;
+        CreateTeam(m_PlayersTeam1);
 
-		m_PlayersTeam2.Create(3);
-		m_PlayersTeam2[0] = 4;
-		m_PlayersTeam2[1] = 5;
-		m_PlayersTeam2[2] = 0;
-		CreateTeam(m_PlayersTeam2);
+        m_PlayersTeam2.Create(3);
+        m_PlayersTeam2[0] = 4;
+        m_PlayersTeam2[1] = 5;
+        m_PlayersTeam2[2] = 0;
+        CreateTeam(m_PlayersTeam2);
 
-		MakeEnemies();
-	}
-	// Dwie druzyny (3, 4, 5) vs (6, 1, 2)
-	if(comboAlliedVictory==7)
-	{
-		m_PlayersTeam1.Create(3);
-		m_PlayersTeam1[0] = 2;
-		m_PlayersTeam1[1] = 3;
-		m_PlayersTeam1[2] = 4;
-		CreateTeam(m_PlayersTeam1);
+        MakeEnemies();
+    }
+    // Dwie druzyny (3, 4, 5) vs (6, 1, 2)
+    if(comboAlliedVictory==7)
+    {
+        m_PlayersTeam1.Create(3);
+        m_PlayersTeam1[0] = 2;
+        m_PlayersTeam1[1] = 3;
+        m_PlayersTeam1[2] = 4;
+        CreateTeam(m_PlayersTeam1);
 
-		m_PlayersTeam2.Create(3);
-		m_PlayersTeam2[0] = 5;
-		m_PlayersTeam2[1] = 0;
-		m_PlayersTeam2[2] = 1;
-		CreateTeam(m_PlayersTeam2);
+        m_PlayersTeam2.Create(3);
+        m_PlayersTeam2[0] = 5;
+        m_PlayersTeam2[1] = 0;
+        m_PlayersTeam2[2] = 1;
+        CreateTeam(m_PlayersTeam2);
 
-		MakeEnemies();
-	}
-	// Dwie druzyny (1, 2, 3, 4) vs (5, 6, 7, 8)
-	if(comboAlliedVictory==8)
-	{
-		m_PlayersTeam1.Create(4);
-		m_PlayersTeam1[0] = 0;
-		m_PlayersTeam1[1] = 1;
-		m_PlayersTeam1[2] = 2;
-		m_PlayersTeam1[3] = 3;
-		CreateTeam(m_PlayersTeam1);
+        MakeEnemies();
+    }
+    // Dwie druzyny (1, 2, 3, 4) vs (5, 6, 7, 8)
+    if(comboAlliedVictory==8)
+    {
+        m_PlayersTeam1.Create(4);
+        m_PlayersTeam1[0] = 0;
+        m_PlayersTeam1[1] = 1;
+        m_PlayersTeam1[2] = 2;
+        m_PlayersTeam1[3] = 3;
+        CreateTeam(m_PlayersTeam1);
 
-		m_PlayersTeam2.Create(4);
-		m_PlayersTeam2[0] = 4;
-		m_PlayersTeam2[1] = 5;
-		m_PlayersTeam2[2] = 6;
-		m_PlayersTeam2[3] = 7;
-		CreateTeam(m_PlayersTeam2);
+        m_PlayersTeam2.Create(4);
+        m_PlayersTeam2[0] = 4;
+        m_PlayersTeam2[1] = 5;
+        m_PlayersTeam2[2] = 6;
+        m_PlayersTeam2[3] = 7;
+        CreateTeam(m_PlayersTeam2);
 
-		MakeEnemies();
-	}
-	// Dwie druzyny (2, 3, 4, 5) vs (6, 7, 8, 1)	
-	if(comboAlliedVictory==9)
-	{
-		m_PlayersTeam1.Create(4);
-		m_PlayersTeam1[0] = 1;
-		m_PlayersTeam1[1] = 2;
-		m_PlayersTeam1[2] = 3;
-		m_PlayersTeam1[3] = 4;
-		CreateTeam(m_PlayersTeam1);
+        MakeEnemies();
+    }
+    // Dwie druzyny (2, 3, 4, 5) vs (6, 7, 8, 1)    
+    if(comboAlliedVictory==9)
+    {
+        m_PlayersTeam1.Create(4);
+        m_PlayersTeam1[0] = 1;
+        m_PlayersTeam1[1] = 2;
+        m_PlayersTeam1[2] = 3;
+        m_PlayersTeam1[3] = 4;
+        CreateTeam(m_PlayersTeam1);
 
-		m_PlayersTeam2.Create(4);
-		m_PlayersTeam2[0] = 5;
-		m_PlayersTeam2[1] = 6;
-		m_PlayersTeam2[2] = 7;
-		m_PlayersTeam2[3] = 0;
-		CreateTeam(m_PlayersTeam2);
+        m_PlayersTeam2.Create(4);
+        m_PlayersTeam2[0] = 5;
+        m_PlayersTeam2[1] = 6;
+        m_PlayersTeam2[2] = 7;
+        m_PlayersTeam2[3] = 0;
+        CreateTeam(m_PlayersTeam2);
 
-		MakeEnemies();
-	}
-	// Dwie druzyny (3, 4, 5, 6) vs (7, 8, 1, 2)	
-	if(comboAlliedVictory==10)
-	{
-		m_PlayersTeam1.Create(4);
-		m_PlayersTeam1[0] = 2;
-		m_PlayersTeam1[1] = 3;
-		m_PlayersTeam1[2] = 4;
-		m_PlayersTeam1[3] = 5;
-		CreateTeam(m_PlayersTeam1);
+        MakeEnemies();
+    }
+    // Dwie druzyny (3, 4, 5, 6) vs (7, 8, 1, 2)    
+    if(comboAlliedVictory==10)
+    {
+        m_PlayersTeam1.Create(4);
+        m_PlayersTeam1[0] = 2;
+        m_PlayersTeam1[1] = 3;
+        m_PlayersTeam1[2] = 4;
+        m_PlayersTeam1[3] = 5;
+        CreateTeam(m_PlayersTeam1);
 
-		m_PlayersTeam2.Create(4);
-		m_PlayersTeam2[0] = 6;
-		m_PlayersTeam2[1] = 7;
-		m_PlayersTeam2[2] = 0;
-		m_PlayersTeam2[3] = 1;
-		CreateTeam(m_PlayersTeam2);
+        m_PlayersTeam2.Create(4);
+        m_PlayersTeam2[0] = 6;
+        m_PlayersTeam2[1] = 7;
+        m_PlayersTeam2[2] = 0;
+        m_PlayersTeam2[3] = 1;
+        CreateTeam(m_PlayersTeam2);
 
-		MakeEnemies();
-	}
-	// Dwie druzyny (4, 5, 6, 7) vs (8, 1, 2, 3)	
-	if(comboAlliedVictory==11)
-	{
-		m_PlayersTeam1.Create(4);
-		m_PlayersTeam1[0] = 3;
-		m_PlayersTeam1[1] = 4;
-		m_PlayersTeam1[2] = 5;
-		m_PlayersTeam1[3] = 6;
-		CreateTeam(m_PlayersTeam1);
+        MakeEnemies();
+    }
+    // Dwie druzyny (4, 5, 6, 7) vs (8, 1, 2, 3)    
+    if(comboAlliedVictory==11)
+    {
+        m_PlayersTeam1.Create(4);
+        m_PlayersTeam1[0] = 3;
+        m_PlayersTeam1[1] = 4;
+        m_PlayersTeam1[2] = 5;
+        m_PlayersTeam1[3] = 6;
+        CreateTeam(m_PlayersTeam1);
 
-		m_PlayersTeam2.Create(4);
-		m_PlayersTeam2[0] = 7;
-		m_PlayersTeam2[1] = 0;
-		m_PlayersTeam2[2] = 1;
-		m_PlayersTeam2[3] = 2;
-		CreateTeam(m_PlayersTeam2);
+        m_PlayersTeam2.Create(4);
+        m_PlayersTeam2[0] = 7;
+        m_PlayersTeam2[1] = 0;
+        m_PlayersTeam2[2] = 1;
+        m_PlayersTeam2[3] = 2;
+        CreateTeam(m_PlayersTeam2);
 
-		MakeEnemies();
-	}
-	// Cztery druzyny (1, 2) vs (3, 4) vs (5, 6) vs (7, 8)	
-	if(comboAlliedVictory==12)
-	{
-		m_PlayersTeam1.Create(2);
-		m_PlayersTeam1[0] = 0;
-		m_PlayersTeam1[1] = 1;
-		CreateTeam(m_PlayersTeam1);
+        MakeEnemies();
+    }
+    // Cztery druzyny (1, 2) vs (3, 4) vs (5, 6) vs (7, 8)    
+    if(comboAlliedVictory==12)
+    {
+        m_PlayersTeam1.Create(2);
+        m_PlayersTeam1[0] = 0;
+        m_PlayersTeam1[1] = 1;
+        CreateTeam(m_PlayersTeam1);
 
-		m_PlayersTeam2.Create(2);
-		m_PlayersTeam2[0] = 2;
-		m_PlayersTeam2[1] = 3;
-		CreateTeam(m_PlayersTeam2);
+        m_PlayersTeam2.Create(2);
+        m_PlayersTeam2[0] = 2;
+        m_PlayersTeam2[1] = 3;
+        CreateTeam(m_PlayersTeam2);
 
-		m_PlayersTeam3.Create(2);
-		m_PlayersTeam3[0] = 4;
-		m_PlayersTeam3[1] = 5;
-		CreateTeam(m_PlayersTeam3);
+        m_PlayersTeam3.Create(2);
+        m_PlayersTeam3[0] = 4;
+        m_PlayersTeam3[1] = 5;
+        CreateTeam(m_PlayersTeam3);
 
-		m_PlayersTeam4.Create(2);
-		m_PlayersTeam4[0] = 6;
-		m_PlayersTeam4[1] = 7;
-		CreateTeam(m_PlayersTeam4);
+        m_PlayersTeam4.Create(2);
+        m_PlayersTeam4[0] = 6;
+        m_PlayersTeam4[1] = 7;
+        CreateTeam(m_PlayersTeam4);
 
-		MakeEnemies();
-	} 
-	// Cztery druzyny (2, 3) vs (4, 5) vs (6, 7) vs (8, 1)	
-	if(comboAlliedVictory==13)
-	{
-		m_PlayersTeam1.Create(2);
-		m_PlayersTeam1[0] = 1;
-		m_PlayersTeam1[1] = 2;
-		CreateTeam(m_PlayersTeam1);
+        MakeEnemies();
+    } 
+    // Cztery druzyny (2, 3) vs (4, 5) vs (6, 7) vs (8, 1)    
+    if(comboAlliedVictory==13)
+    {
+        m_PlayersTeam1.Create(2);
+        m_PlayersTeam1[0] = 1;
+        m_PlayersTeam1[1] = 2;
+        CreateTeam(m_PlayersTeam1);
 
-		m_PlayersTeam2.Create(2);
-		m_PlayersTeam2[0] = 3;
-		m_PlayersTeam2[1] = 4;
-		CreateTeam(m_PlayersTeam2);
+        m_PlayersTeam2.Create(2);
+        m_PlayersTeam2[0] = 3;
+        m_PlayersTeam2[1] = 4;
+        CreateTeam(m_PlayersTeam2);
 
-		m_PlayersTeam3.Create(2);
-		m_PlayersTeam3[0] = 5;
-		m_PlayersTeam3[1] = 6;
-		CreateTeam(m_PlayersTeam3);
+        m_PlayersTeam3.Create(2);
+        m_PlayersTeam3[0] = 5;
+        m_PlayersTeam3[1] = 6;
+        CreateTeam(m_PlayersTeam3);
 
-		m_PlayersTeam4.Create(2);
-		m_PlayersTeam4[0] = 7;
-		m_PlayersTeam4[1] = 0;
-		CreateTeam(m_PlayersTeam4);
+        m_PlayersTeam4.Create(2);
+        m_PlayersTeam4[0] = 7;
+        m_PlayersTeam4[1] = 0;
+        CreateTeam(m_PlayersTeam4);
 
-		MakeEnemies();
-	}   
+        MakeEnemies();
+    }   
 }

@@ -34,11 +34,11 @@ function void MoveToPoint(int nGx, int nGy, int nLz)
     m_nStartMoveGx = GetLocationX();
     m_nStartMoveGy = GetLocationY();
     m_nStartMoveLz = GetLocationZ();
-	m_nMoveToGx = nGx;
-	m_nMoveToGy = nGy;
-	m_nMoveToLz = nLz;
-	CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+    m_nMoveToGx = nGx;
+    m_nMoveToGy = nGy;
+    m_nMoveToLz = nLz;
+    CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function void MoveToPointAlpha(int nGx, int nGy, int nLz, int nAlpha)
 {
@@ -46,11 +46,11 @@ function void MoveToPointAlpha(int nGx, int nGy, int nLz, int nAlpha)
     m_nStartMoveGx = GetLocationX();
     m_nStartMoveGy = GetLocationY();
     m_nStartMoveLz = GetLocationZ();
-	m_nMoveToGx = nGx;
-	m_nMoveToGy = nGy;
-	m_nMoveToLz = nLz;
-	CallMoveToPointAlpha(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz, nAlpha);
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+    m_nMoveToGx = nGx;
+    m_nMoveToGy = nGy;
+    m_nMoveToLz = nLz;
+    CallMoveToPointAlpha(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz, nAlpha);
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function void MoveToPointForce(int nGx, int nGy, int nLz)
 {
@@ -58,11 +58,11 @@ function void MoveToPointForce(int nGx, int nGy, int nLz)
     m_nStartMoveGx = GetLocationX();
     m_nStartMoveGy = GetLocationY();
     m_nStartMoveLz = GetLocationZ();
-	m_nMoveToGx = nGx;
-	m_nMoveToGy = nGy;
-	m_nMoveToLz = nLz;
-	CallMoveToPointForce(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+    m_nMoveToGx = nGx;
+    m_nMoveToGy = nGy;
+    m_nMoveToLz = nLz;
+    CallMoveToPointForce(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function int CanEnterTowerGate(unit uBuilding)
 {
@@ -75,7 +75,7 @@ function int CanEnterTowerGate(unit uBuilding)
         return CanEnterGate(uBuilding);
     }
     return false;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 //tak jak poprzednio tylko na koncu zwraca true
 function int CanEnterTowerGateT(unit uBuilding)
@@ -89,12 +89,12 @@ function int CanEnterTowerGateT(unit uBuilding)
         return CanEnterGate(uBuilding);
     }
     return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function void ResetEnterBuilding()
 {
     m_uEnterBuilding = null;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function int CheckKeepStartMoving()
 {
@@ -103,12 +103,12 @@ function int CheckKeepStartMoving()
         return true;
     }
     return false;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function void ResetCounterAfterMove()
 {
     m_nAfterMoveTick = -1;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 function int CheckHoldPosAfterMove()
 {
@@ -122,7 +122,7 @@ function int CheckHoldPosAfterMove()
         m_nAfterMoveTick = -1;
     }
     return false;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 ////    States    ////
 
@@ -131,19 +131,19 @@ state StartMoving
 {
     if (IsMoving() || !CheckKeepStartMoving())
     {
-    	return Moving,0;
+        return Moving,0;
     }
     else
     {
         return StartMoving,5;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state Moving
 {
-	if (IsMoving() && !IsWaitingBeforeClosedGate())
-	{
-		TRACE("Moving\n");
+    if (IsMoving() && !IsWaitingBeforeClosedGate())
+    {
+        TRACE("Moving\n");
 #ifdef ONMOVINGCALLBACK
         if (OnMovingCallback())
         {
@@ -152,27 +152,27 @@ state Moving
         }
         else
         {
-    		return Moving;
+            return Moving;
         }
 #else
         return Moving;
 #endif ONMOVINGCALLBACK
-	}
-	else
-	{
+    }
+    else
+    {
         if (m_nAfterMoveTick >= 0)
         {
             m_nAfterMoveTick = GetGameTick();
         }
-		TRACE("Moving -> Nothing\n");
-		NextCommand(1);
+        TRACE("Moving -> Nothing\n");
+        NextCommand(1);
 #ifdef STATE_AFTER_MOVE
         return STATE_AFTER_MOVE, 5;
 #else
-		return Nothing, 0;
+        return Nothing, 0;
 #endif STATE_AFTER_MOVE
-	}
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+    }
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state StartMovingToEnter
 {
@@ -184,39 +184,39 @@ state StartMovingToEnter
     {
         return StartMovingToEnter,5;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state MovingToEnter
 {
-	if (IsMoving() && !IsWaitingBeforeClosedGate())
-	{
-		TRACE("MovingToEnter\n");
+    if (IsMoving() && !IsWaitingBeforeClosedGate())
+    {
+        TRACE("MovingToEnter\n");
         if ((DistanceTo(m_uEnterBuilding) <= 4) && !CanEnterTowerGateT(m_uEnterBuilding))
         {
             CallStopMoving();//zeby skasowac flage blokowania odsuwania
             m_uEnterBuilding = null;
-		    TRACE("MovingToEnter -> !CanEnter -> Nothing\n");
-		    NextCommand(1);
-		    return Nothing, 0;
+            TRACE("MovingToEnter -> !CanEnter -> Nothing\n");
+            NextCommand(1);
+            return Nothing, 0;
         }
         return MovingToEnter;
-	}
-	else
-	{
+    }
+    else
+    {
         CallStopMoving();//zeby skasowac flage blokowania odsuwania
         m_uEnterBuilding = null;
-		TRACE("MovingToEnter -> Nothing\n");
-		NextCommand(1);
-		return Nothing, 0;
-	}
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+        TRACE("MovingToEnter -> Nothing\n");
+        NextCommand(1);
+        return Nothing, 0;
+    }
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state MovingToEnterReplaceUnit
 {
     if (CanEnterTowerGate(m_uEnterBuilding))
     {
-	    CallMoveInsideObject(m_uEnterBuilding);
-	    return StartMovingToEnter,5;
+        CallMoveInsideObject(m_uEnterBuilding);
+        return StartMovingToEnter,5;
     }
     if (DistanceTo(m_uEnterBuilding) <= 3)
     {
@@ -229,14 +229,14 @@ state MovingToEnterReplaceUnit
         CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
     }
     return MovingToEnterReplaceUnit, 5;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state MovingToEnterWaitForExitUnit
 {
     if (CanEnterTowerGate(m_uEnterBuilding))
     {
-	    CallMoveInsideObject(m_uEnterBuilding);
-	    return StartMovingToEnter,5;
+        CallMoveInsideObject(m_uEnterBuilding);
+        return StartMovingToEnter,5;
     }
     else if (!m_uEnterBuilding.IsLive() || ((m_uEnterBuilding.GetIFFNumber() != GetIFFNumber()) && (m_uEnterBuilding.GetIFFNumber() != towersIFFNum)))
     {
@@ -248,13 +248,13 @@ state MovingToEnterWaitForExitUnit
     {
         return MovingToEnterWaitForExitUnit, 5;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state StartTurningDelayed
 {
     CallTurnToAngle(m_nTurnDelayedAngle);
     return StartTurning;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state StartTurning
 {
@@ -266,7 +266,7 @@ state StartTurning
     {
         return StartTurning, 0;
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 state Turning
 {
@@ -276,14 +276,14 @@ state Turning
     }
     else
     {
-		NextCommand(1);
+        NextCommand(1);
 #ifdef STATE_AFTER_MOVE
         return STATE_AFTER_MOVE, 5;
 #else
-		return Nothing, 0;
+        return Nothing, 0;
 #endif STATE_AFTER_MOVE
     }
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 ////    Events    ////
 
@@ -292,7 +292,7 @@ event OnEnterTower()
     ResetEnterBuilding();
     state Nothing;
     return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 ////    Commands    ////
 
@@ -300,14 +300,14 @@ command Stop() button TRL_STOP description TRL_STOP hotkey item ITEM_STOP priori
 {
     EXIT_COMMAND_IN_SLEEP_MODE();
     CHECK_STOP_CURR_ACTION();
-	if (IsMoving() || IsPreparingToMove())
-	{
-		CallStopMoving();
-	}
+    if (IsMoving() || IsPreparingToMove())
+    {
+        CallStopMoving();
+    }
     NextCommand(1);
-	state Nothing;
+    state Nothing;
     return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 command Move(int nGx, int nGy, int nLz) hidden button TRL_MOVE
 {
@@ -325,14 +325,14 @@ command Move(int nGx, int nGy, int nLz) hidden button TRL_MOVE
     m_nStartMoveGx = GetLocationX();
     m_nStartMoveGy = GetLocationY();
     m_nStartMoveLz = GetLocationZ();
-	m_nMoveToGx = nGx;
-	m_nMoveToGy = nGy;
-	m_nMoveToLz = nLz;
-	CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+    m_nMoveToGx = nGx;
+    m_nMoveToGy = nGy;
+    m_nMoveToLz = nLz;
+    CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
     m_nAfterMoveTick = 0;//znacznik aby po move ustawiac ten licznik
-	state StartMoving;
+    state StartMoving;
     return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 command MoveEx(int nGx, int nGy, int nLz) hidden button TRL_MOVE
 {
@@ -348,14 +348,14 @@ command MoveEx(int nGx, int nGy, int nLz) hidden button TRL_MOVE
     m_nStartMoveGx = GetLocationX();
     m_nStartMoveGy = GetLocationY();
     m_nStartMoveLz = GetLocationZ();
-	m_nMoveToGx = nGx;
-	m_nMoveToGy = nGy;
-	m_nMoveToLz = nLz;
-	CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+    m_nMoveToGx = nGx;
+    m_nMoveToGy = nGy;
+    m_nMoveToLz = nLz;
+    CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
     m_nAfterMoveTick = -1;//znacznik aby po move nie ustawiac tego licznika
-	state StartMoving;
+    state StartMoving;
     return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 command Enter(unit uEntrance, int bReplaceWithCurrUnit) hidden button TRL_ENTER
 {
@@ -372,14 +372,14 @@ command Enter(unit uEntrance, int bReplaceWithCurrUnit) hidden button TRL_ENTER
     m_nStartMoveGx = GetLocationX();
     m_nStartMoveGy = GetLocationY();
     m_nStartMoveLz = GetLocationZ();
-	m_nMoveToGx = GetEntranceX(uEntrance);
-	m_nMoveToGy = GetEntranceY(uEntrance);
-	m_nMoveToLz = GetEntranceZ(uEntrance);
+    m_nMoveToGx = GetEntranceX(uEntrance);
+    m_nMoveToGy = GetEntranceY(uEntrance);
+    m_nMoveToLz = GetEntranceZ(uEntrance);
     m_uEnterBuilding = uEntrance;
     if (!bReplaceWithCurrUnit || CanEnterTowerGate(uEntrance))
     {
-	    CallMoveInsideObject(uEntrance);
-	    state StartMovingToEnter;
+        CallMoveInsideObject(uEntrance);
+        state StartMovingToEnter;
     }
     else
     {
@@ -394,7 +394,7 @@ command Enter(unit uEntrance, int bReplaceWithCurrUnit) hidden button TRL_ENTER
         state MovingToEnterReplaceUnit;
     }
     return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 command Turn(int nAlphaAngle) hidden
 {
@@ -403,7 +403,7 @@ command Turn(int nAlphaAngle) hidden
     CallTurnToAngle(nAlphaAngle);
     state StartTurning;
     return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 command TurnDelayed(int nAlphaAngle) hidden
 {
@@ -413,6 +413,6 @@ command TurnDelayed(int nAlphaAngle) hidden
     SetStateDelay(20);
     state StartTurningDelayed;
     return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 #endif MOVE_ECH

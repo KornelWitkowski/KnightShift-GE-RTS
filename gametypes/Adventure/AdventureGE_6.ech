@@ -31,18 +31,18 @@ function void InitializePlayerAdventureGE6()
             rPlayer.SetMoney(100);
 
             // Na mapie nie ma potrzeby kupowania unitów
-			rPlayer.SetMaxCountLimitForObject("SORCERER", 0);
-			rPlayer.SetMaxCountLimitForObject("PRIESTESS", 0);
-			rPlayer.SetMaxCountLimitForObject("PRIEST", 0);
-			rPlayer.SetMaxCountLimitForObject("WITCH", 0);
-			rPlayer.SetMaxCountLimitForObject("DIPLOMAT", 0);
-			rPlayer.SetMaxCountLimitForObject("KNIGHT", 0);
-			rPlayer.SetMaxCountLimitForObject("COW", 0);
-			rPlayer.SetMaxCountLimitForObject("SHEPHERD", 0);
-			rPlayer.SetMaxCountLimitForObject("WOODCUTTER", 0);
-			rPlayer.SetMaxCountLimitForObject("HUNTER", 0);
-			rPlayer.SetMaxCountLimitForObject("FOOTMAN", 0);
-			rPlayer.SetMaxCountLimitForObject("SPEARMAN", 0);
+            rPlayer.SetMaxCountLimitForObject("SORCERER", 0);
+            rPlayer.SetMaxCountLimitForObject("PRIESTESS", 0);
+            rPlayer.SetMaxCountLimitForObject("PRIEST", 0);
+            rPlayer.SetMaxCountLimitForObject("WITCH", 0);
+            rPlayer.SetMaxCountLimitForObject("DIPLOMAT", 0);
+            rPlayer.SetMaxCountLimitForObject("KNIGHT", 0);
+            rPlayer.SetMaxCountLimitForObject("COW", 0);
+            rPlayer.SetMaxCountLimitForObject("SHEPHERD", 0);
+            rPlayer.SetMaxCountLimitForObject("WOODCUTTER", 0);
+            rPlayer.SetMaxCountLimitForObject("HUNTER", 0);
+            rPlayer.SetMaxCountLimitForObject("FOOTMAN", 0);
+            rPlayer.SetMaxCountLimitForObject("SPEARMAN", 0);
 
             rPlayer.SetMaxCountLimitForObject("COWSHED", 0);
             rPlayer.SetMaxCountLimitForObject("HUT", 0);
@@ -62,12 +62,12 @@ function void InitializePlayerAdventureGE6()
             rPlayer.RegisterGoal(0, "translateAdventureGE06_CowMustSurivive");
 
             // Celem gry jest pokonanie przeciwników. Infomracje o ich liczbie umieszczamy w celach misji.
-			SetStringBuffTranslate(2, "translateAdventureGE06_DestroyUninvitedGuests");
-			SetStringBuff(3, GetStringBuff(2), rPlayerEnemy1.GetNumberOfUnits() + rPlayerEnemy2.GetNumberOfUnits());
+            SetStringBuffTranslate(2, "translateAdventureGE06_DestroyUninvitedGuests");
+            SetStringBuff(3, GetStringBuff(2), rPlayerEnemy1.GetNumberOfUnits() + rPlayerEnemy2.GetNumberOfUnits());
             rPlayer.RegisterGoal(1, GetStringBuff(3));
 
-			rPlayer.EnableGoal(0, true, true);
-			rPlayer.EnableGoal(1, true, true);
+            rPlayer.EnableGoal(0, true, true);
+            rPlayer.EnableGoal(1, true, true);
             
             rPlayer.LookAt(GetPointX(0), GetPointY(0), 6, 32, 20, GetPointZ(0));
         }
@@ -131,10 +131,10 @@ state KillingUninvitedGuestsAdventureGE6
         {   
             iNumberOfUnits = rPlayerEnemy1.GetNumberOfUnits() + rPlayerEnemy2.GetNumberOfUnits();
 
-			SetStringBuffTranslate(2, "translateAdventureGE06_DestroyUninvitedGuests");
-			SetStringBuff(3, GetStringBuff(2), iNumberOfUnits);
+            SetStringBuffTranslate(2, "translateAdventureGE06_DestroyUninvitedGuests");
+            SetStringBuff(3, GetStringBuff(2), iNumberOfUnits);
             rPlayer.RegisterGoal(1, GetStringBuff(3));
-			rPlayer.EnableGoal(1, true);
+            rPlayer.EnableGoal(1, true);
 
             if(iNumberOfUnits == 0)
             {

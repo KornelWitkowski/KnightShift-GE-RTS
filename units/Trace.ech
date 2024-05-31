@@ -8,11 +8,11 @@
 //przed ifdef zeby sie dalo przeladowywac skrypty po wlaczeniu USE_TRACE
 enum traceMode
 {
-	"Trace OFF" item 101 description "Trace OFF",
-	"Trace ON" item 100 description "Trace ON",
+    "Trace OFF" item 101 description "Trace OFF",
+    "Trace ON" item 100 description "Trace ON",
 multi:
-	"Trace Mode" item 102 description "Trace Mode"
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+    "Trace Mode" item 102 description "Trace Mode"
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 #ifdef USE_TRACE
 
@@ -20,16 +20,16 @@ multi:
 
 command UserOneParam9(int nMode) button traceMode priority 255
 {
-	if (nMode == -1)
-	{
-		traceMode = (traceMode + 1) % 2;
-	}
-	else
-	{
-		traceMode = nMode;
-	}
+    if (nMode == -1)
+    {
+        traceMode = (traceMode + 1) % 2;
+    }
+    else
+    {
+        traceMode = nMode;
+    }
     return true;
-}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|
 
 #undef TRACE
 #undef TRACE1

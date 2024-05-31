@@ -28,8 +28,8 @@ function void InitializePlayerAdventureGE2()
 
             rPlayer.RegisterGoal(0, "translateAdventureGE02_MieszkoMustSurvive");
             rPlayer.RegisterGoal(1, "translateAdventureGE02_FindAxe");
-			rPlayer.EnableGoal(0, true, true);
-			rPlayer.EnableGoal(1, true, true);
+            rPlayer.EnableGoal(0, true, true);
+            rPlayer.EnableGoal(1, true, true);
             
             rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
         }

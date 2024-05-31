@@ -799,7 +799,7 @@ state MovingToMagicTarget
 #endif AI_SCRIPT
             if (IsWaitingBeforeClosedGate())
             {
-		        TRACE("IsWaitingBeforeClosedGate\n");
+                TRACE("IsWaitingBeforeClosedGate\n");
                 m_uMagicTarget = null;
                 CallStopMoving();
                 NextCommand(0);
@@ -813,7 +813,7 @@ state MovingToMagicTarget
             {
                 if (IsWaitingBeforeClosedGate())
                 {
-		            TRACE("IsWaitingBeforeClosedGate\n");
+                    TRACE("IsWaitingBeforeClosedGate\n");
                     m_uMagicTarget = null;
                     CallStopMoving();
                     NextCommand(0);

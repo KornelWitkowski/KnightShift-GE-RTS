@@ -68,16 +68,16 @@ function int FindStateNothingTarget();
 
 function void ResetCurrentTarget()
 {
-	m_uBuilderTarget = null;
-	SetRepairObject(null);
+    m_uBuilderTarget = null;
+    SetRepairObject(null);
 }//����������������������������������������������������������������������������������������������������|
 
 function void SetCurrentTarget(unit uTarget, int bSelfTarget)
 {
-	m_uBuilderTarget = uTarget;
+    m_uBuilderTarget = uTarget;
     if ((uTarget != null) && CanBeBuild(uTarget))
     {
-	    m_nBuildObjectType = GetBuildType(uTarget);
+        m_nBuildObjectType = GetBuildType(uTarget);
     }
     else
     {
@@ -86,7 +86,7 @@ function void SetCurrentTarget(unit uTarget, int bSelfTarget)
     m_bSelfTarget = bSelfTarget;
     m_nMoveTryCounter = 0;
     m_nWaitingBeforeNotWithdrawalCounter = 0;
-	SetRepairObject(m_uBuilderTarget);
+    SetRepairObject(m_uBuilderTarget);
 }//����������������������������������������������������������������������������������������������������|
 
 function int StopCurrentAction()
@@ -105,7 +105,7 @@ function int StopCurrentAction()
     ResetEnterBuilding();
     m_bSelfAttackTarget = false;
     m_bSelfTarget = false;
-	return true;
+    return true;
 }//����������������������������������������������������������������������������������������������������|
 
 //wywolywane w czasie wykonywania komendy MoveTo, zwracamy true jesli znalezlismy cel do ataku lub false jesli nie
@@ -131,66 +131,66 @@ function int OnMovingCallback()
 
 function unit FindTargetToRepair()
 {
-	int i;
+    int i;
     int nLocGx, nLocGy, nLocLz;
-	int iX, iY, iZ;
-	int nTargetsCount;
-	unit newTarget;
-	
+    int iX, iY, iZ;
+    int nTargetsCount;
+    unit newTarget;
+    
     // Nie szukamy palisady, żeby drwale skupili się na ważniejszych celach na początku
-	BuildTargetsArray(findTargetBuilding, findOurUnit | findNeutralUnit);
-	SortFoundTargetsArray();
-	nTargetsCount = GetTargetsCount();
-	if (nTargetsCount != 0)
-	{
-		StartEnumTargetsArray();
-		for (i = 0; i < nTargetsCount; ++i)
-		{
-			newTarget = GetNextTarget();
-			if (CanBeRepaired(newTarget))
+    BuildTargetsArray(findTargetBuilding, findOurUnit | findNeutralUnit);
+    SortFoundTargetsArray();
+    nTargetsCount = GetTargetsCount();
+    if (nTargetsCount != 0)
+    {
+        StartEnumTargetsArray();
+        for (i = 0; i < nTargetsCount; ++i)
+        {
+            newTarget = GetNextTarget();
+            if (CanBeRepaired(newTarget))
             {
                 nLocGx = GetOperateOnTargetLocationX(newTarget);
                 nLocGy = GetOperateOnTargetLocationY(newTarget);
                 nLocLz = GetOperateOnTargetLocationZ(newTarget);
-		iX = GetLocationX();
-		iY = GetLocationY();
-		iZ = GetLocationZ();
+        iX = GetLocationX();
+        iY = GetLocationY();
+        iZ = GetLocationZ();
 
-		if (!IsAccessible(newTarget))
-		{
-			continue;
-		}
+        if (!IsAccessible(newTarget))
+        {
+            continue;
+        }
                 if (IsGoodPointForOperateOnTarget(newTarget, nLocGx, nLocGy, nLocLz))
-		{
-				    EndEnumTargetsArray();
-                    		return newTarget;
-		}
+        {
+                    EndEnumTargetsArray();
+                            return newTarget;
+        }
             }
-		}
-		EndEnumTargetsArray();
-	}
+        }
+        EndEnumTargetsArray();
+    }
     return null;
 }
 
 
 function unit FindWallToRepair()
 {
-	int i;
+    int i;
     int nLocGx, nLocGy, nLocLz;
-	int iX, iY, iZ;
-	int nTargetsCount;
-	unit newTarget;
-	
-	BuildTargetsArray(findTargetWall, findOurUnit | findNeutralUnit);
-	SortFoundTargetsArray();
-	nTargetsCount = GetTargetsCount();
-	if (nTargetsCount != 0)
-	{
-		StartEnumTargetsArray();
-		for (i = 0; i < nTargetsCount; ++i)
-		{
-			newTarget = GetNextTarget();
-			if (CanBeRepaired(newTarget))
+    int iX, iY, iZ;
+    int nTargetsCount;
+    unit newTarget;
+    
+    BuildTargetsArray(findTargetWall, findOurUnit | findNeutralUnit);
+    SortFoundTargetsArray();
+    nTargetsCount = GetTargetsCount();
+    if (nTargetsCount != 0)
+    {
+        StartEnumTargetsArray();
+        for (i = 0; i < nTargetsCount; ++i)
+        {
+            newTarget = GetNextTarget();
+            if (CanBeRepaired(newTarget))
             {
                 nLocGx = GetOperateOnTargetLocationX(newTarget);
                 nLocGy = GetOperateOnTargetLocationY(newTarget);
@@ -204,14 +204,14 @@ function unit FindWallToRepair()
                     continue;
                 }
                 if (IsGoodPointForOperateOnTarget(newTarget, nLocGx, nLocGy, nLocLz))
-		        {
-				    EndEnumTargetsArray();
+                {
+                    EndEnumTargetsArray();
                     return newTarget;
-		        }
+                }
             }
-		}
-		EndEnumTargetsArray();
-	}
+        }
+        EndEnumTargetsArray();
+    }
     return null;
 }
 
@@ -265,15 +265,15 @@ function int MoveToTarget(unit uTarget, int bResetWaitingWithCnt, int bMaxDist2C
             nCurrMoveToGx = m_nMoveToGx;
             nCurrMoveToGy = m_nMoveToGy;
             nCurrMoveToLz = m_nMoveToLz;
-	        m_nMoveToGx = GetBuildLocationX(uTarget, nCurrMoveToGx, nCurrMoveToGy, nCurrMoveToLz);
-	        m_nMoveToGy = GetBuildLocationY(uTarget, nCurrMoveToGx, nCurrMoveToGy, nCurrMoveToLz);
-	        m_nMoveToLz = GetBuildLocationZ(uTarget, nCurrMoveToGx, nCurrMoveToGy, nCurrMoveToLz);
+            m_nMoveToGx = GetBuildLocationX(uTarget, nCurrMoveToGx, nCurrMoveToGy, nCurrMoveToLz);
+            m_nMoveToGy = GetBuildLocationY(uTarget, nCurrMoveToGx, nCurrMoveToGy, nCurrMoveToLz);
+            m_nMoveToLz = GetBuildLocationZ(uTarget, nCurrMoveToGx, nCurrMoveToGy, nCurrMoveToLz);
         }
         else
         {
-	        m_nMoveToGx = GetBuildLocationX(uTarget);
-	        m_nMoveToGy = GetBuildLocationY(uTarget);
-	        m_nMoveToLz = GetBuildLocationZ(uTarget);
+            m_nMoveToGx = GetBuildLocationX(uTarget);
+            m_nMoveToGy = GetBuildLocationY(uTarget);
+            m_nMoveToLz = GetBuildLocationZ(uTarget);
         }
         bMoveTo = IsGoodPlaceForBuildObject(uTarget, m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
         if (bMoveTo)
@@ -288,15 +288,15 @@ function int MoveToTarget(unit uTarget, int bResetWaitingWithCnt, int bMaxDist2C
             nCurrMoveToGx = m_nMoveToGx;
             nCurrMoveToGy = m_nMoveToGy;
             nCurrMoveToLz = m_nMoveToLz;
-	        m_nMoveToGx = GetOperateOnTargetLocationX(uTarget, nCurrMoveToGx, nCurrMoveToGy, nCurrMoveToLz);
-	        m_nMoveToGy = GetOperateOnTargetLocationY(uTarget, nCurrMoveToGx, nCurrMoveToGy, nCurrMoveToLz);
-	        m_nMoveToLz = GetOperateOnTargetLocationZ(uTarget, nCurrMoveToGx, nCurrMoveToGy, nCurrMoveToLz);
+            m_nMoveToGx = GetOperateOnTargetLocationX(uTarget, nCurrMoveToGx, nCurrMoveToGy, nCurrMoveToLz);
+            m_nMoveToGy = GetOperateOnTargetLocationY(uTarget, nCurrMoveToGx, nCurrMoveToGy, nCurrMoveToLz);
+            m_nMoveToLz = GetOperateOnTargetLocationZ(uTarget, nCurrMoveToGx, nCurrMoveToGy, nCurrMoveToLz);
         }
         else
         {
-	        m_nMoveToGx = GetOperateOnTargetLocationX(uTarget);
-	        m_nMoveToGy = GetOperateOnTargetLocationY(uTarget);
-	        m_nMoveToLz = GetOperateOnTargetLocationZ(uTarget);
+            m_nMoveToGx = GetOperateOnTargetLocationX(uTarget);
+            m_nMoveToGy = GetOperateOnTargetLocationY(uTarget);
+            m_nMoveToLz = GetOperateOnTargetLocationZ(uTarget);
         }
         bMoveTo = IsGoodPointForOperateOnTarget(uTarget, m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
         if (bMoveTo)
@@ -319,9 +319,9 @@ function int MoveToTarget(unit uTarget)
 
 function void StopWorking()
 {
-	CallStopMoving();
-	ResetCurrentTarget();
-	NextCommand(1);
+    CallStopMoving();
+    ResetCurrentTarget();
+    NextCommand(1);
 }//����������������������������������������������������������������������������������������������������|
 
 function int TryFindNewTarget(int bCheckAccessibleMode)
@@ -414,13 +414,13 @@ function int CheckContinueMoveToBuilderTarget()
 {
     if (!m_bSelfTarget && (m_uBuilderTarget != null) && (DistanceTo(m_uBuilderTarget) >= GetSightRange()))
     {
-	    m_nMoveToGx = m_uBuilderTarget.GetLocationX();
-	    m_nMoveToGy = m_uBuilderTarget.GetLocationY();
-	    m_nMoveToLz = m_uBuilderTarget.GetLocationZ();
+        m_nMoveToGx = m_uBuilderTarget.GetLocationX();
+        m_nMoveToGy = m_uBuilderTarget.GetLocationY();
+        m_nMoveToLz = m_uBuilderTarget.GetLocationZ();
         CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
         //StopWorking:
-	    ResetCurrentTarget();
-	    NextCommand(1);
+        ResetCurrentTarget();
+        NextCommand(1);
         return true;
     }
     return false;
@@ -629,8 +629,8 @@ state MovingToBuildObject
     {
         bCanBeBuild = false;
     }
-	else if (IsMoving() && bCanBeBuild)
-	{
+    else if (IsMoving() && bCanBeBuild)
+    {
         if (((GetLocationX() != m_nMoveToGx) || (GetLocationY() != m_nMoveToGy) || (GetLocationZ() != m_nMoveToLz)) && 
             !IsFreePoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz))
         {
@@ -669,18 +669,18 @@ state MovingToBuildObject
                 }
             }
         }
-		return MovingToBuildObject, 5;
-	}
-	else
-	{
-		if (IsInGoodPlaceForBuildObject(m_uBuilderTarget) && bCanBeBuild)
-		{
-			TRACE("Builder->MovingToBuildObject 2\n");
-			CallBuildObject(m_uBuilderTarget);
-			return BuildObject;
-		}
-		else if ((m_nBuildObjectType != buildWall) && bCanBeBuild && MoveToTarget(m_uBuilderTarget, true, false))
-		{
+        return MovingToBuildObject, 5;
+    }
+    else
+    {
+        if (IsInGoodPlaceForBuildObject(m_uBuilderTarget) && bCanBeBuild)
+        {
+            TRACE("Builder->MovingToBuildObject 2\n");
+            CallBuildObject(m_uBuilderTarget);
+            return BuildObject;
+        }
+        else if ((m_nBuildObjectType != buildWall) && bCanBeBuild && MoveToTarget(m_uBuilderTarget, true, false))
+        {
             TRACE("Builder->MovingToBuildObject 3\n");
             ++m_nMoveTryCounter;
             if ((m_nMoveTryCounter > 15)
@@ -715,8 +715,8 @@ state MovingToBuildObject
                     return AfterWorking, 0;
                 }
             }
-			return MovingToBuildObject;
-		}
+            return MovingToBuildObject;
+        }
         else
         {
             TRACE("Builder->MovingToBuildObject 8\n");
@@ -736,23 +736,23 @@ state MovingToBuildObject
                 return AfterWorking, 0;
             }
         }
-	}
+    }
 }//����������������������������������������������������������������������������������������������������|
 
 state BuildObject
 {
-	if (IsBuildWorking())
-	{
-		return BuildObject, 5;
-	}
-	else
-	{
-		if (CanBeBuild(m_uBuilderTarget) && IsInGoodPlaceForBuildObject(m_uBuilderTarget))
-		{
-			TRACE("BuildObject->BuildObject\n");
-			CallBuildObject(m_uBuilderTarget);
-			return BuildObject;
-		}
+    if (IsBuildWorking())
+    {
+        return BuildObject, 5;
+    }
+    else
+    {
+        if (CanBeBuild(m_uBuilderTarget) && IsInGoodPlaceForBuildObject(m_uBuilderTarget))
+        {
+            TRACE("BuildObject->BuildObject\n");
+            CallBuildObject(m_uBuilderTarget);
+            return BuildObject;
+        }
         else if (TryFindNextBuildTarget())
         {
             return MovingToBuildObject;
@@ -762,7 +762,7 @@ state BuildObject
             StopWorking();
             return AfterWorking, 0;
         }
-	}
+    }
 }//����������������������������������������������������������������������������������������������������|
 
 state MovingToRepairedObject
@@ -775,9 +775,9 @@ state MovingToRepairedObject
     {
         bCanBeRepaired = false;
     }
-	if (IsMoving() && bCanBeRepaired)
-	{
-	    TRACE("Builder->MovingToRepairedObject 1\n");
+    if (IsMoving() && bCanBeRepaired)
+    {
+        TRACE("Builder->MovingToRepairedObject 1\n");
         if (((GetLocationX() != m_nMoveToGx) || (GetLocationY() != m_nMoveToGy) || (GetLocationZ() != m_nMoveToLz)) && 
             !IsFreePoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz))
         {
@@ -819,10 +819,10 @@ state MovingToRepairedObject
     else
     {
         TRACE("Builder->MovingToRepairedObject 2\n");
-		if (IsInGoodPointForOperateOnTarget(m_uBuilderTarget) && bCanBeRepaired)
+        if (IsInGoodPointForOperateOnTarget(m_uBuilderTarget) && bCanBeRepaired)
         {
-			CallRepair(m_uBuilderTarget);
-			return Repairing;
+            CallRepair(m_uBuilderTarget);
+            return Repairing;
         }
         else if (bCanBeRepaired && MoveToTarget(m_uBuilderTarget, true, false))
         {
@@ -873,18 +873,18 @@ state MovingToRepairedObject
 
 state Repairing
 {
-	if (IsRepairing())
-	{
-		return Repairing, 5;
-	}
-	else
-	{
-		if (CanBeRepaired(m_uBuilderTarget) && IsInGoodPointForOperateOnTarget(m_uBuilderTarget))
-		{
-			TRACE("Repairing->Repairing\n");
-			CallRepair(m_uBuilderTarget);
-			return Repairing;
-		}
+    if (IsRepairing())
+    {
+        return Repairing, 5;
+    }
+    else
+    {
+        if (CanBeRepaired(m_uBuilderTarget) && IsInGoodPointForOperateOnTarget(m_uBuilderTarget))
+        {
+            TRACE("Repairing->Repairing\n");
+            CallRepair(m_uBuilderTarget);
+            return Repairing;
+        }
         else if (IsFlyable())
         {
             //podniesc sie
@@ -892,7 +892,7 @@ state Repairing
         }
         StopWorking();
         return AfterWorking, 0;
-	}
+    }
 }//����������������������������������������������������������������������������������������������������|
 
 ////    Events    ////
@@ -919,7 +919,7 @@ event OnHit(unit uByUnit)
         nPosY = GetLocationY();
         nDistX = 0 - nRange/2 + RAND(nRange);
         nDistY = 0 - nRange/2 + RAND(nRange);
-    	MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
+        MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
         state StartMoving;
     }
 #endif AI_SCRIPT
@@ -1083,13 +1083,13 @@ event OnHit(unit uByUnit)
                         nDistX = nRange*nDistX/nDist;
                         nDistY = nRange*nDistY/nDist;
                     }
-    	            MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
+                    MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
                     state StartMoving;
                 }
             }
         }
     }
-	return true;
+    return true;
 }//����������������������������������������������������������������������������������������������������|
 
 event OnKilled()
@@ -1128,28 +1128,28 @@ command BuildObject(unit uObjectToBuild) hidden button TRL_BUILDOBJECT
     {
         CHECK_STOP_CURR_ACTION();
         SetCurrentTarget(uObjectToBuild, false);
-	    state MovingToBuildObject;
+        state MovingToBuildObject;
     }
     else
     {
         NextCommand(0);
     }
-	return true;
+    return true;
 }//����������������������������������������������������������������������������������������������������|
 
 command Repair(unit uTarget) hidden button TRL_REPAIR
 {
     EXIT_COMMAND_IN_SLEEP_MODE();
     if (CanBeRepaired(uTarget) && MoveToTarget(uTarget))
-	{
+    {
         CHECK_STOP_CURR_ACTION();
-		SetCurrentTarget(uTarget, false);
-		state MovingToRepairedObject;
-	}
-	else
-	{
-		NextCommand(0);
-	}
-	return true;
+        SetCurrentTarget(uTarget, false);
+        state MovingToRepairedObject;
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
 }//����������������������������������������������������������������������������������������������������|
 }
