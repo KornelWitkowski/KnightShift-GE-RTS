@@ -1,0 +1,244 @@
+function void InitializePlayerAdventureGE3()
+{
+    player rPlayer, rPlayer2;
+    int i;
+    int j;
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        if(rPlayer != null) 
+        {     
+            rPlayer.SetScriptData(0, 0);
+
+            rPlayer.SetMaxMoney(100);
+            rPlayer.SetMoney(100);
+
+            if(rPlayer.IsHuman())
+            {
+                rPlayer2 = GetPlayer(8);
+
+                if(i!=0)
+                {
+                    rPlayer.RegisterGoal(0, "translateAdventureGE03_DestroyYellowPlayer");
+                    rPlayer.EnableGoal(0, true, true);
+                    rPlayer2.CreateUnit(GetPointX(0), GetPointY(0), 0, -64, "WOODCUTTER");
+                    rPlayer2.CreateUnit(GetPointX(1), GetPointY(1), 0, -64, "WOODCUTTER");
+                    rPlayer2.CreateUnit(GetPointX(2), GetPointY(2), 0, -64, "COW");
+                    rPlayer2.CreateUnit(GetPointX(3), GetPointY(3), 0, -64, "COW");
+                    rPlayer2.CreateBuilding(GetPointX(4), GetPointY(4), 0, -64, "COWSHED");
+
+                    rPlayer2.SetScriptData(0, 0);
+                    rPlayer2.EnableAI(true);
+                    rPlayer2.LoadScript("2_Medium");
+                    rPlayer2.SetMainEnemyIFFNum(rPlayer.GetIFFNumber());
+                }
+                else
+                {
+                    rPlayer.CreateUnit(GetPointX(0), GetPointY(0), 0, -64, "WOODCUTTER");
+                    rPlayer.CreateUnit(GetPointX(1), GetPointY(1), 0, -64, "WOODCUTTER");
+                    rPlayer.CreateUnit(GetPointX(2), GetPointY(2), 0, -64, "COW");
+                    rPlayer.CreateUnit(GetPointX(3), GetPointY(3), 0, -64, "COW");
+                    rPlayer.CreateBuilding(GetPointX(4), GetPointY(4), 0, -64, "COWSHED");
+                }
+
+                rPlayer2 = GetPlayer(9);
+
+                if(i!=1)
+                {
+                    rPlayer.RegisterGoal(1, "translateAdventureGE03_DestroyRedPlayer");
+                    rPlayer.EnableGoal(1, true, true);
+                    rPlayer2.CreateUnit(GetPointX(10), GetPointY(10), 0, 0, "WOODCUTTER");
+                    rPlayer2.CreateUnit(GetPointX(11), GetPointY(11), 0, 0, "WOODCUTTER");
+                    rPlayer2.CreateUnit(GetPointX(12), GetPointY(12), 0, 64, "COW");
+                    rPlayer2.CreateUnit(GetPointX(13), GetPointY(13), 0, 64, "COW");
+                    rPlayer2.CreateBuilding(GetPointX(14), GetPointY(14), 0, -64, "COWSHED");
+
+                    rPlayer2.SetScriptData(0, 0);
+                    rPlayer2.EnableAI(true);
+                    rPlayer2.LoadScript("2_Medium");
+                    rPlayer2.SetMainEnemyIFFNum(rPlayer.GetIFFNumber());
+                }
+                else
+                {
+                    rPlayer.CreateUnit(GetPointX(10), GetPointY(10), 0, 0, "WOODCUTTER");
+                    rPlayer.CreateUnit(GetPointX(11), GetPointY(11), 0, 0, "WOODCUTTER");
+                    rPlayer.CreateUnit(GetPointX(12), GetPointY(12), 0, 64, "COW");
+                    rPlayer.CreateUnit(GetPointX(13), GetPointY(13), 0, 64, "COW");
+                    rPlayer.CreateBuilding(GetPointX(14), GetPointY(14), 0, -64, "COWSHED");
+                }
+
+                rPlayer2 = GetPlayer(10);
+
+                if(i!=2)
+                {
+                    rPlayer.RegisterGoal(2, "translateAdventureGE03_DestroyBluePlayer");
+                    rPlayer.EnableGoal(2, true, true);
+                    rPlayer2.CreateUnit(GetPointX(20), GetPointY(20), 0, -64, "WOODCUTTER");
+                    rPlayer2.CreateUnit(GetPointX(21), GetPointY(21), 0, -64, "WOODCUTTER");
+                    rPlayer2.CreateUnit(GetPointX(22), GetPointY(22), 0, 0, "COW");
+                    rPlayer2.CreateUnit(GetPointX(23), GetPointY(23), 0, 0, "COW");
+                    rPlayer2.CreateBuilding(GetPointX(24), GetPointY(24), 0, 128, "COWSHED");
+
+                    rPlayer2.SetScriptData(0, 0);
+                    rPlayer2.EnableAI(true);
+                    rPlayer2.LoadScript("2_Medium");
+                    rPlayer2.SetMainEnemyIFFNum(rPlayer.GetIFFNumber());
+                }
+                else
+                {
+                    rPlayer.CreateUnit(GetPointX(20), GetPointY(20), 0, -64, "WOODCUTTER");
+                    rPlayer.CreateUnit(GetPointX(21), GetPointY(21), 0, -64, "WOODCUTTER");
+                    rPlayer.CreateUnit(GetPointX(22), GetPointY(22), 0, 0, "COW");
+                    rPlayer.CreateUnit(GetPointX(23), GetPointY(23), 0, 0, "COW");
+                    rPlayer.CreateBuilding(GetPointX(24), GetPointY(24), 0, 128, "COWSHED");
+                }
+            }
+
+            rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
+            rPlayer.SetMaxCountLimitForObject("COURT", 1);
+            rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+        }
+    }
+
+    SetInterfaceOptions(
+        lockAllianceDialog |
+        lockGiveMoneyDialog |
+        lockGiveUnitsDialog |
+        lockToolbarSwitchMode |
+        lockToolbarAlliance |
+        lockToolbarGiveMoney |
+        lockDisplayToolbarMoney |
+        lockToolbarLevelName |
+        lockToolbarHelpMode |
+        lockDisplayToolbarLevelName |
+        0);
+
+}
+
+state InitializeAdventureGE3
+{
+    SetTimer(5, 100);
+    SetTimer(1, 400);
+    SetTimer(2, 2400); //2min
+    SetTimer(3, 4800); //4min
+    SetTimer(4, 1200); //1min
+
+    SetTimer(7, GetWindTimerTicks());
+    StartWind();
+
+    StatisticReset();
+    StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
+    StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
+    StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
+    StatisticSetSortOrder(0, 3, true);
+
+    return Nothing;
+}
+
+event Timer5()
+{
+    int i;
+    int j;
+    int iCountBuilding;
+    int bOneHasBeenDestroyed;
+    int bActiveEnemies;
+
+    player rPlayer;
+    player rPlayer2;
+
+    if ( state != Nothing ) return;
+
+    bOneHasBeenDestroyed = false;
+
+    for(i=0; i<12; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        if(rPlayer != null)
+        {
+            if(rPlayer.IsAlive()) 
+            {
+                iCountBuilding = rPlayer.GetNumberOfBuildings(buildingHarvestFactory);
+                if(iCountBuilding<2) rPlayer.SetMaxMoney(100);
+                if(iCountBuilding==2) rPlayer.SetMaxMoney(200);
+                if(iCountBuilding==3) rPlayer.SetMaxMoney(300);
+                if(iCountBuilding>=4) rPlayer.SetMaxMoney(400);
+
+                iCountBuilding = rPlayer.GetNumberOfBuildings();
+
+                if(iCountBuilding) rPlayer.SetScriptData(0, 1);
+                    
+                if (iCountBuilding==0)
+                {
+                    if((rPlayer.GetScriptData(0)==1) && (rPlayer.GetScriptData(1)!=1))
+                    {
+                        rPlayer.SetScriptData(1, 1); // Defeat
+                        KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
+
+                        if((rPlayer.GetIFFNumber()==8) && rPlayer.IsAI())
+                            SetGoalState(0, goalAchieved, 1);
+                        if((rPlayer.GetIFFNumber()==9) && rPlayer.IsAI())
+                            SetGoalState(1, goalAchieved, 1);
+                        if((rPlayer.GetIFFNumber()==10) && rPlayer.IsAI())
+                            SetGoalState(2, goalAchieved, 1);
+
+                        if(rPlayer.IsHuman)
+                        {
+							SetStateDelay(150);
+							state Defeat;
+                        }
+                    }
+                    else
+                    {
+                        if((rPlayer.GetNumberOfUnits()==0) && (rPlayer.GetScriptData(1)!=1))
+                        {
+                            rPlayer.SetScriptData(1, 1); // Defeat
+
+                            if((rPlayer.GetIFFNumber()==8) && rPlayer.IsAI())
+                                SetGoalState(0, goalAchieved, 1);
+                            if((rPlayer.GetIFFNumber()==9) && rPlayer.IsAI())
+                                SetGoalState(1, goalAchieved, 1);
+                            if((rPlayer.GetIFFNumber()==10) && rPlayer.IsAI())
+                                SetGoalState(2, goalAchieved, 1);
+
+                            if(rPlayer.IsHuman)
+                            {
+                                SetStateDelay(150);
+                                state Defeat;
+                            }
+                        }
+                    }
+                }
+            }
+            if(!rPlayer.IsAlive()) bOneHasBeenDestroyed=true;
+        }
+    }
+    
+    if(!IsGoalEnabled(0))
+    {
+        if(GetGoalState(1) && GetGoalState(2))
+        {
+            SetStateDelay(150);
+            state Victory;
+        }
+    }
+
+    if(!IsGoalEnabled(1))
+    {
+        if(GetGoalState(0) && GetGoalState(2))
+        {
+            SetStateDelay(150);
+            state Victory;
+        }
+    }
+
+    if(!IsGoalEnabled(2))
+    {
+        if(GetGoalState(0) && GetGoalState(1))
+        {
+            SetStateDelay(150);
+            state Victory;
+        }
+    }
+
+}

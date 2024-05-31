@@ -1,0 +1,101 @@
+#ifndef EQUIPMENTARTEFACT_ECH
+#define EQUIPMENTARTEFACT_ECH
+
+////    Declarations    ////
+
+state MovingToEquipmentArtefact;
+
+int  m_nCheckArtefactsCounter;
+int  m_bTryMoveForce;
+int  m_nMoveToEquipmentArtefactMode;
+
+////    Functions    ////
+
+function void InitializeArtefactsCounter()
+{
+    m_nCheckArtefactsCounter = RAND(10) + 3;
+    m_nMoveToEquipmentArtefactMode = 0;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function int TryFindEquipmentArtefactStep()
+{
+#ifdef AI_SCRIPT
+    if (m_nCheckArtefactsCounter > 0)
+    {
+        --m_nCheckArtefactsCounter;
+    }
+    else
+    {
+        if (m_nAttackersCount > 0)
+        {
+            m_nCheckArtefactsCounter = 20;//bo delay jest 5
+        }
+        else
+        {
+            m_nCheckArtefactsCounter = 5;
+        }
+        if (m_nMoveToEquipmentArtefactMode && FindEquipmentArtefact())
+        {
+            m_nStayGx = GetLocationX();
+            m_nStayGy = GetLocationY();
+            m_nStayLz = GetLocationZ();
+            m_nStayAlpha = GetDirectionAlpha();
+            MoveToPoint(GetFoundEquipmentArtefactX(), GetFoundEquipmentArtefactY(), GetFoundEquipmentArtefactZ());
+            m_bTryMoveForce = false;
+            return true;
+        }
+    }
+#endif AI_SCRIPT
+    return false;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    States    ////
+
+state MovingToEquipmentArtefact
+{
+    if (IsMoving() && !IsWaitingBeforeClosedGate())
+    {
+        if (!IsInCamouflageMode() && TryFindNewAttackTarget(false, false))
+        {
+            return MovingToAttackTarget, 0;
+        }
+        return MovingToEquipmentArtefact;
+    }
+    else
+    {
+        if ((GetLocationX() != m_nMoveToGx) || (GetLocationY() != m_nMoveToGy))
+        {
+            if (!m_bTryMoveForce)
+            {
+                m_bTryMoveForce = true;
+                CallMoveToPointForce(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+                return MovingToEquipmentArtefact, 40;
+            }
+        }
+        if (FindEquipmentArtefact())
+        {
+            MoveToPoint(GetFoundEquipmentArtefactX(), GetFoundEquipmentArtefactY(), GetFoundEquipmentArtefactZ());
+            m_bTryMoveForce = false;
+            return MovingToEquipmentArtefact, 40;
+        }
+        else
+        {
+            MoveToPointAlpha(m_nStayGx, m_nStayGy, m_nStayLz, m_nStayAlpha);
+#ifdef STATE_MOVING_AFTER_EQUIPMENT_ARTEFACT
+            return STATE_MOVING_AFTER_EQUIPMENT_ARTEFACT;
+#else
+            return Nothing;
+#endif STATE_MOVING_AFTER_EQUIPMENT_ARTEFACT
+        }
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command SetTakeEquipmentArtefactMode(int nMode) hidden
+{
+    ASSERT(nMode != -1);
+    m_nMoveToEquipmentArtefactMode = nMode;
+    NextCommand(1);
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#endif EQUIPMENTARTEFACT_ECH

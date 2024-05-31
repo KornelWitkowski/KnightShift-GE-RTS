@@ -1,0 +1,121 @@
+#ifndef COMMON_ECH
+#define COMMON_ECH
+
+////    Defines    ////
+
+#include "..\AIPlayers\Rand.ech"
+
+#define EXIT_COMMAND_IN_SLEEP_MODE()
+
+#ifdef STOPCURRENTACTION
+#define CHECK_STOP_CURR_ACTION() \
+	if (!StopCurrentAction()) \
+    { \
+        return false; \
+    }
+#else
+#define CHECK_STOP_CURR_ACTION()
+#endif STOPCURRENTACTION
+
+#define HOLDPOSMODE 0
+#define RESET_HOLDPOSMODE() 0
+#define TALKMODE 0
+
+#define TRACE(a)
+#define TRACE1(a)
+#define TRACE2(a, b)
+#define TRACE3(a, b, c)
+#define TRACE4(a, b, c, d)
+#define TRACE5(a, b, c, d, e)
+#define TRACE6(a, b, c, d, e, f)
+#define TRACE7(a, b, c, d, e, f, g)
+#define TRACE8(a, b, c, d, e, f, g, h)
+#define TRACE9(a, b, c, d, e, f, g, h, i)
+#define TRACE10(a, b, c, d, e, f, g, h, i, j)
+
+#define ASSERT(a)
+#define __ASSERT_FALSE()
+
+////    Functions    ////
+
+function int ABS(int nVal)
+{
+    if (nVal < 0)
+    {
+        return 0 - nVal;
+    }
+    return nVal;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function int MIN(int nVal1, int nVal2)
+{
+    if (nVal1 < nVal2)
+    {
+        return nVal1;
+    }
+    return nVal2;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function int MAX(int nVal1, int nVal2)
+{
+    if (nVal1 > nVal2)
+    {
+        return nVal1;
+    }
+    return nVal2;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function int CLAMP(int nVal1, int nVal2, int nVal3)
+{
+	if (nVal1 < nVal2)
+    {
+		return nVal2;
+    }
+	if (nVal1 > nVal3)
+    {
+		return nVal3;
+    }
+	return nVal1;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#ifdef AI_SCRIPT
+#define ON_AI_SCRIPT(AIScriptVal) AIScriptVal
+#define ON_USER_SCRIPT(notAIScriptVal)
+#define SWITCH_USER_SCRIPT(notAIScriptVal, AIScriptVal) AIScriptVal
+#else
+#define ON_AI_SCRIPT(AIScriptVal) 
+#define ON_USER_SCRIPT(notAIScriptVal) notAIScriptVal
+#define SWITCH_USER_SCRIPT(notAIScriptVal, AIScriptVal) notAIScriptVal
+#endif
+
+#ifdef RPG_UNIT_EC
+#define SWITCH_RPG_SCRIPT(notRPGScriptVal, RPGScriptVal) RPGScriptVal
+#else
+#define SWITCH_RPG_SCRIPT(notRPGScriptVal, RPGScriptVal) notRPGScriptVal
+#endif
+
+#endif COMMON_ECH
+
+
+
+/*
+Zmiany w EarthC.exe:
+- dzia³a state XXX gdy powy¿ej jest jego definicja a poni¿ej deklaracja.
+- wywo³anie state XXX nie jest dopuszczalne w œrodku state'a.
+- mo¿na u¿ywaæ return w definicji command.
+- podpiêcie preprocesora, poprawki w wyœwietlaniu nazw plików na wyjœciu.
+- mo¿liwoœæ deklaracji funkcji przed jej u¿yciem (function int ABC();).
+- usuniêcie wieszania siê przy niektórych b³êdach.
+- consts mog¹ byæ deklarowane w dowolnym miejscu skryptu.
+- funkcje w skrypcie mog¹ zwracaæ unit itp., lub moga "zwracac" void
+- kontrola wartoœci zwracanych przez funkcje, komendy, eventy (mog³y zwracaæ cokolwiek);
+- w state mozna zrobic return state, expression; (np return Nothing, Fun(4)/3;
+- automatyczna konwersja typów w operatorze przypisania i w return (unit = unitex).
+- dokoñczenie implementacji tablic int'owych. Dodanie tablic unitow. Automatyczne kasowanie tablic.
+- tablice moga byc parametrami funkcji (rowniez ew. eventow i komend)
+- dodane operatory << i >>.
+- w ostatniej linii funkcji, eventow i komend ktore cos zwracaja musi byc return
+- poprawienie dzialania continue w for oraz w do...while
+- mozliwe uzycie liczb szesnastkowych
+*/
+

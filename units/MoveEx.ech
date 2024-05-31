@@ -1,0 +1,95 @@
+#ifndef MOVEEX_ECH
+#define MOVEEX_ECH
+
+#ifdef USE_MOVEANDDEFEND
+
+////    Declarations    ////
+
+state StartMovingAndDefend;
+state MovingAndDefend;
+
+////    States    ////
+
+state StartMovingAndDefend
+{
+    if (IsMoving() || !CheckKeepStartMoving())
+    {
+        return MovingAndDefend,0;
+    }
+    else
+    {
+        return StartMovingAndDefend,5;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state MovingAndDefend
+{
+    if ((TALKMODE == 0) && !IsInCamouflageMode() && (DistanceTo(m_nMoveToGx, m_nMoveToGy) > 0) && TryFindNewAttackTarget(false, false))
+    {
+        m_nStayGx = m_nMoveToGx;
+        m_nStayGy = m_nMoveToGy;
+        m_nStayLz = m_nMoveToLz;
+        m_nStayAlpha = -1;
+        TRACE("MovingAndDefend -> MovingToAttackTarget\n");
+        return MovingToAttackTarget, 0;
+    }
+	if (IsMoving() && !IsWaitingBeforeClosedGate())
+	{
+		TRACE("MovingAndDefend\n");
+        return MovingAndDefend;
+	}
+	else
+	{
+		TRACE("MovingAndDefend -> Nothing\n");
+		NextCommand(1);
+#ifdef STATE_AFTER_MOVE
+        return STATE_AFTER_MOVE, 5;
+#else
+		return Nothing, 0;
+#endif STATE_AFTER_MOVE
+	}
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#endif USE_MOVEANDDEFEND
+
+////    Commands    ////
+
+//move and defend
+command MoveAndDefend(int nGx, int nGy, int nLz) hidden button TRL_MOVE
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    CHECK_STOP_CURR_ACTION();
+#if defined(ONCOMMANDMOVECALLBACK) && !defined(USE_MOVEANDDEFEND)
+    if (OnCommandMoveCallback(nGx, nGy, nLz))
+    {
+        return true;
+    }
+#endif
+    m_nStartMoveGx = GetLocationX();
+    m_nStartMoveGy = GetLocationY();
+    m_nStartMoveLz = GetLocationZ();
+	m_nMoveToGx = nGx;
+	m_nMoveToGy = nGy;
+	m_nMoveToLz = nLz;
+#ifdef USE_MOVEANDDEFEND
+    //od razu sprawdzamy czy walczymy zeby niepotrzebnie nie ruszyc
+    if (m_bSelfAttackTarget && ((state == MovingToAttackTarget) || (state == WaitingForAttackedTarget) || (state == TurningToAttackTarget) || (state == AttackingTarget)))
+    {
+        //nie wydajemy komendy CallMoveToPoint zeby nie przerywac juz prowadzonego ataku
+        m_nStayGx = m_nMoveToGx;
+        m_nStayGy = m_nMoveToGy;
+        m_nStayLz = m_nMoveToLz;
+        m_nStayAlpha = -1;
+        return true;
+    }
+#endif
+	CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+#ifdef USE_MOVEANDDEFEND
+	state StartMovingAndDefend;
+#else
+    state StartMoving;
+#endif
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#endif MOVEEX_ECH

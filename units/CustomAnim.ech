@@ -1,0 +1,162 @@
+#ifndef CUSTOMANIM_ECH
+#define CUSTOMANIM_ECH
+
+////    Declarations    ////
+
+state WaitingToMakeCustomAnim;
+state MakingCustomAnim;
+state TurnToChatUnit;
+
+int m_nAnimNum;
+int m_bAnimLooped;
+int m_bResetAnim;
+int m_nTimeSec;
+unit m_uChatWithUnit;
+
+enum talkMode
+{
+	"0" item 0 description "0",//normal
+	"1" item 1 description "1",//in talk
+multi:
+	"X" item 2 description "X"
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#undef TALKMODE
+#define TALKMODE talkMode
+
+////    Functions    ////
+
+function void ResetCustomAnim()
+{
+    m_uChatWithUnit = null;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    States    ////
+
+state WaitingToMakeCustomAnim
+{
+    if (!IsMoving())
+    {
+        CallStartCustomAnimation(m_nAnimNum, m_bAnimLooped, m_bResetAnim, m_nTimeSec);
+        return MakingCustomAnim;
+    }
+    return WaitingToMakeCustomAnim;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state MakingCustomAnim
+{
+    if (IsMakingCustomAnimation())
+    {
+        return MakingCustomAnim;
+    }
+    else
+    {
+        NextCommand(1);
+        return Nothing;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state TurnToChatUnit
+{
+    if (IsMoving())
+    {
+        return TurnToChatUnit;
+    }
+    else
+    {
+        CallChatWithUnit(m_uChatWithUnit);
+        m_uChatWithUnit = null;
+        return Nothing;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    Commands    ////
+
+command MakeCustomAnimation(int nAnimNum, int bAnimLooped, int bResetAnim, int nTimeSec, int nParam5, int nParam6) hidden
+{
+    if (IsMoving())
+    {
+        CallStopMoving();
+        m_nAnimNum = nAnimNum;
+        m_bAnimLooped = bAnimLooped;
+        m_bResetAnim = bResetAnim;
+        m_nTimeSec = nTimeSec;
+        state WaitingToMakeCustomAnim;
+    }
+    else
+    {
+        CallStartCustomAnimation(nAnimNum, bAnimLooped, bResetAnim, nTimeSec);
+        state MakingCustomAnim;
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command StopCustomAnimation() hidden
+{
+    //#02-12-10 wywolujemy zawsze zeby przeszedl do animacji stay
+    //if (IsMakingCustomAnimation())
+    {
+        CallExStopCustomAnimation();
+    }
+    if ((state == WaitingToMakeCustomAnim) || (state == MakingCustomAnim))
+    {
+        state Nothing;
+    }
+    NextCommand(1);
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command MakeChatTalk(unit uWithUnit) hidden
+{
+    ASSERT(!IsMoving());
+    m_uChatWithUnit = uWithUnit;
+    CallTurnToAngle(GetAngleToTarget(uWithUnit));
+    state TurnToChatUnit;
+    NextCommand(1);
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command SetTalkMode(int nMode, int bSetRegeneration, int bSetImmortal) hidden button talkMode
+{
+	if (nMode == -1)
+	{
+		talkMode = (talkMode + 1) % 2;
+	}
+	else
+	{
+		talkMode = nMode;
+	}
+    if (talkMode == 0)
+    {
+        if (HOLDPOSMODE == 0)
+        {
+            AllowScriptWithdraw(true);
+        }
+        if (bSetRegeneration)
+        {
+            AllowScriptRegeneration(true);
+        }
+        if (bSetImmortal)
+        {
+            SetScriptImmortal(false);
+        }
+    }
+    else
+    {
+        CHECK_STOP_CURR_ACTION();
+        AllowScriptWithdraw(false);
+        if (bSetRegeneration)
+        {
+            AllowScriptRegeneration(false);
+        }
+        if (bSetImmortal)
+        {
+            SetScriptImmortal(true);
+        }
+        state Nothing;
+    }
+    NextCommand(1);
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#endif CUSTOMANIM_ECH

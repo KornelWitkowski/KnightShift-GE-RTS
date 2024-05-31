@@ -1,0 +1,118 @@
+function void InitializePlayerAdventureGE2()
+{
+    player rPlayer;
+    int i;
+    int j;
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        
+        if(rPlayer.IsHuman()) 
+        {   
+            uHero1 = rPlayer.CreateUnit(GetPointX(0), GetPointY(0), 0, 64, "MIESZKO", null,
+                                            null, "SHIELD3", "SWORD3", null, null, null, null);
+
+            rPlayer.SetMaxMoney(0);
+            rPlayer.CreateUnit(GetPointX(1), GetPointY(1), 0, 64, "KNIGHT", "HELMET4A",
+                                            null, null, null, null, null, null, null);
+
+            rPlayer.CreateUnit(GetPointX(2), GetPointY(2), 0, 64, "FOOTMAN");
+            rPlayer.CreateUnit(GetPointX(3), GetPointY(3), 0, 64, "FOOTMAN", null,
+                                            null, "SHIELD3B", "SWORD4", null, null, null, null);
+            rPlayer.CreateUnit(GetPointX(4), GetPointY(4), 0, 64, "FOOTMAN");
+            rPlayer.CreateUnit(GetPointX(5), GetPointY(5), 0, 64, "FOOTMAN");
+
+            rPlayer.ResearchUpdate("SWORD2");
+            rPlayer.ResearchUpdate("ARMOUR2A");
+
+            rPlayer.RegisterGoal(0, "translateAdventureGE02_MieszkoMustSurvive");
+            rPlayer.RegisterGoal(1, "translateAdventureGE02_FindAxe");
+			rPlayer.EnableGoal(0, true, true);
+			rPlayer.EnableGoal(1, true, true);
+            
+            rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+        }
+        else
+        {
+            // Tutaj wyłączamy statystyki dla graczy AI, dzięki czemu nie będą widoczni na ekranie końcowym
+            rPlayer.EnableStatistics(false);
+            // Wyłączmy informacje na początku, że "Chwalibóg jest twoim wrogiem"
+            rPlayer.EnableAIFeatures(aiChooseEnemy, false);
+        }
+    }
+
+    SetInterfaceOptions(
+        lockAllianceDialog |
+        lockGiveMoneyDialog |
+        lockGiveUnitsDialog |
+        lockToolbarSwitchMode |
+        lockToolbarAlliance |
+        lockToolbarGiveMoney |
+        lockToolbarMoney |
+        lockDisplayToolbarMoney |
+        lockToolbarLevelName |
+        lockToolbarHelpMode |
+        lockDisplayToolbarLevelName |
+        lockCreateBuildPanel |
+        0);
+}
+
+state InitializeAdventureGE2
+{
+    CreateArtefacts("ART_AXE6",           6, 6, 0, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 6, 6, 6, false);
+
+    SetTimer(1, 400);
+    SetTimer(2, 2400);//2min
+    SetTimer(3, 4800);//4min
+    SetTimer(4, 1200);//1min
+
+    SetTimer(7, GetWindTimerTicks());
+    StartWind();
+
+    StatisticReset();
+    StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
+    StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
+    StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
+    StatisticSetSortOrder(0, 3, true);
+
+    return Nothing;
+}
+
+function void CheckUnitDestroyedAdventureGE2(unitex uUnit)
+{
+    int i;
+    player rPlayer;
+
+    if(uUnit == uHero1)
+    {
+        for(i=0; i<8; i=i+1)
+        {
+            rPlayer = GetPlayer(i);
+            
+            if(rPlayer.IsHuman())
+            {   
+                SetGoalState(0, goalFailed, 1);
+
+                rPlayer.SetScriptData(1, 1);
+
+                SetStateDelay(150);
+                state Defeat;
+            }
+        }
+    }
+}
+
+function void CheckArtefactEventAdventureGE2(int iMarker, unitex uUnit, player rPlayer)
+{
+
+    if((iMarker==6) && (rPlayer.IsHuman()))
+    {
+        SetGoalState(0, goalAchieved, 1);
+        SetGoalState(1, goalAchieved, 1);
+
+        SetStateDelay(150);
+        state Victory;
+    }
+}

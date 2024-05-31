@@ -1,0 +1,96 @@
+
+#define PRIEST_UNIT "DOBROMIR"
+
+#define PRIEST_CREATE_EFFECT "HIT_TELEPORT"
+#define PRIEST_REMOVE_EFFECT "CAST_TELEPORT"
+
+#define HERO_CREATE_EFFECT "HIT_TELEPORT"
+#define CREW_CREATE_EFFECT "HIT_TELEPORT3x3"
+
+player m_pPriest;
+unitex m_uPriest;
+
+unitex m_uPriestObj;
+unitex m_uHeroObj;
+unitex m_uMieszkoObj;
+unitex m_uCrewObj;
+
+int m_bRemovePriest;
+
+function void RemovePriest()
+{
+	ASSERT( m_uPriest != null );
+
+	m_uPriestObj = CreateObject(m_uPriest.GetLocationX(), m_uPriest.GetLocationY(), m_uPriest.GetLocationZ(), 0, PRIEST_REMOVE_EFFECT);
+	if ( m_uPriestObj == null )
+	{
+		TRACE4("RemovePriest: Can't create object at", m_uPriest.GetLocationX(), m_uPriest.GetLocationY(), m_uPriest.GetLocationZ());
+	}
+
+	m_uPriest.RemoveUnit();
+	m_uPriest = null;
+
+	m_bRemovePriest = false;
+}
+
+function void CreatePriestNearUnit(player pPlayer, unitex uUnit)
+{
+	ASSERT( m_uPriest == null );
+	ASSERT( uUnit != null );
+	ASSERT( pPlayer != null );
+
+	m_uPriest = pPlayer.CreateUnit(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ(), 0, PRIEST_UNIT);
+
+	ASSERT( m_uPriest != null );
+
+	m_uPriestObj = CreateObject(m_uPriest.GetLocationX(), m_uPriest.GetLocationY(), m_uPriest.GetLocationZ(), 0, PRIEST_CREATE_EFFECT);
+	if ( m_uPriestObj == null )
+	{
+		TRACE4("CreatePriestNearUnit: Can't create object at", m_uPriest.GetLocationX(), m_uPriest.GetLocationY(), m_uPriest.GetLocationZ());
+	}
+
+	m_bRemovePriest = true;
+}
+
+function void CreatePriestAtMarket(player pPlayer, int nMarker)
+{
+	ASSERT( m_uPriest == null );
+
+	m_uPriest = CreateUnitAtMarker(pPlayer, nMarker, PRIEST_UNIT);
+
+	ASSERT( m_uPriest != null );
+
+	m_uPriestObj = CreateObject(m_uPriest.GetLocationX(), m_uPriest.GetLocationY(), m_uPriest.GetLocationZ(), 0, PRIEST_CREATE_EFFECT);
+	if ( m_uPriestObj == null )
+	{
+		TRACE4("CreatePriestNearUnit: Can't create object at", m_uPriest.GetLocationX(), m_uPriest.GetLocationY(), m_uPriest.GetLocationZ());
+	}
+
+	m_bRemovePriest = true;
+}
+
+#define SAFE_REMOVE_PRIEST() \
+	if ( m_bRemovePriest ) RemovePriest();
+
+#define CREATE_PRIEST_NEAR_UNIT(UnitName) \
+	CreatePriestNearUnit(m_pPriest, m_u ## UnitName);
+
+#define CREATE_PRIEST_AT_MARKER(MarkerName) \
+	CreatePriestAtMarket(m_pPriest, marker ## MarkerName);
+
+#define RESTORE_HERO() \
+	m_uHero = RestorePlayerUnitAtMarker(m_pPlayer, bufferHero, markerHeroStart); \
+	INITIALIZE_HERO(); \
+	m_uHeroObj = CreateObjectAtUnit(m_uHero, HERO_CREATE_EFFECT);
+
+#define RESTORE_MIESZKO() \
+	m_uMieszko = RestorePlayerUnitAtMarker(m_pPlayer, bufferMieszko, markerMieszkoStart); \
+	INITIALIZE_MIESZKO(); \
+	m_uMieszkoObj = CreateObjectAtUnit(m_uMieszko, HERO_CREATE_EFFECT);
+
+#define RESTORE_CREW() \
+	RestorePlayerUnitsAtMarker(m_pPlayer, bufferCrew, markerCrewStart); \
+	if ( m_pPlayer.GetSavedUnitsCount(bufferCrew) == 1 ) \
+		m_uCrewObj = CreateObjectAtMarker(markerCrewStart, HERO_CREATE_EFFECT); \
+	else if ( m_pPlayer.GetSavedUnitsCount(bufferCrew) > 1 ) \
+		m_uCrewObj = CreateObjectAtMarker(markerCrewStart, CREW_CREATE_EFFECT);

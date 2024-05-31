@@ -1,0 +1,932 @@
+#ifndef COMMON_ECH
+#define COMMON_ECH
+
+#include "Objects.ech"
+#include "Rand.ech"
+
+consts
+{
+    SECOND = 20;
+    MINUTE = 1200;
+}
+
+////    Functions    ////
+
+function int GaussianDistribution(int iStd)
+{
+    /*
+        Funkcja służy jako przybliżenie rozkładu gaussa dla liczb całkowitych.
+        Wykorzystuje Centralne Twierdzenie Graniczne.
+
+        iStd - odchylenie standardowe
+    */
+    int iX;
+    int iRandNum;
+    iX = 10*iStd/3 ;
+    iRandNum = 0;
+
+    iRandNum = iRandNum + RAND(2*iX+1) - iX;
+    iRandNum = iRandNum + RAND(2*iX+1) - iX;
+    iRandNum = iRandNum + RAND(2*iX+1) - iX;
+    iRandNum = iRandNum + RAND(2*iX+1) - iX;
+
+    return iRandNum/4;
+}
+
+function void UseSeeing(int iProb)
+{
+    int i;
+    int iX, iY;
+    int iRandNum;
+
+    int iNumberOfUnits, iNumberOfEnemyUnits;
+    unitex uUnit, uUnitEnemy;
+    player rPlayerEnemy;
+    rPlayerEnemy = GetMainEnemy();
+    iNumberOfUnits = GetNumberOfUnits();
+
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        uUnit = GetUnit(i);
+
+        if(uUnit.GetMaxMagic()!=100 || uUnit.IsFlyable())
+            continue;
+
+        if((uUnit.IsExecutingAnyCommand()) || (uUnit.IsMoving()))
+            continue;
+
+        if (iProb > RAND(1000))
+        {
+            iRandNum = RAND(2);
+
+            if(iRandNum == 0)
+            // Kruk rzucany na bazę
+            {
+                iX = rPlayerEnemy.GetStartingPointX()-20 + RAND(40);
+                iY = rPlayerEnemy.GetStartingPointY()-20 + RAND(40);
+
+                if(uUnit.DistanceTo(iX, iY) > 30)
+                    uUnit.CommandMakeMagicSeeing(iX, iY, 0);	
+            }
+            else
+            // Kruk rzucany na jednostkę
+            {
+                iNumberOfEnemyUnits = rPlayerEnemy.GetNumberOfUnits();
+                uUnitEnemy = rPlayerEnemy.GetUnit(RAND(iNumberOfEnemyUnits));
+
+                iX = rPlayerEnemy.GetStartingPointX()-20 + RAND(40);
+                iY = rPlayerEnemy.GetStartingPointY()-20 + RAND(40);
+
+                if(uUnit.DistanceTo(iX, iY) > 30)
+                    uUnit.CommandMakeMagicSeeing(iX, iY, 0);
+            }
+        }
+    }
+}
+
+function void EnterSleepMode()
+{
+    int i;
+    int iNumberOfUnits;
+    unitex uUnit;
+    iNumberOfUnits = GetNumberOfUnits();
+
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        
+        uUnit = GetUnit(i);	
+        // Wybudzamy wyleczone jednostki
+        if(uUnit.IsInSleepMode())
+        {
+            if(uUnit.GetHP() > 90 * uUnit.GetMaxHP()/100)
+            {
+                if(uUnit.GetMaxMagic()>0)
+                {
+                    if(uUnit.GetMagic() > 90*uUnit.GetMaxMagic()/100)
+                        uUnit.CommandSleepMode(0);
+                }
+                else
+                {
+                    uUnit.CommandSleepMode(0);
+                }
+            }
+
+            return;
+        }	
+
+        // Idź spać jeśli jednostka ma mniej niż 70% HP.
+        if(RAND(2)==0)
+        {
+            if( !uUnit.IsExecutingAnyCommand() && uUnit.GetHP() < 70*uUnit.GetMaxHP()/100)
+            {
+                uUnit.CommandSleepMode(1);
+            }		
+            if( !uUnit.IsExecutingAnyCommand() && uUnit.GetMagic() < 70*uUnit.GetMaxMagic()/100)
+            {
+                uUnit.CommandSleepMode(1);
+            }
+        }
+    }
+}
+
+
+function void UpdateMagicResearch(int iTier)
+{
+    if(iTier==1)
+    {
+        ResearchUpdate("SPELL_WOLF");
+        ResearchUpdate("SPELL_SEEING");
+        ResearchUpdate("SPELL_GHOST");
+        ResearchUpdate("SPELL_TELEPORTATION");
+
+        ResearchUpdate("SPELL_SHIELD");
+        ResearchUpdate("SPELL_CAPTURE");
+        ResearchUpdate("SPELL_STORM");
+
+        ResearchUpdate("SPELL_CONVERSION");
+        ResearchUpdate("SPELL_FIRERAIN");
+    }
+    else if(iTier==2)
+    {
+        ResearchUpdate("SPELL_WOLF2");
+        ResearchUpdate("SPELL_SEEING2");
+        ResearchUpdate("SPELL_GHOST2");
+        ResearchUpdate("SPELL_TELEPORTATION2");
+
+        ResearchUpdate("SPELL_CAPTURE2");
+        ResearchUpdate("SPELL_STORM2");
+        ResearchUpdate("SPELL_SHIELD2");
+
+        ResearchUpdate("SPELL_CONVERSION2");
+        ResearchUpdate("SPELL_FIRERAIN2");
+
+    }
+    else if(iTier==3)
+    {
+        ResearchUpdate("SPELL_WOLF3");
+        ResearchUpdate("SPELL_SEEING3");
+        ResearchUpdate("SPELL_GHOST3");
+        ResearchUpdate("SPELL_TELEPORTATION3");
+
+        ResearchUpdate("SPELL_STORM3");
+        ResearchUpdate("SPELL_SHIELD3");
+        ResearchUpdate("SPELL_CAPTURE3");
+        
+        ResearchUpdate("SPELL_CONVERSION3");
+        ResearchUpdate("SPELL_FIRERAIN3");
+       
+    }
+    else if(iTier>=4)
+    {
+        ResearchUpdate("SPELL_WOLF4");
+        ResearchUpdate("SPELL_SEEING4");
+        ResearchUpdate("SPELL_TELEPORTATION4");
+        ResearchUpdate("SPELL_GHOST4");
+
+        ResearchUpdate("SPELL_SHIELD4");
+        ResearchUpdate("SPELL_CAPTURE4");
+        ResearchUpdate("SPELL_STORM4");
+
+        ResearchUpdate("SPELL_CONVERSION4");
+        ResearchUpdate("SPELL_FIRERAIN4");
+    }  
+}
+
+function void SetStrategyWoodcutters(int iStage)
+{
+    SetUnitProdCount(U_PRIESTESS, 0);
+    SetUnitProdCount(U_PRIEST, 0);
+    SetUnitProdCount(U_KNIGHT, 0);
+    SetUnitProdCount(U_FOOTMAN, 0);
+
+    SetUnitProdCount(U_WOODCUTTER, 12 + 6*iStage);
+    SetUnitProdCount(U_HUNTER, 12 + 6*iStage);
+
+    if(GetNumberOfUnits(U_DIPLOMAT) == 0)
+        SetUnitProdCount(U_DIPLOMAT, 1);
+
+    if(GetNumberOfUnits(U_SORCERER) < 4)
+        SetUnitProdCount(U_SORCERER, 2);
+
+    UpdateMagicResearch(iStage);
+
+    if(iStage >= 3)
+    {
+        SetUnitProdCount(U_PRIESTESS, 2);
+        SetUnitProdCount(U_PRIEST, 2);
+    }
+}
+
+function void SetStrategySpearmans(int iStage)
+{
+    SetUnitProdCount(U_HUNTER, 0);
+    SetUnitProdCount(U_PRIESTESS, 0);
+    SetUnitProdCount(U_PRIEST, 0);
+    SetUnitProdCount(U_FOOTMAN, 0);
+
+    SetUnitProdCount(U_WOODCUTTER, 6);
+    SetUnitProdCount(U_KNIGHT, 1);
+
+    if(GetNumberOfUnits(U_DIPLOMAT) == 0)
+        SetUnitProdCount(U_DIPLOMAT, 1);
+
+    if(GetNumberOfUnits(U_SORCERER) < 4)
+        SetUnitProdCount(U_SORCERER, 2);
+
+    if(iStage > 1)
+    {
+        if(GetNumberOfUnits(U_SORCERER) < 4)
+            SetUnitProdCount(U_SORCERER, 2);
+
+        SetUnitProdCount(U_SPEARMAN, 3 + 5*iStage);
+    }  
+    else
+    {
+        SetUnitProdCount(U_SPEARMAN, 4);
+    }
+
+    UpdateMagicResearch(iStage);
+
+    if(iStage >= 3)
+    {
+        if(GetMaxCountLimitForObject("COURT") != 1)
+            SetUnitProdCount(U_KNIGHT, 2);
+        
+        SetUnitProdCount(U_PRIESTESS, 1);
+        SetUnitProdCount(U_PRIEST, 1);
+    }
+}
+
+function void SetStrategyStandard(int iStage)
+{
+    SetUnitProdCount(U_HUNTER, 6 + 3*iStage);
+    SetUnitProdCount(U_WOODCUTTER, 2 + iStage);
+
+    SetUnitProdCount(U_KNIGHT, 1);
+
+    if(iStage > 1)
+    {
+        SetUnitProdCount(U_PRIESTESS, iStage - 1);
+        SetUnitProdCount(U_PRIEST, iStage - 1);
+        SetUnitProdCount(U_SORCERER, iStage - 1);
+        SetUnitProdCount(U_WITCH, iStage - 1);
+        SetUnitProdCount(U_SPEARMAN, 2 + 2*iStage);
+        SetUnitProdCount(U_FOOTMAN, 4 + 4*iStage);
+    }
+    else
+    {
+        SetUnitProdCount(U_PRIESTESS, 0);
+        SetUnitProdCount(U_PRIEST, 0);
+        SetUnitProdCount(U_SORCERER, 0);
+        SetUnitProdCount(U_WITCH, 0); 
+        SetUnitProdCount(U_SPEARMAN, 0);
+        SetUnitProdCount(U_FOOTMAN, 4);
+    }
+
+
+    if(GetNumberOfUnits(U_DIPLOMAT) == 0)
+        SetUnitProdCount(U_DIPLOMAT, 1);
+        
+    UpdateMagicResearch(iStage);
+
+    if(iStage >= 3)
+    {
+        if(GetMaxCountLimitForObject("COURT") != 1)
+            SetUnitProdCount(U_KNIGHT, 2);
+    }
+}
+
+function void SetStrategyMages(int iStage)
+{
+    SetUnitProdCount(U_HUNTER, 6 + 2*iStage);
+    SetUnitProdCount(U_WOODCUTTER, 2 + iStage);
+
+    SetUnitProdCount(U_PRIESTESS, 3*iStage);
+    SetUnitProdCount(U_PRIEST, 2*iStage);
+    SetUnitProdCount(U_SORCERER, 2*iStage);
+    SetUnitProdCount(U_WITCH, 3*iStage);
+    
+    SetUnitProdCount(U_SPEARMAN, 0);
+    SetUnitProdCount(U_FOOTMAN, 0);
+    SetUnitProdCount(U_KNIGHT, 0);
+
+    if(GetNumberOfUnits(U_DIPLOMAT) == 0)
+        SetUnitProdCount(U_DIPLOMAT, 1);
+        
+    UpdateMagicResearch(iStage);
+}
+
+function void SetStrategyWitches(int iStage)
+{
+    SetUnitProdCount(U_HUNTER, 6 + 2*iStage);
+    SetUnitProdCount(U_WOODCUTTER, 2 + 2*iStage);
+
+    SetUnitProdCount(U_PRIESTESS, 0);
+    SetUnitProdCount(U_PRIEST, 0);
+    SetUnitProdCount(U_SORCERER, 1*iStage);
+    SetUnitProdCount(U_WITCH, 8+7*iStage);
+    
+    SetUnitProdCount(U_SPEARMAN, 0);
+    SetUnitProdCount(U_FOOTMAN, 0);
+    SetUnitProdCount(U_KNIGHT, 0);
+
+    if(GetNumberOfUnits(U_DIPLOMAT) == 0)
+        SetUnitProdCount(U_DIPLOMAT, 1);
+        
+    UpdateMagicResearch(iStage);
+}
+
+function void SetStrategy(int iStage, int iStartegy)
+{
+    if(iStartegy == 0)
+    {
+        SetStrategyStandard(iStage);
+
+        SetThinkSpeed(aiThinkSpeedMakeSmallAttack, 8*MINUTE);
+        SetThinkSpeed(aiThinkSpeedMakeBigAttack, (8+RAND(14))*MINUTE);
+        SetStartAttacksTime((5+RAND(15))*MINUTE);
+    }
+    else if(iStartegy == 1)
+    {
+        SetStrategySpearmans(iStage);
+
+        SetThinkSpeed(aiThinkSpeedMakeSmallAttack, 8*MINUTE);
+        SetThinkSpeed(aiThinkSpeedMakeBigAttack, (8+RAND(14))*MINUTE);
+        SetStartAttacksTime((5+RAND(15))*MINUTE);
+    }
+    else if(iStartegy == 2)
+    {
+        SetStrategyWoodcutters(iStage);
+
+        // Strategia na drwali polega na zasypywaniu jednostkami
+        SetThinkSpeed(aiThinkSpeedMakeSmallAttack, 6*MINUTE);
+        SetStartAttacksTime((4+RAND(8))*MINUTE);
+        SetThinkSpeed(aiThinkSpeedMakeBigAttack, (6+RAND(8))*MINUTE);
+    } 
+    else if(iStartegy == 3)
+    {
+        SetStrategyWitches(iStage);
+
+        SetThinkSpeed(aiThinkSpeedMakeSmallAttack, 8*MINUTE);
+        SetThinkSpeed(aiThinkSpeedMakeBigAttack, (8+RAND(14))*MINUTE);
+        SetStartAttacksTime((5+RAND(15))*MINUTE);
+    }   
+    else
+    {
+        SetStrategyMages(iStage);
+
+        SetThinkSpeed(aiThinkSpeedMakeSmallAttack, 10*MINUTE);
+        SetThinkSpeed(aiThinkSpeedMakeBigAttack, (8+RAND(14))*MINUTE);
+        SetStartAttacksTime((10+RAND(10))*MINUTE);
+    }
+        
+}
+
+
+function void UseFirerainAndStorm()
+{
+    int i, j;
+    int iX, iY;
+    int iDistance;
+    int iRandNum;
+
+    int iNumberOfUnits, iNumberOfEnemyUnits;
+    unitex uUnit, uUnitEnemy, uEnemyClosestTower;
+    player rPlayerEnemy;
+
+    iDistance = 1000;
+    rPlayerEnemy = GetMainEnemy();
+    iNumberOfUnits = GetNumberOfUnits();
+    iNumberOfEnemyUnits = rPlayerEnemy.GetNumberOfUnits();
+
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        uUnit = GetUnit(i);
+        iDistance = 1000;
+        uEnemyClosestTower == null;
+
+        // Jeśli jednostka nie jest magiem lub czarodziejką to omijamy iteracje
+        if(uUnit.GetMaxMagic() < 200 || uUnit.IsFlyable())
+            continue;
+
+        // Koszt za 4 lvl burzy to 140 many. Reszta opcji jest droższa. Jesli postać nie ma many to idziemy do kolejnej.
+        if(uUnit.GetMagic() < 140)
+            continue;
+
+        // Nie wszyscy magowie muszą rzucać deszcz ognia lub burze w tym samym momencie
+        if(RAND(2)==0)
+        {
+            for(j=0; j<iNumberOfEnemyUnits; ++j)
+            {
+                uUnitEnemy = rPlayerEnemy.GetUnit(j);
+                if(uUnitEnemy.IsInTower())
+                {
+                    if(uUnit.DistanceTo(uUnitEnemy.GetLocationX(), uUnitEnemy.GetLocationY()) < iDistance)
+                    {
+                        iDistance = uUnit.DistanceTo(uUnitEnemy.GetLocationX(), uUnitEnemy.GetLocationY());
+                        uEnemyClosestTower = uUnitEnemy;
+                    }
+                }
+            }
+
+            if(uEnemyClosestTower!=null && iDistance < 30)
+            {
+                uUnit.CommandStop();
+                if(uUnit.GetWeaponType()==6)
+                {
+                    uUnit.CommandMakeMagicStorm(uEnemyClosestTower.GetLocationX(), uEnemyClosestTower.GetLocationY(), 0);
+                }
+                else
+                {
+                    uUnit.CommandMakeMagicFireRain(uEnemyClosestTower.GetLocationX(), uEnemyClosestTower.GetLocationY(), 0);
+                }
+                
+                continue;
+            }
+        }
+            
+        // Tutaj sprawdzamy, czy jest możliwy atak na budynki w bazie wroga. Sprawdzamy teren w okolicy punktu startowego
+
+        iX = rPlayerEnemy.GetStartingPointX() + GaussianDistribution(15);
+        iY = rPlayerEnemy.GetStartingPointY() + GaussianDistribution(15);
+
+        // Jeśli deszcz będzie za blisko magów, to nie rzucamy
+        if(uUnit.DistanceTo(iX, iY) < 12)
+            continue;
+
+        if(uUnit.DistanceTo(iX, iY) > 24)
+            continue;
+
+        // Jeśli wróg ma budynki w wylosowanym punkcie to rzucamy.
+        if((rPlayerEnemy.GetNumberOfBuildings(iX, iY, 0, 8) >= 3) || (rPlayerEnemy.GetNumberOfUnits(iX, iY, 0, 8) >= 5))
+        {
+            if(uUnit.GetWeaponType()==6)
+            {
+                uUnit.CommandMakeMagicStorm(uEnemyClosestTower.GetLocationX(), uEnemyClosestTower.GetLocationY(), 0);
+            }
+            else
+            {
+                uUnit.CommandMakeMagicFireRain(uEnemyClosestTower.GetLocationX(), uEnemyClosestTower.GetLocationY(), 0);
+            }
+        }
+        
+    }
+}
+
+
+function void UseConvertAndCapture()
+{
+    int i, j;
+    int iX, iY;
+    int iDistance;
+    int iRandNum;
+
+    int iNumberOfUnits, iNumberOfEnemyUnits;
+    unitex uUnit, uUnitEnemy;
+    player rPlayerEnemy;
+
+    rPlayerEnemy = GetMainEnemy();
+    iNumberOfUnits = GetNumberOfUnits();
+    iNumberOfEnemyUnits = rPlayerEnemy.GetNumberOfUnits();
+
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        iRandNum = RAND(iNumberOfEnemyUnits);
+        uUnit = GetUnit(i);
+
+        // Jeśli jednostka nie jest magiem lub czarodziejką to omijamy iteracje
+        if(uUnit.GetMaxMagic() < 200 || uUnit.IsFlyable())
+            continue;
+
+        // Koszt za 4 lvl przemiany w krowe to 70 many. Reszta opcji jest droższa. Jesli postać nie ma many to idziemy do kolejnej.
+        if(uUnit.GetMagic() < 70)
+            continue;
+
+        if(uUnit.IsInSleepMode())
+            continue;
+
+        // Nie wszyscy magowie muszą rzucać czar w danym momencie
+        if(RAND(3)==0)
+        {
+            continue;
+        }
+            
+        for(j=0; j<iNumberOfEnemyUnits; ++j)
+        {
+            uUnitEnemy = rPlayerEnemy.GetUnit((j+iRandNum) % iNumberOfEnemyUnits);
+            
+            iDistance = uUnit.DistanceTo(uUnitEnemy.GetLocationX(), uUnitEnemy.GetLocationY());
+
+            if(iDistance <= 18)
+            {
+                // CommadMakeMagic nie działa na unity na wieżach
+                if(uUnitEnemy.IsInTower())
+                    continue;
+
+                if(uUnitEnemy.IsHarvester())
+                    continue;
+
+                if(uUnitEnemy.IsInCamouflageMode())
+                    continue;
+
+                uUnit.CommandStop();
+                if(uUnit.GetWeaponType()==6)
+                {
+                    uUnit.CommandMakeMagicCapturing(uUnitEnemy);
+                }
+                else
+                {
+                    uUnit.CommandMakeMagicConversion(uUnitEnemy);
+                }
+                
+                break;
+            }
+        }
+    }
+}
+
+function void UseMagic()
+/* Deszcz ognia, burza, zamiana w krowe i przejęcie dla botów */
+{
+    int i, j;
+    int iX, iY;
+    int iMinDistance, iDistance;
+
+    int iNumberOfUnits, iNumberOfEnemyUnits;
+    int bBombardBase;
+    unitex uUnit, uUnitEnemy, uEnemyClosestTower, uEnemyClosest;
+    player rPlayerEnemy;
+    
+    rPlayerEnemy = GetMainEnemy();
+    iNumberOfUnits = GetNumberOfUnits();
+    iNumberOfEnemyUnits = rPlayerEnemy.GetNumberOfUnits();
+
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        uUnit = GetUnit(i);
+
+        if(uUnit.IsInSleepMode())
+            continue;
+
+        // Jeśli jednostka nie jest magiem lub czarodziejką to omijamy iteracje
+        if(uUnit.GetMaxMagic() < 200 || uUnit.IsFlyable())
+            continue;
+
+        // Deszcz ognia
+        if(RAND(2)==0)
+        {
+            // Koszt za 4 lvl burzy to 140 many. Reszta opcji jest droższa. Jeśli postać nie ma many to idziemy do kolejnej.
+            if(uUnit.GetMagic() >= 140)
+            {
+                // Na początku szukamy fortyfikacji do zniszczenia. Szukamy najbliższej wieży
+                iMinDistance = 1000;
+                uEnemyClosestTower == null;
+
+                for(j=0; j<iNumberOfEnemyUnits; ++j)
+                {
+                    uUnitEnemy = rPlayerEnemy.GetUnit(j);
+                    if(uUnitEnemy.IsInTower())
+                    {
+                        // Dodajemy szum, aby zwiększyć liczbę możliwych targetowanych wież.
+                        iDistance = uUnit.DistanceTo(uUnitEnemy.GetLocationX() - 2 + RAND(5),
+                                                    uUnitEnemy.GetLocationY() - 2 + RAND(5));
+
+                        if(iDistance < iMinDistance)
+                        {
+                            iMinDistance = iDistance;
+                            uEnemyClosestTower = uUnitEnemy;
+                        }
+                    }
+                }
+
+                if((uEnemyClosestTower!=null) && (iMinDistance < 30))
+                {
+                    uUnit.CommandStop();
+                    if(uUnit.GetWeaponType()==6)
+                    {
+                        uUnit.CommandMakeMagicStorm(uEnemyClosestTower.GetLocationX(), uEnemyClosestTower.GetLocationY(), 0);
+                    }
+                    else
+                    {
+                        uUnit.CommandMakeMagicFireRain(uEnemyClosestTower.GetLocationX(), uEnemyClosestTower.GetLocationY(), 0);
+                    }
+                    continue;
+                }
+
+                // Jeśli nie znaleźliśmy żadnych fortyfikacji do szukamy celów w pobliżu bazy wroga
+                bBombardBase = false;
+
+                // Tutaj sprawdzamy, czy jest możliwy atak na budynki w bazie wroga. Sprawdzamy teren w okolicy punktu startowego
+                for(j=0; j<16; ++j)
+                {
+                    iX = rPlayerEnemy.GetStartingPointX() + GaussianDistribution(15);
+                    iY = rPlayerEnemy.GetStartingPointY() + GaussianDistribution(15);
+
+                    // Jeśli deszcz będzie za blisko magów, to nie rzucamy
+                    if(uUnit.DistanceTo(iX, iY) < 6)
+                        continue;
+
+                    if(uUnit.DistanceTo(iX, iY) > 24)
+                        continue;
+
+                    // Jeśli wróg ma budynki, lub unity, w wylosowanym punkcie to rzucamy.
+                    if((rPlayerEnemy.GetNumberOfBuildings(iX, iY, 0, 7) >= 3) || (rPlayerEnemy.GetNumberOfUnits(iX, iY, 0, 7) >= 5))
+                    {
+                         bBombardBase = true;
+                         break;   
+                    }      
+                }
+
+                if(bBombardBase)
+                {
+                    uUnit.CommandStop();
+                    if(uUnit.GetWeaponType()==6)
+                    {
+                        uUnit.CommandMakeMagicStorm(iX, iY, 0);
+                    }
+                    else
+                    {
+                        uUnit.CommandMakeMagicFireRain(iX, iY, 0);
+                    }
+                    continue;
+                }
+            }
+        }
+
+        if(uUnit.GetMagic() < 70)
+            continue;
+
+        iMinDistance = 1000;
+        uEnemyClosest == null;
+
+        for(j=0; j<iNumberOfEnemyUnits; ++j)
+        {
+            uUnitEnemy = rPlayerEnemy.GetUnit(j);
+
+            // CommadMakeMagic nie działa na unity na wieżach
+            if(uUnitEnemy.IsInTower())
+                continue;
+
+            // Nie chcemy zamieniać krowy w krowę
+            if(uUnitEnemy.IsHarvester())
+                continue;
+
+            // Jak jednostka jest w trybie skradania, to udajemy, że jej nie widzimy ;>
+            if(uUnitEnemy.IsInCamouflageMode())
+                continue;
+
+            // Dodajemy szum, aby nie targetować zawsze tego samego unitu, ale umożliwić targetowanie innych znajdujących się blisko
+            iDistance = uUnit.DistanceTo(uUnitEnemy.GetLocationX() - 3 + RAND(7),
+                                            uUnitEnemy.GetLocationY() - 3 + RAND(7));
+
+            if(iDistance < iMinDistance)
+            {
+                iMinDistance = iDistance;
+                uEnemyClosest = uUnitEnemy;
+            }
+
+            if(iMinDistance < 8)
+            {
+                break;
+            }
+        }
+
+        if(iMinDistance <= 24)
+        {
+            uUnit.CommandStop();
+            if(uUnit.GetWeaponType()==6)
+            {
+                uUnit.CommandMakeMagicCapturing(uEnemyClosest);
+            }
+            else
+            {
+                uUnit.CommandMakeMagicConversion(uEnemyClosest);
+            }
+        }
+    }
+}
+
+function void MakeSuicidalSorcererAttack(int iStage)
+{
+    int j;
+    int iRandNum;
+    int iNumberOfKamikazeSorcerers;
+    int iTeleportationDistance;
+    int iNumberOfEnemyCows;
+    int iXCow, iYCow;
+    int iNumberOfUnits, iNumberOfEnemyUnits;
+
+    player rPlayerEnemy;
+    unitex uUnit, uUnitEnemyCow;
+
+    if(GetNumberOfUnits("SORCERER") < 4)
+        return;
+
+    // Nie umiem użyć funkcji `IsResearchInvented`, więc zakładam zasięg na podstawie iStage
+    if(iStage==1)
+        iTeleportationDistance = 30;
+    else if(iStage==2)
+        iTeleportationDistance = 60;
+    else if(iStage==3)
+        iTeleportationDistance = 90;
+    else if(iStage>=4)
+        iTeleportationDistance = 120;
+    else
+        return;
+
+    rPlayerEnemy = GetMainEnemy();
+
+    if(rPlayerEnemy==null)
+        return;
+
+    iNumberOfEnemyCows = rPlayerEnemy.GetNumberOfUnits("COW");
+
+    if(rPlayerEnemy.GetNumberOfUnits("COW")==0)
+        return;
+
+    iNumberOfUnits = GetNumberOfUnits();
+    iNumberOfEnemyUnits = rPlayerEnemy.GetNumberOfUnits();
+
+    // Wybieramy losowo krowe
+    iRandNum = RAND(iNumberOfEnemyUnits);
+
+    for(j=0; j<iNumberOfEnemyUnits; ++j)
+    {
+        uUnitEnemyCow = rPlayerEnemy.GetUnit((j + iRandNum) % iNumberOfEnemyUnits);
+        if(uUnitEnemyCow.IsHarvester())
+        {
+            break;
+        }
+    }
+    
+    iNumberOfKamikazeSorcerers = 0;
+
+    for(j=0; j<iNumberOfUnits; ++j)
+    {
+        uUnit = GetUnit(j);
+        if((uUnit.GetMaxMagic()==100) && (!uUnit.IsFlyable()))
+        {
+            if(uUnit.DistanceTo(uUnitEnemyCow.GetLocationX(), uUnitEnemyCow.GetLocationY()) < iTeleportationDistance)
+            {
+                ++iNumberOfKamikazeSorcerers;
+            }
+        }
+    }
+
+    if(iNumberOfKamikazeSorcerers >= 4)
+    {
+        for(j=0; j<iNumberOfUnits; ++j)
+        {
+            uUnit = GetUnit(j);
+            if((uUnit.GetMaxMagic()==100) && (!uUnit.IsFlyable()))
+            {
+                if(uUnit.DistanceTo(uUnitEnemyCow.GetLocationX(), uUnitEnemyCow.GetLocationY()) < iTeleportationDistance)
+                {
+                    uUnit.CommandMakeMagicTeleportation(uUnitEnemyCow.GetLocationX(),
+                                                        uUnitEnemyCow.GetLocationY(),
+                                                        uUnitEnemyCow.GetLocationZ());
+                }
+            }
+        }
+    }
+}
+
+function void CreateCowsheds()
+{
+
+}
+
+function void ControlMilk(int iMilkToAdd, int iMaxMoney)
+{
+    if(GetMaxCountLimitForObject("COWSHED")==-1)
+    // Rozponanie trybu ekonomicznego
+    {
+        AddMoney(iMilkToAdd);
+
+                
+        if (GetNumberOfUnits(U_COW) < (9 + GetMissionTime()/MINUTE))
+        {
+            SetUnitProdCount(U_COW, 1);
+        }
+        else
+        {
+            SetUnitProdCount(U_COW, 0);
+        }
+    }
+    else
+    {
+        AddMoney(iMilkToAdd);
+
+        if(GetMaxMoney() != iMaxMoney)
+        {
+            SetMaxMoney(iMaxMoney);
+        }
+
+                
+        if (GetNumberOfUnits(U_COW) < (9 + GetMissionTime()/(2*MINUTE)))
+        {
+            SetUnitProdCount(U_COW, 1);
+        }
+        else
+        {
+            SetUnitProdCount(U_COW, 0);
+        }
+    }
+}
+
+function void ChangeEscapeOnStormStrategy()
+/* Komputer przy włączonej funkcji "ai2PlatoonEscapeOnStorm" ucieka przed deszczem ognia i burzą.
+   Zachowanie to można wykorzystać do zablokowania wąskiego gardła na mapie i tym samym uchronieniem się przed atakami
+   Ta funkcja losowo włącza i wyłącza uciekanie przed deszczem ognia, tak aby czasem jednostki atakowały w niesprzyjających 
+   warunków pogodowych.
+*/
+{
+    if(RAND(500) <= 10)
+    {
+        if(RAND(2)==0)
+        {
+            EnableAIFeatures2(ai2PlatoonEscapeOnStorm, true);
+        }
+        else
+        {
+            EnableAIFeatures2(ai2PlatoonEscapeOnStorm, false);
+        }
+    }
+}
+
+//funkcja pomocnicza dla ponizszej; zwraca true gdy dla unitu jest ustawione SetProdCount > 0 i nie
+//mozna juz zadnego wyprodukowac lub gdy SetProdCount == 0
+function int IsReachedLimitForProdCountUnit(string strUnit)
+{
+    if (GetUnitProdCount(strUnit) > 0)
+    {
+        if (CountMaxUnitsAvailableToBuild(strUnit) <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+//sprawdza czy dla wszystkich unitow ktore maja ustawione SetProdCount > 0 
+//jest juz wyczerpany limit (nie mozna zbudowac wiecej)
+function int IsReachedLimitForAllProdCountUnits()
+{
+    if (IsReachedLimitForProdCountUnit(U_COW) &&
+        IsReachedLimitForProdCountUnit(U_SHEPHERD) &&
+        IsReachedLimitForProdCountUnit(U_HUNTER) &&
+        IsReachedLimitForProdCountUnit(U_WOODCUTTER) &&
+        IsReachedLimitForProdCountUnit(U_FOOTMAN) &&
+        IsReachedLimitForProdCountUnit(U_SPEARMAN) &&
+        IsReachedLimitForProdCountUnit(U_KNIGHT) &&
+        IsReachedLimitForProdCountUnit(U_PRIESTESS) &&
+        IsReachedLimitForProdCountUnit(U_DIPLOMAT) &&
+        IsReachedLimitForProdCountUnit(U_WITCH) &&
+        IsReachedLimitForProdCountUnit(U_PRIEST) &&
+        IsReachedLimitForProdCountUnit(U_SORCERER))
+    {
+        return true;
+    }
+    return false;
+}
+
+function void ResetAIFeatures()
+{
+    
+    //!!
+    EnableAIFeatures(~(aiEnabled | aiRejectAlliance | aiBNSendResult | aiChooseEnemy | aiNeutralForAI), false);
+    //!!
+    //EnableAIFeatures(aiNeutralForAI, false);
+    //EnableAIFeatures(aiChooseEnemy, false);
+    //EnableAIFeatures(aiAttackAIOnly, true);
+}
+
+function void ResetAIFeatures2()
+{
+    EnableAIFeatures2(~(ai2UsePlatoons), false);
+}
+
+function int MIN(int nVal1, int nVal2)
+{
+    if (nVal1 < nVal2)
+    {
+        return nVal1;
+    }
+    return nVal2;
+}
+
+
+function int MAX(int nVal1, int nVal2)
+{
+    if (nVal1 > nVal2)
+    {
+        return nVal1;
+    }
+    return nVal2;
+}
+
+#endif COMMON_ECH

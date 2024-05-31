@@ -1,0 +1,78 @@
+#ifndef EVENTS_ECH
+#define EVENTS_ECH
+
+//wspolne eventy; powinny byc includowane na koncu
+
+////    Declarations    ////
+
+int m_nAttackersCount;
+
+////    Events    ////
+
+event OnChangedEquipment()
+{
+#ifdef MAGIC_ECH
+    MagicEventOnChangedEquipment();
+#endif MAGIC_ECH
+#ifdef ATTACK_ECH
+    AttackEventOnChangedEquipment();
+#endif ATTACK_ECH
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+//wyslane przez uTarget.SetEventOnSelectedToAttack(GetUnitRef());
+event OnSelectedToAttackByUnit(unit uByUnit)
+{
+    TRACE2(GetUnitRef(), "OnSelectedToAttackByUnit");
+    if (uByUnit.GetWeaponType() == cannonTypeSword)
+    {
+        ++m_nAttackersCount;
+    }
+#ifdef ATTACK_ECH
+    return AttackEventOnSelectedToAttackByUnit(uByUnit);
+#else
+    return false;
+#endif ATTACK_ECH
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+//wyslane przez uTarget.SetEventOnEndAttack(GetUnitRef());
+event OnEndAttackByUnit(unit uByUnit)
+{
+    if (uByUnit.GetWeaponType() == cannonTypeSword)
+    {
+        ASSERT(m_nAttackersCount > 0);
+        m_nAttackersCount = MAX(m_nAttackersCount - 1, 0);
+    }
+#ifdef ATTACK_ECH
+    return AttackEventOnEndAttackByUnit(uByUnit);
+#else
+    return false;
+#endif ATTACK_ECH
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+event OnGetTarget()
+{
+#ifdef ATTACK_ECH
+    return AttackEventOnGetTarget();
+#else
+    return null;
+#endif ATTACK_ECH
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+event OnGetAttackersCount()
+{
+    return m_nAttackersCount;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#ifndef CUSTOM_EVENT_ONCHECKDOINGNOTHING
+event OnCheckDoingNothing()
+{
+    if (state == Nothing)
+    {
+        return true;
+    }
+    return false;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+#endif
+
+#endif EVENTS

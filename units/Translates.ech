@@ -1,0 +1,146 @@
+#ifndef TRANSLATES_ECH
+#define TRANSLATES_ECH
+
+////    Script names    ////
+
+#ifndef TRL_SCRIPT_ANIMAL
+#define TRL_SCRIPT_ANIMAL "translateScriptNameAnimal"
+#endif
+
+#ifndef TRL_SCRIPT_BUILDER
+#define TRL_SCRIPT_BUILDER "translateScriptNameBuilder"
+#endif
+
+#ifndef TRL_SCRIPT_HARVESTER
+#define TRL_SCRIPT_HARVESTER "translateScriptNameHarvester"
+#endif
+
+#ifndef TRL_SCRIPT_CAPTURER
+#define TRL_SCRIPT_CAPTURER "translateScriptNameCapturer"
+#endif
+
+#ifndef TRL_SCRIPT_UNIT
+#define TRL_SCRIPT_UNIT "translateScriptNameUnit"
+#endif
+
+////    Camouflage.ech    ////
+
+#define TRL_CAMOUFLAGE_0 "translateCommandStateCamouflageModeNormal"
+#define TRL_CAMOUFLAGE_1 "translateCommandStateCamouflageModeCamouflage"
+#define TRL_CAMOUFLAGE_X "translateCommandStateCamouflageMode"
+
+////    Move.ech    ////
+
+#define TRL_STOP "translateCommandStop"
+#define TRL_MOVE "translateCommandMove"
+#define TRL_ENTER "translateCommandEnter"
+
+////    Recycle.ech    ////
+
+#define TRL_RECYCLE "translateCommandGoRecycle"
+
+////    Sleep.ech    ////
+
+#define TRL_SLEEP_0 "translateCommandStateSleepModeMobile"
+#define TRL_SLEEP_1 "translateCommandStateSleepModeSleep"
+#define TRL_SLEEP_X "translateCommandStateSleepMode"
+
+////    Harvester.ec    ////
+
+#define TRL_HARVEST "translateCommandHarvest"
+#define TRL_SETREFINERY "translateCommandSetRefinery"
+#define TRL_MOVETODEST "translateMoveToHarvestDestination"
+#define TRL_MOVETOHARVESTPOINT "translateMoveToHarvestPoint"
+
+////    Capturer.ec    ////
+
+#define TRL_CONVERT "translateCommandCapture"
+#define TRL_CAPTUREBUILDING "translateCaptureBuilding"
+
+////    Builder.ec    ////
+
+#define TRL_BUILDOBJECT "translateCommandBuilding"
+#define TRL_REPAIR "translateCommandRepair"
+
+////    Equipment.ech    ////
+
+#define TRL_DROPEQUIPMENT "translateCommandDropEquipment"
+
+////    Magic.ech    ////
+
+#define TRL_MAGIC_IMMORTAL "translateMagicImmortalShield"
+#define TRL_MAGIC_FREEZE "translateMagicFreeze"
+#define TRL_MAGIC_CAPTURING SWITCH_RPG_SCRIPT("translateMagicCapturing", "translateMagicTimedCapturing")
+#define TRL_MAGIC_STORM "translateMagicStorm"
+#define TRL_MAGIC_SEEING "translateMagicSeeing"
+#define TRL_MAGIC_CONVERSION SWITCH_RPG_SCRIPT("translateMagicConversion", "translateMagicRandConversion")
+#define TRL_MAGIC_FIRERAIN "translateMagicFireRain"
+#define TRL_MAGIC_REMOVESTORMFIRERAIN "translateMagicRemoveStormFireRain"
+#define TRL_MAGIC_TELEPORTATION "translateMagicTeleportation"
+#define TRL_MAGIC_GHOST "translateMagicGhost"
+#define TRL_MAGIC_WILDANIMAL SWITCH_RPG_SCRIPT("translateMagicWildAnimal", "translateMagicOurWildAnimal")
+#define TRL_IMMORTAL_0 "translateImmortalModeManual"
+#define TRL_IMMORTAL_1 "translateImmortalModeAuto"
+#define TRL_IMMORTAL_X "translateImmortalMode"
+#define TRL_FREEZE_0 "translateFreezeManual"
+#define TRL_FREEZE_1 "translateFreezeAuto"
+#define TRL_FREEZE_X "translateFreeze"
+#define TRL_TELEPORTATION_0 "translateTeleportationModeManual"
+#define TRL_TELEPORTATION_1 "translateTeleportationModeAuto"
+#define TRL_TELEPORTATION_X "translateTeleportationMode"
+#define TRL_WOLF_0 "translateWolfModeManual"
+#define TRL_WOLF_1 "translateWolfModeAuto"
+#define TRL_WOLF_X "translateWolfMode"
+#define TRL_STORM_0 "translateStormModeManual"
+#define TRL_STORM_1 "translateStormModeAuto"
+#define TRL_STORM_X "translateStormMode"
+
+#define TRL_CAPTURING_0 "translateCapturingModeManual"
+#define TRL_CAPTURING_1 "translateCapturingModeAuto"
+#define TRL_CAPTURING_X "translateCapturingMode"
+
+#define TRL_CONVERSION_0 "translateConversionModeManual"
+#define TRL_CONVERSION_1 "translateConversionModeAuto"
+#define TRL_CONVERSION_X "translateConversionMode"
+#define TRL_FIRERAIN_0 "translateFireRainModeManual"
+#define TRL_FIRERAIN_1 "translateFireRainModeAuto"
+#define TRL_FIRERAIN_X "translateFireRainMode"
+#define TRL_REMOVESTORMFIRERAIN_0 "translateRemoveStormFireRainModeManual"
+#define TRL_REMOVESTORMFIRERAIN_1 "translateRemoveStormFireRainModeAuto"
+#define TRL_REMOVESTORMFIRERAIN_X "translateRemoveStormFireRainMode"
+
+#define TRL_MAGIC_TRAP "translateMagicTrap"
+#define TRL_MAGIC_GETHP "translateGetHP"
+#define TRL_MAGIC_SINGLEFREEZE "translateSingleFreeze"
+#define TRL_MAGIC_BLINDATTACK "translateBlindAttack"
+#define TRL_MAGIC_OURHOLDWILDANIMAL "translateMagicAttackingGhost"
+#define TRL_MAGIC_OURMAGICMIRROR "translateMagicMirror"
+#define TRL_MAGIC_AROUNDDAMAGE "translateAroundDamage"
+#define TRL_MAGIC_FIREWALL "translateFireWall"
+#define TRL_MAGIC_SELFHEALING "translateSelfHealing"
+
+////    HoldPos.ech    ////
+
+#define TRL_HOLDPOS_0 "translateFollowEnemy"
+#define TRL_HOLDPOS_1 "translateHoldPosition"
+#define TRL_HOLDPOS_X "translateMovementMode"
+
+////    Attack.ech    ////
+
+#define TRL_ATTACK "translateCommandAttack"
+
+////    RPG.ech    ////
+
+#define TRL_STRONGFIGHT "translateStrongFight"
+#define TRL_PUTHOLDTRAP "translatePutHoldTrap"
+#define TRL_PUTHOLDTRAPONCE "translatePutHoldTrapOnce"
+#define TRL_GETHOLDTRAP "translateGetHoldTrap"
+#define TRL_USEINVENTORY "translateUseInventory"
+#define TRL_REGENERATEHP "translateRegenerateHPFromInventory"
+#define TRL_REGENERATEMAGIC "translateRegenerateMagicFromInventory"
+#define TRL_USENEXTRPGWEAPON "translateUseNextRPGWeapon"
+#define TRL_SELECTRPGWEAPONMODE_0 "translateSelectRPGWeaponModeManual"
+#define TRL_SELECTRPGWEAPONMODE_1 "translateSelectRPGWeaponModeAuto"
+#define TRL_SELECTRPGWEAPONMODE_X "translateSelectRPGWeaponMode"
+
+#endif TRANSLATES_ECH

@@ -1,0 +1,848 @@
+#ifndef RPG_ECH
+#define RPG_ECH
+
+#include "Translates.ech"
+#include "Items.ech"
+
+////    Declarations    ////
+
+state StartMovingToPutHoldTrap;
+state MovingToPutHoldTrap;
+state StartTurningToPutHoldTrap;
+state TurningToPutHoldTrap;
+state PuttingHoldTrap;
+state StartMovingToGetHoldTrap;
+state MovingToGetHoldTrap;
+state StartTurningToGetHoldTrap;
+state TurningToGetHoldTrap;
+state GettingHoldTrap;
+state StartMovingToSetUpHoldTrap;
+state MovingToSetUpHoldTrap;
+state StartTurningToSetUpHoldTrap;
+state TurningToSetUpHoldTrap;
+state SettingUpHoldTrap;
+state StartMovingToRPGUnit;
+state MovingToRPGUnit;
+state StartTurningToRPGUnit;
+state TurningToRPGUnit;
+
+int m_nTrapGx;
+int m_nTrapGy;
+int m_nTrapLz;
+int m_nMoveCnt;
+int m_nTrapID;
+
+int m_nMoveToRPGUnitType;//0 - MoveToShopUnit, 1 - MoveToUnitToHire
+unit m_uRPGUnit;
+
+enum autoSelectRPGWeaponMode
+{
+    TRL_SELECTRPGWEAPONMODE_0 item ITEM_SELECTRPGWEAPONMODE_0 description TRL_SELECTRPGWEAPONMODE_0,
+    TRL_SELECTRPGWEAPONMODE_1 item ITEM_SELECTRPGWEAPONMODE_1 description TRL_SELECTRPGWEAPONMODE_1,
+multi:
+    TRL_SELECTRPGWEAPONMODE_X item ITEM_SELECTRPGWEAPONMODE_X description TRL_SELECTRPGWEAPONMODE_X
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+
+////    Functions    ////
+
+function void MoveToTrapTarget()
+{
+    if (FindFreePointInTargetNeighbourhood(m_nTrapGx, m_nTrapGy, m_nTrapLz))
+    {
+        m_nMoveToGx = GetFoundFreePointInTargetNeighbourhoodX();
+        m_nMoveToGy = GetFoundFreePointInTargetNeighbourhoodY();
+        m_nMoveToLz = GetFoundFreePointInTargetNeighbourhoodZ();
+    }
+    else
+    {
+        m_nMoveToGx = GetLocationX();
+        m_nMoveToGy = GetLocationY();
+        m_nMoveToLz = GetLocationZ();
+    }
+    CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function void ResetRPG()
+{
+    m_uRPGUnit = null;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function void MoveToRPGUnit()
+{
+    int nMoveToX, nMoveToY, nMoveToZ, nDir;
+
+    //najpierw biezemy punkt przed unitem
+    nMoveToX = m_uRPGUnit.GetFrontPointX();
+    nMoveToY = m_uRPGUnit.GetFrontPointY();
+    nMoveToZ = m_uRPGUnit.GetFrontPointZ();
+    if ((nMoveToX == GetLocationX()) && (nMoveToY == GetLocationY()) && (nMoveToZ == GetLocationZ()))
+    {
+        //to zostaje
+    }
+    else if (IsFreePoint(nMoveToX, nMoveToY, nMoveToZ))
+    {
+        //to zostaje
+    }
+    else if (FindFreePointInTargetNeighbourhood(m_uRPGUnit))
+    {
+        nMoveToX = GetFoundFreePointInTargetNeighbourhoodX();
+        nMoveToY = GetFoundFreePointInTargetNeighbourhoodY();
+        nMoveToZ = GetFoundFreePointInTargetNeighbourhoodZ();
+    }
+    else
+    {
+        nMoveToX = m_uRPGUnit.GetLocationX();
+        nMoveToY = m_uRPGUnit.GetLocationY();
+        nMoveToZ = m_uRPGUnit.GetLocationZ();
+    }
+    CallMoveToPoint(nMoveToX, nMoveToY, nMoveToZ);
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function void TurnToRPGUnit()
+{
+    CallTurnToAngle(GetAngleToTargetEx(m_uRPGUnit));
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    States    ////
+
+state StartMovingToPutHoldTrap
+{
+    if (IsMoving() || !CheckKeepStartMoving())
+    {
+        TRACE1("StartMovingToPutHoldTrap->MovingToPutHoldTrap");
+        return MovingToPutHoldTrap,0;
+    }
+    else
+    {
+        return StartMovingToPutHoldTrap,5;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state MovingToPutHoldTrap
+{
+    if (IsMoving())
+    {
+        return MovingToPutHoldTrap;
+    }
+    TRACE2("MovingToPutHoldTrap ", m_nMoveCnt);
+    if (IsInGoodPlaceToSetTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz))
+    {
+        if (GetRelativeAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz) != 0)
+        {
+            CallTurnToAngle(GetAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz));
+            return StartTurningToPutHoldTrap;
+        }
+        else
+        {
+            if (!CanPutHoldTrapInPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz, m_nTrapID))
+            {
+                NextCommand(0);
+                return Nothing;
+            }
+            CallPutHoldTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz, m_nTrapID);
+            return PuttingHoldTrap;
+        }
+    }
+    else
+    {
+        if (m_nMoveCnt > 5)
+        {
+            NextCommand(0);
+            return Nothing;
+        }
+        ++m_nMoveCnt;
+        MoveToTrapTarget();
+        return StartMovingToPutHoldTrap;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state StartTurningToPutHoldTrap
+{
+    if (IsMoving() || !CheckKeepStartMoving())
+    {
+        return TurningToPutHoldTrap, 0;
+    }
+    else
+    {
+        return StartTurningToPutHoldTrap, 0;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state TurningToPutHoldTrap
+{
+    if (IsMoving())
+    {
+        return TurningToPutHoldTrap;
+    }
+    if (!CanPutHoldTrapInPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz, m_nTrapID))
+    {
+        NextCommand(0);
+        return Nothing;
+    }
+    CallPutHoldTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz, m_nTrapID);
+    return PuttingHoldTrap;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state PuttingHoldTrap
+{
+    if (IsPuttingHoldTrap())
+    {
+        return PuttingHoldTrap;
+    }
+    NextCommand(1);
+    return Nothing;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state StartMovingToGetHoldTrap
+{
+    if (IsMoving() || !CheckKeepStartMoving())
+    {
+        TRACE1("StartMovingToGetHoldTrap->MovingToGetHoldTrap");
+        return MovingToGetHoldTrap,0;
+    }
+    else
+    {
+        return StartMovingToGetHoldTrap,5;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state MovingToGetHoldTrap
+{
+    if (IsMoving())
+    {
+        return MovingToGetHoldTrap;
+    }
+    TRACE2("MovingToGetHoldTrap ", m_nMoveCnt);
+    if (IsInGoodPlaceToSetTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz))
+    {
+        if (GetRelativeAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz) != 0)
+        {
+            CallTurnToAngle(GetAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz));
+            return StartTurningToGetHoldTrap;
+        }
+        else
+        {
+            if (!CanGetHoldTrapFromPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz, false))
+            {
+                NextCommand(0);
+                return Nothing;
+            }
+            CallGetHoldTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz);
+            return GettingHoldTrap;
+        }
+    }
+    else
+    {
+        if (m_nMoveCnt > 5)
+        {
+            NextCommand(0);
+            return Nothing;
+        }
+        ++m_nMoveCnt;
+        MoveToTrapTarget();
+        return StartMovingToGetHoldTrap;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state StartTurningToGetHoldTrap
+{
+    if (IsMoving() || !CheckKeepStartMoving())
+    {
+        return TurningToGetHoldTrap, 0;
+    }
+    else
+    {
+        return StartTurningToGetHoldTrap, 0;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state TurningToGetHoldTrap
+{
+    if (IsMoving())
+    {
+        return TurningToGetHoldTrap;
+    }
+    if (!CanGetHoldTrapFromPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz, false))
+    {
+        NextCommand(0);
+        return Nothing;
+    }
+    CallGetHoldTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz);
+    return GettingHoldTrap;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state GettingHoldTrap
+{
+    if (IsGettingHoldTrap())
+    {
+        return GettingHoldTrap;
+    }
+    NextCommand(1);
+    return Nothing;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state StartMovingToSetUpHoldTrap
+{
+    if (IsMoving() || !CheckKeepStartMoving())
+    {
+        TRACE1("StartMovingToSetUpHoldTrap->MovingToSetUpHoldTrap");
+        return MovingToSetUpHoldTrap,0;
+    }
+    else
+    {
+        return StartMovingToSetUpHoldTrap,5;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state MovingToSetUpHoldTrap
+{
+    if (IsMoving())
+    {
+        return MovingToSetUpHoldTrap;
+    }
+    TRACE2("MovingToSetUpHoldTrap ", m_nMoveCnt);
+    if (IsInGoodPlaceToSetTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz))
+    {
+        if (GetRelativeAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz) != 0)
+        {
+            CallTurnToAngle(GetAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz));
+            return StartTurningToSetUpHoldTrap;
+        }
+        else
+        {
+            if (!CanSetUpHoldTrapInPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz))
+            {
+                NextCommand(0);
+                return Nothing;
+            }
+            CallSetUpHoldTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz);
+            return SettingUpHoldTrap;
+        }
+    }
+    else
+    {
+        if (m_nMoveCnt > 5)
+        {
+            NextCommand(0);
+            return Nothing;
+        }
+        ++m_nMoveCnt;
+        MoveToTrapTarget();
+        return StartMovingToSetUpHoldTrap;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state StartTurningToSetUpHoldTrap
+{
+    if (IsMoving() || !CheckKeepStartMoving())
+    {
+        return TurningToSetUpHoldTrap, 0;
+    }
+    else
+    {
+        return StartTurningToSetUpHoldTrap, 0;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state TurningToSetUpHoldTrap
+{
+    if (IsMoving())
+    {
+        return TurningToSetUpHoldTrap;
+    }
+    if (!CanSetUpHoldTrapInPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz))
+    {
+        NextCommand(0);
+        return Nothing;
+    }
+    CallSetUpHoldTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz);
+    return SettingUpHoldTrap;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state SettingUpHoldTrap
+{
+    if (IsSettingUpHoldTrap())
+    {
+        return SettingUpHoldTrap;
+    }
+    NextCommand(1);
+    return Nothing;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state StartMovingToRPGUnit
+{
+    if (IsMoving() || !CheckKeepStartMoving())
+    {
+        return MovingToRPGUnit, 0;
+    }
+    else
+    {
+        return StartMovingToRPGUnit, 0;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state MovingToRPGUnit
+{
+    if (IsMoving())
+    {
+        return MovingToRPGUnit;
+    }
+    else if ((DistanceTo(m_uRPGUnit) > 1) || (GetLocationZ() != m_uRPGUnit.GetLocationZ()))
+    {
+        MoveToRPGUnit();
+        return StartMovingToRPGUnit;
+    }
+    else if (ABS(GetRelativeAngleToTargetEx(m_uRPGUnit)) > 10)
+    {
+        TRACE1("MovingToRPGUnit->TurnToRPGUnit");
+        TurnToRPGUnit();
+        return StartTurningToRPGUnit;
+    }
+    else
+    {
+        if (m_nMoveToRPGUnitType == 0)
+        {
+            ShowRPGShopDialog(m_uRPGUnit);
+        }
+        else if (m_nMoveToRPGUnitType == 1)
+        {
+            ShowRPGHireDialog(m_uRPGUnit);
+        }
+        else if (m_nMoveToRPGUnitType == 2)
+        {
+            //ShowRPGDepotDialog(m_uRPGUnit);
+        }
+        TRACE1("MovingToRPGUnit->Nothing ");
+        m_uRPGUnit = null;
+        NextCommand(1);
+        return Nothing;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state StartTurningToRPGUnit
+{
+    if (IsMoving() || !CheckKeepStartMoving())
+    {
+        return TurningToRPGUnit, 0;
+    }
+    else
+    {
+        return StartTurningToRPGUnit, 0;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state TurningToRPGUnit
+{
+    if (IsMoving())
+    {
+        return TurningToRPGUnit;
+    }
+    else if (ABS(GetRelativeAngleToTargetEx(m_uRPGUnit)) > 10)
+    {
+        TurnToRPGUnit();
+        return StartTurningToRPGUnit;
+    }
+    else
+    {
+        if (m_nMoveToRPGUnitType == 0)
+        {
+            ShowRPGShopDialog(m_uRPGUnit);
+        }
+        else if (m_nMoveToRPGUnitType == 1)
+        {
+            ShowRPGHireDialog(m_uRPGUnit);
+        }
+        else if (m_nMoveToRPGUnitType == 2)
+        {
+            //ShowRPGDepotDialog(m_uRPGUnit);
+        }
+        m_uRPGUnit = null;
+        NextCommand(1);
+        return Nothing;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    Commands    ////
+
+command StartStrongFight() button TRL_STRONGFIGHT description TRL_STRONGFIGHT item ITEM_STRONGFIGHT priority PRIOR_STRONGFIGHT hotkey
+{
+    StartStrongFight();
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command PutHoldTrap(int nGx, int nGy, int nLz, int nTrapID) button TRL_PUTHOLDTRAP description TRL_PUTHOLDTRAP item ITEM_PUTHOLDTRAP priority PRIOR_PUTHOLDTRAP hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (!CanPutHoldTrapInPoint(nGx, nGy, nLz, nTrapID))
+    {
+        NextCommand(0);
+        return true;
+    }
+    CHECK_STOP_CURR_ACTION();
+    m_nTrapGx = nGx;
+    m_nTrapGy = nGy;
+    m_nTrapLz = nLz;
+    m_nTrapID = nTrapID;
+    m_nMoveCnt = 0;
+    if (IsInGoodPlaceToSetTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz))
+    {
+        if (GetRelativeAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz) != 0)
+        {
+            CallTurnToAngle(GetAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz));
+            state StartTurningToPutHoldTrap;
+        }
+        else
+        {
+            if (!CanPutHoldTrapInPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz, m_nTrapID))
+            {
+                NextCommand(0);
+                return true;
+            }
+            CallPutHoldTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz, m_nTrapID);
+            state PuttingHoldTrap;
+        }
+    }
+    else
+    {
+        MoveToTrapTarget();
+        state StartMovingToPutHoldTrap;
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command PutHoldTrapOnce(int nGx, int nGy, int nLz, int nTrapID) button TRL_PUTHOLDTRAPONCE description TRL_PUTHOLDTRAPONCE item ITEM_PUTHOLDTRAPONCE priority PRIOR_PUTHOLDTRAPONCE hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (!CanPutHoldTrapInPoint(nGx, nGy, nLz, nTrapID))
+    {
+        NextCommand(0);
+        return true;
+    }
+    CHECK_STOP_CURR_ACTION();
+    m_nTrapGx = nGx;
+    m_nTrapGy = nGy;
+    m_nTrapLz = nLz;
+    m_nTrapID = nTrapID;
+    m_nMoveCnt = 0;
+    if (IsInGoodPlaceToSetTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz))
+    {
+        if (GetRelativeAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz) != 0)
+        {
+            CallTurnToAngle(GetAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz));
+            state StartTurningToPutHoldTrap;
+        }
+        else
+        {
+            if (!CanPutHoldTrapInPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz, m_nTrapID))
+            {
+                NextCommand(0);
+                return true;
+            }
+            CallPutHoldTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz, m_nTrapID);
+            state PuttingHoldTrap;
+        }
+    }
+    else
+    {
+        MoveToTrapTarget();
+        state StartMovingToPutHoldTrap;
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command GetHoldTrap(int nGx, int nGy, int nLz) button TRL_PUTHOLDTRAP hidden
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (!CanGetHoldTrapFromPoint(nGx, nGy, nLz, true))
+    {
+        NextCommand(0);
+        return true;
+    }
+    CHECK_STOP_CURR_ACTION();
+    m_nTrapGx = nGx;
+    m_nTrapGy = nGy;
+    m_nTrapLz = nLz;
+    m_nMoveCnt = 0;
+    if (IsInGoodPlaceToSetTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz))
+    {
+        if (GetRelativeAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz) != 0)
+        {
+            CallTurnToAngle(GetAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz));
+            state StartTurningToGetHoldTrap;
+        }
+        else
+        {
+            if (!CanGetHoldTrapFromPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz, false))
+            {
+                NextCommand(0);
+                return true;
+            }
+            CallGetHoldTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz);
+            state GettingHoldTrap;
+        }
+    }
+    else
+    {
+        MoveToTrapTarget();
+        state StartMovingToGetHoldTrap;
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command SetUpHoldTrap(int nGx, int nGy, int nLz) button TRL_PUTHOLDTRAP hidden
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (!CanSetUpHoldTrapInPoint(nGx, nGy, nLz))
+    {
+        NextCommand(0);
+        return true;
+    }
+    CHECK_STOP_CURR_ACTION();
+    m_nTrapGx = nGx;
+    m_nTrapGy = nGy;
+    m_nTrapLz = nLz;
+    m_nMoveCnt = 0;
+    if (IsInGoodPlaceToSetTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz))
+    {
+        if (GetRelativeAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz) != 0)
+        {
+            CallTurnToAngle(GetAngleToPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz));
+            state StartTurningToSetUpHoldTrap;
+        }
+        else
+        {
+            if (!CanSetUpHoldTrapInPoint(m_nTrapGx, m_nTrapGy, m_nTrapLz))
+            {
+                NextCommand(0);
+                return true;
+            }
+            CallSetUpHoldTrap(m_nTrapGx, m_nTrapGy, m_nTrapLz);
+            state SettingUpHoldTrap;
+        }
+    }
+    else
+    {
+        MoveToTrapTarget();
+        state StartMovingToSetUpHoldTrap;
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command SetRPGSkillsLevel(int bSkillParam, int bIncreaseLevel, int nParamNum, int nMagicID) hidden
+{
+    SetRPGSkillsLevel(bSkillParam, bIncreaseLevel, nParamNum, nMagicID);
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command UseObjectFromRPGInventory(int nInventoryID) button TRL_USEINVENTORY priority PRIOR_USEINVENTORY hotkey
+{
+    UseObjectFromRPGInventory(nInventoryID);
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command DropObjectFromRPGInventory(int nInventoryID, int nRPGMoney) hidden
+{
+    DropObjectFromRPGInventory(nInventoryID, nRPGMoney);
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command DropEquipmentToRPGInventory(int nEquipmentNum) hidden
+{
+    DropEquipmentToRPGInventory(nEquipmentNum);
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command RegenerateHPFromInventory() button TRL_REGENERATEHP hotkey hidden
+{
+    RegenerateHPFromInventory();
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command RegenerateMagicFromInventory() button TRL_REGENERATEMAGIC hotkey hidden
+{
+    RegenerateMagicFromInventory();
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command MoveToShopUnit(unit uShopUnit) hidden
+{
+    if (IsMagicMirrorUnit())
+    {
+        NextCommand(1);
+        return true;
+    }
+    if ((DistanceTo(uShopUnit) > 1) || (GetLocationZ() != uShopUnit.GetLocationZ()))
+    {
+        EXIT_COMMAND_IN_SLEEP_MODE();
+        CHECK_STOP_CURR_ACTION();
+        m_uRPGUnit = uShopUnit;
+        m_nMoveToRPGUnitType = 0;
+        MoveToRPGUnit();
+        state StartMovingToRPGUnit;
+    }
+    else if (ABS(GetRelativeAngleToTargetEx(uShopUnit)) > 10)
+    {
+        EXIT_COMMAND_IN_SLEEP_MODE();
+        CHECK_STOP_CURR_ACTION();
+        m_uRPGUnit = uShopUnit;
+        m_nMoveToRPGUnitType = 0;
+        TurnToRPGUnit();
+        state StartTurningToRPGUnit;
+    }
+    else
+    {
+        ShowRPGShopDialog(uShopUnit);
+        NextCommand(1);
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command MoveToUnitToHire(unit uHireUnit) hidden
+{
+    if (IsMagicMirrorUnit())
+    {
+        NextCommand(1);
+        return true;
+    }
+    if ((DistanceTo(uHireUnit) > 1) || (GetLocationZ() != uHireUnit.GetLocationZ()))
+    {
+        EXIT_COMMAND_IN_SLEEP_MODE();
+        CHECK_STOP_CURR_ACTION();
+        m_uRPGUnit = uHireUnit;
+        m_nMoveToRPGUnitType = 1;
+        MoveToRPGUnit();
+        state StartMovingToRPGUnit;
+    }
+    else if (ABS(GetRelativeAngleToTargetEx(uHireUnit)) > 10)
+    {
+        EXIT_COMMAND_IN_SLEEP_MODE();
+        CHECK_STOP_CURR_ACTION();
+        m_uRPGUnit = uHireUnit;
+        m_nMoveToRPGUnitType = 1;
+        TurnToRPGUnit();
+        state StartTurningToRPGUnit;
+    }
+    else
+    {
+        ShowRPGHireDialog(uHireUnit);
+        NextCommand(1);
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+/*
+command MoveToDepot(unit uDepot) hidden
+{
+    if (IsMagicMirrorUnit())
+    {
+        NextCommand(1);
+        return true;
+    }
+    if ((DistanceTo(uDepot) > 1) || (GetLocationZ() != uDepot.GetLocationZ()))
+    {
+        EXIT_COMMAND_IN_SLEEP_MODE();
+        CHECK_STOP_CURR_ACTION();
+        m_uRPGUnit = uDepot;
+        m_nMoveToRPGUnitType = 2;
+        MoveToRPGUnit();
+        state StartMovingToRPGUnit;
+    }
+    else if (ABS(GetRelativeAngleToTargetEx(uDepot)) > 10)
+    {
+        EXIT_COMMAND_IN_SLEEP_MODE();
+        CHECK_STOP_CURR_ACTION();
+        m_uRPGUnit = uDepot;
+        m_nMoveToRPGUnitType = 2;
+        TurnToRPGUnit();
+        state StartTurningToRPGUnit;
+    }
+    else
+    {
+        ShowRPGDepotDialog(uDepot);
+        NextCommand(1);
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+*/
+
+command SoldInventoryInShop(unit uShop, int nInventoryID, int nCount) hidden
+{
+    SoldInventoryInShop(uShop, nInventoryID, nCount);
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command SoldEquipmentInShop(unit uShop, int nCountAndEquipmentNum) hidden
+{
+    SoldEquipmentInShop(uShop, nCountAndEquipmentNum);
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command BuyInventoryFromShop(unit uShop, int nInventoryID, int nCount) hidden
+{
+    BuyInventoryFromShop(uShop, nInventoryID, nCount);
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+/*
+command MoveInventoryToDepot(unit uDepot, int nInventoryID, int nCount) hidden
+{
+    MoveInventoryToDepot(uDepot, nInventoryID, nCount);
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command MoveEquipmentToDepot(unit uDepot, int nCountAndEquipmentNum) hidden
+{
+    MoveEquipmentToDepot(uDepot, nCountAndEquipmentNum);
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command MoveDepotToInventory(unit uDepot, int nInventoryID, int nCount) hidden
+{
+    MoveDepotToInventory(uDepot, nInventoryID, nCount);
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+*/
+
+command HireRPGUnit(unit uHireUnit) hidden
+{
+    HireRPGUnit(uHireUnit);
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command UseNextRPGWeapon() button TRL_USENEXTRPGWEAPON description TRL_USENEXTRPGWEAPON item ITEM_USENEXTRPGWEAPON priority PRIOR_USENEXTRPGWEAPON hotkey
+{
+    UseNextRPGWeapon();
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command SetAutoSelectRPGWeaponMode(int nMode) button autoSelectRPGWeaponMode priority PRIOR_SETAUOSELECTRPGWEAPON hotkey
+{
+    if (nMode == -1)
+    {
+        autoSelectRPGWeaponMode = (autoSelectRPGWeaponMode + 1) % 2;
+    }
+    else
+    {
+        autoSelectRPGWeaponMode = nMode;
+    }
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#endif RPG_ECH

@@ -1,0 +1,23 @@
+
+difficultyEasy = 0;
+difficultyMedium = 1;
+difficultyHard = 2;
+
+bufferHero      = 0;
+bufferCrew      = 1;
+bufferMieszko   = 2;
+bufferGiant     = 3;
+bufferPrincessa = 4;
+
+modeGateAuto = 0;
+modeGateOpened = 1;
+modeGateClosed = 2;
+
+modeMove    = 0;
+modeHoldPos = 1;
+
+idHeroEnd = 1234;
+
+constLookAtHeight = 23;
+constLookAtAlpha  = 0x20;
+constLookAtView   = 32;

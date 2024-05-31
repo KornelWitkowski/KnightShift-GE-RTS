@@ -1,0 +1,21 @@
+#ifndef EQUIPMENT_ECH
+#define EQUIPMENT_ECH
+
+#include "Translates.ech"
+#include "Items.ech"
+
+////    Commands    ////
+
+//ta komenda jest generowana dla wszystkich niedefaultowych equipmentow
+//nazwa i description sa generowane na podstawie nazwy equipmentu
+//item jest brany z parametrow
+//do priority jest dodawana wartosc z parametrow
+command DropEquipment(int nEquipmentNum) button TRL_DROPEQUIPMENT priority PRIOR_DROPEQUIPMENT hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    DropEquipment(nEquipmentNum);
+    NextCommand(1);
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#endif EQUIPMENT_ECH

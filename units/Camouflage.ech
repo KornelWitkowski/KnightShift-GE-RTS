@@ -1,0 +1,127 @@
+#ifndef CAMOUFLAGE_ECH
+#define CAMOUFLAGE_ECH
+
+#include "Translates.ech"
+#include "Items.ech"
+
+////    Declarations    ////
+
+state EnteringCamouflageMode;
+state ExitingCamouflageMode;
+
+enum camouflageMode
+{
+	TRL_CAMOUFLAGE_0 item ITEM_CAMOUFLAGE_0 description TRL_CAMOUFLAGE_0,
+	TRL_CAMOUFLAGE_1 item ITEM_CAMOUFLAGE_1 description TRL_CAMOUFLAGE_1,
+multi:
+	TRL_CAMOUFLAGE_X item ITEM_CAMOUFLAGE_X description TRL_CAMOUFLAGE_X
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    States    ////
+
+state EnteringCamouflageMode
+{
+    if (CanEnterCamouflageModeNow())
+    {
+        CallBeginCamouflageMode();
+        NextCommand(1);
+        return Nothing, 0;
+    }
+    return EnteringCamouflageMode;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state ExitingCamouflageMode
+{
+    if (!IsMoving())
+    {
+        CallEndCamouflageMode();
+        NextCommand(1);
+        return Nothing, 0;
+    }
+    return ExitingCamouflageMode;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    Commands    ////
+
+command CamouflageMode(int nMode) button camouflageMode priority PRIOR_CAMOUFLAGE hotkey
+{
+    if (!IsCamouflageModeUnit())
+    {
+        NextCommand(0);
+        return true;
+    }
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    CHECK_STOP_CURR_ACTION();
+    if (IsInTower())
+    {
+        //unit ktory wchodzi do wiezy wola ta funkcje aby
+        //skasowac camouflageMode - wychodzimy i nie robimy nic wiecej
+        if (camouflageMode == 1)
+        {
+            camouflageMode = 0;
+        }
+        return true;
+    }
+    if (nMode == -1)
+    {
+        camouflageMode = (camouflageMode + 1) % 2;
+    }
+    else
+    {
+        camouflageMode = nMode;
+    }
+    if (camouflageMode == 0)
+    {
+        //->normal mode
+        if (IsInCamouflageMode())
+        {
+            if (IsMoving() || IsPreparingToMove())
+            {
+                /*
+                CallStopMoving();
+                state ExitingCamouflageMode;
+                */
+                CallExEndCamouflageModeImmediate();
+                NextCommand(1);
+                //zostaje w tym stanie w ktorym jest
+            }
+            else
+            {
+                CallEndCamouflageMode();
+                NextCommand(1);
+                state Nothing;
+            }
+        }
+        else
+        {
+            NextCommand(1);
+            //zostaje w tym stanie w ktorym jest
+        }
+    }
+    else
+    {
+        //->camouflage mode
+        if (IsMoving())
+        {
+            CallExBeginCamouflageModeImmediate();
+            NextCommand(1);
+            //zostaje w tym stanie w ktorym jest
+        }
+        else
+        {
+            if (CanEnterCamouflageModeNow())
+            {
+                CallBeginCamouflageMode();
+                NextCommand(1);
+                state Nothing;
+            }
+            else
+            {
+                state EnteringCamouflageMode;
+            }
+        }
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#endif CAMOUFLAGE_ECH

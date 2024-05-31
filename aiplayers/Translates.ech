@@ -1,0 +1,15 @@
+#ifndef TRANSLATES_ECH
+#define TRANSLATES_ECH
+
+#define TRL_SCRIPT_AIEASY "translateAIPlayerEasy"
+#define TRL_SCRIPT_AIMEDIUM "translateAIPlayerMedium"
+#define TRL_SCRIPT_AIHARD "translateAIPlayerHard"
+
+#define TRL_SCRIPT_AISINGLE "translateAIPlayerSingle"
+
+#define TRL_PLAYER_EASY "translatePlayerNameEasy"
+#define TRL_PLAYER_MEDIUM "translatePlayerNameMedium"
+#define TRL_PLAYER_HARD "translatePlayerNameHard"
+
+#endif TRANSLATES_ECH
+

@@ -1,0 +1,344 @@
+consts
+{
+	/* 
+	   Maski mają na celu przechwytywanie różnych eventów związanych z tym samym markerem.
+	   Ich użycie jest konieczne do zamykania i otwierania tej samej bramy dwoma przyciskami:
+	   jeden marker na brame dwa na guziki. W pozostałych wypadkach ich użycie jest opcjonalne
+	   - zwiększa bezpieczeństwo kodu.
+
+	   Trywialny przykład: załóżmy, że mamy marker o numerze 3 i tam znajduje się brama. 3 w zapisie binarnym to 0011.
+	   Przyciskowi do zamykania przypisujemy liczbę 0111, a do otwierania liczbę 1011. Jeśli dostajemy numer przycisku,
+	   to początek liczby mówi, czy otwieramy (01), czy zamykamy (10), a koniec 11, że bramę na markerze 3.
+
+	   W event Artefact sprawdzamy 
+	*/
+	MASK0 = 2047;   //0b 0000 0111 1111 1111
+	MASK1 = 2048;   //0b 0000 1000 0000 0000
+	MASK2 = 4096;   //0b 0001 0000 0000 0000
+	MASK3 = 6144;   //0b 0001 1000 0000 0000
+	MASK4 = 8192;   //0b 0010 0000 0000 0000
+	MASK5 = 10240;  //0b 0010 1000 0000 0000
+	MASK6 = 12288;  //0b 0011 0000 0000 0000
+	MASK7 = 14336;  //0b 0011 1000 0000 0000
+
+	MARKER_FIRST_EXPERIENCE_LVL_FIELDS = 300;
+	CONVERSION_CAPTURE_RESISTANCE_BIT = 16;
+} 
+
+
+function int Power(int iBase, int iExponent)
+{
+	/* Funkcja do wyliczania potęgi z danej liczby iBase o wykładniku iExponent*/
+	int i, iResult;
+	iResult = 1;
+
+	for(i=0; i<iExponent; ++i)
+	{
+		iResult = iResult * iBase;
+	}
+	return iResult;
+}
+
+
+function void CreateOpenGateSwitch(int numMarkerSwitch, int numMarkerGate)
+{
+	unitex uGate;
+	uGate = GetUnit(GetPointX(numMarkerGate), GetPointY(numMarkerGate), GetPointZ(numMarkerGate));
+	uGate.CommandBuildingSetGateMode(modeGateClosed);
+	CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(numMarkerSwitch), GetPointY(numMarkerSwitch),
+        GetPointZ(numMarkerSwitch), MASK1|numMarkerGate);
+}
+
+
+function void CreateCloseGateSwitch(int numMarkerSwitch, int numMarkerGate)
+{
+	CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(numMarkerSwitch), GetPointY(numMarkerSwitch),
+        GetPointZ(numMarkerSwitch), MASK2|numMarkerGate);
+}
+
+
+function void CreateFastTeleportBetweenMarkers(int iMarkerIn, int iMarkerOut)
+{
+	CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(iMarkerIn), GetPointY(iMarkerIn), GetPointZ(iMarkerIn), MASK3|iMarkerOut);
+}
+
+
+function void CreateFallToCave(int iMarker)
+{
+	CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK4|iMarker);
+}
+
+
+function void CreateExperienceLevelField(int iMarker)
+{
+	CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK5|iMarker);
+}
+
+
+function void CreateConversionAndCaptureResistanceField(int iMarker)
+{
+	CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK6|iMarker);
+}
+
+
+function void SetUnitImmortal(int iMarker)
+{
+	unitex uUnit;
+	uUnit = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+	if(uUnit != null)
+	{
+		uUnit.SetScriptImmortal(true);
+		uUnit.EnableCapture(false);
+		uUnit.EnableConversionByMagic(false);
+		uUnit.EnableConversionByPlace(false);
+	}
+}
+
+
+function void CreateTeleportsAndSwitches()
+{
+	int i, j, iLevel;
+	unitex uUnit;
+
+	for(i=70; i<130; i=i+2)
+	{
+		CreateFastTeleportBetweenMarkers(i, i+1);
+	}
+
+	for(i=130; i<140; i=i+1)
+	{
+		CreateFallToCave(i);
+	}
+
+	for(i=140+1; i<180+1; i=i+2) // +1 wynika ze wstecznej kompatybliności 
+	{
+		SetupTeleportBetweenMarkers(i, i+1);
+	}
+
+	for(i=180+1; i<201+1; i=i+2) // +1 wynika ze wstecznej kompatybliności 
+	{
+		SetupOneWayTeleportBetweenMarkers(i, i+1);
+	}
+
+	// grebneglig user code - Switches and gates RTS 
+	CreateOpenGateSwitch(240, 242);
+	CreateCloseGateSwitch(241, 242);
+
+	CreateOpenGateSwitch(243, 245);
+	CreateCloseGateSwitch(244, 245);
+
+	CreateOpenGateSwitch(246, 248);
+	CreateCloseGateSwitch(247, 248);
+
+	CreateOpenGateSwitch(249, 251);
+	CreateCloseGateSwitch(250, 251);
+
+	CreateOpenGateSwitch(252, 254);
+	CreateCloseGateSwitch(253, 254);
+
+	CreateOpenGateSwitch(255, 257);
+	CreateCloseGateSwitch(256, 257);
+
+	CreateOpenGateSwitch(258, 260);
+	CreateCloseGateSwitch(259, 260);
+
+	CreateOpenGateSwitch(261, 263);
+	CreateCloseGateSwitch(262, 263);
+
+	CreateOpenGateSwitch(264, 266);
+	CreateCloseGateSwitch(265, 266);
+
+	CreateOpenGateSwitch(267, 269);
+	CreateCloseGateSwitch(268, 269);
+
+	//---------------------------------
+
+	SetupOneWayTeleportBetweenMarkers(241, 240); // GE teleporty [5 kierujących do 1]
+	SetupOneWayTeleportBetweenMarkers(242, 240);
+	SetupOneWayTeleportBetweenMarkers(243, 240);
+	SetupOneWayTeleportBetweenMarkers(244, 240);
+	SetupOneWayTeleportBetweenMarkers(245, 240);
+	
+
+	SetupOneWayTeleportBetweenMarkers(247, 246);
+	SetupOneWayTeleportBetweenMarkers(248, 246);
+	SetupOneWayTeleportBetweenMarkers(249, 246);
+	SetupOneWayTeleportBetweenMarkers(250, 246);
+	SetupOneWayTeleportBetweenMarkers(251, 246);
+	// grebneglig user code - Switches and gates RTS 
+
+
+
+	for(i=300; i<316; ++i)
+	{
+		CreateExperienceLevelField(i);
+	}
+
+	for(i=316; i<330; ++i)
+	{
+		CreateConversionAndCaptureResistanceField(i);
+	}
+
+	for(i=330; i<360; ++i)
+	{
+		SetUnitImmortal(i);
+	}
+
+
+	for(j=0; j<12; ++j)
+	{
+		for(i=500+10*j; i<510+10*j; ++i)
+		{
+			if(PointExist(i))
+			{
+				uUnit = GetUnit(GetPointX(i), GetPointY(i), GetPointZ(i));
+				if(uUnit!=null)
+				{
+					iLevel = uUnit.GetExperienceLevel();
+					uUnit.SetExperienceLevel(iLevel + j + 1);
+					uUnit.RegenerateMagic();
+					uUnit.RegenerateHP();
+				}	
+			}
+		}
+	}
+
+
+
+}
+
+// Event, który jest wywoływany gdy jednostka stanie na markerze, na którym stworzyliśmy "ARTIFACT_INVISIBLE".
+event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefact)
+{
+	int i, j, n;
+	int iArmour1, iArmour2;
+	int iMarker;
+
+    if((iArtefactNum & ~MASK0) == MASK1)
+    {
+        iMarker = iArtefactNum & ~MASK1;
+        OPEN_GATE(iMarker);
+    }
+    if((iArtefactNum & ~MASK0) == MASK2)
+    {
+        iMarker = iArtefactNum & ~MASK2;
+        CLOSE_GATE(iMarker);
+    }
+    if((iArtefactNum & ~MASK0) == MASK3)
+    {
+        iMarker = iArtefactNum & ~MASK3;
+		CreateObjectAtUnit(uUnitOnArtefact, "CAST_TELEPORT");
+        uUnitOnArtefact.SetImmediatePosition(GetPointX(iMarker),
+											 GetPointY(iMarker),
+											 GetPointZ(iMarker), 
+											 uUnitOnArtefact.GetAlphaAngle(),
+											 true);
+		CreateObjectAtUnit(uUnitOnArtefact, "CAST_TELEPORT");
+    }
+    if((iArtefactNum & ~MASK0) == MASK4)
+    {
+        iMarker = iArtefactNum & ~MASK4;
+
+		CreateObjectAtUnit(uUnitOnArtefact, "EXP_PALISADE");
+        uUnitOnArtefact.SetImmediatePosition(GetPointX(iMarker),
+											GetPointY(iMarker),
+											1, 
+											uUnitOnArtefact.GetAlphaAngle(),
+											true);
+		CreateObjectAtUnit(uUnitOnArtefact, "EXP_PALISADE");
+
+		// Dodajemy obrażenia od upadku. Im silniejsza zbroja tym większy - ciężki pancerz bardziej boli przy spadku.
+		if(uUnitOnArtefact.GetMaxMagic() > 0)
+		{
+			//Jeśli czarodziejka ma tarcze, to nie chcemy jej dawać dodatkowych obrażeń. 
+			uUnitOnArtefact.DamageUnit(20);
+		}
+		else 
+		{	
+			iArmour1 = uUnitOnArtefact.GetArmour(0);
+			iArmour2 = uUnitOnArtefact.GetArmour(1);
+			uUnitOnArtefact.DamageUnit(20 + iArmour1/3 + iArmour2/3);
+		}
+
+    }
+    if((iArtefactNum & ~MASK0) == MASK5)
+    {
+		/* 
+			Poniższy kod jest bardzo trudny do zrozumienia bez znajomości operacji na bitach. 
+
+			W tym miejscu dodajemy lvl za wejście na pole zwiększające lvl. Jednostka może tylko raz wzmocnić lvl
+			za pomocą tego samego pola, więc musimy zapisać, że jednostka odwiedziła pole.
+
+			Jednostce możemy przypisać inta za pomocą funkcji uUnit.SetScriptData. Inta możemy zareprezentować w postaci
+			dwójkowej np. 27 = 16 + 8 + 2 + 1 =  2^4 + 2^3 + 2^1 + 2^0 = 11011. Możemy zatem z liczby stworzyć tablice z 
+			wartościami 0 i 1. Każda taka wartość może reprezentować, czy pole zostało odwiedzone - wystarczy do 
+			ScriptData dodawać odpowiednie potęgi dwójki jeśli odwiedzamy pole. Za pomocą operacji bitowych możemy też 
+			sprawdzić, czy już byliśmy na danym polu.
+		
+		*/
+		iMarker = iArtefactNum & ~MASK5;
+
+		i = uUnitOnArtefact.GetScriptData();
+		j = Power(2, iMarker - MARKER_FIRST_EXPERIENCE_LVL_FIELDS);
+		n = i & j;
+
+		if(n == 0)
+		{
+			i = uUnitOnArtefact.GetExperienceLevel();
+
+			if(i < 12)
+			{
+				CreateObjectAtUnit(uUnitOnArtefact, "EXP_EXPERIENCE1");
+				uUnitOnArtefact.SetScriptData(i + j);
+				uUnitOnArtefact.SetExperienceLevel(i + 1);
+			}
+		}
+
+    }
+    if((iArtefactNum & ~MASK0) == MASK6)
+    {
+		/*
+		  Dodajemy odporność na zamianę w krowę i przejęcie jednostkom odwiedzającym pole
+		  Logika jest podobna do pól dodających lvl, ale w tym wypadku wystarcza nam jedynie jeden bit do zapisania,
+		  że odporność została dodana.
+		*/
+
+		iMarker = iArtefactNum & ~MASK6;
+
+		i = uUnitOnArtefact.GetScriptData();
+		j = Power(2, CONVERSION_CAPTURE_RESISTANCE_BIT);
+		n = i & j;
+
+		if(n == 0)
+		{
+			uUnitOnArtefact.SetScriptData(i + j);
+
+			// W zalezności od postaci dajemy efekt czaru, na który jednostka została uodporniona.
+			// Przez brak odpowiednich getterów nie możemy zrobić w lepszy sposób.
+			if((uUnitOnArtefact.GetWeaponType()) == 6 || uUnitOnArtefact.IsFlyable())
+			{
+				// czarodziejka i wiedźma
+			}
+			else if(uUnitOnArtefact.GetMaxMagic()>0)
+			{
+				// mag i kapłan
+				CreateObjectAtUnit(uUnitOnArtefact, "CAST_CAPTURE");
+			}
+			else if((uUnitOnArtefact.GetMaxHP()) >= 1500 || uUnitOnArtefact.IsAnimal())
+			{
+				// Rycerz - 
+				CreateObjectAtUnit(uUnitOnArtefact, "CAST_CONVERT");
+			}
+			else
+			{
+				CreateObjectAtUnit(uUnitOnArtefact, "CAST_CONVERT");
+				CreateObjectAtUnit(uUnitOnArtefact, "CAST_CAPTURE");
+			}
+			uUnitOnArtefact.EnableCapture(false);
+			uUnitOnArtefact.EnableConversionByMagic(false);
+			uUnitOnArtefact.EnableConversionByPlace(false);
+		}
+    }
+
+    return false;
+}

@@ -1,0 +1,185 @@
+#ifndef BATTLEMODE_ECH
+#define BATTLEMODE_ECH
+
+////    Declarations    ////
+
+state BattleMode1;
+
+int m_nUnitsCount;
+int m_nSameUnitsCountCounter;
+
+////    Functions    ////
+
+function void ReinitializeBattleMode()
+{
+// #if defined(AIEASY_EC)
+//     SetName(TRL_PLAYER_EASY);
+// #elif defined(AIMEDIUM_EC)
+//     SetName(TRL_PLAYER_MEDIUM);
+// #elif defined(AIHARD_EC)
+//     SetName(TRL_PLAYER_HARD);
+// #endif
+
+
+    ResetAIFeatures();
+    ResetAIFeatures2();
+    EnableAIFeatures(aiBuildNewBridges | aiRebuildLostBridges | aiProduceUnits, true);
+    EnableAIFeatures2(ai2ControlTowers |
+        ai2ControlBuildersBuild | ai2ControlBuildersRepair | 
+        ai2ControlCapturers |
+        ai2ControlOffense | ai2ControlDefense | ai2ControlOffenseMagic | ai2UseAutoMagic |
+        ai2DefendBuildings | ai2DefendUnits | ai2DefendDestroyedObjects |
+        ai2PlatoonAttackInGroup | ai2PlatoonEscapeOnStorm | ai2DefendUnitsInPlatoon | 
+        ai2RandomizedBehaviours, true);
+
+    SetThinkSpeed(aiThinkSpeedBuildUnits, 10);
+    SetThinkSpeed(aiThinkSpeedExecuteOrders, 10);
+    SetThinkSpeed(aiThinkSpeedControlUnits, 40);
+    SetThinkSpeed(aiThinkSpeedControlUnitsEx, 60);
+    //SetThinkSpeed(aiThinkSpeedBuildBuildingsEx, 60);
+    SetThinkSpeed(aiThinkSpeedMakeDefense, 40);
+    //SetThinkSpeed(aiThinkSpeedMovePlatoonsOutsideBase, 20*60*4);
+    SetThinkSpeed(aiThinkSpeedMakeSmallAttack, 20*60*1);
+    SetThinkSpeed(aiThinkSpeedMakeBigAttack, 20*60*4);
+    //SetThinkSpeed(aiThinkSpeedControlConverters, 20*60*2);
+    SetThinkSpeed(aiThinkSpeedControlCapturers, 20*60*2);
+    SetThinkSpeed(aiThinkSpeedBuildNewBridges, 20*60*2);
+    SetThinkSpeed(aiThinkSpeedRebuildLostBridges, 20*60*3);
+    //SetThinkSpeed(aiThinkSpeedResearchUpdates, 20*60*4);
+
+    SetUnitsInPlatoon(10);
+    SetPlatoonsProportions(3, 1);//offensive/defensive
+    SetStartAttacksTime(20*60*3);
+
+    //unit counts
+    SetMinHarvesters(0);
+    SetMinBuilders(2);
+
+    //zresetowanie poprzednich ustawien
+    SetUnitProdCount(U_COW, 0);
+    SetUnitProdCount(U_SHEPHERD, 0);
+    SetUnitProdCount(U_HUNTER, 0);
+    SetUnitProdCount(U_WOODCUTTER, 0);
+    SetUnitProdCount(U_FOOTMAN, 0);
+    SetUnitProdCount(U_SPEARMAN, 0);
+    SetUnitProdCount(U_KNIGHT, 0);
+    SetUnitProdCount(U_PRIESTESS, 0);
+    SetUnitProdCount(U_DIPLOMAT, 0);
+    SetUnitProdCount(U_WITCH, 0);
+    SetUnitProdCount(U_PRIEST, 0);
+    SetUnitProdCount(U_SORCERER, 0);
+
+    if (GetMaxMoney() <= 5000)
+    {
+        SetUnitProdCount(U_WOODCUTTER, 1);
+        SetUnitProdCount(U_HUNTER, 1);
+        SetUnitProdCount(U_FOOTMAN, 4);
+        SetUnitProdCount(U_SPEARMAN, 1);
+        SetUnitProdCount(U_KNIGHT, 1);
+        SetUnitProdCount(U_PRIESTESS, 1);
+    }
+    else
+    {
+        SetUnitProdCount(U_WOODCUTTER, 1);
+        SetUnitProdCount(U_HUNTER, 1);
+        SetUnitProdCount(U_FOOTMAN, 4);
+        SetUnitProdCount(U_SPEARMAN, 2);
+        SetUnitProdCount(U_KNIGHT, 2);
+        SetUnitProdCount(U_PRIEST, 1);
+        SetUnitProdCount(U_PRIESTESS, 1);
+        SetUnitProdCount(U_WITCH, 1);
+        SetUnitProdCount(U_SORCERER, 1);
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    States    ////
+
+state BattleMode1
+{
+    player pEnemy;
+    int nUnits;
+
+    if (GetMaxMoney() <= 5000)
+    {
+        if (GetNumberOfUnits(U_PRIESTESS) < 3)
+        {
+            SetUnitProdCount(U_PRIESTESS, 1);
+        }
+        else
+        {
+            SetUnitProdCount(U_PRIESTESS, 0);
+        }
+    }
+    else
+    {
+        if (GetNumberOfUnits(U_PRIEST) < 1)
+        {
+            SetUnitProdCount(U_PRIEST, 1);
+        }
+        else
+        {
+            SetUnitProdCount(U_PRIEST, 0);
+        }
+        if (GetNumberOfUnits(U_PRIESTESS) < 5)
+        {
+            SetUnitProdCount(U_PRIESTESS, 1);
+        }
+        else
+        {
+            SetUnitProdCount(U_PRIESTESS, 0);
+        }
+        if (GetNumberOfUnits(U_WITCH) < 5)
+        {
+            SetUnitProdCount(U_WITCH, 1);
+        }
+        else
+        {
+            SetUnitProdCount(U_WITCH, 0);
+        }
+        if (GetNumberOfUnits(U_SORCERER) < 5)
+        {
+            SetUnitProdCount(U_SORCERER, 1);
+        }
+        else
+        {
+            SetUnitProdCount(U_SORCERER, 0);
+        }
+    }
+    if (GetMoney() < 100)
+    {
+        nUnits = GetNumberOfUnits();
+        if ((nUnits >= 5) && (nUnits == m_nUnitsCount))
+        {
+            ++m_nSameUnitsCountCounter;
+        }
+        else
+        {
+            m_nUnitsCount = nUnits;
+            m_nSameUnitsCountCounter = 0;
+        }
+        if (m_nSameUnitsCountCounter > 10)
+        {
+            pEnemy = GetMainEnemy();
+            if (pEnemy != null)
+            {
+                RussianAttack(pEnemy.GetStartingPointX(), pEnemy.GetStartingPointY(), 0);
+                return BattleMode1, 20*60*4;
+            }
+        }
+    }
+    return BattleMode1, 50;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    Commands    ////
+
+command PlayerCommand1(int nMode)
+{
+    if (nMode != 0)
+    {
+        ReinitializeBattleMode();
+        state BattleMode1;
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#endif BATTLEMODE_ECH

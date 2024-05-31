@@ -1,0 +1,54 @@
+function void ImproveHPRegeneration(unitex uUnit, int iHPExtraSpeed)
+{
+    /* Funkcja do zwiększenia regeneracji życia jednostek. Wartość `iHPExtraSpeed` odpowiada liczbie
+       dodatkowych regenerowanych punktów HP, prawdopodobnie, na sekundę
+    */
+    int i;
+
+    for(i=0; i<iHPExtraSpeed; ++i)
+    {
+        // Uwaga `AddHPRegenerationSpeed(2, true)` nie jest równoważne dwukrotnemu wywołaniu poniższej funkcji!
+        uUnit.AddHPRegenerationSpeed(1, true);
+    }
+}
+
+function void CheckMilkPool(int iMaxCowSheds)
+{
+    int i;
+    int iCountBuilding;
+    player rPlayer;
+
+    for(i=0; i < 8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        if(rPlayer!=null)
+        {
+            if(rPlayer.IsAlive()) 
+            {
+                /* 
+                   Sprawdzamy ile obór mają gracze, aby ustalić poziom mleka.
+                   Gracze AI mają zawsze stały pool mleka ustawiony na początku gry bądź w skrypcie AI. 
+                */
+                if(rPlayer.IsHuman())
+                {
+                    iCountBuilding = rPlayer.GetNumberOfBuildings(buildingHarvestFactory);
+
+                    if(iMaxCowSheds < iCountBuilding)
+                    {
+                        // Maksymalna ilość mleka jest ograniczona przed limit obór w trybie.
+                        rPlayer.SetMaxMoney(100*iMaxCowSheds);
+                    }   
+                    else if (iCountBuilding==0)
+                    {
+                        // Jeśli gracza ma 0 obór, to milkpool wynosi 100
+                        rPlayer.SetMaxMoney(100);
+                    }
+                    else
+                    {
+                        rPlayer.SetMaxMoney(100*iCountBuilding);
+                    }
+                }
+            }
+        }
+    }
+}

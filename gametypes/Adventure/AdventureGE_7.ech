@@ -1,0 +1,139 @@
+state LookingForTreasureGE7;
+
+function void InitializePlayerAdventureGE7()
+{
+    player rPlayer;
+    int i;
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        
+        if(rPlayer.IsHuman()) 
+        {   
+            uHero1 = rPlayer.CreateUnit(GetPointX(0), GetPointY(0), 0, 0, "SPEARMAN");
+            uHero1.SetUnitName("translateAdventureGE07_Spearman");
+
+            CreateObject(uHero1.GetLocationX(), uHero1.GetLocationY(),
+             uHero1.GetLocationZ(), uHero1.GetAlphaAngle(), "HIT_TELEPORT");
+
+            uHero1.AddHP(100);
+            ImproveHPRegeneration(uHero1, 5);
+
+            rPlayer.SetMaxMoney(0);
+
+            rPlayer.RegisterGoal(0, "translateAdventureGE07_SpearmanMustSurvive");
+            rPlayer.RegisterGoal(1, "translateAdventureGE07_FindTreasure");
+			rPlayer.EnableGoal(0, true, true);
+			rPlayer.EnableGoal(1, true, true);
+            
+            rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+        }
+        else
+        {
+            // Tutaj wyłączamy statystyki dla graczy AI, dzięki czemu nie będą widoczni na ekranie końcowym
+            rPlayer.EnableStatistics(false);
+            // Wyłączmy informacje na początku, że "Chwalibóg jest twoim wrogiem"
+            rPlayer.EnableAIFeatures(aiChooseEnemy, false);
+        }
+    }
+
+    SetInterfaceOptions(
+        lockAllianceDialog |
+        lockGiveMoneyDialog |
+        lockGiveUnitsDialog |
+        lockToolbarSwitchMode |
+        lockToolbarAlliance |
+        lockToolbarGiveMoney |
+        lockToolbarMoney |
+        lockDisplayToolbarMoney |
+        lockToolbarLevelName |
+        lockToolbarHelpMode |
+        lockDisplayToolbarLevelName |
+        lockCreateBuildPanel |
+        0);
+}
+
+state InitializeAdventureGE7
+{
+    SetTimer(1, 400);
+    SetTimer(2, 2400);//2min
+    SetTimer(3, 4800);//4min
+    SetTimer(4, 1200);//1min
+
+    SetTimer(7, GetWindTimerTicks());
+    StartWind();
+
+    StatisticReset();
+    StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
+    StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
+    StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
+    StatisticSetSortOrder(0, 3, true);
+
+    // Dokoła skarbu znajdują się markery. Jeśli gracz do nich podejdzie to wygrywa.
+    CreateArtefacts("ARTIFACT_INVISIBLE", 10, 10, 10, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 11, 11, 11, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 12, 12, 12, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 13, 13, 13, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 14, 14, 14, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 15, 15, 15, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 16, 16, 16, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 17, 17, 17, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 18, 18, 18, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 19, 19, 19, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 20, 20, 20, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 21, 21, 21, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 22, 22, 22, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 23, 23, 23, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 24, 24, 24, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 25, 25, 25, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 26, 26, 26, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 27, 27, 27, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 27, 27, 27, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 28, 28, 28, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 29, 29, 29, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 30, 30, 30, false);
+
+    return LookingForTreasureGE7;
+}
+
+state LookingForTreasureGE7
+{
+    return LookingForTreasureGE7, 20;
+}
+
+function void CheckUnitDestroyedAdventureGE7(unitex uUnit)
+{
+    int i;
+    player rPlayer;
+
+    if(uUnit == uHero1)
+    {
+        for(i=0; i<8; i=i+1)
+        {
+            rPlayer = GetPlayer(i);
+            
+            if(rPlayer.IsHuman())
+            {   
+                SetGoalState(0, goalFailed, 1);
+
+                rPlayer.SetScriptData(1, 1);
+
+                SetStateDelay(150);
+                state Defeat;
+            }
+        }
+    }
+}
+
+function void CheckArtefactEventAdventureGE7(int iMarker, unitex uUnit, player rPlayer)
+{
+
+    if((iMarker>10) && (iMarker<=30) && (rPlayer.IsHuman()))
+    {
+        SetGoalState(0, goalAchieved, 1);
+        SetGoalState(1, goalAchieved, 1);
+        SetStateDelay(150);
+        state Victory;
+    }
+}

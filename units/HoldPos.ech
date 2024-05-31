@@ -1,0 +1,100 @@
+#ifndef HOLDPOS_ECH
+#define HOLDPOS_ECH
+
+#include "Translates.ech"
+#include "Items.ech"
+
+////    Declarations    ////
+
+#undef HOLDPOSMODE
+#define HOLDPOSMODE holdPosMode
+
+#undef RESET_HOLDPOSMODE
+#define RESET_HOLDPOSMODE() ResetHoldPosMode()
+
+enum holdPosMode
+{
+	TRL_HOLDPOS_0 item ITEM_HOLDPOS_0 description TRL_HOLDPOS_0,
+	TRL_HOLDPOS_1 item ITEM_HOLDPOS_1 description TRL_HOLDPOS_1,
+multi:
+	TRL_HOLDPOS_X item ITEM_HOLDPOS_X description TRL_HOLDPOS_X
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    Functions    ////
+
+function void InitializeHoldPos()
+{
+    holdPosMode = 0;
+#ifndef ANIMAL_EC
+    SetAllowedStayAnimMask(0xF7);
+#endif
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function void ResetHoldPosMode()
+{
+    if (holdPosMode != 0)
+    {
+        AllowScriptWithdraw(true);
+        holdPosMode = 0;
+#ifndef ANIMAL_EC
+        SetAllowedStayAnimMask(0xF7);
+#endif
+        ChangedCommandValue();
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function int IsInHoldPosMode()
+{
+    if ((holdPosMode != 0) || IsEntrapped())
+    {
+        if (IsInBlindAttack())
+        {
+            return false;
+        }
+        return true;
+    }
+    return false;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    Commands    ////
+
+command SetMovementMode(int nMode) button holdPosMode priority PRIOR_HOLDPOS hotkey
+{
+	if (nMode == -1)
+	{
+		holdPosMode = (holdPosMode + 1) % 2;
+	}
+	else
+	{
+		holdPosMode = nMode;
+	}
+    if (holdPosMode == 0)
+    {
+        AllowScriptWithdraw(true);
+#ifndef ANIMAL_EC
+        SetAllowedStayAnimMask(0xF7);
+#endif
+    }
+    else
+    {
+        AllowScriptWithdraw(false);
+#ifndef ANIMAL_EC
+        SetAllowedStayAnimMask(0x08);
+#endif
+    }
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+//Get HoldPos mode
+event Custom1(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
+{
+    return holdPosMode;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+event OnCheckHoldPosition()
+{
+    return holdPosMode;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#endif HOLDPOS_ECH

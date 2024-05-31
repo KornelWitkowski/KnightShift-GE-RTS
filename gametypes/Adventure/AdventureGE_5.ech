@@ -1,0 +1,114 @@
+state LookingForHusbandAdventureGE5;
+
+
+function void InitializePlayerAdventureGE5()
+{
+    player rPlayer, rPlayerEnemy;
+    int i;
+
+    rPlayerEnemy = GetPlayer(12);
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        
+        if(rPlayer.IsHuman()) 
+        {   
+            uHero1 = rPlayer.CreateUnit(GetPointX(0), GetPointY(0), 0, 0, "DIPLOMAT");
+            uHero1.SetUnitName("translateAdventureGE05_Diplomat");
+            
+            // Szybsza regeneracja ponieważ teściowa nie ma możliwości spania
+            uHero1.AddHP(70);
+            ImproveHPRegeneration(uHero1, 5);
+
+            rPlayer.SetMaxMoney(0);
+
+            rPlayer.RegisterGoal(0, "translateAdventureGE05_DiplomatMustSurvive");
+            rPlayer.RegisterGoal(1, "translateAdventureGE05_FindHusband");
+
+			rPlayer.EnableGoal(0, true, true);
+			rPlayer.EnableGoal(1, true, true);
+            
+            rPlayer.LookAt(GetPointX(0), GetPointY(0), 6, 32, 20, 0);
+        }
+        else
+        {
+            // Tutaj wyłączamy statystyki dla graczy AI, dzięki czemu nie będą widoczni na ekranie końcowym
+            rPlayer.EnableStatistics(false);
+            // Wyłączmy informacje na początku, że "Chwalibóg jest twoim wrogiem"
+            rPlayer.EnableAIFeatures(aiChooseEnemy, false);
+        }
+    }
+
+    SetInterfaceOptions(
+        lockAllianceDialog |
+        lockGiveMoneyDialog |
+        lockGiveUnitsDialog |
+        lockToolbarSwitchMode |
+        lockToolbarAlliance |
+        lockToolbarGiveMoney |
+        lockToolbarMoney |
+        lockDisplayToolbarMoney |
+        lockToolbarLevelName |
+        lockToolbarHelpMode |
+        lockDisplayToolbarLevelName |
+        lockCreateBuildPanel |
+        0);
+}
+
+state InitializeAdventureGE5
+{
+    SetTimer(1, 400);
+    SetTimer(2, 2400);//2min
+    SetTimer(3, 4800);//4min
+    SetTimer(4, 1200);//1min
+
+    SetTimer(7, GetWindTimerTicks());
+    StartWind();
+
+    StatisticReset();
+    StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
+    StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
+    StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
+    StatisticSetSortOrder(0, 3, true);
+
+    return LookingForHusbandAdventureGE5;
+}
+
+state LookingForHusbandAdventureGE5
+{
+    player rPlayer;
+
+    int i;
+    int j;
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        
+        if(rPlayer.IsHuman()) 
+        {   
+            // Jeśli zajeliśmy chatkę do wygrana
+            if(rPlayer.GetNumberOfBuildings("HUT") > 0)
+            {
+                SetGoalState(0, goalAchieved, 1);
+                SetGoalState(1, goalAchieved, 1);
+                return Victory, 150;
+            }
+            // Jeśli nie mamy chatki, to sprawdzamy, czy teściowa dalej żyje
+            else if(rPlayer.GetNumberOfUnits() == 0)
+            {
+                SetGoalState(0, goalFailed, 1);
+
+                rPlayer.SetScriptData(1, 1);
+                return Defeat, 150;
+            }
+        }
+    }
+    return LookingForHusbandAdventureGE5, 20;
+}
+
+function void CheckUnitDestroyedAdventureGE5(unitex uUnit)
+{
+
+}

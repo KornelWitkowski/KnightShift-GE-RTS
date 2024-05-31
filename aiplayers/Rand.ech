@@ -1,0 +1,6 @@
+#ifndef RAND_ECH
+#define RAND_ECH
+
+#define RAND(x) Rand(x)
+
+#endif RAND_ECH

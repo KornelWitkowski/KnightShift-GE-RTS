@@ -1,0 +1,1601 @@
+#ifndef MAGIC_ECH
+#define MAGIC_ECH
+
+#include "Translates.ech"
+#include "Items.ech"
+
+////    Declarations    ////
+
+state MovingToMagicTarget;
+state TurningToMagicTarget;
+state MakingMagic;
+
+int  m_nAvailableMagics;
+int  m_nMagicNum;
+int  m_nMagicType;//0 - self, 1 - target, 2 - point
+unit m_uMagicTarget;
+int  m_nMagicTargetGx, m_nMagicTargetGy, m_nMagicTargetLz;
+int  m_nMagicTargetAlpha;
+unit m_uTeleportationTarget;
+int  m_bReplaceWithCurrUnit;
+int  m_nPrevImmortalState;
+int  m_nPrevMagicNum;
+int  m_nPrevMagicType;//0 - self, 1 - target, 2 - point
+unit m_uPrevMagicTarget;
+int  m_nPrevMagicTargetGx, m_nPrevMagicTargetGy, m_nPrevMagicTargetLz;
+int  m_nPrevMagicTargetAlpha;
+int  m_bIsEscorted;
+int  m_nEscortedCounter;
+
+enum teleportationMode
+{
+    TRL_TELEPORTATION_0 item ITEM_TELEPORTATION_0 description TRL_TELEPORTATION_0,
+    TRL_TELEPORTATION_1 item ITEM_TELEPORTATION_1 description TRL_TELEPORTATION_1,
+multi:
+    TRL_TELEPORTATION_X item ITEM_TELEPORTATION_X description TRL_TELEPORTATION_X
+}//����������������������������������������������������������������������������������������������������|
+
+enum wolfMode
+{
+    TRL_WOLF_0 item ITEM_WOLF_0 description TRL_WOLF_0,
+    TRL_WOLF_1 item ITEM_WOLF_1 description TRL_WOLF_1,
+multi:
+    TRL_WOLF_X item ITEM_WOLF_X description TRL_WOLF_X
+}//����������������������������������������������������������������������������������������������������|
+
+enum immortalMode
+{
+    TRL_IMMORTAL_0 item ITEM_IMMORTAL_0 description TRL_IMMORTAL_0,
+    TRL_IMMORTAL_1 item ITEM_IMMORTAL_1 description TRL_IMMORTAL_1,
+multi:
+    TRL_IMMORTAL_X item ITEM_IMMORTAL_X description TRL_IMMORTAL_X
+}//����������������������������������������������������������������������������������������������������|
+
+enum freezeMode
+{
+    TRL_FREEZE_0 item ITEM_FREEZE_0 description TRL_FREEZE_0,
+    TRL_FREEZE_1 item ITEM_FREEZE_1 description TRL_FREEZE_1,
+multi:
+    TRL_FREEZE_X item ITEM_FREEZE_X description TRL_FREEZE_X
+}//����������������������������������������������������������������������������������������������������|
+
+enum capturingMode
+{
+    TRL_CAPTURING_0 item ITEM_CAPTURING_0 description TRL_CAPTURING_0,
+    TRL_CAPTURING_1 item ITEM_CAPTURING_1 description TRL_CAPTURING_1,
+multi:
+    TRL_CAPTURING_X item ITEM_CAPTURING_X description TRL_CAPTURING_X
+}//����������������������������������������������������������������������������������������������������|
+
+enum stormMode
+{
+    TRL_STORM_0 item ITEM_STORM_0 description TRL_STORM_0,
+    TRL_STORM_1 item ITEM_STORM_1 description TRL_STORM_1,
+multi:
+    TRL_STORM_X item ITEM_STORM_X description TRL_STORM_X
+}//����������������������������������������������������������������������������������������������������|
+
+enum conversionMode
+{
+    TRL_CONVERSION_0 item ITEM_CONVERSION_0 description TRL_CONVERSION_0,
+    TRL_CONVERSION_1 item ITEM_CONVERSION_1 description TRL_CONVERSION_1,
+multi:
+    TRL_CONVERSION_X item ITEM_CONVERSION_X description TRL_CONVERSION_X
+}//����������������������������������������������������������������������������������������������������|
+
+enum fireRainMode
+{
+    TRL_FIRERAIN_0 item ITEM_FIRERAIN_0 description TRL_FIRERAIN_0,
+    TRL_FIRERAIN_1 item ITEM_FIRERAIN_1 description TRL_FIRERAIN_1,
+multi:
+    TRL_FIRERAIN_X item ITEM_FIRERAIN_X description TRL_FIRERAIN_X
+}//����������������������������������������������������������������������������������������������������|
+
+enum removeStormFireRainMode
+{
+    TRL_REMOVESTORMFIRERAIN_0 item ITEM_REMOVESTORMFIRERAIN_0 description TRL_REMOVESTORMFIRERAIN_0,
+    TRL_REMOVESTORMFIRERAIN_1 item ITEM_REMOVESTORMFIRERAIN_1 description TRL_REMOVESTORMFIRERAIN_1,
+multi:
+    TRL_REMOVESTORMFIRERAIN_X item ITEM_REMOVESTORMFIRERAIN_X description TRL_REMOVESTORMFIRERAIN_X
+}//����������������������������������������������������������������������������������������������������|
+
+////    Functions    ////
+
+function int InitializeMagic()
+{
+    m_nAvailableMagics = 0;
+    if (HaveMagic(magicImmortalShield)) m_nAvailableMagics = m_nAvailableMagics | (1 << magicImmortalShield);
+    if (HaveMagic(magicFreeze)) m_nAvailableMagics = m_nAvailableMagics | (1 << magicFreeze);
+    if (HaveMagic(magicCapturing)) m_nAvailableMagics = m_nAvailableMagics | (1 << magicCapturing);
+    if (HaveMagic(magicStorm)) m_nAvailableMagics = m_nAvailableMagics | (1 << magicStorm);
+    if (HaveMagic(magicSeeing)) m_nAvailableMagics = m_nAvailableMagics | (1 << magicSeeing);
+    if (HaveMagic(magicConversion)) m_nAvailableMagics = m_nAvailableMagics | (1 << magicConversion);
+    if (HaveMagic(magicFireRain)) m_nAvailableMagics = m_nAvailableMagics | (1 << magicFireRain);
+    if (HaveMagic(magicRemoveStormFireRain)) m_nAvailableMagics = m_nAvailableMagics | (1 << magicRemoveStormFireRain);
+    if (HaveMagic(magicTeleportation)) m_nAvailableMagics = m_nAvailableMagics | (1 << magicTeleportation);
+    if (HaveMagic(magicGhost)) m_nAvailableMagics = m_nAvailableMagics | (1 << magicGhost);
+    if (HaveMagic(magicWildAnimal)) m_nAvailableMagics = m_nAvailableMagics | (1 << magicWildAnimal);
+    if (m_nAvailableMagics)
+    {
+        return true;
+    }
+    return false;
+}//����������������������������������������������������������������������������������������������������|
+
+function void ResetMagicTarget()
+{
+    m_uMagicTarget = null;
+    m_uTeleportationTarget = null;
+    m_uPrevMagicTarget = null;
+}//����������������������������������������������������������������������������������������������������|
+
+function int MagicEventOnChangedEquipment()
+{
+    return InitializeMagic();
+}//����������������������������������������������������������������������������������������������������|
+
+function int GetMagicRange(int nMagicNum, int nMagicType)
+{
+    if (nMagicType == 1)
+    {
+        //margines po ty aby zanim sie zatrzymamy cel nie odszedl poza zasieg
+        return GetMagicRange(nMagicNum) - 1;
+    }
+    return GetMagicRange(nMagicNum);
+}//����������������������������������������������������������������������������������������������������|
+
+function int StartMakeMagic(int nMagicNum)
+{
+    if (!CanMakeMagic(nMagicNum))
+    {
+        TRACE1("!CanMakeMagic()");
+        return false;
+    }
+    if (IsMoving() || IsPreparingToMove())
+    {
+        CallStopMoving();
+    }
+    m_nMagicNum = nMagicNum;
+    m_nMagicType = 0;
+    m_uMagicTarget = null;
+    m_uTeleportationTarget = null;
+    m_nPrevImmortalState = -1;
+    m_uPrevMagicTarget = null;
+    m_bIsEscorted = false;//wlaczany po wydaniu komendy magii
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+function int StartMakeMagic(int nMagicNum, unit uTarget)
+{
+    if (!CanMakeMagic(nMagicNum, uTarget))
+    {
+        return false;
+    }
+    m_nMagicNum = nMagicNum;
+    m_nMagicType = 1;
+    m_uMagicTarget = uTarget;
+    m_nMagicTargetGx = m_uMagicTarget.GetLocationX();
+    m_nMagicTargetGy = m_uMagicTarget.GetLocationY();
+    m_nMagicTargetLz = m_uMagicTarget.GetLocationZ();
+    if ((Distance(GetLocationX(), GetLocationY(), m_nMagicTargetGx, m_nMagicTargetGy) <= GetMagicRange(m_nMagicNum, m_nMagicType)) &&
+        (GetLocationZ() == m_nMagicTargetLz))
+    {
+        if (IsMoving() || IsPreparingToMove())
+        {
+            CallStopMoving();
+        }
+    }
+    else
+    {
+        CallMoveToPoint(m_nMagicTargetGx, m_nMagicTargetGy, m_nMagicTargetLz);
+    }
+    m_uTeleportationTarget = null;
+    m_nPrevImmortalState = -1;
+    m_uPrevMagicTarget = null;
+    m_bIsEscorted = false;//wlaczany po wydaniu komendy magii
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+function int StartMakeMagic(int nMagicNum, int nGx, int nGy, int nLz)
+{
+    TRACE1("StartMakeMagic");
+    if (!CanMakeMagic(nMagicNum, nGx, nGy, nLz))
+    {
+        return false;
+    }
+    m_nMagicNum = nMagicNum;
+    m_nMagicType = 2;
+    m_uMagicTarget = null;
+    m_nMagicTargetGx = nGx;
+    m_nMagicTargetGy = nGy;
+    m_nMagicTargetLz = nLz;
+    if ((Distance(GetLocationX(), GetLocationY(), m_nMagicTargetGx, m_nMagicTargetGy) <= GetMagicRange(m_nMagicNum, m_nMagicType)) &&
+        ((GetLocationZ() == m_nMagicTargetLz) || (m_nMagicNum == magicTeleportation)))
+    {
+        if (IsMoving() || IsPreparingToMove())
+        {
+            CallStopMoving();
+        }
+    }
+    else
+    {
+        CallMoveToPoint(m_nMagicTargetGx, m_nMagicTargetGy, m_nMagicTargetLz);
+    }
+    m_uTeleportationTarget = null;
+    m_nPrevImmortalState = -1;
+    m_uPrevMagicTarget = null;
+    m_bIsEscorted = false;//wlaczany po wydaniu komendy magii
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+function int StartMakeMagic(int nMagicNum, int nGx, int nGy, int nLz, int nAlpha)
+{
+    TRACE1("StartMakeMagic");
+    if (!CanMakeMagic(nMagicNum, nGx, nGy, nLz, nAlpha))
+    {
+        return false;
+    }
+    m_nMagicNum = nMagicNum;
+    m_nMagicType = 3;
+    m_uMagicTarget = null;
+    m_nMagicTargetGx = nGx;
+    m_nMagicTargetGy = nGy;
+    m_nMagicTargetLz = nLz;
+    m_nMagicTargetAlpha = nAlpha;
+    if ((Distance(GetLocationX(), GetLocationY(), m_nMagicTargetGx, m_nMagicTargetGy) <= GetMagicRange(m_nMagicNum, m_nMagicType)) &&
+        ((GetLocationZ() == m_nMagicTargetLz) || (m_nMagicNum == magicTeleportation)))
+    {
+        if (IsMoving() || IsPreparingToMove())
+        {
+            CallStopMoving();
+        }
+    }
+    else
+    {
+        CallMoveToPoint(m_nMagicTargetGx, m_nMagicTargetGy, m_nMagicTargetLz);
+    }
+    m_uTeleportationTarget = null;
+    m_nPrevImmortalState = -1;
+    m_uPrevMagicTarget = null;
+    m_bIsEscorted = false;//wlaczany po wydaniu komendy magii
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+function int MakeCurrentMagic()
+{
+    if (m_nMagicType == 0)
+    {
+        CallMakeMagic(m_nMagicNum);
+    }
+    else if (m_nMagicType == 1)
+    {
+        CallMakeMagic(m_nMagicNum, m_uMagicTarget);
+    }
+    else if (m_nMagicType == 2)
+    {
+        CallMakeMagic(m_nMagicNum, m_nMagicTargetGx, m_nMagicTargetGy, m_nMagicTargetLz);
+    }
+    else if (m_nMagicType == 3)
+    {
+        CallMakeMagic(m_nMagicNum, m_nMagicTargetGx, m_nMagicTargetGy, m_nMagicTargetLz, m_nMagicTargetAlpha);
+    }
+    else
+    {
+        return false;
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+function int GetFindMagicTargetPlayerType()
+{
+    if (IsInBlindAttack())
+    {
+        return findAllyUnit | findOurUnit | findNeutralUnit;
+    }
+    return findEnemyUnit;
+}//����������������������������������������������������������������������������������������������������|
+
+function int TryMakeImmortalShieldMagic(int bInTower)
+{
+    int nMagicNum, nMagicType, nMagicTargetGx, nMagicTargetGy, nMagicTargetLz, nMagicTargetAlpha;
+    unit uMagicTarget;
+
+    if (!m_nAvailableMagics || !(m_nAvailableMagics & (1 << magicImmortalShield)) ||
+        (immortalMode == 0) || !IsMagicReady(magicImmortalShield) || 
+        (GetArmour(0) >= 100) || HaveWorkingImmortalShield() ||
+        (((state == MovingToMagicTarget) || (state == MakingMagic)) && (m_nMagicNum == magicImmortalShield)))
+    {
+        return false;
+    }
+    if (bInTower)
+    {
+        CallMakeMagic(magicImmortalShield);
+        return true;
+    }
+    if ((state == MovingToMagicTarget) || (state == TurningToMagicTarget))
+    {
+        nMagicNum = m_nMagicNum;
+        nMagicType = m_nMagicType;
+        uMagicTarget = m_uMagicTarget;
+        nMagicTargetGx = m_nMagicTargetGx;
+        nMagicTargetGy = m_nMagicTargetGy;
+        nMagicTargetLz = m_nMagicTargetLz;
+        nMagicTargetAlpha = m_nMagicTargetAlpha;
+        TRACE1("TryMakeImmortalShieldMagic->m_nPrevImmortalState=MovingToMagicTarget");
+    }
+    if (StartMakeMagic(magicImmortalShield))
+    {
+        m_nPrevImmortalState = state;
+        m_nPrevMagicNum = nMagicNum;
+        m_nPrevMagicType = nMagicType;
+        m_uPrevMagicTarget = uMagicTarget;
+        m_nPrevMagicTargetGx = nMagicTargetGx;
+        m_nPrevMagicTargetGy = nMagicTargetGy;
+        m_nPrevMagicTargetLz = nMagicTargetLz;
+        m_nPrevMagicTargetAlpha = nMagicTargetAlpha;
+        return true;
+    }
+    return false;
+}//����������������������������������������������������������������������������������������������������|
+
+function int TryMakeFreezeMagic(int bInTower)
+{
+    int nOthersCount;
+
+    if (!m_nAvailableMagics || !(m_nAvailableMagics & (1 << magicFreeze)) ||
+        (freezeMode == 0) || !IsMagicReady(magicFreeze))
+    {
+        return false;
+    }
+    SimpleCountObjectsInArea(GetLocationX(), GetLocationY(), GetLocationZ(), GetMagicExecuteRange(magicFreeze));
+    nOthersCount = GetOtherCountObjectsInArea();
+    if ((nOthersCount > 3) && (nOthersCount > 2*GetOurCountObjectsInArea()))
+    {
+        if (bInTower)
+        {
+            CallMakeMagic(magicFreeze);
+            return true;
+        }
+        if (StartMakeMagic(magicFreeze))
+        {
+            return true;
+        }
+    }
+    return false;
+}//����������������������������������������������������������������������������������������������������|
+
+function int TryMakeCapturingMagic(int bInTower)
+{
+    unit uTarget;
+    int nIndex, nCount;
+    int nMagicRange;
+
+    if (!m_nAvailableMagics || !(m_nAvailableMagics & (1 << magicCapturing)) ||
+        (capturingMode == 0) || !IsMagicReady(magicCapturing) || IsInBlindAttack())
+    {
+        return false;
+    }
+    //wybieramy jednostke wroga z najwyzszym HP
+    nMagicRange = GetMagicRange(magicCapturing);
+    BuildTargetsArray(findTargetUnit | findTargetArmedAnimal, findEnemyUnit, GetLocationX(), GetLocationY(), GetLocationZ(), MIN(nMagicRange, 16));
+    nMagicRange = nMagicRange - 2;
+    SetSortFoundTargetsArrayMode(sortModeReversedHP);//te z maxHP na poczatku tablicy
+    SortFoundTargetsArray();
+    nCount = GetTargetsCount();
+    StartEnumTargetsArray();
+    for (nIndex = 0; nIndex < nCount; ++nIndex)
+    {
+        uTarget = GetNextTarget();
+        if (CanMakeMagic(magicCapturing, uTarget) && (DistanceTo(uTarget) <= nMagicRange) &&
+            !IsOtherUnitMakingMagicOnTarget(uTarget))
+        {
+            if (bInTower)
+            {
+                CallMakeMagic(magicCapturing, uTarget);
+                EndEnumTargetsArray();
+                return true;
+            }
+            if (StartMakeMagic(magicCapturing, uTarget))
+            {
+                EndEnumTargetsArray();
+                return true;
+            }
+        }
+    }
+    EndEnumTargetsArray();
+    return false;
+}//����������������������������������������������������������������������������������������������������|
+    
+function int TryMakeConversionMagic(int bInTower)
+{
+    unit uTarget;
+    int nIndex, nCount;
+    int nMagicRange;
+
+    if (!m_nAvailableMagics || !(m_nAvailableMagics & (1 << magicConversion)) ||
+        (conversionMode == 0) || !IsMagicReady(magicConversion))
+    {
+        return false;
+    }
+    //wybieramy jednostke wroga ktora robi najwiekszy damage
+    nMagicRange = GetMagicRange(magicConversion);
+    BuildTargetsArray(findTargetUnit | findTargetArmedAnimal, GetFindMagicTargetPlayerType(), GetLocationX(), GetLocationY(), GetLocationZ(), MIN(nMagicRange, 16));
+    nMagicRange = nMagicRange - 2;
+    SetSortFoundTargetsArrayMode(sortModeReversedDamage);//te z maxDamage na poczatku tablicy
+    SortFoundTargetsArray();
+    nCount = GetTargetsCount();
+    StartEnumTargetsArray();
+    for (nIndex = 0; nIndex < nCount; ++nIndex)
+    {
+        uTarget = GetNextTarget();
+        if (CanMakeMagic(magicConversion, uTarget) && (DistanceTo(uTarget) <= nMagicRange) &&
+            !IsOtherUnitMakingMagicOnTarget(uTarget))
+        {
+            if (bInTower)
+            {
+                CallMakeMagic(magicConversion, uTarget);
+                EndEnumTargetsArray();
+                return true;
+            }
+            if (StartMakeMagic(magicConversion, uTarget))
+            {
+                EndEnumTargetsArray();
+                return true;
+            }
+        }
+    }
+    EndEnumTargetsArray();
+    return false;
+}//����������������������������������������������������������������������������������������������������|
+
+function int TryMakeWolfMagic(int bInTower)
+{
+    unit uTarget;
+    int nIndex, nCount;
+    int nPosX, nPosY, nPosZ;
+    int nMagicRange;
+    int nChecks, nOthersCount;
+
+    if (!m_nAvailableMagics || !(m_nAvailableMagics & (1 << magicWildAnimal)) ||
+        (wolfMode == 0) || !IsMagicReady(magicWildAnimal))
+    {
+        return false;
+    }
+    nMagicRange = GetMagicRange(magicWildAnimal);
+    BuildTargetsArray(findTargetUnit, GetFindMagicTargetPlayerType(), GetLocationX(), GetLocationY(), GetLocationZ(), MIN(nMagicRange, 16));
+    SortFoundTargetsArrayReversed();
+    nCount = GetTargetsCount();
+    StartEnumTargetsArray();
+    for (nIndex = 0; nIndex < nCount; ++nIndex)
+    {
+        uTarget = GetNextTarget();
+
+        // Wilk należy do gracza 14. Nie ma sensu go rzucać na gracza 14, więc omijamy iteracje
+        if(uTarget.GetIFFNumber()==14)
+            continue;
+
+        if (DistanceTo(uTarget) >= 8)
+        {
+            ++nChecks;
+            if (nChecks > 6)
+            {
+                break;
+            }
+            nPosX = uTarget.GetLocationX();
+            nPosY = uTarget.GetLocationY();
+            nPosZ = uTarget.GetLocationZ();
+            SimpleCountObjectsInArea(nPosX, nPosY, nPosZ, 4);
+            nOthersCount = GetOtherCountObjectsInArea();
+            if ((nOthersCount > 1) && (nOthersCount > 2*GetOurCountObjectsInArea()))
+            {
+                if (bInTower)
+                {
+                    CallMakeMagic(magicWildAnimal, nPosX, nPosY, nPosZ);
+                    EndEnumTargetsArray();
+                    return true;
+                }
+                if (StartMakeMagic(magicWildAnimal, nPosX, nPosY, nPosZ))
+                {
+                    EndEnumTargetsArray();
+                    return true;
+                }
+                break;
+            }
+        }
+        else
+        {
+            break;
+        }
+    }
+    EndEnumTargetsArray();
+    return false;
+}//����������������������������������������������������������������������������������������������������|
+
+function int TryMakeOffenceMagic(int bInTower, int nMagicType, int nMagicMode)
+{
+    unit uTarget;
+    int nIndex, nCount;
+    int nPosX, nPosY, nPosZ;
+    int nMagicRange, nExecuteRange;
+    int nChecks, nOthersCount;
+
+    if (!m_nAvailableMagics || !(m_nAvailableMagics & (1 << nMagicType)) ||
+        (nMagicMode == 0) || !IsMagicReady(nMagicType))
+    {
+        return false;
+    }
+    TRACE1("TryMakeOffenceMagic");
+    nMagicRange = GetMagicRange(nMagicType);
+    nExecuteRange = GetMagicExecuteRange(nMagicType);
+    BuildTargetsArray(findTargetUnit | findTargetArmedAnimal | findTargetBuilding, GetFindMagicTargetPlayerType(), GetLocationX(), GetLocationY(), GetLocationZ(), MIN(nMagicRange, 16));
+    SortFoundTargetsArrayReversed();
+    nCount = GetTargetsCount();
+    StartEnumTargetsArray();
+    for (nIndex = 0; nIndex < nCount; ++nIndex)
+    {
+        uTarget = GetNextTarget();
+        if (DistanceTo(uTarget) >= nExecuteRange)
+        {
+            ++nChecks;
+            if (nChecks > 6)
+            {
+                break;
+            }
+            nPosX = uTarget.GetLocationX();
+            nPosY = uTarget.GetLocationY();
+            nPosZ = uTarget.GetLocationZ();
+            SimpleCountObjectsInArea(nPosX, nPosY, nPosZ, 8);
+            nOthersCount = GetOtherCountObjectsInArea();
+            if ((nOthersCount > 3) && (nOthersCount > 3*GetOurCountObjectsInArea()))
+            {
+                TRACE1("TryMakeOffenceMagic 2");
+                if (bInTower)
+                {
+                    CallMakeMagic(nMagicType, nPosX, nPosY, nPosZ);
+                    EndEnumTargetsArray();
+                    return true;
+                }
+                if (StartMakeMagic(nMagicType, nPosX, nPosY, nPosZ))
+                {
+                    EndEnumTargetsArray();
+                    return true;
+                }
+                break;
+            }
+        }
+        else
+        {
+            break;
+        }
+    }
+    EndEnumTargetsArray();
+    TRACE1("TryMakeOffenceMagic->false");
+    return false;
+}//����������������������������������������������������������������������������������������������������|
+
+function int TryMakeStormMagic(int bInTower)
+{
+    return TryMakeOffenceMagic(bInTower, magicStorm, stormMode);
+}//����������������������������������������������������������������������������������������������������|
+
+function int TryMakeFireRainMagic(int bInTower)
+{
+    return TryMakeOffenceMagic(bInTower, magicFireRain, fireRainMode);
+}//����������������������������������������������������������������������������������������������������|
+
+function int TryMakeRemoveStormFireRainMagic(int bInTower)
+{
+    int nGx, nGy, nLz;
+
+    if (!m_nAvailableMagics || !(m_nAvailableMagics & (1 << magicRemoveStormFireRain)) ||
+        (removeStormFireRainMode == 0) || !IsMagicReady(magicRemoveStormFireRain))
+    {
+        return false;
+    }
+    nGx = GetLocationX();
+    nGy = GetLocationY();
+    nLz = GetLocationZ();
+    if (!IsStormOrFireRainInPoint(nGx, nGy, nLz, true, false))
+    {
+        return false;
+    }
+    if (bInTower)
+    {
+        CallMakeMagic(magicRemoveStormFireRain, nGx, nGy, nLz);
+        return true;
+    }
+    if (StartMakeMagic(magicRemoveStormFireRain, nGx, nGy, nLz))
+    {
+        return true;
+    }
+    return false;
+}//����������������������������������������������������������������������������������������������������|
+
+function int OnCommandMoveMagicCallback(int nGx, int nGy, int nLz)
+{
+    if (!m_nAvailableMagics || !(m_nAvailableMagics & (1 << magicTeleportation)) ||
+        (teleportationMode == 0) || !IsMagicReady(magicTeleportation))
+    {
+        return false;
+    }
+    if (((DistanceTo(nGx, nGy) > 5) || (nLz != GetLocationZ())) &&
+        StartMakeMagic(magicTeleportation, nGx, nGy, nLz))
+    {
+        state MovingToMagicTarget;
+        return true;
+    }
+    return false;
+}//����������������������������������������������������������������������������������������������������|
+
+function int OnCommandEnterMagicCallback(unit uEntrance, int bReplaceWithCurrUnit)
+{
+    int nPosX, nPosY, nPosZ;
+    int nDx, nDy, nDx1, nDy1, nCounter;
+    int nAngleDir;
+
+    if (!m_nAvailableMagics || !(m_nAvailableMagics & (1 << magicTeleportation)) ||
+        (teleportationMode == 0) || !IsMagicReady(magicTeleportation))
+    {
+        return false;
+    }
+    nPosX = GetEntranceX(uEntrance);
+    nPosY = GetEntranceY(uEntrance);
+    nPosZ = GetEntranceZ(uEntrance);
+    if ((DistanceTo(nPosX, nPosY) <= 5) && (nPosZ == GetLocationZ()))
+    {
+        return false;
+    }
+    if (uEntrance.IsBuilding() && CanEnterTowerGate(uEntrance))
+    {
+        //teleportujemy sie bezposrednio do budynku
+        if (StartMakeMagic(magicTeleportation, nPosX, nPosY, nPosZ))
+        {
+            m_uTeleportationTarget = uEntrance;
+            m_bReplaceWithCurrUnit = bReplaceWithCurrUnit;
+            m_nStartMoveGx = GetLocationX();
+            m_nStartMoveGy = GetLocationY();
+            m_nStartMoveLz = GetLocationZ();
+            state MovingToMagicTarget;
+            return true;
+        }
+    }
+    nAngleDir = uEntrance.GetAlphaAngle() >> 6;
+    //znalezc wolne miejsce w poblizu budynku
+    if (nAngleDir == 0)
+    {
+        nPosY = nPosY - 1;
+        nDx = 0;
+        nDy = -1;
+        nDx1 = 1;
+        nDy1 = 0;
+    }
+    else if (nAngleDir == 1)
+    {
+        nPosX = nPosX + 1;
+        nDx = 1;
+        nDy = 0;
+        nDx1 = 0;
+        nDy1 = 1;
+    }
+    else if (nAngleDir == 2)
+    {
+        nPosY = nPosY + 1;
+        nDx = 0;
+        nDy = 1;
+        nDx1 = 1;
+        nDy1 = 0;
+    }
+    else
+    {
+        ASSERT(nAngleDir == 3);
+        nPosX = nPosX - 1;
+        nDx = -1;
+        nDy = 0;
+        nDx1 = 0;
+        nDy1 = 1;
+    }
+    for (nCounter = 0; nCounter < 5; ++nCounter)
+    {
+        if (CanMakeMagic(magicTeleportation, nPosX, nPosY, nPosZ))
+        {
+            break;
+        }
+        if (CanMakeMagic(magicTeleportation, nPosX + nDx1, nPosY + nDy1, nPosZ))
+        {
+            nPosX = nPosX + nDx1;
+            nPosY = nPosY + nDy1;
+            break;
+        }
+        if (CanMakeMagic(magicTeleportation, nPosX - nDx1, nPosY - nDy1, nPosZ))
+        {
+            nPosX = nPosX - nDx1;
+            nPosY = nPosY - nDy1;
+            break;
+        }
+        nPosX = nPosX + nDx;
+        nPosY = nPosY + nDy;
+    }
+    if (nCounter >= 5)
+    {
+        return false;
+    }
+    if (StartMakeMagic(magicTeleportation, nPosX, nPosY, nPosZ))
+    {
+        m_uTeleportationTarget = uEntrance;
+        m_bReplaceWithCurrUnit = bReplaceWithCurrUnit;
+        m_nStartMoveGx = GetLocationX();
+        m_nStartMoveGy = GetLocationY();
+        m_nStartMoveLz = GetLocationZ();
+        state MovingToMagicTarget;
+        return true;
+    }
+    return false;
+}//����������������������������������������������������������������������������������������������������|
+
+////    States    ////
+
+state MovingToMagicTarget
+{
+    int nGx, nGy;
+
+    TRACE1("MovingToMagicTarget");
+    if (m_nMagicType == 1)
+    {
+        if (!m_uMagicTarget || !m_uMagicTarget.IsLive()
+            ON_USER_SCRIPT(|| !IsVisible(m_uMagicTarget)))
+        {
+            m_uMagicTarget = null;
+            CallStopMoving();
+            NextCommand(0);
+            return Nothing, 0;
+        }
+        if ((m_uMagicTarget.GetLocationX() != m_nMagicTargetGx) || (m_uMagicTarget.GetLocationY() != m_nMagicTargetGy) || (m_uMagicTarget.GetLocationZ() != m_nMagicTargetLz))
+        {
+            m_nMagicTargetGx = m_uMagicTarget.GetLocationX();
+            m_nMagicTargetGy = m_uMagicTarget.GetLocationY();
+            m_nMagicTargetLz = m_uMagicTarget.GetLocationZ();
+            CallMoveToPoint(m_nMagicTargetGx, m_nMagicTargetGy, m_nMagicTargetLz);
+        }
+    }
+    if (m_nMagicType == 0)
+    {
+        if (!IsMoving())
+        {
+            TRACE1("MovingToMagicTarget->MakingMagic");
+            MakeCurrentMagic();
+            return MakingMagic;
+        }
+    }
+    else
+    {
+        if (IsMoving())
+        {
+            if ((Distance(GetLocationX(), GetLocationY(), m_nMagicTargetGx, m_nMagicTargetGy) <= GetMagicRange(m_nMagicNum, m_nMagicType)) &&
+                ((GetLocationZ() == m_nMagicTargetLz) || (m_nMagicNum == magicTeleportation)))
+            {
+                CallStopMoving();
+                return MovingToMagicTarget, 10;
+            }
+#ifdef AI_SCRIPT
+            //jezeli jestesmy "magikiem" AI i wykonujemy ta komende w eskorcie to zatrzymujemy sie
+            //na chwile jesli zobaczymy wroga aby nasza eskorta miala szanse go zabic
+            if (m_bIsEscorted)
+            {
+                    //licznik zeby nie stawac w chwile po ruszeniu
+                if (m_nEscortedCounter > 0)
+                {
+                    --m_nEscortedCounter;
+                }
+                if (FindClosestEnemyEx(findTargetUnit) != null)
+                {
+                    if (m_nEscortedCounter == 0)
+                    {
+                        CallStopMoving();
+                        m_nEscortedCounter = 20;//*10 tikow
+                        return MovingToMagicTarget, 10*20;
+                    }
+                }
+            }
+#endif AI_SCRIPT
+            if (IsWaitingBeforeClosedGate())
+            {
+		        TRACE("IsWaitingBeforeClosedGate\n");
+                m_uMagicTarget = null;
+                CallStopMoving();
+                NextCommand(0);
+                return Nothing, 0;
+            }
+        }
+        else
+        {
+            if ((Distance(GetLocationX(), GetLocationY(), m_nMagicTargetGx, m_nMagicTargetGy) > GetMagicRange(m_nMagicNum, m_nMagicType)) ||
+                ((GetLocationZ() != m_nMagicTargetLz) && (m_nMagicNum != magicTeleportation)))
+            {
+                if (IsWaitingBeforeClosedGate())
+                {
+		            TRACE("IsWaitingBeforeClosedGate\n");
+                    m_uMagicTarget = null;
+                    CallStopMoving();
+                    NextCommand(0);
+                    return Nothing, 0;
+                }
+                CallMoveToPoint(m_nMagicTargetGx, m_nMagicTargetGy, m_nMagicTargetLz);
+            }
+            else
+            {
+                nGx = GetLocationX();
+                nGy = GetLocationY();
+                if ((nGx != m_nMagicTargetGx) || (nGy != m_nMagicTargetGy))
+                {
+                    CallTurnToAngle(GetAngleToPoint(m_nMagicTargetGx, m_nMagicTargetGy, m_nMagicTargetLz));
+                }
+                TRACE1("MovingToMagicTarget->TurningToMagicTarget");
+                return TurningToMagicTarget, 5;
+            }
+        }
+    }
+    return MovingToMagicTarget, 10;
+}//����������������������������������������������������������������������������������������������������|
+
+state TurningToMagicTarget
+{
+    int nTargetGx, nTargetGy, nTargetLz;
+    int nGx, nGy;
+
+    TRACE1("TurningToMagicTarget");
+    if ((m_nMagicType == 1) && 
+        ((m_uMagicTarget.GetLocationX() != m_nMagicTargetGx) || (m_uMagicTarget.GetLocationY() != m_nMagicTargetGy) || (m_uMagicTarget.GetLocationZ() != m_nMagicTargetLz)))
+    {
+        //tutaj nie zmieniamy m_nMagicTargetGx,y,z zeby w warunku sprawdzania kata nie zaczal sie znowu obracac o maly kat
+        nTargetGx = m_uMagicTarget.GetLocationX();
+        nTargetGy = m_uMagicTarget.GetLocationY();
+        nTargetLz = m_uMagicTarget.GetLocationZ();
+        //tutaj wolamy GetMagicRange z kodu, a nie nasza funkcje zmniejszajaca o 1
+        if ((Distance(GetLocationX(), GetLocationY(), nTargetGx, nTargetGy) > GetMagicRange(m_nMagicNum)) ||
+            (GetLocationZ() != nTargetLz))
+        {
+            //ustawiamy dopiero teraz
+            m_nMagicTargetGx = nTargetGx;
+            m_nMagicTargetGy = nTargetGy;
+            m_nMagicTargetLz = nTargetLz;
+            CallMoveToPoint(m_nMagicTargetGx, m_nMagicTargetGy, m_nMagicTargetLz);
+            return MovingToMagicTarget;
+        }
+    }
+    if (!IsMoving())
+    {
+        nGx = GetLocationX();
+        nGy = GetLocationY();
+        if (((nGx == m_nMagicTargetGx) && (nGy == m_nMagicTargetGy)) ||
+            (ABS(GetRelativeAngleToPoint(m_nMagicTargetGx, m_nMagicTargetGy, m_nMagicTargetLz)) < 5))
+        {
+            TRACE1("TurningToMagicTarget->MakingMagic");
+            MakeCurrentMagic();
+            return MakingMagic;
+        }
+        else
+        {
+            CallTurnToAngle(GetAngleToPoint(m_nMagicTargetGx, m_nMagicTargetGy, m_nMagicTargetLz));
+        }
+    }
+    return TurningToMagicTarget, 5;
+}//����������������������������������������������������������������������������������������������������|
+
+state MakingMagic
+{
+    TRACE1("MakingMagic");
+    if (!IsMakingMagic())
+    {
+        if (m_uTeleportationTarget)
+        {
+            TRACE1("MakingMagic->m_uTeleportationTarget");
+            if (m_bReplaceWithCurrUnit)
+            {
+                m_uEnterBuilding = m_uTeleportationTarget;
+                m_uTeleportationTarget = null;
+                return MovingToEnterReplaceUnit, 5;
+            }
+            else
+            {
+                CallMoveInsideObject(m_uTeleportationTarget);
+                m_uTeleportationTarget = null;
+                return StartMovingToEnter,5;
+            }
+        }
+        else if (m_nPrevImmortalState >= 0)
+        {
+            if ((m_nPrevImmortalState == StartMoving) || (m_nPrevImmortalState == Moving))
+            {
+                m_nPrevImmortalState = -1;
+                TRACE1("MakingMagic->m_nPrevImmortalState=Moving");
+                NextCommand(1);
+                CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+                return StartMoving,5;
+            }
+            else if ((m_nPrevImmortalState == StartMovingToEnter) || (m_nPrevImmortalState == MovingToEnter))
+            {
+                m_nPrevImmortalState = -1;
+                TRACE1("MakingMagic->m_nPrevImmortalState=MovingToEnter");
+                NextCommand(1);
+                CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+                return StartMovingToEnter,5;
+            }
+            else if ((m_nPrevImmortalState == MovingToMagicTarget) || (m_nPrevImmortalState == TurningToMagicTarget))
+            {
+                TRACE1("MakingMagic->m_nPrevImmortalState=MovingToMagicTarget");
+                m_nMagicNum = m_nPrevMagicNum;
+                m_nMagicType = m_nPrevMagicType;
+                m_uMagicTarget = m_uPrevMagicTarget;
+                m_nMagicTargetGx = m_nPrevMagicTargetGx;
+                m_nMagicTargetGy = m_nPrevMagicTargetGy;
+                m_nMagicTargetLz = m_nPrevMagicTargetLz;
+                m_nMagicTargetAlpha = m_nPrevMagicTargetAlpha;
+                m_nPrevImmortalState = -1;
+                m_uPrevMagicTarget = null;
+                return MovingToMagicTarget, 0;
+            }
+        }
+        TRACE1("MakingMagic->Nothing");
+        NextCommand(1);
+        return Nothing, 0;
+    }
+    return MakingMagic, 5;
+}//����������������������������������������������������������������������������������������������������|
+
+////    Commands    ////
+
+command MakeMagicImmortalShield() button TRL_MAGIC_IMMORTAL description TRL_MAGIC_IMMORTAL item ITEM_IMMORTAL priority PRIOR_IMMORTAL hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicImmortalShield))
+    {
+        if ((GetArmour(0) >= 100) || HaveWorkingImmortalShield() ||
+            (((state == MovingToMagicTarget) || (state == MakingMagic)) && (m_nMagicNum == magicImmortalShield)))
+        {
+            NextCommand(0);
+        }
+        else
+        {
+            CHECK_STOP_CURR_ACTION();
+            if (StartMakeMagic(magicImmortalShield))
+            {
+                state MovingToMagicTarget;
+            }
+            else
+            {
+                NextCommand(0);
+            }
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicCapturing(unit uTarget) button TRL_MAGIC_CAPTURING description TRL_MAGIC_CAPTURING item ITEM_CAPTURING priority PRIOR_CAPTURING hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicCapturing, uTarget))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicCapturing, uTarget))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicStorm(int nGx, int nGy, int nLz) button TRL_MAGIC_STORM description TRL_MAGIC_STORM item ITEM_STORM priority PRIOR_STORM hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicStorm, nGx, nGy, nLz))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicStorm, nGx, nGy, nLz))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicSeeing(int nGx, int nGy, int nLz) button TRL_MAGIC_SEEING description TRL_MAGIC_SEEING item ITEM_SEEING priority PRIOR_SEEING hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicSeeing, nGx, nGy, nLz))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicSeeing, nGx, nGy, nLz))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicConversion(unit uTarget) button TRL_MAGIC_CONVERSION description TRL_MAGIC_CONVERSION item ITEM_CONVERSION priority PRIOR_CONVERSION hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicConversion, uTarget))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicConversion, uTarget))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicFireRain(int nGx, int nGy, int nLz) button TRL_MAGIC_FIRERAIN description TRL_MAGIC_FIRERAIN item ITEM_FIRERAIN priority PRIOR_FIRERAIN hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicFireRain, nGx, nGy, nLz))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicFireRain, nGx, nGy, nLz))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicRemoveStormFireRain(int nGx, int nGy, int nLz) hidden button TRL_MAGIC_REMOVESTORMFIRERAIN description TRL_MAGIC_REMOVESTORMFIRERAIN item ITEM_REMOVESTORMFIRERAIN priority PRIOR_REMOVESTORMFIRERAIN hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicRemoveStormFireRain, nGx, nGy, nLz))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicRemoveStormFireRain, nGx, nGy, nLz))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicTeleportation(int nGx, int nGy, int nLz) 
+#ifndef RPG_UNIT_EC
+                                                          hidden 
+#endif  RPG_UNIT_EC
+                                                          button TRL_MAGIC_TELEPORTATION description TRL_MAGIC_TELEPORTATION item ITEM_TELEPORTATION priority PRIOR_TELEPORTATION hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicTeleportation, nGx, nGy, nLz))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicTeleportation, nGx, nGy, nLz))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicGhost(int nGx, int nGy, int nLz) button TRL_MAGIC_GHOST description TRL_MAGIC_GHOST item ITEM_GHOST priority PRIOR_GHOST hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicGhost, nGx, nGy, nLz))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicGhost, nGx, nGy, nLz))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicWildAnimal(int nGx, int nGy, int nLz) button TRL_MAGIC_WILDANIMAL description TRL_MAGIC_WILDANIMAL item ITEM_WILDANIMAL priority PRIOR_WILDANIMAL hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicWildAnimal, nGx, nGy, nLz))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicWildAnimal, nGx, nGy, nLz))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+#ifdef RPG_UNIT_EC
+
+command MakeMagicFreeze() button TRL_MAGIC_FREEZE description TRL_MAGIC_FREEZE item ITEM_FREEZE priority PRIOR_FREEZE hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicFreeze))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicFreeze))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicTrap(int nGx, int nGy, int nLz) button TRL_MAGIC_TRAP description TRL_MAGIC_TRAP item ITEM_TRAP priority PRIOR_TRAP hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicTrap, nGx, nGy, nLz))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicTrap, nGx, nGy, nLz))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicGetHP(unit uTarget) button TRL_MAGIC_GETHP description TRL_MAGIC_GETHP item ITEM_GETHP priority PRIOR_GETHP hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicGetHP, uTarget))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicGetHP, uTarget))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicSingleFreeze(unit uTarget) button TRL_MAGIC_SINGLEFREEZE description TRL_MAGIC_SINGLEFREEZE item ITEM_SINGLEFREEZE priority PRIOR_SINGLEFREEZE hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicSingleFreeze, uTarget))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicSingleFreeze, uTarget))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicBlindAttack(unit uTarget) button TRL_MAGIC_BLINDATTACK description TRL_MAGIC_BLINDATTACK item ITEM_BLINDATTACK priority PRIOR_BLINDATTACK hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicBlindAttack, uTarget))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicBlindAttack, uTarget))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicTimedCapturing(unit uTarget) button TRL_MAGIC_CAPTURING description TRL_MAGIC_CAPTURING item ITEM_CAPTURING priority PRIOR_CAPTURING hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicTimedCapturing, uTarget))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicTimedCapturing, uTarget))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicOurWildAnimal() button TRL_MAGIC_WILDANIMAL description TRL_MAGIC_WILDANIMAL item ITEM_WILDANIMAL priority PRIOR_WILDANIMAL hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicOurWildAnimal))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicOurWildAnimal))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicOurHoldWildAnimal(int nGx, int nGy, int nLz) button TRL_MAGIC_OURHOLDWILDANIMAL description TRL_MAGIC_OURHOLDWILDANIMAL item ITEM_OURHOLDWILDANIMAL priority PRIOR_OURHOLDWILDANIMAL hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicOurHoldWildAnimal, nGx, nGy, nLz))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicOurHoldWildAnimal, nGx, nGy, nLz))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicOurMagicMirror() button TRL_MAGIC_OURMAGICMIRROR description TRL_MAGIC_OURMAGICMIRROR item ITEM_OURMAGICMIRROR priority PRIOR_OURMAGICMIRROR hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicOurMagicMirror))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicOurMagicMirror))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicRandConversion(unit uTarget) button TRL_MAGIC_CONVERSION description TRL_MAGIC_CONVERSION item ITEM_CONVERSION priority PRIOR_CONVERSION hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicRandConversion, uTarget))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicRandConversion, uTarget))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicAroundDamage() button TRL_MAGIC_AROUNDDAMAGE description TRL_MAGIC_AROUNDDAMAGE item ITEM_AROUNDDAMAGE priority PRIOR_AROUNDDAMAGE hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicAroundDamage))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicAroundDamage))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicSelfHealing() button TRL_MAGIC_SELFHEALING description TRL_MAGIC_SELFHEALING item ITEM_SELFHEALING priority PRIOR_SELFHEALING hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicSelfHealing))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicSelfHealing))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command MakeMagicFireWall(int nGx, int nGy, int nLz, int nAlpha) button TRL_MAGIC_FIREWALL description TRL_MAGIC_FIREWALL item ITEM_FIREWALL priority PRIOR_FIREWALL hotkey
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    if (CanMakeMagic(magicFireWall, nGx, nGy, nLz, nAlpha))
+    {
+        CHECK_STOP_CURR_ACTION();
+        if (StartMakeMagic(magicFireWall, nGx, nGy, nLz, nAlpha))
+        {
+            state MovingToMagicTarget;
+        }
+        else
+        {
+            NextCommand(0);
+        }
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+#endif RPG_UNIT_EC
+
+#ifndef RPG_UNIT_EC
+
+command SetMakeMagicTeleportationMode(int nMode) button teleportationMode priority PRIOR_TELEPORTATIONMODE hotkey
+{
+    if (nMode == -1)
+    {
+        teleportationMode = (teleportationMode + 1) % 2;
+    }
+    else
+    {
+        teleportationMode = nMode;
+    }
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command SetMakeMagicWildAnimalMode(int nMode) hidden button wolfMode priority PRIOR_WOLFMODE hotkey
+{
+    if (nMode == -1)
+    {
+        wolfMode = (wolfMode + 1) % 2;
+    }
+    else
+    {
+        wolfMode = nMode;
+    }
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command SetMakeMagicImmortalShieldMode(int nMode) button immortalMode priority PRIOR_IMMORTALMODE hotkey
+{
+    if (nMode == -1)
+    {
+        immortalMode = (immortalMode + 1) % 2;
+    }
+    else
+    {
+        immortalMode = nMode;
+    }
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command SetMakeMagicStormMode(int nMode) hidden button stormMode priority PRIOR_STORMMODE hotkey
+{
+    if (nMode == -1)
+    {
+        stormMode = (stormMode + 1) % 2;
+    }
+    else
+    {
+        stormMode = nMode;
+    }
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command SetMakeMagicCapturingMode(int nMode) button capturingMode priority PRIOR_CAPTURINGMODE hotkey
+{
+    if (nMode == -1)
+    {
+        capturingMode = (capturingMode + 1) % 2;
+    }
+    else
+    {
+        capturingMode = nMode;
+    }
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command SetMakeMagicConversionMode(int nMode) button conversionMode priority PRIOR_CONVERSIONMODE hotkey
+{
+    if (nMode == -1)
+    {
+        conversionMode = (conversionMode + 1) % 2;
+    }
+    else
+    {
+        conversionMode = nMode;
+    }
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command SetMakeMagicFireRainMode(int nMode) hidden button fireRainMode priority PRIOR_FIRERAINMODE hotkey
+{
+    if (nMode == -1)
+    {
+        fireRainMode = (fireRainMode + 1) % 2;
+    }
+    else
+    {
+        fireRainMode = nMode;
+    }
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+command SetMakeMagicRemoveStormFireRainMode(int nMode) button removeStormFireRainMode priority PRIOR_REMOVESTORMFIRERAINMODE hotkey
+{
+    if (nMode == -1)
+    {
+        removeStormFireRainMode = (removeStormFireRainMode + 1) % 2;
+    }
+    else
+    {
+        removeStormFireRainMode = nMode;
+    }
+    //NextCommand(1); - nie ma dla directCommand
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+#endif RPG_UNIT_EC
+
+//Set IsEscorted
+event Custom0(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
+{
+    if (nParam1 == 1)
+    {
+        m_bIsEscorted = true;
+        m_nEscortedCounter = 0;
+    }
+    else
+    {
+        m_bIsEscorted = false;
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+#endif MAGIC_ECH
+

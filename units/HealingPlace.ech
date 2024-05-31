@@ -1,0 +1,149 @@
+#ifndef HEALINGPLACE_ECH
+#define HEALINGPLACE_ECH
+
+////    Declarations    ////
+
+state StartMovingToHealingPlace;
+state MovingToHealingPlace;
+state HealingInHealingPlace;
+state HealingNotInHealingPlace;
+
+int  m_nCheckHealthPlaceGx;
+int  m_nCheckHealthPlaceGy;
+
+////    Functions    ////
+
+function int TryMoveToHealingPlace(int bSetStayPos)
+{
+    int nGx, nGy, nLz;
+    int nFindHealthPlaceRet;
+
+#ifdef ATTACK_ECH
+    if (!m_bSmartAttackMode)
+    {
+        return false;
+    }
+#elif defined(AI_SCRIPT)
+    return false;
+#endif
+    if (!IsDamaged() || IsFlyable())
+    {
+        return false;
+    }
+    nGx = GetLocationX();
+    nGy = GetLocationY();
+    nLz = GetLocationZ();
+    if ((m_nCheckHealthPlaceGx != nGx) || (m_nCheckHealthPlaceGy != nGy))
+    {
+        nFindHealthPlaceRet = FindHealingPlace(5);
+        if (nFindHealthPlaceRet == 1)
+        {
+            //znalezione puste miejsce - idziemy tam
+            if (bSetStayPos)
+            {
+                m_nStayGx = nGx;
+                m_nStayGy = nGy;
+                m_nStayLz = nLz;
+                m_nStayAlpha = GetDirectionAlpha();
+            }
+            MoveToPoint(GetFoundHealingPlaceX(), GetFoundHealingPlaceY(), GetFoundHealingPlaceZ());
+            return true;
+        }
+        else if (nFindHealthPlaceRet == 2)
+        {
+            //znalezione miejsce ale zajete - nie ustawiamy m_nCheckHealthPlaceGx - za chwile znowu sprawdzimy
+            return false;
+        }
+        else
+        {
+            m_nCheckHealthPlaceGx = nGx;
+            m_nCheckHealthPlaceGy = nGy;
+            return false;
+        }
+    }
+    return false;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    States    ////
+
+state StartMovingToHealingPlace
+{
+    if (!FindStateNothingTarget())
+    {
+        if (IsMoving() || !CheckKeepStartMoving())
+        {
+    	    return MovingToHealingPlace,0;
+        }
+        else
+        {
+            return StartMovingToHealingPlace,5;
+        }
+    }
+    //else state ustawiony w FindStateNothingTarget
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state MovingToHealingPlace
+{
+    if (!FindStateNothingTarget())
+    {
+        if (IsMoving())
+        {
+            return MovingToHealingPlace;
+        }
+        else
+        {
+            if (IsHealingPlaceInPoint(GetLocationX(), GetLocationY(), GetLocationZ()))
+            {
+                return HealingInHealingPlace;
+            }
+            else
+            {
+                return HealingNotInHealingPlace;
+            }
+        }
+    }
+    //else state ustawiony w FindStateNothingTarget
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state HealingInHealingPlace
+{
+    if (!FindStateNothingTarget())
+    {
+        if (IsDamaged())
+        {
+            return HealingInHealingPlace;
+        }
+        else
+        {
+            TRACE5("HealingInHealingPlace -> stay == (", m_nStayGx, ", ", m_nStayGy, ")");
+            CallMoveToPointAlpha(m_nStayGx, m_nStayGy, m_nStayLz, m_nStayAlpha);
+            return Nothing;
+        }
+    }//else state ustawiony w FindStateNothingTarget
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state HealingNotInHealingPlace
+{
+    if (!FindStateNothingTarget())
+    {
+        if (IsDamaged())
+        {
+            if (TryMoveToHealingPlace(false))
+            {
+                return StartMovingToHealingPlace;
+            }
+            else
+            {
+                return HealingNotInHealingPlace;
+            }
+        }
+        else
+        {
+            TRACE5("HealingInHealingPlace -> stay == (", m_nStayGx, ", ", m_nStayGy, ")");
+            CallMoveToPointAlpha(m_nStayGx, m_nStayGy, m_nStayLz, m_nStayAlpha);
+            return Nothing;
+        }
+    }//else state ustawiony w FindStateNothingTarget
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#endif HEALINGPLACE_ECH

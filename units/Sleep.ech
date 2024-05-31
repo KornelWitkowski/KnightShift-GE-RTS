@@ -1,0 +1,204 @@
+#ifndef SLEEP_ECH
+#define SLEEP_ECH
+
+#include "Translates.ech"
+#include "Items.ech"
+
+////    Declarations    ////
+
+state InSleepMode;
+state EnteringSleepMode;
+
+enum sleepMode
+{
+	TRL_SLEEP_0 item ITEM_SLEEP_0 description TRL_SLEEP_0,
+	TRL_SLEEP_1 item ITEM_SLEEP_1 description TRL_SLEEP_1,
+multi:
+	TRL_SLEEP_X item ITEM_SLEEP_X description TRL_SLEEP_X
+}//����������������������������������������������������������������������������������������������������|
+
+////    Functions    ////
+
+//jesli byl w sleep mode to z niego wychodzi i zwraca true, jesli nie byl to zwraca false
+function int ExitSleepModeOnHit()
+{
+    int bInSleepMode;
+
+    bInSleepMode = IsInSleepMode();
+    if ((sleepMode == 1) || bInSleepMode)
+    {
+        sleepMode = 0;
+        ChangedCommandValue();
+        NextCommand(0);
+        //->mobile mode
+        if (IsInSleepMode())
+        {
+            CallEndSleepMode();
+        }
+        if ((state == InSleepMode) || (state == EnteringSleepMode))
+        {
+            state Nothing;
+        }
+        return true;
+    }
+    return false;
+}//����������������������������������������������������������������������������������������������������|
+
+function int CheckCanEnterSleepMode()
+{
+    if (!IsDamaged() && (GetMagic() >= GetMaxMagic()))
+    {
+        MessageTalk(noSleepHealthyTalk);
+        return false;
+    }
+    else if (FindFastEnemy(true) != null)
+    {
+        MessageTalk(noSleepEnemiesTalk);
+        return false;
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+////    States    ////
+
+state InSleepMode
+{
+    if (!IsDamaged() && (GetMagic() >= GetMaxMagic()))
+    {
+        CallEndSleepMode();
+        sleepMode = 0;
+        ChangedCommandValue();
+        NextCommand(1);
+        return Nothing, 0;
+    }
+
+    return InSleepMode, 5;
+}//����������������������������������������������������������������������������������������������������|
+
+state EnteringSleepMode
+{
+    if (CanEnterSleepModeNow())
+    {
+        CallBeginSleepMode();
+        return InSleepMode;
+    }
+    else
+    {
+        if (!IsMoving() && !IsGoodPlaceForSleep(GetLocationX(), GetLocationY(), GetLocationZ()))
+        {
+            sleepMode = 0;
+            ChangedCommandValue();
+            NextCommand(0);
+            return Nothing, 0;
+        }
+        return EnteringSleepMode;
+    }
+}//����������������������������������������������������������������������������������������������������|
+
+////    Commands    ////
+
+command SleepMode(int nMode) button sleepMode priority PRIOR_SLEEP hotkey
+{
+    int nSleepMode;
+
+    if (nMode == -1)
+    {
+        nSleepMode = (sleepMode + 1) % 2;
+    }
+    else
+    {
+        nSleepMode = nMode;
+    }
+    if (!IsSleepModeUnit() || ((nSleepMode != 0) && !CheckCanEnterSleepMode()))
+    {
+        NextCommand(0);
+        return true;
+    }
+    CHECK_STOP_CURR_ACTION();
+    if (IsInCamouflageMode())
+    {
+        NextCommand(0);
+        return true;
+    }
+    if (IsInTower())
+    {
+        //unit ktory wchodzi do wiezy wola ta funkcje aby
+        //skasowac sleepMode - wychodzimy i nie robimy nic wiecej
+        if (sleepMode == 1)
+        {
+            sleepMode = 0;
+        }
+        return true;
+    }
+    if (nMode == -1)
+    {
+        sleepMode = (sleepMode + 1) % 2;
+    }
+    else
+    {
+        sleepMode = nMode;
+    }
+    if (sleepMode == 0)
+    {
+        //->mobile mode
+        if (IsInSleepMode())
+        {
+            CallEndSleepMode();
+            state Nothing;
+        }
+        else if (state == EnteringSleepMode)
+        {
+            state Nothing;
+        }
+        NextCommand(1);
+    }
+    else
+    {
+        if (!CheckCanEnterSleepMode())
+        {
+            sleepMode = 0;
+            NextCommand(1);
+            //nie zmieniamy stanu, zostajemy w tym w ktorym jestesmy
+            return true;
+        }
+        else
+        {
+            //MessageTalk(commandTalk);//bo w kodzie nie jest wywolywane dla tej komendy
+        }
+        //->SleepMmode
+        if (CanEnterSleepModeNow())
+        {
+            CallBeginSleepMode();
+            state InSleepMode;
+        }
+        else
+        {
+            if (IsMoving() || IsPreparingToMove())
+            {
+                CallStopMoving();
+                state EnteringSleepMode;
+            }
+            else if (!IsGoodPlaceForSleep(GetLocationX(), GetLocationY(), GetLocationZ()))
+            {
+                sleepMode = 0;
+                NextCommand(1);
+                //nie zmieniamy stanu, zostajemy w tym w ktorym jestesmy
+            }
+            else
+            {
+                state EnteringSleepMode;
+            }
+        }
+        //nie ma NextCommand
+    }
+    return true;
+}//����������������������������������������������������������������������������������������������������|
+
+#undef EXIT_COMMAND_IN_SLEEP_MODE
+#define EXIT_COMMAND_IN_SLEEP_MODE() \
+	if ((state == InSleepMode) || (state == EnteringSleepMode)) \
+    { \
+        return false; \
+    }
+
+#endif SLEEP_ECH

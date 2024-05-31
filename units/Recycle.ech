@@ -1,0 +1,54 @@
+#ifndef RECYCLE_ECH
+#define RECYCLE_ECH
+
+#include "Translates.ech"
+#include "Items.ech"
+
+////    Declarations    ////
+
+state MovingToRecycle;
+
+////    States    ////
+
+state MovingToRecycle
+{
+    //zostajemy w tym stanie az do wejscia do budynku
+    return MovingToRecycle;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    Events    ////
+
+event OnCheckRecycleUnit()
+{
+    if (state == MovingToRecycle)
+    {
+        return true;
+    }
+    return false;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    Commands    ////
+
+command RecycleUnit() button TRL_RECYCLE description TRL_RECYCLE item ITEM_RECYCLE priority PRIOR_RECYCLE hotkey
+{
+    unit uRecycleBuilding;
+    
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    CHECK_STOP_CURR_ACTION();
+    uRecycleBuilding = FindRecycleBuilding();
+    if (uRecycleBuilding)
+    {
+	    m_nMoveToGx = GetEntranceX(uRecycleBuilding);
+	    m_nMoveToGy = GetEntranceY(uRecycleBuilding);
+	    m_nMoveToLz = GetEntranceZ(uRecycleBuilding);
+        CallMoveInsideObject(uRecycleBuilding);
+    	state MovingToRecycle;
+    }
+    else
+    {
+        NextCommand(0);
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#endif RECYCLE_ECH

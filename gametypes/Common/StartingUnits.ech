@@ -1,0 +1,106 @@
+enum comboStartingUnits
+{
+	"translateGameMenuStartingUnitsDefault",
+	"translateGameMenuStartingUnitsBuilderOnly",
+	"translateGameMenuStartingUnitsBuildersOnlyExtended",
+	"translateGameMenuStartingUnitsFastStart",
+		multi:
+	"translateGameMenuStartingUnits"
+}
+
+function void CreateStartingUnits(player rPlayer, int comboStartingUnits, int bReserach)
+{
+	int iX, iY, iZ;
+	iX = rPlayer.GetStartingPointX() - 2;
+	iY = rPlayer.GetStartingPointY() - 2;
+	iZ = 0;
+
+
+	if(comboStartingUnits == 0)
+	// W przypadku gdy na mapie nie ma jednostek, to tworzymy unity nawet jeśli zostały wybrane postacie z mapy
+	{
+		rPlayer.CreateUnit(iX, iY, iZ, 0, "WOODCUTTER");
+		rPlayer.CreateUnit(iX+1, iY, iZ, 0, "WOODCUTTER");
+		rPlayer.CreateUnit(iX, iY+1, iZ, 0, "COW");
+		rPlayer.CreateUnit(iX+1, iY+1, iZ, 0, "COW");
+	}
+	else if(comboStartingUnits == 1)
+	{
+		rPlayer.CreateUnit(iX, iY, iZ, 0, "WOODCUTTER");
+		rPlayer.CreateUnit(iX+1, iY, iZ, 0, "WOODCUTTER");
+		rPlayer.CreateUnit(iX, iY+1, iZ, 0, "COW");
+		rPlayer.CreateUnit(iX+1, iY+1, iZ, 0, "COW");
+	}
+	else if(comboStartingUnits == 2)
+	{
+		rPlayer.CreateUnit(iX, iY, iZ, 0, "WOODCUTTER");
+		rPlayer.CreateUnit(iX+1, iY, iZ, 0, "WOODCUTTER");
+		rPlayer.CreateUnit(iX, iY+1, iZ, 0, "WOODCUTTER");
+		rPlayer.CreateUnit(iX+1, iY+1, iZ, 0, "WOODCUTTER");
+		rPlayer.CreateUnit(iX+2, iY, iZ, 0, "DIPLOMAT");
+
+		rPlayer.CreateUnit(iX+3, iY, iZ, 0, "COW");
+		rPlayer.CreateUnit(iX+4, iY, iZ, 0, "COW");
+		rPlayer.CreateUnit(iX+3, iY+1, iZ, 0, "COW");
+		rPlayer.CreateUnit(iX+4, iY+1, iZ, 0, "COW");
+		rPlayer.CreateUnit(iX+2, iY+1, iZ, 0, "SHEPHERD");
+	}
+	else if(comboStartingUnits == 3)
+	{
+		rPlayer.CreateUnit(iX, iY, iZ, 0, "WOODCUTTER");
+		rPlayer.CreateUnit(iX+1, iY, iZ, 0, "WOODCUTTER");
+		rPlayer.CreateUnit(iX, iY+1, iZ, 0, "WOODCUTTER");
+		rPlayer.CreateUnit(iX+1, iY+1, iZ, 0, "WOODCUTTER");
+		rPlayer.CreateUnit(iX+2, iY, iZ, 0, "DIPLOMAT");
+
+		rPlayer.CreateUnit(iX+3, iY, iZ, 0, "COW");
+		rPlayer.CreateUnit(iX+4, iY, iZ, 0, "COW");
+		rPlayer.CreateUnit(iX+3, iY+1, iZ, 0, "COW");
+		rPlayer.CreateUnit(iX+4, iY+1, iZ, 0, "COW");
+		rPlayer.CreateUnit(iX+2, iY+1, iZ, 0, "SHEPHERD");
+
+		rPlayer.CreateUnit(iX, iY+3, iZ, 0, "HUNTER");
+		rPlayer.CreateUnit(iX+1, iY+3, iZ, 0, "HUNTER");
+		rPlayer.CreateUnit(iX, iY+4, iZ, 0, "HUNTER");
+		rPlayer.CreateUnit(iX+1, iY+4, iZ, 0, "HUNTER");
+
+		rPlayer.CreateUnit(iX+3, iY+3, iZ, 0, "FOOTMAN");
+		rPlayer.CreateUnit(iX+4, iY+3, iZ, 0, "FOOTMAN");
+		rPlayer.CreateUnit(iX+3, iY+4, iZ, 0, "FOOTMAN");
+		rPlayer.CreateUnit(iX+4, iY+4, iZ, 0, "FOOTMAN");
+
+		if(rPlayer.GetMaxCountLimitForObject("PRIEST") != 0)
+		{
+			rPlayer.CreateUnit(iX+2, iY+2, iZ, 0, "PRIEST");
+			if(bReserach)
+			{
+				rPlayer.ResearchUpdate("SPELL_TELEPORTATION");
+				rPlayer.ResearchUpdate("SPELL_GHOST");
+				rPlayer.ResearchUpdate("SPELL_WOLF");
+				rPlayer.ResearchUpdate("SPELL_SEEING");
+			}
+		}
+
+		if(rPlayer.GetMaxCountLimitForObject("SORCERER") != 0)
+		{	
+			rPlayer.CreateUnit(iX+3, iY+2, iZ, 0, "SORCERER");
+			if(bReserach)
+			{
+				rPlayer.ResearchUpdate("SPELL_CONVERSION");
+				rPlayer.ResearchUpdate("SPELL_FIRERAIN");
+			}
+		}
+
+		if(rPlayer.GetMaxCountLimitForObject("PRIESTESS") != 0)
+		{
+			rPlayer.CreateUnit(iX+1, iY+2, iZ, 0, "PRIESTESS");
+			if(bReserach)
+			{
+				rPlayer.ResearchUpdate("SPELL_SHIELD");
+				rPlayer.ResearchUpdate("SPELL_CAPTURE");
+				rPlayer.ResearchUpdate("SPELL_STORM");
+			}
+		}
+
+	}
+}

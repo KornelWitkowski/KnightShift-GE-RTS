@@ -1,3 +1,9 @@
+*.eco
+*.bat
+*.txt
+*.json
+test.ec
+
 # Prerequisites
 *.d
 

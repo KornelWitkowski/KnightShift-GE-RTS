@@ -1,0 +1,418 @@
+#ifndef MOVE_ECH
+#define MOVE_ECH
+
+#include "Translates.ech"
+#include "Items.ech"
+
+////    Declarations    ////
+
+state StartMoving;
+state Moving;
+state StartMovingToEnter;
+state MovingToEnter;
+state StartTurningDelayed;
+state StartTurning;
+state Turning;
+state MovingToEnterReplaceUnit;
+state MovingToEnterWaitForExitUnit;
+
+int m_nMoveToGx;
+int m_nMoveToGy;
+int m_nMoveToLz;
+int m_nStartMoveGx;
+int m_nStartMoveGy;
+int m_nStartMoveLz;
+int m_nTurnDelayedAngle;
+unit m_uEnterBuilding;
+int m_nAfterMoveTick;
+
+////    Functions    ////
+
+function void MoveToPoint(int nGx, int nGy, int nLz)
+{
+    TRACE2("MoveToPoint ", GetUnitRef());
+    m_nStartMoveGx = GetLocationX();
+    m_nStartMoveGy = GetLocationY();
+    m_nStartMoveLz = GetLocationZ();
+	m_nMoveToGx = nGx;
+	m_nMoveToGy = nGy;
+	m_nMoveToLz = nLz;
+	CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function void MoveToPointAlpha(int nGx, int nGy, int nLz, int nAlpha)
+{
+    TRACE2("MoveToPoint ", GetUnitRef());
+    m_nStartMoveGx = GetLocationX();
+    m_nStartMoveGy = GetLocationY();
+    m_nStartMoveLz = GetLocationZ();
+	m_nMoveToGx = nGx;
+	m_nMoveToGy = nGy;
+	m_nMoveToLz = nLz;
+	CallMoveToPointAlpha(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz, nAlpha);
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function void MoveToPointForce(int nGx, int nGy, int nLz)
+{
+    TRACE2("MoveToPointForce ", GetUnitRef());
+    m_nStartMoveGx = GetLocationX();
+    m_nStartMoveGy = GetLocationY();
+    m_nStartMoveLz = GetLocationZ();
+	m_nMoveToGx = nGx;
+	m_nMoveToGy = nGy;
+	m_nMoveToLz = nLz;
+	CallMoveToPointForce(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function int CanEnterTowerGate(unit uBuilding)
+{
+    if (uBuilding.GetBuildingType() == buildingTower)
+    {
+        return CanEnterTower(uBuilding);
+    }
+    else if ((uBuilding.GetBuildingType() == buildingGate) || (uBuilding.GetBuildingType() == buildingBridgeGate))
+    {
+        return CanEnterGate(uBuilding);
+    }
+    return false;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+//tak jak poprzednio tylko na koncu zwraca true
+function int CanEnterTowerGateT(unit uBuilding)
+{
+    if (uBuilding.GetBuildingType() == buildingTower)
+    {
+        return CanEnterTower(uBuilding);
+    }
+    else if ((uBuilding.GetBuildingType() == buildingGate) || (uBuilding.GetBuildingType() == buildingBridgeGate))
+    {
+        return CanEnterGate(uBuilding);
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function void ResetEnterBuilding()
+{
+    m_uEnterBuilding = null;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function int CheckKeepStartMoving()
+{
+    if (IsPreparingToMove() && !IsWaitingBeforeClosedGate())
+    {
+        return true;
+    }
+    return false;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function void ResetCounterAfterMove()
+{
+    m_nAfterMoveTick = -1;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+function int CheckHoldPosAfterMove()
+{
+    TRACE2("CHPAM ", m_nAfterMoveTick);
+    if (m_nAfterMoveTick > 0)
+    {
+        if ((GetGameTick() - m_nAfterMoveTick) < 40)
+        {
+            return true;
+        }
+        m_nAfterMoveTick = -1;
+    }
+    return false;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    States    ////
+
+//dodatkowy stan w celu opoznienia sprawdzania IsMoving
+state StartMoving
+{
+    if (IsMoving() || !CheckKeepStartMoving())
+    {
+    	return Moving,0;
+    }
+    else
+    {
+        return StartMoving,5;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state Moving
+{
+	if (IsMoving() && !IsWaitingBeforeClosedGate())
+	{
+		TRACE("Moving\n");
+#ifdef ONMOVINGCALLBACK
+        if (OnMovingCallback())
+        {
+            //state zmieniony w OnMovingCallback, wywolujemy tylko NextCommand
+            NextCommand(1);//wykonana komenda moveTo
+        }
+        else
+        {
+    		return Moving;
+        }
+#else
+        return Moving;
+#endif ONMOVINGCALLBACK
+	}
+	else
+	{
+        if (m_nAfterMoveTick >= 0)
+        {
+            m_nAfterMoveTick = GetGameTick();
+        }
+		TRACE("Moving -> Nothing\n");
+		NextCommand(1);
+#ifdef STATE_AFTER_MOVE
+        return STATE_AFTER_MOVE, 5;
+#else
+		return Nothing, 0;
+#endif STATE_AFTER_MOVE
+	}
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state StartMovingToEnter
+{
+    if (IsMoving() || !CheckKeepStartMoving())
+    {
+        return MovingToEnter,0;
+    }
+    else
+    {
+        return StartMovingToEnter,5;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state MovingToEnter
+{
+	if (IsMoving() && !IsWaitingBeforeClosedGate())
+	{
+		TRACE("MovingToEnter\n");
+        if ((DistanceTo(m_uEnterBuilding) <= 4) && !CanEnterTowerGateT(m_uEnterBuilding))
+        {
+            CallStopMoving();//zeby skasowac flage blokowania odsuwania
+            m_uEnterBuilding = null;
+		    TRACE("MovingToEnter -> !CanEnter -> Nothing\n");
+		    NextCommand(1);
+		    return Nothing, 0;
+        }
+        return MovingToEnter;
+	}
+	else
+	{
+        CallStopMoving();//zeby skasowac flage blokowania odsuwania
+        m_uEnterBuilding = null;
+		TRACE("MovingToEnter -> Nothing\n");
+		NextCommand(1);
+		return Nothing, 0;
+	}
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state MovingToEnterReplaceUnit
+{
+    if (CanEnterTowerGate(m_uEnterBuilding))
+    {
+	    CallMoveInsideObject(m_uEnterBuilding);
+	    return StartMovingToEnter,5;
+    }
+    if (DistanceTo(m_uEnterBuilding) <= 3)
+    {
+        CallStopMoving();
+        CallExExitUnitFromTowerGate(m_uEnterBuilding, m_nStartMoveGx, m_nStartMoveGy, m_nStartMoveLz);
+        return MovingToEnterWaitForExitUnit, 5;
+    }
+    else if (!IsMoving())
+    {
+        CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+    }
+    return MovingToEnterReplaceUnit, 5;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state MovingToEnterWaitForExitUnit
+{
+    if (CanEnterTowerGate(m_uEnterBuilding))
+    {
+	    CallMoveInsideObject(m_uEnterBuilding);
+	    return StartMovingToEnter,5;
+    }
+    else if (!m_uEnterBuilding.IsLive() || ((m_uEnterBuilding.GetIFFNumber() != GetIFFNumber()) && (m_uEnterBuilding.GetIFFNumber() != towersIFFNum)))
+    {
+        m_uEnterBuilding = null;
+        NextCommand(0);
+        return Nothing, 0;
+    }
+    else
+    {
+        return MovingToEnterWaitForExitUnit, 5;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state StartTurningDelayed
+{
+    CallTurnToAngle(m_nTurnDelayedAngle);
+    return StartTurning;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state StartTurning
+{
+    if (IsMoving() || !CheckKeepStartMoving())
+    {
+        return Turning, 0;
+    }
+    else
+    {
+        return StartTurning, 0;
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+state Turning
+{
+    if (IsMoving())
+    {
+        return Turning;
+    }
+    else
+    {
+		NextCommand(1);
+#ifdef STATE_AFTER_MOVE
+        return STATE_AFTER_MOVE, 5;
+#else
+		return Nothing, 0;
+#endif STATE_AFTER_MOVE
+    }
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    Events    ////
+
+event OnEnterTower()
+{
+    ResetEnterBuilding();
+    state Nothing;
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+////    Commands    ////
+
+command Stop() button TRL_STOP description TRL_STOP hotkey item ITEM_STOP priority PRIOR_STOP
+{
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    CHECK_STOP_CURR_ACTION();
+	if (IsMoving() || IsPreparingToMove())
+	{
+		CallStopMoving();
+	}
+    NextCommand(1);
+	state Nothing;
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command Move(int nGx, int nGy, int nLz) hidden button TRL_MOVE
+{
+    TRACE2("command Move ", GetUnitRef());
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    CHECK_STOP_CURR_ACTION();
+    //kazda komenda move kasuje HoldPosMode
+    //RESET_HOLDPOSMODE(); - resetujemy z kodu
+#ifdef ONCOMMANDMOVECALLBACK
+    if (OnCommandMoveCallback(nGx, nGy, nLz))
+    {
+        return true;
+    }
+#endif ONCOMMANDMOVECALLBACK
+    m_nStartMoveGx = GetLocationX();
+    m_nStartMoveGy = GetLocationY();
+    m_nStartMoveLz = GetLocationZ();
+	m_nMoveToGx = nGx;
+	m_nMoveToGy = nGy;
+	m_nMoveToLz = nLz;
+	CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+    m_nAfterMoveTick = 0;//znacznik aby po move ustawiac ten licznik
+	state StartMoving;
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command MoveEx(int nGx, int nGy, int nLz) hidden button TRL_MOVE
+{
+    TRACE2("command Move ", GetUnitRef());
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    CHECK_STOP_CURR_ACTION();
+#ifdef ONCOMMANDMOVECALLBACK
+    if (OnCommandMoveCallback(nGx, nGy, nLz))
+    {
+        return true;
+    }
+#endif ONCOMMANDMOVECALLBACK
+    m_nStartMoveGx = GetLocationX();
+    m_nStartMoveGy = GetLocationY();
+    m_nStartMoveLz = GetLocationZ();
+	m_nMoveToGx = nGx;
+	m_nMoveToGy = nGy;
+	m_nMoveToLz = nLz;
+	CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+    m_nAfterMoveTick = -1;//znacznik aby po move nie ustawiac tego licznika
+	state StartMoving;
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command Enter(unit uEntrance, int bReplaceWithCurrUnit) hidden button TRL_ENTER
+{
+    TRACE2("command Enter ", GetUnitRef());
+    EXIT_COMMAND_IN_SLEEP_MODE();
+    CHECK_STOP_CURR_ACTION();
+#ifdef ONCOMMANDENTERCALLBACK
+    if (OnCommandEnterCallback(uEntrance, bReplaceWithCurrUnit))
+    {
+        TRACE1("    command Enter->EnterCallback");
+        return true;
+    }
+#endif ONCOMMANDENTERCALLBACK
+    m_nStartMoveGx = GetLocationX();
+    m_nStartMoveGy = GetLocationY();
+    m_nStartMoveLz = GetLocationZ();
+	m_nMoveToGx = GetEntranceX(uEntrance);
+	m_nMoveToGy = GetEntranceY(uEntrance);
+	m_nMoveToLz = GetEntranceZ(uEntrance);
+    m_uEnterBuilding = uEntrance;
+    if (!bReplaceWithCurrUnit || CanEnterTowerGate(uEntrance))
+    {
+	    CallMoveInsideObject(uEntrance);
+	    state StartMovingToEnter;
+    }
+    else
+    {
+        if (DistanceTo(uEntrance) > 3)
+        {
+            CallMoveToPoint(m_nMoveToGx, m_nMoveToGy, m_nMoveToLz);
+        }
+        else
+        {
+            CallStopMoving();
+        }
+        state MovingToEnterReplaceUnit;
+    }
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command Turn(int nAlphaAngle) hidden
+{
+    TRACE2("command Turn ", GetUnitRef());
+    CHECK_STOP_CURR_ACTION();
+    CallTurnToAngle(nAlphaAngle);
+    state StartTurning;
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+command TurnDelayed(int nAlphaAngle) hidden
+{
+    TRACE2("command TurnDelayed ", GetUnitRef());
+    CHECK_STOP_CURR_ACTION();
+    m_nTurnDelayedAngle = nAlphaAngle;
+    SetStateDelay(20);
+    state StartTurningDelayed;
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#endif MOVE_ECH

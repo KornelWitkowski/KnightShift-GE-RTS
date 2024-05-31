@@ -1,0 +1,67 @@
+#ifndef TRACE_ECH
+#define TRACE_ECH
+
+//#define USE_TRACE
+
+////    Declarations    ////
+
+//przed ifdef zeby sie dalo przeladowywac skrypty po wlaczeniu USE_TRACE
+enum traceMode
+{
+	"Trace OFF" item 101 description "Trace OFF",
+	"Trace ON" item 100 description "Trace ON",
+multi:
+	"Trace Mode" item 102 description "Trace Mode"
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#ifdef USE_TRACE
+
+////    Commands    ////
+
+command UserOneParam9(int nMode) button traceMode priority 255
+{
+	if (nMode == -1)
+	{
+		traceMode = (traceMode + 1) % 2;
+	}
+	else
+	{
+		traceMode = nMode;
+	}
+    return true;
+}//————————————————————————————————————————————————————————————————————————————————————————————————————|
+
+#undef TRACE
+#undef TRACE1
+#undef TRACE2
+#undef TRACE3
+#undef TRACE4
+#undef TRACE5
+#undef TRACE6
+#undef TRACE7
+#undef TRACE8
+#undef TRACE9
+#undef TRACE10
+
+#define  TRACE(a) if (traceMode) TraceD(a);
+#define  TRACE1(a) if (traceMode) { TraceD(a); TraceD("\n"); }
+#define  TRACE2(a, b) if (traceMode) { TraceD(a); TraceD(" "); TraceD(b); TraceD("\n"); }
+#define  TRACE3(a, b, c) if (traceMode) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD("\n"); }
+#define  TRACE4(a, b, c, d) if (traceMode) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD("\n"); }
+#define  TRACE5(a, b, c, d, e) if (traceMode) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD(" "); TraceD(e); TraceD("\n"); }
+#define  TRACE6(a, b, c, d, e, f) if (traceMode) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD(" "); TraceD(e); TraceD(" "); TraceD(f); TraceD("\n"); }
+#define  TRACE7(a, b, c, d, e, f, g) if (traceMode) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD(" "); TraceD(e); TraceD(" "); TraceD(f); TraceD(" "); TraceD(g); TraceD("\n"); }
+#define  TRACE8(a, b, c, d, e, f, g, h) if (traceMode) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD(" "); TraceD(e); TraceD(" "); TraceD(f); TraceD(" "); TraceD(g); TraceD(" "); TraceD(h); TraceD("\n"); }
+#define  TRACE9(a, b, c, d, e, f, g, h, i) if (traceMode) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD(" "); TraceD(e); TraceD(" "); TraceD(f); TraceD(" "); TraceD(g); TraceD(" "); TraceD(h); TraceD(" "); TraceD(i); TraceD("\n"); }
+#define TRACE10(a, b, c, d, e, f, g, h, i, j) if (traceMode) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD(" "); TraceD(e); TraceD(" "); TraceD(f); TraceD(" "); TraceD(g); TraceD(" "); TraceD(h); TraceD(" "); TraceD(i); TraceD(" "); TraceD(j); TraceD("\n"); }
+
+#undef ASSERT
+#undef __ASSERT_FALSE
+
+#define ASSERT(a) if (traceMode && !(a)) { TraceD("Assertion failed: "); TraceD(__FILE__); TraceD(":"); TraceD(__LINE__); TraceD("\n"); }
+#define __ASSERT_FALSE() if (traceMode) { TraceD("Assertion failed: "); TraceD(__FILE__); TraceD(":"); TraceD(__LINE__); TraceD("\n"); }
+
+
+#endif USE_TRACE
+
+#endif TRACE_ECH

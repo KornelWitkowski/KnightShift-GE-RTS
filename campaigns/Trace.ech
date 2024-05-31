@@ -1,0 +1,68 @@
+#ifndef TRACE_ECH
+#define TRACE_ECH
+
+#ifdef DEBUG
+
+	#define  TRACE(a) TraceD(a);
+	#define  TRACE1(a) { TraceD(a); TraceD("\n"); }
+	#define  TRACE2(a, b) { TraceD(a); TraceD(" "); TraceD(b); TraceD("\n"); }
+	#define  TRACE3(a, b, c) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD("\n"); }
+	#define  TRACE4(a, b, c, d) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD("\n"); }
+	#define  TRACE5(a, b, c, d, e) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD(" "); TraceD(e); TraceD("\n"); }
+	#define  TRACE6(a, b, c, d, e, f) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD(" "); TraceD(e); TraceD(" "); TraceD(f); TraceD("\n"); }
+	#define  TRACE7(a, b, c, d, e, f, g) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD(" "); TraceD(e); TraceD(" "); TraceD(f); TraceD(" "); TraceD(g); TraceD("\n"); }
+	#define  TRACE8(a, b, c, d, e, f, g, h) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD(" "); TraceD(e); TraceD(" "); TraceD(f); TraceD(" "); TraceD(g); TraceD(" "); TraceD(h); TraceD("\n"); }
+	#define  TRACE9(a, b, c, d, e, f, g, h, i) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD(" "); TraceD(e); TraceD(" "); TraceD(f); TraceD(" "); TraceD(g); TraceD(" "); TraceD(h); TraceD(" "); TraceD(i); TraceD("\n"); }
+	#define TRACE10(a, b, c, d, e, f, g, h, i, j) { TraceD(a); TraceD(" "); TraceD(b); TraceD(" "); TraceD(c); TraceD(" "); TraceD(d); TraceD(" "); TraceD(e); TraceD(" "); TraceD(f); TraceD(" "); TraceD(g); TraceD(" "); TraceD(h); TraceD(" "); TraceD(i); TraceD(" "); TraceD(j); TraceD("\n"); }
+
+	#define  TRACEF(a) TraceF(a)
+	#define  TRACEF1(a) { TraceF(a); TraceF("\n"); }
+	#define  TRACEF2(a, b) { TraceF(a); TraceF(" "); TraceF(b); TraceF("\n"); }
+	#define  TRACEF3(a, b, c) { TraceF(a); TraceF(" "); TraceF(b); TraceF(" "); TraceF(c); TraceF("\n"); }
+	#define  TRACEF4(a, b, c, d) { TraceF(a); TraceF(" "); TraceF(b); TraceF(" "); TraceF(c); TraceF(" "); TraceF(d); TraceF("\n"); }
+	#define  TRACEF5(a, b, c, d, e) { TraceF(a); TraceF(" "); TraceF(b); TraceF(" "); TraceF(c); TraceF(" "); TraceF(d); TraceF(" "); TraceF(e); TraceF("\n"); }
+	#define  TRACEF6(a, b, c, d, e, f) { TraceF(a); TraceF(" "); TraceF(b); TraceF(" "); TraceF(c); TraceF(" "); TraceF(d); TraceF(" "); TraceF(e); TraceF(" "); TraceF(f); TraceF("\n"); }
+	#define  TRACEF7(a, b, c, d, e, f, g) { TraceF(a); TraceF(" "); TraceF(b); TraceF(" "); TraceF(c); TraceF(" "); TraceF(d); TraceF(" "); TraceF(e); TraceF(" "); TraceF(f); TraceF(" "); TraceF(g); TraceF("\n"); }
+	#define  TRACEF8(a, b, c, d, e, f, g, h) { TraceF(a); TraceF(" "); TraceF(b); TraceF(" "); TraceF(c); TraceF(" "); TraceF(d); TraceF(" "); TraceF(e); TraceF(" "); TraceF(f); TraceF(" "); TraceF(g); TraceF(" "); TraceF(h); TraceF("\n"); }
+	#define  TRACEF9(a, b, c, d, e, f, g, h, i) { TraceF(a); TraceF(" "); TraceF(b); TraceF(" "); TraceF(c); TraceF(" "); TraceF(d); TraceF(" "); TraceF(e); TraceF(" "); TraceF(f); TraceF(" "); TraceF(g); TraceF(" "); TraceF(h); TraceF(" "); TraceF(i); TraceF("\n"); }
+	#define TRACEF10(a, b, c, d, e, f, g, h, i, j) { TraceF(a); TraceF(" "); TraceF(b); TraceF(" "); TraceF(c); TraceF(" "); TraceF(d); TraceF(" "); TraceF(e); TraceF(" "); TraceF(f); TraceF(" "); TraceF(g); TraceF(" "); TraceF(h); TraceF(" "); TraceF(i); TraceF(" "); TraceF(j); TraceF("\n"); }
+
+	#define ASSERT(a) if (!(a)) { TraceD("Assertion failed: "); TraceD(__FILE__); TraceD(":"); TraceD(__LINE__); TraceD("\n"); }
+	#define __ASSERT_FALSE() { TraceD("Assertion failed: "); TraceD(__FILE__); TraceD(":"); TraceD(__LINE__); TraceD("\n"); }
+
+	#define VERIFY(a) ASSERT(a)
+
+#else // DEBUG
+
+	#define TRACE(a)
+	#define TRACE1(a)
+	#define TRACE2(a, b)
+	#define TRACE3(a, b, c)
+	#define TRACE4(a, b, c, d)
+	#define TRACE5(a, b, c, d, e)
+	#define TRACE6(a, b, c, d, e, f)
+	#define TRACE7(a, b, c, d, e, f, g)
+	#define TRACE8(a, b, c, d, e, f, g, h)
+	#define TRACE9(a, b, c, d, e, f, g, h, i)
+	#define TRACE10(a, b, c, d, e, f, g, h, i, j)
+
+	#define TRACEF(a)
+	#define TRACEF1(a)
+	#define TRACEF2(a, b)
+	#define TRACEF3(a, b, c)
+	#define TRACEF4(a, b, c, d)
+	#define TRACEF5(a, b, c, d, e)
+	#define TRACEF6(a, b, c, d, e, f)
+	#define TRACEF7(a, b, c, d, e, f, g)
+	#define TRACEF8(a, b, c, d, e, f, g, h)
+	#define TRACEF9(a, b, c, d, e, f, g, h, i)
+	#define TRACEF10(a, b, c, d, e, f, g, h, i, j)
+
+	#define ASSERT(a)
+	#define __ASSERT_FALSE()
+
+	#define VERIFY(a) (a)
+
+#endif // DEBUG
+
+#endif // ! TRACE_ECH

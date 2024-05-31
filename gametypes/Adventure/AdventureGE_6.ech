@@ -1,0 +1,192 @@
+state KillingUninvitedGuestsAdventureGE6;
+
+function void InitializePlayerAdventureGE6()
+{
+    player rPlayer, rPlayerEnemy1, rPlayerEnemy2;
+    int i;
+
+    // neutralna krowa obok miejsca startu należąca do gracza 13 będzie paść się bez końca przez zwiększenie limitu mleka
+    rPlayer = GetPlayer(13);
+    rPlayer.SetMaxMoney(100000);
+
+    rPlayerEnemy1 = GetPlayer(10);
+    rPlayerEnemy2 = GetPlayer(14);
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        
+        if(rPlayer.IsHuman()) 
+        {   
+            uHero1 = rPlayer.CreateUnit(GetPointX(0), GetPointY(0), GetPointZ(0), 0, "COW");
+            uHero1.SetUnitName("translateAdventureGE06_Cow");
+            
+
+            // trochę przyśpieszam regeneracje, aby skrócić momenty, w których Uśmiechnięta jest rana i musi poczekać
+            ImproveHPRegeneration(uHero1, 5);
+            uHero1.AddHP(120);
+
+            // Trzeba wybudować most w pewnym momencie
+            rPlayer.SetMaxMoney(100);
+            rPlayer.SetMoney(100);
+
+            // Na mapie nie ma potrzeby kupowania unitów
+			rPlayer.SetMaxCountLimitForObject("SORCERER", 0);
+			rPlayer.SetMaxCountLimitForObject("PRIESTESS", 0);
+			rPlayer.SetMaxCountLimitForObject("PRIEST", 0);
+			rPlayer.SetMaxCountLimitForObject("WITCH", 0);
+			rPlayer.SetMaxCountLimitForObject("DIPLOMAT", 0);
+			rPlayer.SetMaxCountLimitForObject("KNIGHT", 0);
+			rPlayer.SetMaxCountLimitForObject("COW", 0);
+			rPlayer.SetMaxCountLimitForObject("SHEPHERD", 0);
+			rPlayer.SetMaxCountLimitForObject("WOODCUTTER", 0);
+			rPlayer.SetMaxCountLimitForObject("HUNTER", 0);
+			rPlayer.SetMaxCountLimitForObject("FOOTMAN", 0);
+			rPlayer.SetMaxCountLimitForObject("SPEARMAN", 0);
+
+            rPlayer.SetMaxCountLimitForObject("COWSHED", 0);
+            rPlayer.SetMaxCountLimitForObject("HUT", 0);
+            rPlayer.SetMaxCountLimitForObject("BARRACKS", 0);
+            rPlayer.SetMaxCountLimitForObject("COURT", 0);
+            rPlayer.SetMaxCountLimitForObject("TEMPLE", 0);
+            rPlayer.SetMaxCountLimitForObject("SHRINE", 0);
+
+            rPlayer.SetMaxCountLimitForObject("TOWER2", 0);
+            rPlayer.SetMaxCountLimitForObject("DRAWBRIDGE2", 0);
+            rPlayer.SetMaxCountLimitForObject("GATE2", 0);
+            rPlayer.SetMaxCountLimitForObject("WALL2_O_USER", 0);
+            rPlayer.EnableCommand(commandPlayerBuildRoad, false);
+            rPlayer.EnableCommand(commandPlayerBuildRoad2x2, false);
+
+
+            rPlayer.RegisterGoal(0, "translateAdventureGE06_CowMustSurivive");
+
+            // Celem gry jest pokonanie przeciwników. Infomracje o ich liczbie umieszczamy w celach misji.
+			SetStringBuffTranslate(2, "translateAdventureGE06_DestroyUninvitedGuests");
+			SetStringBuff(3, GetStringBuff(2), rPlayerEnemy1.GetNumberOfUnits() + rPlayerEnemy2.GetNumberOfUnits());
+            rPlayer.RegisterGoal(1, GetStringBuff(3));
+
+			rPlayer.EnableGoal(0, true, true);
+			rPlayer.EnableGoal(1, true, true);
+            
+            rPlayer.LookAt(GetPointX(0), GetPointY(0), 6, 32, 20, GetPointZ(0));
+        }
+        else
+        {
+            // Tutaj wyłączamy statystyki dla graczy AI, dzięki czemu nie będą widoczni na ekranie końcowym
+            rPlayer.EnableStatistics(false);
+            // Wyłączmy informacje na początku, że "Chwalibóg jest twoim wrogiem"
+            rPlayer.EnableAIFeatures(aiChooseEnemy, false);
+        }
+    }
+
+    SetInterfaceOptions(
+        lockAllianceDialog |
+        lockGiveMoneyDialog |
+        lockGiveUnitsDialog |
+        lockToolbarSwitchMode |
+        lockToolbarAlliance |
+        lockToolbarGiveMoney |
+        lockDisplayToolbarMoney |
+        lockToolbarLevelName |
+        lockToolbarHelpMode |
+        lockDisplayToolbarLevelName |
+        0);
+}
+
+state InitializeAdventureGE6
+{
+    SetTimer(1, 400);
+    SetTimer(2, 2400);//2min
+    SetTimer(3, 4800);//4min
+    SetTimer(4, 1200);//1min
+
+    SetTimer(7, GetWindTimerTicks());
+    StartWind();
+
+    StatisticReset();
+    StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
+    StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
+    StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
+    StatisticSetSortOrder(0, 3, true);
+
+    return KillingUninvitedGuestsAdventureGE6;
+}
+
+state KillingUninvitedGuestsAdventureGE6
+{
+    player rPlayer, rPlayerEnemy1, rPlayerEnemy2;
+
+    int i;
+    int iNumberOfUnits;
+
+    rPlayerEnemy1 = GetPlayer(10);
+    rPlayerEnemy2 = GetPlayer(14);
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        
+        if(rPlayer.IsHuman()) 
+        {   
+            iNumberOfUnits = rPlayerEnemy1.GetNumberOfUnits() + rPlayerEnemy2.GetNumberOfUnits();
+
+			SetStringBuffTranslate(2, "translateAdventureGE06_DestroyUninvitedGuests");
+			SetStringBuff(3, GetStringBuff(2), iNumberOfUnits);
+            rPlayer.RegisterGoal(1, GetStringBuff(3));
+			rPlayer.EnableGoal(1, true);
+
+            if(iNumberOfUnits == 0)
+            {
+                rPlayer.RegisterGoal(1, "translateAdventureGE06_DestroyUninvitedGuestsAchieved");
+                SetGoalState(0, goalAchieved, 1);
+                SetGoalState(1, goalAchieved, 1);
+                return Victory, 150;
+            }
+
+            /* 
+            `uHero1 = null` jest ustawiane, gdy "Uśmiechnięta" ginie bez gracza atakującego. Jeśli jest to wynikiem
+             transformacji, to od razu przypisujemy nową jednostkę do `uHero1`. Jeśli zginęła na pułapce, to uHero1
+             pozostaje i musimy przypisać przegraną
+             */
+            if(uHero1==null)
+            {
+                SetGoalState(0, goalFailed, 1);
+
+                rPlayer.SetScriptData(1, 1);
+
+                return Defeat, 150;
+            }
+        }
+    }
+    return KillingUninvitedGuestsAdventureGE6, 20;
+}
+
+function void CheckUnitCreatedAdventureGE6(unitex uUnit)
+{
+    player rPlayer;
+    rPlayer = GetPlayer(uUnit.GetIFFNumber());
+    if((uHero1==null) && rPlayer.IsHuman())
+    {
+        uHero1 = uUnit;
+        uHero1.SetUnitName("translateAdventureGE06_Cow");
+
+        // trochę przyśpieszam regeneracje, aby skrócić momenty, w których Uśmiechnięta jest rana i musi poczekać
+        // Dodaje ekstra obrażenia, żeby wilk szybciej niszczył przeszkody
+
+        ImproveHPRegeneration(uHero1, 5);
+        uHero1.AddHP(50);
+        uHero1.AddDamage(1, 5);
+    }
+}
+
+function void CheckUnitDestroyedAdventureGE6(unitex uUnit)
+{
+    if(uUnit == uHero1)
+    {
+        /* Jak krowa się zamieniła w inną jednostkę, to 'ginie'. Musimy sprawdzić, czy nastąpiła zamiana.
+          w evencie UnitCreated, który następuje od razu po UnitDestroyed */
+        uHero1 = null;
+        return;
+    }
+}

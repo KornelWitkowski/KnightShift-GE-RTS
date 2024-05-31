@@ -1,0 +1,237 @@
+state DestroyBanditVillagesAdventureGE1;
+state FindArmourAdventureGE1;
+
+function void InitializeBanditPlayer(player rPlayerHuman)
+{
+    /* 
+        Bandytami na mapie jest gracz, którego nie da się wybrać w menu.
+        Musimy włączyć AI dla niego.
+    */
+
+    player rPlayerBandits;
+
+    rPlayerBandits = GetPlayer(11);
+    rPlayerBandits.SetMainEnemyIFFNum(rPlayerHuman.GetIFFNumber());
+
+    rPlayerBandits.EnableAI(true);
+    rPlayerBandits.LoadScript("2_Medium");
+
+    rPlayerBandits.EnableResearchUpdate("SPEAR4"  , false); // 2
+    rPlayerBandits.EnableResearchUpdate("BOW4"    , false); // 2
+    rPlayerBandits.EnableResearchUpdate("SWORD2A" , false); // 2
+    rPlayerBandits.EnableResearchUpdate("AXE4"    , false); // 2
+    rPlayerBandits.EnableResearchUpdate("SHIELD2" , false); // 2
+    rPlayerBandits.EnableResearchUpdate("ARMOUR3" , false); // 2
+    rPlayerBandits.EnableResearchUpdate("HELMET2A", false); // 2
+
+    rPlayerBandits.SetMaxMoney(400);
+    rPlayerBandits.SetMoney(100);
+}
+
+function void InitializePlayerAdventureGE1()
+{
+   player rPlayer;
+    int i;
+    int j;
+
+    
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        
+        if(rPlayer.IsHuman()) 
+        {   
+            InitializeBanditPlayer(rPlayer);
+
+            uHero1 = rPlayer.CreateUnit(GetPointX(0), GetPointY(0), 0, 0, "FOOTMAN", "HELMET2",
+                                            "ARMOUR2", "SHIELD2", "SWORD2", null, null, null, null);
+
+            uHero1.SetUnitName("translateAdventureGE01_Footman");
+            uHero1.SetExperienceLevel(3);
+
+            rPlayer.CreateUnit(GetPointX(1), GetPointY(1), 0, 0, "FOOTMAN");
+            rPlayer.CreateUnit(GetPointX(2), GetPointY(2), 0, 0, "FOOTMAN");
+
+            rPlayer.CreateUnit(GetPointX(3), GetPointY(3), 0, 128, "HUNTER");
+            rPlayer.CreateUnit(GetPointX(4), GetPointY(4), 0, 128, "HUNTER");
+            rPlayer.CreateUnit(GetPointX(5), GetPointY(5), 0, 128, "HUNTER");
+            rPlayer.CreateUnit(GetPointX(6), GetPointY(6), 0, 128, "HUNTER");
+            rPlayer.CreateUnit(GetPointX(7), GetPointY(7), 0, 128, "HUNTER");
+            rPlayer.CreateUnit(GetPointX(8), GetPointY(8), 0, 128, "HUNTER");
+
+            rPlayer.CreateUnit(GetPointX(9), GetPointY(9), 0, 128, "WOODCUTTER");
+            rPlayer.CreateUnit(GetPointX(10), GetPointY(10), 0, 128, "WOODCUTTER");
+
+            rPlayer.CreateUnit(GetPointX(11), GetPointY(11), 0, -64, "FOOTMAN");
+            rPlayer.CreateUnit(GetPointX(12), GetPointY(12), 0, -64, "FOOTMAN");
+
+            rPlayer.CreateUnit(GetPointX(13), GetPointY(13), 0, -64, "COW");
+            rPlayer.CreateUnit(GetPointX(14), GetPointY(14), 0, -64, "COW");
+            rPlayer.CreateUnit(GetPointX(15), GetPointY(15), 0, -64, "COW");
+
+            rPlayer.CreateBuilding(GetPointX(16), GetPointY(16), 0, -64, "COWSHED");
+            rPlayer.CreateBuilding(GetPointX(17), GetPointY(17), 0, 128, "HUT");
+
+            rPlayer.RegisterGoal(0, "translateAdventureGE01_FootmanMustSurvive");
+            rPlayer.RegisterGoal(1, "translateAdventureGE01_BanditVillage");
+            rPlayer.RegisterGoal(2, "translateAdventureGE01_FindArmour");
+
+			rPlayer.EnableGoal(0, true, true);
+			rPlayer.EnableGoal(1, true, true);
+            rPlayer.EnableGoal(2, true, true);
+            
+            rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+
+            rPlayer.SetMaxCountLimitForObject("HUT", 3);
+            rPlayer.SetMaxCountLimitForObject("BARRACKS", 2);
+            rPlayer.SetMaxCountLimitForObject("TEMPLE", 1);
+            rPlayer.SetMaxCountLimitForObject("SHRINE", 1);
+            rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
+            rPlayer.SetMaxCountLimitForObject("COURT", 0);
+
+            // Na mapie jest mało strzelających przeciwników w pewnych miejsach i wiedźma moze narobić za dużo zamieszania
+            rPlayer.SetMaxCountLimitForObject("WITCH", 0);
+
+            rPlayer.EnableResearchUpdate("SPEAR4"  , false); // 2
+            rPlayer.EnableResearchUpdate("BOW4"    , false); // 2
+            rPlayer.EnableResearchUpdate("SWORD2A" , false); // 2
+            rPlayer.EnableResearchUpdate("AXE4"    , false); // 2
+            rPlayer.EnableResearchUpdate("SHIELD2" , false); // 2
+            rPlayer.EnableResearchUpdate("ARMOUR3" , false); // 2
+            rPlayer.EnableResearchUpdate("HELMET2A", false); // 2
+
+            rPlayer.EnableResearchUpdate("AUTOSPELL_PRIEST3"            , false); // 2
+            rPlayer.EnableResearchUpdate("AUTOSPELL_WITCH"             , false); // 2
+            rPlayer.EnableResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS3", false); // 2
+            rPlayer.EnableResearchUpdate("AUTOSPELL_FIREBALL3"          , false); // 2
+
+            rPlayer.EnableResearchUpdate("SPELL_SHIELD2"                , false);
+            rPlayer.EnableResearchUpdate("SPELL_CAPTURE2"               , false);
+            rPlayer.EnableResearchUpdate("SPELL_STORM"                 , false);
+            rPlayer.EnableResearchUpdate("SPELL_CONVERSION2"            , false);
+            rPlayer.EnableResearchUpdate("SPELL_FIRERAIN"              , false);
+
+
+            rPlayer.EnableResearchUpdate("SPELL_SEEING"                , false);
+            rPlayer.EnableResearchUpdate("SPELL_TELEPORTATION"         , false);
+            rPlayer.EnableResearchUpdate("SPELL_GHOST2"                 , false);
+            rPlayer.EnableResearchUpdate("SPELL_WOLF2"                  , false);
+
+            rPlayer.SetMaxMoney(100);
+            rPlayer.SetMoney(100);
+        }
+        else
+        {
+            // Tutaj wyłączamy statystyki dla graczy AI, dzięki czemu nie będą widoczni na ekranie końcowym
+            rPlayer.EnableStatistics(false);
+            // Wyłączmy informacje na początku, że "Chwalibóg jest twoim wrogiem"
+            rPlayer.EnableAIFeatures(aiChooseEnemy, false);
+        }
+    }
+
+    SetInterfaceOptions(
+        lockAllianceDialog |
+        lockGiveMoneyDialog |
+        lockGiveUnitsDialog |
+        lockToolbarSwitchMode |
+        lockToolbarAlliance |
+        lockToolbarGiveMoney |
+        lockDisplayToolbarMoney |
+        lockToolbarLevelName |
+        lockToolbarHelpMode |
+        lockDisplayToolbarLevelName |
+        0);
+}
+
+state InitializeAdventureGE1
+{
+    // Celem misji jest zdobycie rycerskiej zbroi. Przygotowujemy marker i zbroje.
+
+    CreateArtefacts("ART_ARMOUR4",        20, 20, 0, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 20, 20, 20, false);
+
+	SetTimer(0, 100);
+    SetTimer(1, 400);
+    SetTimer(2, 2400);//2min
+    SetTimer(3, 4800);//4min
+    SetTimer(4, 1200);//1min
+
+    SetTimer(7, GetWindTimerTicks());
+    StartWind();
+
+    StatisticReset();
+    StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
+    StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
+    StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
+    StatisticSetSortOrder(0, 3, true);
+
+    return DestroyBanditVillagesAdventureGE1;
+}
+
+state DestroyBanditVillagesAdventureGE1
+{
+    player rPlayerBandits;
+
+    int iNumberOfBuilding;
+
+    rPlayerBandits = GetPlayer(11);
+    iNumberOfBuilding = rPlayerBandits.GetNumberOfBuildings();
+
+    if(iNumberOfBuilding == 0)
+    {
+        SetGoalState(1, goalAchieved, 1);
+        return FindArmourAdventureGE1, 20;
+    }
+
+    CheckMilkPool(4);
+
+    return DestroyBanditVillagesAdventureGE1, 20;
+}
+
+state FindArmourAdventureGE1
+{
+    CheckMilkPool(4);
+
+    if(GetGoalState(1) && GetGoalState(2))
+    {
+        SetStateDelay(150);
+        return Victory;
+    }
+
+    return FindArmourAdventureGE1, 20;
+}
+
+function void CheckUnitDestroyedAdventureGE1(unitex uUnit)
+{
+    int i;
+    player rPlayer;
+
+    if(uUnit == uHero1)
+    {
+        for(i=0; i<8; i=i+1)
+        {
+            rPlayer = GetPlayer(i);
+            
+            if(rPlayer.IsHuman())
+            {   
+                SetGoalState(0, goalFailed, 1);
+
+                rPlayer.SetScriptData(1, 1);
+
+                SetStateDelay(150);
+                state Defeat;
+            }
+        }
+    }
+}
+
+function void CheckArtefactEventAdventureGE1(int iMarker, unitex uUnit, player rPlayer)
+{
+
+    if((iMarker==20) && (rPlayer.IsHuman()))
+    {
+        SetGoalState(0, goalAchieved, 1);
+        SetGoalState(2, goalAchieved, 1);
+    }
+}

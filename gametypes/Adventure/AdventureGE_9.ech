@@ -1,0 +1,198 @@
+state LookingForEggAdventureGE9;
+
+function void InitializePlayerAdventureGE9()
+{
+    player rPlayer;
+    int i;
+    unitex uUnit1, uUnit2;
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        
+        if(rPlayer.IsHuman()) 
+        {   
+            uUnit1 = GetUnit(GetPointX(0), GetPointY(0));
+            uUnit2 = GetUnit(GetPointX(1), GetPointY(1));
+
+            rPlayer.CreateBuilding(GetPointX(5), GetPointY(5), 0, 0, "SHRINE");
+
+            uUnit1.ChangePlayer(rPlayer);
+            uUnit2.ChangePlayer(rPlayer);
+
+            uUnit1.SetUnitName("translateAdventureGE09_Mage");
+
+            uHero1 = uUnit1;
+            uHero2 = uUnit2;
+
+            ImproveHPRegeneration(uHero1, 5);
+            ImproveHPRegeneration(uHero2, 10);
+
+            // Efekt teleportacji na start
+            CreateObject(uHero1.GetLocationX(), uHero1.GetLocationY(),
+                         uHero1.GetLocationZ(), uHero1.GetAlphaAngle(), "HIT_TELEPORT");
+            CreateObject(uHero2.GetLocationX(), uHero2.GetLocationY(),
+                         uHero2.GetLocationZ(), uHero2.GetAlphaAngle(), "HIT_TELEPORT");
+
+
+            // Wyłączamy ekwipunek czarodziejki, bo się nie przyda do niczego
+            rPlayer.EnableResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS", false);
+            rPlayer.EnableResearchUpdate("SPELL_SHIELD"                , false);
+            rPlayer.EnableResearchUpdate("SPELL_CAPTURE"               , false);
+            rPlayer.EnableResearchUpdate("SPELL_STORM"                 , false);
+ 
+            // Ustawiamy od razu limit mleka 400, aby nie było potrzeby stawiania obór na mapie
+            rPlayer.SetMoney(100);
+            rPlayer.SetMaxMoney(400);
+
+            rPlayer.RegisterGoal(0, "translateAdventureGE09_MageMustSurvive");
+            rPlayer.RegisterGoal(1, "translateAdventureGE09_BelzebubMustSurvive");
+            rPlayer.RegisterGoal(2, "translateAdventureGE09_FindDragonEgg");
+
+			rPlayer.EnableGoal(0, true, true);
+			rPlayer.EnableGoal(1, true, true);
+            rPlayer.EnableGoal(2, true, true);
+
+			rPlayer.SetMaxCountLimitForObject("SORCERER", 0);
+			rPlayer.SetMaxCountLimitForObject("PRIESTESS", 0);
+			rPlayer.SetMaxCountLimitForObject("PRIEST", 0);
+			rPlayer.SetMaxCountLimitForObject("WITCH", 0);
+			rPlayer.SetMaxCountLimitForObject("DIPLOMAT", 0);
+			rPlayer.SetMaxCountLimitForObject("KNIGHT", 0);
+			rPlayer.SetMaxCountLimitForObject("COW", 0);
+			rPlayer.SetMaxCountLimitForObject("SHEPHERD", 0);
+			rPlayer.SetMaxCountLimitForObject("WOODCUTTER", 0);
+			rPlayer.SetMaxCountLimitForObject("HUNTER", 0);
+			rPlayer.SetMaxCountLimitForObject("FOOTMAN", 0);
+			rPlayer.SetMaxCountLimitForObject("SPEARMAN", 0);
+            
+            rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+        }
+        else
+        {
+            // Tutaj wyłączamy statystyki dla graczy AI, dzięki czemu nie będą widoczni na ekranie końcowym
+            rPlayer.EnableStatistics(false);
+            // Wyłączmy informacje na początku, że "Chwalibóg jest twoim wrogiem"
+            rPlayer.EnableAIFeatures(aiChooseEnemy, false);
+        }
+    }
+
+    SetInterfaceOptions(
+        lockAllianceDialog |
+        lockGiveMoneyDialog |
+        lockGiveUnitsDialog |
+        lockToolbarSwitchMode |
+        lockToolbarAlliance |
+        lockToolbarGiveMoney |
+        lockToolbarLevelName |
+        lockToolbarHelpMode |
+        lockDisplayToolbarLevelName |
+        0);
+}
+
+state InitializeAdventureGE9
+{
+    // Podpowiedź, że gracz może kupić sobie ulepszenia
+    SetConsoleText("translateAdventureGE09_Hint");
+
+    // Tworzymy znacznik na smocze jajo do celów misji
+    CreateArtefacts("ARTIFACT_INVISIBLE", 2, 2, 2, false);
+
+    // Wyjście z mapy 
+    CreateArtefacts("ARTIFACT_INVISIBLE", 3, 3, 3, false);
+    CreateArtefacts("ARTIFACT_INVISIBLE", 4, 4, 4, false);
+
+    SetTimer(1, 400);
+    SetTimer(2, 2400);//2min
+    SetTimer(3, 4800);//4min
+    SetTimer(4, 1200);//1min
+
+    SetTimer(7, GetWindTimerTicks());
+    StartWind();
+
+    StatisticReset();
+    StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
+    StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
+    StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
+    StatisticSetSortOrder(0, 3, true);
+
+    return LookingForEggAdventureGE9;
+}
+
+state LookingForEggAdventureGE9
+{
+    if(GetMissionTime() > 1 * 60 * 20)
+    {   
+        // usuwamy podpowiedź o researchu
+        SetConsoleText("");
+    }
+
+    return LookingForEggAdventureGE9, 100;
+}
+
+
+function void CheckUnitDestroyedAdventureGE9(unitex uUnit)
+{
+    int i;
+    player rPlayer;
+
+    if(uUnit == uHero1)
+    {
+        for(i=0; i<8; i=i+1)
+        {
+            rPlayer = GetPlayer(i);
+            
+            if(rPlayer.IsHuman())
+            {   
+                SetGoalState(0, goalFailed, 1);
+
+                rPlayer.SetScriptData(1, 1);
+
+                SetStateDelay(150);
+                state Defeat;
+            }
+        }
+    }
+
+    if(uUnit == uHero2)
+    {
+        for(i=0; i<8; i=i+1)
+        {
+            rPlayer = GetPlayer(i);
+            
+            if(rPlayer.IsHuman())
+            {   
+                SetGoalState(1, goalFailed, 1);
+
+                rPlayer.SetScriptData(1, 1);
+
+                SetStateDelay(150);
+                state Defeat;
+            }
+        }
+    }
+}
+
+
+function void CheckArtefactEventAdventureGE9(int iMarker, unitex uUnit, player rPlayer)
+{
+
+    // znalezienie jaja smoka
+    if(iMarker==2)
+    {
+        SetGoalState(2, goalAchieved, 1);
+        AddWorldMapSign(GetPointX(3), GetPointY(3), 0, 0, -1);
+        rPlayer.RegisterGoal(3, "translateAdventureGE09_FindWayOut");
+        rPlayer.EnableGoal(3, true, true);
+    }
+
+    // odnalezienie drogi łódki
+    if(((iMarker==3) || (iMarker==4)) && GetGoalState(2))
+    {
+        SetGoalState(0, goalAchieved, 1);
+        SetGoalState(1, goalAchieved, 1);
+        SetGoalState(3, goalAchieved, 1);
+        SetStateDelay(150);
+        state Victory;
+    }
+}

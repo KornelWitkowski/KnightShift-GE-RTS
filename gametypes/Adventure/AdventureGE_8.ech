@@ -1,0 +1,136 @@
+state KillingBanditsAdventureGE8;
+
+function void InitializePlayerAdventureGE8()
+{
+    player rPlayer, rPlayerEnemy;
+    int i;
+
+    rPlayerEnemy = GetPlayer(12);
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        
+        if(rPlayer.IsHuman()) 
+        {   
+            // -i*64 zmienia kąt o 90 stopni. Pełny obór to 256.
+            uHero1 = rPlayer.CreateUnit(GetPointX(i), GetPointY(i), 1, -i*64, "WOODCUTTER");
+            uHero1.SetUnitName("translateAdventureGE08_Woodcutter");
+            uHero1.AddHP(100);
+            ImproveHPRegeneration(uHero1, 5);
+
+            rPlayer.SetMaxMoney(0);
+            rPlayer.ResearchUpdate("AXE3");
+
+            rPlayer.RegisterGoal(0, "translateAdventureGE08_WoodcutterMustSurvive");
+
+			SetStringBuffTranslate(2, "translateAdventureGE08_KillAllEnemy");
+			SetStringBuff(3, GetStringBuff(2), rPlayerEnemy.GetNumberOfUnits());
+
+            rPlayer.RegisterGoal(1, GetStringBuff(3));
+			rPlayer.EnableGoal(0, true, true);
+			rPlayer.EnableGoal(1, true, true);
+            
+            rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 1);
+        }
+        else
+        {
+            rPlayer.EnableStatistics(false);
+        }
+    }
+
+    SetInterfaceOptions(
+        lockAllianceDialog |
+        lockGiveMoneyDialog |
+        lockGiveUnitsDialog |
+        lockToolbarSwitchMode |
+        lockToolbarAlliance |
+        lockToolbarGiveMoney |
+        lockToolbarMoney |
+        lockDisplayToolbarMoney |
+        lockToolbarLevelName |
+        lockToolbarHelpMode |
+        lockDisplayToolbarLevelName |
+        lockCreateBuildPanel |
+        0);
+}
+
+state InitializeAdventureGE8
+{
+    SetTimer(1, 400);
+    SetTimer(2, 2400);//2min
+    SetTimer(3, 4800);//4min
+    SetTimer(4, 1200);//1min
+
+    SetTimer(7, GetWindTimerTicks());
+    StartWind();
+
+    StatisticReset();
+    StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
+    StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
+    StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
+    StatisticSetSortOrder(0, 3, true);
+
+    return KillingBanditsAdventureGE8;
+}
+
+state KillingBanditsAdventureGE8
+{
+    player rPlayer, rPlayerEnemy;
+
+    int i;
+    int j;
+    int iNumberOfUnits;
+
+    rPlayerEnemy = GetPlayer(12);
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        
+        if(rPlayer.IsHuman()) 
+        {   
+            iNumberOfUnits = rPlayerEnemy.GetNumberOfUnits();
+
+			SetStringBuffTranslate(2, "translateAdventureGE08_KillAllEnemy");
+			SetStringBuff(3, GetStringBuff(2), iNumberOfUnits);
+
+            if(iNumberOfUnits == 0)
+            {
+                rPlayer.RegisterGoal(1, "translateAdventureGE08_KillAllAchieved");
+                SetGoalState(0, goalAchieved, 1);
+                SetGoalState(1, goalAchieved, 1);
+                return Victory, 150;
+            }
+
+            rPlayer.RegisterGoal(1, GetStringBuff(3));
+			rPlayer.EnableGoal(1, true);
+        }
+    }
+    return KillingBanditsAdventureGE8, 20;
+}
+
+function void CheckUnitDestroyedAdventureGE8(unitex uUnit)
+{
+    int i;
+    player rPlayer;
+
+    if(uUnit == uHero1)
+    {
+        for(i=0; i<8; i=i+1)
+        {
+            rPlayer = GetPlayer(i);
+            
+            if(rPlayer.IsHuman())
+            {   
+                SetGoalState(0, goalFailed, 1);
+
+                rPlayer.SetScriptData(1, 1);
+
+                SetStateDelay(150);
+                state Defeat;
+            }
+        }
+    }
+}
+
