@@ -1,0 +1,54 @@
+function int MIN(int nVal1, int nVal2)
+{
+    if (nVal1 < nVal2)
+    {
+        return nVal1;
+    }
+    return nVal2;
+}
+
+
+function int MAX(int nVal1, int nVal2)
+{
+    if (nVal1 > nVal2)
+    {
+        return nVal1;
+    }
+    return nVal2;
+}
+
+
+function int Power(int iBase, int iExponent)
+{
+    /* Funkcja do wyliczania potęgi z danej liczby iBase o wykładniku iExponent*/
+    int i, iResult;
+    iResult = 1;
+
+    for(i=0; i<iExponent; ++i)
+    {
+        iResult = iResult * iBase;
+    }
+    return iResult;
+}
+
+
+function int GaussianDistribution(int iStd)
+{
+    /*
+        Funkcja służy jako przybliżenie rozkładu gaussa dla liczb całkowitych.
+        Wykorzystuje Centralne Twierdzenie Graniczne.
+
+        iStd - odchylenie standardowe
+    */
+    int iX;
+    int iRandNum;
+    iX = 10*iStd/3 ;
+    iRandNum = 0;
+
+    iRandNum = iRandNum + Rand(2*iX+1) - iX;
+    iRandNum = iRandNum + Rand(2*iX+1) - iX;
+    iRandNum = iRandNum + Rand(2*iX+1) - iX;
+    iRandNum = iRandNum + Rand(2*iX+1) - iX;
+
+    return iRandNum/4;
+}

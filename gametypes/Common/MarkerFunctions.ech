@@ -1,0 +1,542 @@
+
+/* 
+    Maski mają na celu przechwytywanie różnych eventów związanych z tym samym markerem.
+    Ich użycie jest konieczne do zamykania i otwierania tej samej bramy dwoma przyciskami:
+    jeden marker na brame dwa na guziki. W pozostałych wypadkach ich użycie jest opcjonalne
+    - zwiększa bezpieczeństwo kodu.
+
+    Trywialny przykład: załóżmy, że mamy marker o numerze 3 i tam znajduje się brama. 3 w zapisie binarnym to 0011.
+    Przyciskowi do zamykania przypisujemy liczbę 0111, a do otwierania liczbę 1011. Jeśli dostajemy numer przycisku,
+    to początek liczby mówi, czy otwieramy (01), czy zamykamy (10), a koniec 11, że bramę na markerze 3.
+
+*/
+
+#define MASK0                   2047   //0b 0000 0111 1111 1111
+#define MASK_OPEN_GATE          2048   //0b 0000 1000 0000 0000
+#define MASK_CLOSE_GATE         4096   //0b 0001 0000 0000 0000
+#define MASK_FAST_TELEPORT      6144   //0b 0001 1000 0000 0000
+#define MASK_CAVE_FALL          8192   //0b 0010 0000 0000 0000
+#define MASK_EXP_LVL_FIELD      10240  //0b 0010 1000 0000 0000
+#define MASK_CONV_RESISTANCE    12288  //0b 0011 0000 0000 0000
+#define MASK_STEP_ON_TO_WIN     14336  //0b 0011 1000 0000 0000
+
+#define SCRIPT_DATA_TRAP_5_SKELETON_TIER_1 1
+#define SCRIPT_DATA_TRAP_5_SKELETON_TIER_2 2
+#define SCRIPT_DATA_TRAP_5_SKELETON_TIER_3 3
+#define SCRIPT_DATA_TRAP_5_SKELETON_TIER_4 4
+#define SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_1 5
+#define SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_2 6
+#define SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_3 7
+#define SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_4 8
+#define SCRIPT_DATA_TRAP_DEMON 9
+#define SCRIPT_DATA_WIN_WHEN_KILLED 10
+#define SCRIPT_DATA_CONVERSION_CAPTURE_RESISTANCE (1 << 16)
+#define SCRIPT_DATA_LOSE_WHEN_KILLED (1 << 17)
+
+#define MARKER_FIRST_EXPERIENCE_LVL_FIELD 320
+
+
+function void CreateOpenGateSwitch(int iMarkerSwitch, int iMarkerGate)
+{
+    unitex uGate;
+    uGate = GetUnit(GetPointX(iMarkerGate), GetPointY(iMarkerGate), GetPointZ(iMarkerGate));
+    uGate.CommandBuildingSetGateMode(modeGateClosed);
+
+    CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(iMarkerSwitch), GetPointY(iMarkerSwitch),
+        GetPointZ(iMarkerSwitch), MASK_OPEN_GATE|iMarkerGate);
+}
+
+
+function void CreateCloseGateSwitch(int numMarkerSwitch, int numMarkerGate)
+{
+    CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(numMarkerSwitch), GetPointY(numMarkerSwitch),
+        GetPointZ(numMarkerSwitch), MASK_CLOSE_GATE|numMarkerGate);
+}
+
+
+function void CreateFastTeleportBetweenMarkers(int iMarkerIn, int iMarkerOut)
+{
+    if(PointExist(iMarkerIn) && PointExist(iMarkerOut))
+        CreateArtefact("ARTIFACT_INVISIBLE", 
+            GetPointX(iMarkerIn), GetPointY(iMarkerIn), GetPointZ(iMarkerIn), MASK_FAST_TELEPORT|iMarkerOut);
+}
+
+
+function void CreateFallToCave(int iMarker)
+{
+    if(PointExist(iMarker))
+        CreateArtefact("ARTIFACT_INVISIBLE",
+            GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_CAVE_FALL|iMarker);
+}
+
+
+function void CreateExperienceLevelField(int iMarker)
+{
+    if(PointExist(iMarker))
+        CreateArtefact("ARTIFACT_INVISIBLE",
+            GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_EXP_LVL_FIELD|iMarker);
+}
+
+
+function void CreateConversionAndCaptureResistanceField(int iMarker)
+{
+    if(PointExist(iMarker))
+        CreateArtefact("ARTIFACT_INVISIBLE",
+            GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_CONV_RESISTANCE|iMarker);
+}
+
+
+function void CreateStepOnToWinField(int iMarker)
+{
+    if(PointExist(iMarker))
+        CreateArtefact("ARTIFACT_INVISIBLE",
+            GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_STEP_ON_TO_WIN|iMarker);
+}
+
+function void SetUnitOnMarkerScriptData(int iMarker, int iScriptData)
+{
+    unitex uUnit;
+    uUnit = GetUnitAtMarker(iMarker);
+    uUnit.SetScriptData(iScriptData);
+}
+
+
+function void SetUnitImmortal(int iMarker)
+{
+    unitex uUnit;
+    uUnit = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+    if(uUnit != null)
+    {
+        uUnit.SetScriptImmortal(true);
+        uUnit.EnableCapture(false);
+        uUnit.EnableConversionByMagic(false);
+        uUnit.EnableConversionByPlace(false);
+    }
+}
+
+
+function void CreateTeleportsAndSwitches()
+{
+    int i, j, iLevel;
+    unitex uUnit;
+
+    for(i=70; i<140; i=i+2)
+    {
+        CreateFastTeleportBetweenMarkers(i, i+1);
+    }
+
+    for(i=140+1; i<180+1; i=i+2)
+    {
+        SetupTeleportBetweenMarkers(i, i+1);
+    }
+
+    for(i=180+1; i<200+1; i=i+2)
+    {
+        SetupOneWayTeleportBetweenMarkers(i, i+1);
+    }
+
+    for(i=200 + 1; i<240; i=i+1)
+    {
+        CreateFallToCave(i);
+    }
+
+    SetupOneWayTeleportBetweenMarkers(241, 240); 
+    SetupOneWayTeleportBetweenMarkers(242, 240);
+    SetupOneWayTeleportBetweenMarkers(243, 240);
+    SetupOneWayTeleportBetweenMarkers(244, 240);
+    SetupOneWayTeleportBetweenMarkers(245, 240);
+
+    SetupOneWayTeleportBetweenMarkers(247, 246);
+    SetupOneWayTeleportBetweenMarkers(248, 246);
+    SetupOneWayTeleportBetweenMarkers(249, 246);
+    SetupOneWayTeleportBetweenMarkers(250, 246);
+    SetupOneWayTeleportBetweenMarkers(251, 246);
+
+    for(i=254; i<290; i=i+3)
+    {
+        CreateOpenGateSwitch(i, i+2);
+        CreateCloseGateSwitch(i+1, i+2);
+    }
+
+    for(i=290; i<320; i=i+3)
+    {
+        CreateOpenGateSwitch(i, i+2);
+        CreateCloseGateSwitch(i+1, i+2);
+    }
+
+    for(i=320; i<336; ++i)
+    {
+        CreateExperienceLevelField(i);
+    }
+
+    for(i=336; i<350; ++i)
+    {
+        CreateConversionAndCaptureResistanceField(i);
+    }
+
+    for(i=350; i<360; ++i)
+    {
+        CreateStepOnToWinField(i);
+    }
+
+    for(i=360; i<400; ++i)
+    {
+        SetUnitImmortal(i);
+    }
+
+    for(j=0; j<12; ++j)
+    {
+        for(i=400+10*j; i<400+10+10*j; ++i)
+        {
+            if(PointExist(i))
+            {
+                uUnit = GetUnit(GetPointX(i), GetPointY(i), GetPointZ(i));
+                if(uUnit!=null)
+                {
+                    iLevel = uUnit.GetExperienceLevel();
+                    uUnit.SetExperienceLevel(iLevel + j + 1);
+                    uUnit.RegenerateMagic();
+                    uUnit.RegenerateHP();
+                }    
+            }
+        }
+    }
+
+    // Deszcz ognia 521 - 540
+    // Burza 541 - 560
+
+    SetUnitOnMarkerScriptData(561, SCRIPT_DATA_TRAP_5_SKELETON_TIER_1);
+    SetUnitOnMarkerScriptData(562, SCRIPT_DATA_TRAP_5_SKELETON_TIER_1);
+    SetUnitOnMarkerScriptData(563, SCRIPT_DATA_TRAP_5_SKELETON_TIER_1);
+    SetUnitOnMarkerScriptData(564, SCRIPT_DATA_TRAP_5_SKELETON_TIER_2);
+    SetUnitOnMarkerScriptData(565, SCRIPT_DATA_TRAP_5_SKELETON_TIER_2);
+    SetUnitOnMarkerScriptData(566, SCRIPT_DATA_TRAP_5_SKELETON_TIER_2);
+    SetUnitOnMarkerScriptData(567, SCRIPT_DATA_TRAP_5_SKELETON_TIER_3);
+    SetUnitOnMarkerScriptData(568, SCRIPT_DATA_TRAP_5_SKELETON_TIER_3);
+    SetUnitOnMarkerScriptData(569, SCRIPT_DATA_TRAP_5_SKELETON_TIER_3);
+    SetUnitOnMarkerScriptData(570, SCRIPT_DATA_TRAP_5_SKELETON_TIER_4);
+    SetUnitOnMarkerScriptData(571, SCRIPT_DATA_TRAP_5_SKELETON_TIER_4);
+    SetUnitOnMarkerScriptData(572, SCRIPT_DATA_TRAP_5_SKELETON_TIER_4);
+
+    SetUnitOnMarkerScriptData(573, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_1);
+    SetUnitOnMarkerScriptData(574, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_2);
+    SetUnitOnMarkerScriptData(575, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_3);
+    SetUnitOnMarkerScriptData(576, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_4);
+}
+
+
+function void DropMeteorInMarkeredRectangle(int iMarker1, int iMarker2)
+{
+    int iMaxX, iMinX, iMaxY, iMinY;
+
+    if(PointExist(iMarker1) && PointExist(iMarker2))
+    {
+        if(RAND(3)==0)
+        {
+            iMaxX = MAX(GetPointX(iMarker1), GetPointX(iMarker2));
+            iMinX = MIN(GetPointX(iMarker1), GetPointX(iMarker2));
+
+            iMaxY = MAX(GetPointY(iMarker1), GetPointY(iMarker2));
+            iMinY = MIN(GetPointY(iMarker1), GetPointY(iMarker2));
+
+            Meteor(iMinX+RAND(iMaxX-iMinX), iMinY + RAND(iMaxY-iMinY), 10);
+        }
+    }
+}
+
+
+function void DropLightingInMarkeredRectangle(int iMarker1, int iMarker2)
+{
+    int iMaxX, iMinX, iMaxY, iMinY;
+
+    if(PointExist(iMarker1) && PointExist(iMarker2))
+    {
+        if(RAND(3)==0)
+        {
+            iMaxX = MAX(GetPointX(iMarker1), GetPointX(iMarker2));
+            iMinX = MIN(GetPointX(iMarker1), GetPointX(iMarker2));
+
+            iMaxY = MAX(GetPointY(iMarker1), GetPointY(iMarker2));
+            iMinY = MIN(GetPointY(iMarker1), GetPointY(iMarker2));
+
+            Lighting(iMinX+RAND(iMaxX-iMinX), iMinY + RAND(iMaxY-iMinY), 10);
+        }
+    }
+}
+
+function void MakeMarkerPeriodicEvents()
+{
+    int i;
+    for(i=521; i<541; ++i)
+    {
+        DropMeteorInMarkeredRectangle(i, i+1);
+    }
+    for(i=541; i<561; ++i)
+    {
+        DropLightingInMarkeredRectangle(410, 411);
+    }
+}
+
+function void CreateUnitsNearKilledUnit(unitex uUnitKilled, string strUnit, int iUnitsNumber, int iScriptData)
+{
+    /*
+        Argument iScriptData służy do ustawiania nowym unitom wartości ScriptData.  
+    */
+    int j;
+    int iUnitsCounter;
+    int iX, iY, iZ, iAlpha;
+    
+    unitex uUnit1, uUnit2;
+    player rPlayerUnit;
+
+    iX = uUnitKilled.GetLocationX();
+    iY = uUnitKilled.GetLocationY();
+    iZ = uUnitKilled.GetLocationZ();
+    iAlpha = uUnitKilled.GetAlphaAngle();
+
+    iUnitsCounter = 1; 
+
+    rPlayerUnit = GetPlayer(uUnitKilled.GetIFFNumber());
+    uUnit1 = rPlayerUnit.CreateUnit(iX, iY, iZ, iAlpha, strUnit);
+    CreateObjectAtUnit(uUnit1, "HIT_TELEPORT");
+    uUnit1.SetScriptData(iScriptData);
+    
+    for(j=0; j<25; ++j)
+    {
+        if(iUnitsCounter >= iUnitsNumber)
+            return;
+
+        uUnit1 = rPlayerUnit.CreateUnit(iX -2 + RAND(5), iY -2 + RAND(5), iZ, iAlpha, strUnit);
+        if(uUnit1 != null)
+        {
+            ++ iUnitsCounter;
+            CreateObjectAtUnit(uUnit1, "HIT_TELEPORT");
+            uUnit1.SetScriptData(iScriptData);
+        }
+
+    }     
+}
+
+function void CheckMarkeredUnits(unitex uUnitKilled)
+{
+    int i, j, n;
+    int iUnitsCounter;
+    int iX, iY, iZ, iAlpha;
+    unitex uUnit1, uUnit2;
+    unit uAttacker;
+    player rPlayer, rPlayerAttacker;
+
+    if(uUnitKilled.GetIFFNumber() != 14)
+    {
+        return;
+    }
+
+    iX = uUnitKilled.GetLocationX();
+    iY = uUnitKilled.GetLocationY();
+    iZ = uUnitKilled.GetLocationZ();
+    iAlpha = uUnitKilled.GetAlphaAngle();
+
+
+    if((uUnitKilled.GetScriptData() & SCRIPT_DATA_LOSE_WHEN_KILLED) != 0)
+    {
+        rPlayer = GetPlayer(uUnitKilled.GetIFFNumber());
+        rPlayer.SetScriptData(1, 1);
+    }
+    if(uUnitKilled.GetScriptData() == SCRIPT_DATA_LOSE_WHEN_KILLED)
+    {
+        uAttacker = uUnitKilled.GetAttacker();
+        if(uAttacker == null)
+            return;
+
+        rPlayerAttacker  = GetPlayer(uAttacker.GetIFFNumber());
+        for(j=0; j<8; j=j+1)
+        {
+            if(rPlayer.GetIFFNumber()==j) continue;
+            rPlayer = GetPlayer(j);
+
+            if(!((rPlayer!=null) && rPlayer.IsAlive() && (rPlayer.IsAlly(rPlayerAttacker))))
+                rPlayer.SetScriptData(1, 1);
+        }
+        SetStateDelay(150);
+        state Victory;
+    }
+    if(uUnitKilled.GetScriptData() == SCRIPT_DATA_TRAP_5_SKELETON_TIER_1)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON1", 5, 0);
+    else if(uUnitKilled.GetScriptData() == SCRIPT_DATA_TRAP_5_SKELETON_TIER_2)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON2", 5, 0);
+    else if(uUnitKilled.GetScriptData() == SCRIPT_DATA_TRAP_5_SKELETON_TIER_3)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON3", 5, 0);
+    else if(uUnitKilled.GetScriptData() == SCRIPT_DATA_TRAP_5_SKELETON_TIER_4)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON4", 5, 0);
+    else if(uUnitKilled.GetScriptData() == SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_1)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON1", 2, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_1);
+    else if(uUnitKilled.GetScriptData() == SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_2)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON2", 2, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_2);
+    else if(uUnitKilled.GetScriptData() == SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_3)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON3", 2, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_3);
+    else if(uUnitKilled.GetScriptData() == SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_4)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON4", 2, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_4);
+    else if(uUnitKilled.GetScriptData() == SCRIPT_DATA_TRAP_DEMON)
+        CreateUnitsNearKilledUnit(uUnitKilled, "RPG_ARENAMONSTER1", 1, 0);
+        
+}
+
+function void MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefact)
+{
+    int i, j, n;
+    int iArmour1, iArmour2;
+    int iMarker;
+    player rPlayer;
+
+    if((iArtefactNum & ~MASK0) == MASK_OPEN_GATE)
+    {
+        iMarker = iArtefactNum & ~MASK_OPEN_GATE;
+        OPEN_GATE(iMarker);
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_CLOSE_GATE)
+    {
+        iMarker = iArtefactNum & ~MASK_CLOSE_GATE;
+        CLOSE_GATE(iMarker);
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_FAST_TELEPORT)
+    {
+        iMarker = iArtefactNum & ~MASK_FAST_TELEPORT;
+        CreateObjectAtUnit(uUnitOnArtefact, "CAST_TELEPORT");
+        uUnitOnArtefact.SetImmediatePosition(GetPointX(iMarker),
+                                             GetPointY(iMarker),
+                                             GetPointZ(iMarker), 
+                                             uUnitOnArtefact.GetAlphaAngle(),
+                                             true);
+        CreateObjectAtUnit(uUnitOnArtefact, "CAST_TELEPORT");
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_CAVE_FALL)
+    {
+        iMarker = iArtefactNum & ~MASK_CAVE_FALL;
+
+        CreateObjectAtUnit(uUnitOnArtefact, "EXP_PALISADE");
+        uUnitOnArtefact.SetImmediatePosition(GetPointX(iMarker),
+                                            GetPointY(iMarker),
+                                            1, 
+                                            uUnitOnArtefact.GetAlphaAngle(),
+                                            true);
+        CreateObjectAtUnit(uUnitOnArtefact, "EXP_PALISADE");
+
+        // Dodajemy obrażenia od upadku. Im silniejsza zbroja tym większy - ciężki pancerz bardziej boli przy spadku.
+        if(uUnitOnArtefact.GetMaxMagic() > 0)
+        {
+            //Jeśli czarodziejka ma tarcze, to nie chcemy jej dawać dodatkowych obrażeń. 
+            uUnitOnArtefact.DamageUnit(20);
+        }
+        else 
+        {    
+            iArmour1 = uUnitOnArtefact.GetArmour(0);
+            iArmour2 = uUnitOnArtefact.GetArmour(1);
+            uUnitOnArtefact.DamageUnit(20 + iArmour1/3 + iArmour2/3);
+        }
+
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_EXP_LVL_FIELD)
+    {
+        /* 
+            Poniższy kod jest bardzo trudny do zrozumienia bez znajomości operacji na bitach. 
+
+            W tym miejscu dodajemy lvl za wejście na pole zwiększające lvl. Jednostka może tylko raz wzmocnić lvl
+            za pomocą tego samego pola, więc musimy zapisać, że jednostka odwiedziła pole.
+
+            Jednostce możemy przypisać inta za pomocą funkcji uUnit.SetScriptData. Inta możemy zareprezentować w postaci
+            dwójkowej np. 27 = 16 + 8 + 2 + 1 =  2^4 + 2^3 + 2^1 + 2^0 = 11011. Możemy zatem z liczby stworzyć tablice z 
+            wartościami 0 i 1. Każda taka wartość może reprezentować, czy pole zostało odwiedzone - wystarczy do 
+            ScriptData dodawać odpowiednie potęgi dwójki jeśli odwiedzamy pole. Za pomocą operacji bitowych możemy też 
+            sprawdzić, czy już byliśmy na danym polu.
+        
+        */
+        if(uUnitOnArtefact.GetIFFNumber() == 14)
+        {
+            // Dla gracza 14 (15) ScriptData zawiera dane o pułapkach, więc omijamy
+            return;
+        }
+
+        iMarker = iArtefactNum & ~MASK_EXP_LVL_FIELD;
+
+        i = uUnitOnArtefact.GetScriptData();
+        
+        j = 1 << (iMarker - MARKER_FIRST_EXPERIENCE_LVL_FIELD);
+        n = i & j;
+
+        if(n == 0)
+        {
+            uUnitOnArtefact.SetScriptData(i + j);
+            i = uUnitOnArtefact.GetExperienceLevel();
+
+            if(i < 12)
+            {
+                CreateObjectAtUnit(uUnitOnArtefact, "EXP_EXPERIENCE1");
+                uUnitOnArtefact.SetExperienceLevel(i + 1);
+            }
+        }
+
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_CONV_RESISTANCE)
+    {
+        /*
+          Dodajemy odporność na zamianę w krowę i przejęcie jednostkom odwiedzającym pole
+          Logika jest podobna do pól dodających lvl, ale w tym wypadku wystarcza nam jedynie jeden bit do zapisania,
+          że odporność została dodana.
+        */
+
+        if(uUnitOnArtefact.GetIFFNumber() == 14)
+        {
+            // Dla gracza 14 (15) ScriptData zawiera dane o pułapkach, więc omijamy
+            return;
+        }
+
+        iMarker = iArtefactNum & ~MASK_CONV_RESISTANCE;
+
+        i = uUnitOnArtefact.GetScriptData();
+        n = i & SCRIPT_DATA_CONVERSION_CAPTURE_RESISTANCE;
+
+        if(n == 0)
+        {
+            uUnitOnArtefact.SetScriptData(i + SCRIPT_DATA_CONVERSION_CAPTURE_RESISTANCE);
+
+            // W zalezności od postaci dajemy efekt czaru, na który jednostka została uodporniona.
+            // Przez brak odpowiednich getterów nie możemy zrobić w lepszy sposób.
+            if((uUnitOnArtefact.GetWeaponType()) == 6 || uUnitOnArtefact.IsFlyable())
+            {
+                // czarodziejka i wiedźma
+            }
+            else if(uUnitOnArtefact.GetMaxMagic() > 0)
+            {
+                // mag i kapłan
+                CreateObjectAtUnit(uUnitOnArtefact, "CAST_CAPTURE");
+            }
+            else if((uUnitOnArtefact.GetMaxHP()) >= 1500 || uUnitOnArtefact.IsAnimal())
+            {
+                // Rycerz - 
+                CreateObjectAtUnit(uUnitOnArtefact, "CAST_CONVERT");
+            }
+            else
+            {
+                CreateObjectAtUnit(uUnitOnArtefact, "CAST_CONVERT");
+                CreateObjectAtUnit(uUnitOnArtefact, "CAST_CAPTURE");
+            }
+            uUnitOnArtefact.EnableCapture(false);
+            uUnitOnArtefact.EnableConversionByMagic(false);
+            uUnitOnArtefact.EnableConversionByPlace(false);
+        }
+    }
+    else if ((iArtefactNum & ~MASK0) == MASK_STEP_ON_TO_WIN)
+    {
+        for(j=0; j<maxNormalPlayersCnt; j=j+1)
+        {
+            
+            if(rPlayerOnArtefact.GetIFFNumber()==j) continue;
+            rPlayer = GetPlayer(j);
+
+            if(!((rPlayer!=null) && rPlayer.IsAlive() && (rPlayer.IsAlly(rPlayerOnArtefact))))
+                rPlayer.SetScriptData(1, 1);
+        }
+        SetStateDelay(150);
+        state Victory;
+    }
+}

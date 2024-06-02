@@ -9,9 +9,10 @@ mission "translateZGarniec"
 
 unitex uHero1, uHero2;
 
+
 #include "Common\States.ech"
-#include "..\AIPlayers\Rand.ech"
-#include "..\Campaigns\Common.ech"
+#include "Common\Common.ech"
+#include "Common\MarkerFunctions.ech"
 
 /*
     Importowanie funkcji dla poszczególnych misji. Trzeba uważać, bo jak zdefinujemy zmienną lub funkcje w jednym pliku,
@@ -32,99 +33,27 @@ unitex uHero1, uHero2;
 #include "Adventure\AdventureGE_9.ech"
 
 
-function void CreateAutoGateSwitch(int markerArtefact, int markerGate)
+event Artefact(int iArtefactNum,  unitex uUnitOnArtefact, player rPlayerOnArtefact)
 {
-    if (PointExist(markerArtefact) && PointExist(markerGate))
-    {
-        CreateArtefact("SWITCH_1_1", GetPointX(markerArtefact), GetPointY(markerArtefact), GetPointZ(markerArtefact), 1024 | markerGate);
-    }
-}
+    // teleporty, bramy i inne funkcje
+    MarkerFunctionsEventArtefact(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
 
-function void CreateOpenGateSwitch(int markerArtefact, int markerGate)
-{
-    if (PointExist(markerArtefact) && PointExist(markerGate))
-    {
-        CreateArtefact("SWITCH_1_1", GetPointX(markerArtefact), GetPointY(markerArtefact), GetPointZ(markerArtefact), 2048 | markerGate);
-    }
-}
-
-function void CreateCloseGateSwitch(int markerArtefact, int markerGate)
-{
-    if (PointExist(markerArtefact) && PointExist(markerGate))
-    {
-        CreateArtefact("SWITCH_1_1", GetPointX(markerArtefact), GetPointY(markerArtefact), GetPointZ(markerArtefact), 4096 | markerGate);
-    }
-}
-
-function void CreateInvisibleAutoGateSwitch(int markerArtefact, int markerGate)
-{
-    if (PointExist(markerArtefact) && PointExist(markerGate))
-    {
-        CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(markerArtefact), GetPointY(markerArtefact), GetPointZ(markerArtefact), 1024 | markerGate);
-    }
-}
-
-function void CreateInvisibleOpenGateSwitch(int markerArtefact, int markerGate)
-{
-    if (PointExist(markerArtefact) && PointExist(markerGate))
-    {
-        CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(markerArtefact), GetPointY(markerArtefact), GetPointZ(markerArtefact), 2048 | markerGate);
-    }
-}
-
-function void CreateInvisibleCloseGateSwitch(int markerArtefact, int markerGate)
-{
-    if (PointExist(markerArtefact) && PointExist(markerGate))
-    {
-        CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(markerArtefact), GetPointY(markerArtefact), GetPointZ(markerArtefact), 4096 | markerGate);
-    }
-}
-
-event Artefact(int marker, unitex u, player p)
-{
-    unitex u2;
-
-    /* 
-    Obsługa eventu Artefact dla różnych misji. Jeśli zgadza się nazwa misji, to wywołujemy 
-    funkcje odpowiednią dla misji, która obsłuży event.
-    */
-
-    // Bramy, teleporty itd. działają tak samo dla wszystkich misji. Wcześniej nie ma żadnego 'return'.
-
-    if (marker > 0 && marker & 1024) // Switch-Auto
-    {
-        u2 = GetUnit(GetPointX(marker & ~1024), GetPointY(marker & ~1024), GetPointZ(marker & ~1024));
-        u2.CommandBuildingSetGateMode(0);
-        return false;
-    }
-    if (marker > 0 && marker & 2048) // Switch-Open
-    {
-        u2 = GetUnit(GetPointX(marker & ~2048), GetPointY(marker & ~2048), GetPointZ(marker & ~2048));
-        u2.CommandBuildingSetGateMode(1);
-        return false;
-    }
-    if (marker > 0 && marker & 4096) // Switch-Close
-    {
-        u2 = GetUnit(GetPointX(marker & ~4096), GetPointY(marker & ~4096), GetPointZ(marker & ~4096));
-        u2.CommandBuildingSetGateMode(2);
-        return false;
-    }
-
+    // eventy dla konkretnych misji
     if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 1"))
     {
-        CheckArtefactEventAdventureGE1(marker, u, p);
+        CheckArtefactEventAdventureGE1(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
     }
     else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 2"))
     {
-        CheckArtefactEventAdventureGE2(marker, u, p);
+        CheckArtefactEventAdventureGE2(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
     }
     else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 7"))
     {
-        CheckArtefactEventAdventureGE7(marker, u, p);
+        CheckArtefactEventAdventureGE7(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
     }
     else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 9"))
     {
-        CheckArtefactEventAdventureGE9(marker, u, p);
+        CheckArtefactEventAdventureGE9(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
     }
 
     return true;
@@ -147,145 +76,7 @@ event Artefact(int marker, unitex u, player p)
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
 
-        //---------------------------------
-
-    for(i=140+1; i<180+1; i=i+2) // +1 wynika ze wstecznej kompatybliności 
-    {
-        SetupTeleportBetweenMarkers(i, i+1);
-    }
-
-    for(i=180+1; i<201+1; i=i+2) // +1 wynika ze wstecznej kompatybliności 
-    {
-        SetupOneWayTeleportBetweenMarkers(i, i+1);
-    }
-    
-
-        SetupOneWayTeleportBetweenMarkers(181, 182); //GE Teleporty w jedną stronę uniwersalne 
-        SetupOneWayTeleportBetweenMarkers(183, 184); //teleporty w jedną stronę między markerami: 182-183, 186-187, 190-191, 194-195, 198-199
-        SetupOneWayTeleportBetweenMarkers(185, 186);
-        SetupOneWayTeleportBetweenMarkers(187, 188);
-
-        SetupOneWayTeleportBetweenMarkers(189, 190);
-        SetupOneWayTeleportBetweenMarkers(191, 192);
-        SetupOneWayTeleportBetweenMarkers(193, 194);
-        SetupOneWayTeleportBetweenMarkers(195, 196);
-
-        SetupOneWayTeleportBetweenMarkers(197, 198);
-        SetupOneWayTeleportBetweenMarkers(199, 200); 
-
-
-
-
-
-
-        SetupOneWayTeleportBetweenMarkers(241, 240); // GE teleporty [5 kierujących do 1]
-        SetupOneWayTeleportBetweenMarkers(242, 240);
-        SetupOneWayTeleportBetweenMarkers(243, 240);
-        SetupOneWayTeleportBetweenMarkers(244, 240);
-        SetupOneWayTeleportBetweenMarkers(245, 240);
-
-        SetupOneWayTeleportBetweenMarkers(247, 246);
-        SetupOneWayTeleportBetweenMarkers(248, 246);
-        SetupOneWayTeleportBetweenMarkers(249, 246);
-        SetupOneWayTeleportBetweenMarkers(250, 246);
-        SetupOneWayTeleportBetweenMarkers(251, 246); // GE KONIEC
-        
-
-        //Open - Close gate
-        CreateOpenGateSwitch(240, 242); 
-        CreateCloseGateSwitch(241, 242); 
-
-        CreateOpenGateSwitch(243, 245);
-        CreateCloseGateSwitch(244, 245);
-
-        CreateOpenGateSwitch(246, 248);
-        CreateCloseGateSwitch(247, 248);
-
-        CreateOpenGateSwitch(249, 251);
-        CreateCloseGateSwitch(250, 251);
-
-        CreateOpenGateSwitch(252, 254);
-        CreateCloseGateSwitch(253, 254);
-
-        CreateOpenGateSwitch(255, 257);
-        CreateCloseGateSwitch(256, 257);
-
-        CreateOpenGateSwitch(258, 260);
-        CreateCloseGateSwitch(259, 260);
-
-        CreateOpenGateSwitch(261, 263);
-        CreateCloseGateSwitch(262, 263);
-
-        CreateOpenGateSwitch(264, 266);
-        CreateCloseGateSwitch(265, 266);
-
-        CreateOpenGateSwitch(267, 269);
-        CreateCloseGateSwitch(268, 269);
-        // ---------------------------
-        
-        //Auto gate
-        
-        CreateAutoGateSwitch(270, 271);
-        CreateAutoGateSwitch(272, 273);
-        CreateAutoGateSwitch(274, 275);
-        CreateAutoGateSwitch(276, 277);
-        CreateAutoGateSwitch(278, 279);
-        CreateAutoGateSwitch(280, 281);
-        CreateAutoGateSwitch(282, 283);
-        CreateAutoGateSwitch(284, 285);
-        CreateAutoGateSwitch(286, 287);
-        CreateAutoGateSwitch(288, 289);
-         
-        //----------------------
-        
-        //Invisible Open - Close gate
-        
-        CreateInvisibleOpenGateSwitch(290, 292);
-        CreateInvisibleCloseGateSwitch(291, 292);
-        
-        CreateInvisibleOpenGateSwitch(293, 295);
-        CreateInvisibleCloseGateSwitch(294, 295);
-        
-        CreateInvisibleOpenGateSwitch(296, 298);
-        CreateInvisibleCloseGateSwitch(297, 298);
-        
-        CreateInvisibleOpenGateSwitch(299, 301);
-        CreateInvisibleCloseGateSwitch(300, 301);
-        
-        CreateInvisibleOpenGateSwitch(302, 304);
-        CreateInvisibleCloseGateSwitch(303, 304);
-        
-        CreateInvisibleOpenGateSwitch(305, 307);
-        CreateInvisibleCloseGateSwitch(306, 307);
-        
-        CreateInvisibleOpenGateSwitch(308, 310);
-        CreateInvisibleCloseGateSwitch(309, 310);
-        
-        CreateInvisibleOpenGateSwitch(311, 313);
-        CreateInvisibleCloseGateSwitch(312, 313);
-        
-        CreateInvisibleOpenGateSwitch(314, 316);
-        CreateInvisibleCloseGateSwitch(315, 316);
-        
-        CreateInvisibleOpenGateSwitch(317, 319);
-        CreateInvisibleCloseGateSwitch(318, 319);
-        
-        // ----------------------
-        
-        //Invisible Auto gate
-        
-        CreateInvisibleAutoGateSwitch(320, 321);
-        CreateInvisibleAutoGateSwitch(322, 323);
-        CreateInvisibleAutoGateSwitch(324, 325);
-        CreateInvisibleAutoGateSwitch(326, 327);
-        CreateInvisibleAutoGateSwitch(328, 329);
-        CreateInvisibleAutoGateSwitch(330, 331);
-        CreateInvisibleAutoGateSwitch(332, 333);
-        CreateInvisibleAutoGateSwitch(334, 335);
-        CreateInvisibleAutoGateSwitch(336, 337);
-        CreateInvisibleAutoGateSwitch(338, 339);
-        //-------------------------------------
-
+        CreateTeleportsAndSwitches();
 
         /* Jeśli misja ma swój skrypt to robimy Initialize dla tej misji.
            Jeśli nie to skrypt będzie działać dalej jak wojna wiosek. 
@@ -552,12 +343,10 @@ event Artefact(int marker, unitex u, player p)
         if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 1"))
         {
             CheckUnitDestroyedAdventureGE1(uUnit);
-            return;
         }
         else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 2"))
         {
             CheckUnitDestroyedAdventureGE2(uUnit);
-            return;
         }
         else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 3"))
         {
@@ -566,32 +355,26 @@ event Artefact(int marker, unitex u, player p)
         else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 4"))
         {
             CheckUnitDestroyedAdventureGE4(uUnit);
-            return;
         }
         else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 5"))
         {
             CheckUnitDestroyedAdventureGE5(uUnit);
-            return;
         }
         else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 6"))
         {
             CheckUnitDestroyedAdventureGE6(uUnit);
-            return;
         }
         else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 7"))
         {
             CheckUnitDestroyedAdventureGE7(uUnit);
-            return;
         }
         else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 8"))
         {
             CheckUnitDestroyedAdventureGE8(uUnit);
-            return;
         }
         else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 9"))
         {
             CheckUnitDestroyedAdventureGE9(uUnit);
-            return;
         }
     }
 

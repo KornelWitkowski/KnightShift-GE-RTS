@@ -3,9 +3,10 @@ mission "translateGameTypeBattle"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
+    #include "Common\MarkerFunctions.ech"
     #include "Common\Artefacts.ech"
     #include "Common\Alliance.ech"
-    #include "Common\Teleports.ech"
+
 
     int m_nAIPlayers;
 

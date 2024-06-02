@@ -3,10 +3,10 @@ mission "translateGameTypeEightSheds"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
+    #include "Common\MarkerFunctions.ech"
     #include "Common\Events.ech"
     #include "Common\Artefacts.ech"
     #include "Common\Alliance.ech"
-    #include "Common\Teleports.ech"
     #include "Common\StartingUnits.ech"
     
     state Initialize
@@ -31,8 +31,8 @@ mission "translateGameTypeEightSheds"
 
         // Czary dla gracza 14, czyli od czarnego od potworków na mapie
         EnablePlayer14Spells();
-        // Nieskończony milk pool dla gracza 14 dzięki czemu krowy tego gracza będą się pasły w nieskończoność
-        EnablePlayer14Milk();
+        // Nieskończony milk pool dla gracza 14 i 15 dzięki czemu krowy tego gracza będą się pasły w nieskończoność
+        EnableExtraSkirmishPlayersMilkPool();
 
         for(i=0; i<8; i=i+1)
         {

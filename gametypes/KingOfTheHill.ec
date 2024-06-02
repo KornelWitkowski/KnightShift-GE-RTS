@@ -9,10 +9,10 @@ mission "translateKingOfTheHill"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
+    #include "Common\MarkerFunctions.ech"
     #include "Common\Events.ech"
     #include "Common\Artefacts.ech"
     #include "Common\Alliance.ech"
-    #include "Common\Teleports.ech"
     #include "Common\StartingUnits.ech"
 
     int iNumberOfTowers;
@@ -144,12 +144,12 @@ mission "translateKingOfTheHill"
         int i;
         player rPlayer2;
 
-        SetCutsceneText("Koniec gry");
+        SetCutsceneText("translateKOTHEndGame");
         ShowInterfaceBlackBorders(true, 15, 15, 0xFF000000, 0xFF000000, 0, 0);
         rPlayer.ShowInterface(false);
         rPlayer.LookAt(GetPointX(MARKER_FIRST_TOWER), GetPointY(MARKER_FIRST_TOWER), 3, 32, 20, 0);
         rPlayer.DelayedLookAt(GetPointX(MARKER_FIRST_TOWER)+3,
-                            GetPointY(MARKER_FIRST_TOWER)+3, 8, 32+128, 20, 0, 300, true);
+                              GetPointY(MARKER_FIRST_TOWER)+3, 8, 32+128, 20, 0, 300, true);
         
 
         for(i=0; i<8; i=i+1)
@@ -202,8 +202,8 @@ mission "translateKingOfTheHill"
         
         // Czary dla gracza 14, czyli od czarnego od potworków na mapie
         EnablePlayer14Spells();
-        // Nieskończony milk pool dla gracza 14 dzięki czemu krowy tego gracza będą się pasły w nieskończoność
-        EnablePlayer14Milk();
+        // Nieskończony milk pool dla gracza 14 i 15 dzięki czemu krowy tego gracza będą się pasły w nieskończoność
+        EnableExtraSkirmishPlayersMilkPool();
 
         for(i=0;i<8;i=i+1)
         {

@@ -1,5 +1,5 @@
 // Import funkcji takich jak SetEnemies, SetAlly, itd.
-
+#include "Math.ech"
 #include "..\AIPlayers\Rand.ech"
 #include "..\Campaigns\Common.ech"
 
@@ -9,26 +9,21 @@ consts
     MINUTE = 1200;
 }
 
-function int GaussianDistribution(int iStd)
+
+function void ImproveHPRegeneration(unitex uUnit, int iHPExtraSpeed)
 {
-    /*
-        Funkcja służy jako przybliżenie rozkładu gaussa dla liczb całkowitych.
-        Wykorzystuje Centralne Twierdzenie Graniczne.
-
-        iStd - odchylenie standardowe
+    /* Funkcja do zwiększenia regeneracji życia jednostek. Wartość `iHPExtraSpeed` odpowiada liczbie
+       dodatkowych regenerowanych punktów HP, prawdopodobnie, na sekundę
     */
-    int iX;
-    int iRandNum;
-    iX = 10*iStd/3 ;
-    iRandNum = 0;
+    int i;
 
-    iRandNum = iRandNum + RAND(2*iX+1) - iX;
-    iRandNum = iRandNum + RAND(2*iX+1) - iX;
-    iRandNum = iRandNum + RAND(2*iX+1) - iX;
-    iRandNum = iRandNum + RAND(2*iX+1) - iX;
-
-    return iRandNum/4;
+    for(i=0; i<iHPExtraSpeed; ++i)
+    {
+        // Uwaga `AddHPRegenerationSpeed(2, true)` nie jest równoważne dwukrotnemu wywołaniu poniższej funkcji!
+        uUnit.AddHPRegenerationSpeed(1, true);
+    }
 }
+
 
 function void AiChooseEnemy()
 /* Wybiera głównego przeciwnika gracza AI. Główny przeciwnik będzie atakowany przez gracza AI, a także będzie
@@ -168,7 +163,6 @@ function void EnablePlayer14Spells()
     rPlayer.ResearchUpdate("SPELL_CAPTURE3");
     rPlayer.ResearchUpdate("SPELL_SHIELD3");
     rPlayer.ResearchUpdate("SPELL_CONVERSION3");
-
     rPlayer.ResearchUpdate("SPELL_TELEPORTATION3");
 
     // Magom trzeba włączyć zamiane w krowę na auto - w przeciwnym wypadku nie bedą używać czaru.
@@ -184,14 +178,16 @@ function void EnablePlayer14Spells()
     }    
 }
 
-function void EnablePlayer14Milk()
+function void EnableExtraSkirmishPlayersMilkPool()
 {
-    /* Jeśli gracz 15 ma na mapie postawione obory, to krowy będą się normalnie pasły, a nie stały przy oborze
-       dzięki zwiększonemu limitowi mleka */
+    /* Jeśli gracz 14 i 15 mają na mapie postawione obory, to krowy będą się normalnie pasły, a nie stały przy oborze. */
     player rPlayer;
+
     rPlayer = GetPlayer(14);
-    
-    rPlayer.SetMaxMoney(100000);
+    rPlayer.SetMaxMoney(1000000);
+
+    rPlayer = GetPlayer(13);
+    rPlayer.SetMaxMoney(1000000);
 }
 
 function void InitializeStatistics()

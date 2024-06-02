@@ -3,8 +3,8 @@ mission "translateEconomic"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
+    #include "Common\MarkerFunctions.ech"
     #include "Common\Events.ech"
-    #include "Common\Teleports.ech"
 
     // ECONOMIC
     enum comboMilkToWin
@@ -47,8 +47,10 @@ mission "translateEconomic"
         player rPlayer;
 
         SetBufferSideColorName(6, rPlayerWinner.GetSideColor());
-        SetStringBuff(4, "Koniec gry! Wygrywa %s!", GetStringBuff(6));
+        SetStringBuff(5, "translateEconomicEndGame", GetStringBuff(6));
+        SetStringBuffTranslate(4, GetStringBuff(5));
         SetCutsceneText(GetStringBuff(4));
+        
         ShowInterfaceBlackBorders(true, 15, 15, 0xFF000000, 0xFF000000, 0, 0);
 
         iNumberOfUnits = rPlayerWinner.GetNumberOfUnits();
@@ -126,8 +128,8 @@ mission "translateEconomic"
 
         // Czary dla gracza 14, czyli od czarnego od potworków na mapie
         EnablePlayer14Spells();
-        // Nieskończony milk pool dla gracza 14 dzięki czemu krowy tego gracza będą się pasły w nieskończoność
-        EnablePlayer14Milk();
+        // Nieskończony milk pool dla gracza 14 i 15 dzięki czemu krowy tego gracza będą się pasły w nieskończoność
+        EnableExtraSkirmishPlayersMilkPool();
 
         if(comboGrassGrowSpeed==0) SetResourceGrowSpeed(800);
         if(comboGrassGrowSpeed==1) SetResourceGrowSpeed(400);
@@ -249,7 +251,7 @@ mission "translateEconomic"
                 {
                     ShowEndingScreen(rPlayer);
 
-                     SetStateDelay(250);
+                    SetStateDelay(250);
                     
                     for(j=0; j<maxNormalPlayersCnt; j=j+1)
                     {
