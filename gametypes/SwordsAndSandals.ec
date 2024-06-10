@@ -24,17 +24,17 @@ mission "translateSwordsandsandals"
         {
             rPlayer=GetPlayer(i);
 
-            if(rPlayer!=null) 
+            if(rPlayer==null)
+                continue; 
+
+            iNumberOfUnits = rPlayer.GetNumberOfUnits();
+            for(j=0; j<iNumberOfUnits; j=j+1)
             {
-                iNumberOfUnits = rPlayer.GetNumberOfUnits();
-                for(j=0; j<iNumberOfUnits; j=j+1)
-                {
-                    // iterujemy od ostatniego unita, żeby nie zmieniać kolejności indeksów unitów
-                    // w przeciwnym wypadku jeślibyśmy usuneli jednostkę o indeksie 0, to jednostka z indeksem 1 dostała by nowy indeks 0.
-                    uUnit = rPlayer.GetUnit(iNumberOfUnits-j-1);
-                    if(uUnit.GetMaxMagic()>0)
-                        uUnit.RemoveUnit();
-                }
+                // iterujemy od ostatniego unita, żeby nie zmieniać kolejności indeksów unitów
+                // w przeciwnym wypadku jeślibyśmy usuneli jednostkę o indeksie 0, to jednostka z indeksem 1 dostała by nowy indeks 0.
+                uUnit = rPlayer.GetUnit(iNumberOfUnits-j-1);
+                if(uUnit.GetMaxMagic() > 0)
+                    uUnit.RemoveUnit();
             }
         }
     }
@@ -63,44 +63,44 @@ mission "translateSwordsandsandals"
         for(i=0; i<8; i=i+1)
         {
             rPlayer=GetPlayer(i);
-            if(rPlayer!=null) 
+            if(rPlayer==null)
+                continue; 
+
+            if(rPlayer.IsAI())
             {
-                if(rPlayer.IsAI())
-                {
-                    // boty na start dostają bonus mleka, ponieważ czasem startując z 2 drwalami i z 2 krowami, kupują na start drogę zamiast obory :>
-                    rPlayer.SetMaxMoney(400);
-                    rPlayer.SetMoney(400);
-                }
-                else
-                {
-                    CheckMilkPool(4);    
-                    rPlayer.SetMoney(100);    
-                }
-
-                RegisterGoal(0, "translateSwordsAndSandalsGoal");
-                EnableGoal(0, true);
-
-                rPlayer.SetScriptData(0, 0);
-
-                // Budynki - GE
-                
-                rPlayer.SetMaxCountLimitForObject("TEMPLE", 0);
-                rPlayer.SetMaxCountLimitForObject("SHRINE", 0);
-                rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
-                rPlayer.SetMaxCountLimitForObject("COURT", 2);
-                
-                // Postacie - GE
-                
-                rPlayer.SetMaxCountLimitForObject("SORCERER", 0);
-                rPlayer.SetMaxCountLimitForObject("PRIESTESS", 0);
-                rPlayer.SetMaxCountLimitForObject("PRIEST", 0);
-                rPlayer.SetMaxCountLimitForObject("WITCH", 0);
-
-                rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
-                if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
-                    CreateStartingUnits(rPlayer, comboStartingUnits, false);
-
+                // boty na start dostają bonus mleka, ponieważ czasem startując z 2 drwalami i z 2 krowami, kupują na start drogę zamiast obory :>
+                rPlayer.SetMaxMoney(400);
+                rPlayer.SetMoney(400);
             }
+            else
+            {
+                CheckMilkPool(4);    
+                rPlayer.SetMoney(100);    
+            }
+
+            RegisterGoal(0, "translateSwordsAndSandalsGoal");
+            EnableGoal(0, true);
+
+            rPlayer.SetScriptData(0, 0);
+
+            // Budynki - GE
+            
+            rPlayer.SetMaxCountLimitForObject("TEMPLE", 0);
+            rPlayer.SetMaxCountLimitForObject("SHRINE", 0);
+            rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
+            rPlayer.SetMaxCountLimitForObject("COURT", 2);
+            
+            // Postacie - GE
+            
+            rPlayer.SetMaxCountLimitForObject("SORCERER", 0);
+            rPlayer.SetMaxCountLimitForObject("PRIESTESS", 0);
+            rPlayer.SetMaxCountLimitForObject("PRIEST", 0);
+            rPlayer.SetMaxCountLimitForObject("WITCH", 0);
+
+            rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+            if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
+                CreateStartingUnits(rPlayer, comboStartingUnits, false);
+
         }
 
         RemoveMagicUnits();
@@ -174,13 +174,6 @@ mission "translateSwordsandsandals"
         AiChooseEnemy();
     }
     
-    event BuildingCreated(unitex uBuilding)
-    {
-        // Usuwanie budynków magicznych. Wieży maga i świątyni
-        if(uBuilding.GetMaxHP() == 1600 ||  uBuilding.GetMaxHP() == 1900)
-            uBuilding.KillUnit();
-    }
-
     command Initialize()
     {
         comboAlliedVictory = 1;

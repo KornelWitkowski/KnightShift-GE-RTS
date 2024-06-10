@@ -20,8 +20,6 @@ unitex uHero1, uHero2;
     to numer misji.
 */
 
-#include "Adventure\Common.ech"
-
 #include "Adventure\AdventureGE_1.ech"
 #include "Adventure\AdventureGE_2.ech"
 #include "Adventure\AdventureGE_3.ech"
@@ -35,28 +33,40 @@ unitex uHero1, uHero2;
 
 event Artefact(int iArtefactNum,  unitex uUnitOnArtefact, player rPlayerOnArtefact)
 {
+    /*
+        Jeśli event Artefact zwraca `false`, to dany "artefakt" może zostać ponownie wykorzystany.
+        Jeśli zwraca `true`, to artefakt jest usuwany.
+    
+    */
     // teleporty, bramy i inne funkcje
-    MarkerFunctionsEventArtefact(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
+    if(iArtefactNum >= 70)
+    {
+        MarkerFunctionsEventArtefact(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
+        return false;
+    }
+    else
+    {
+        // eventy dla konkretnych misji
+        if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 1"))
+        {
+            CheckArtefactEventAdventureGE1(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
+        }
+        else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 2"))
+        {
+            CheckArtefactEventAdventureGE2(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
+        }
+        else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 7"))
+        {
+            CheckArtefactEventAdventureGE7(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
+        }
+        else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 9"))
+        {
+            CheckArtefactEventAdventureGE9(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
+        }
 
-    // eventy dla konkretnych misji
-    if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 1"))
-    {
-        CheckArtefactEventAdventureGE1(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
+        return true;
     }
-    else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 2"))
-    {
-        CheckArtefactEventAdventureGE2(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
-    }
-    else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 7"))
-    {
-        CheckArtefactEventAdventureGE7(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
-    }
-    else if(!CompareStringsNoCase(GetLevelName(), "AdventureGE 9"))
-    {
-        CheckArtefactEventAdventureGE9(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
-    }
-
-    return true;
+    return true;    
 } 
 
     state Initialize;
@@ -184,7 +194,8 @@ event Artefact(int iArtefactNum,  unitex uUnitOnArtefact, player rPlayerOnArtefa
 
     event SpecialLevelFlags()
     {
-        return 0x01;
+	return 8;
+      //  return 0x01;
     }
 
     event AIPlayerFlags()
@@ -198,29 +209,14 @@ event Artefact(int iArtefactNum,  unitex uUnitOnArtefact, player rPlayerOnArtefa
     event SetupInterface()
     {
         SetInterfaceOptions(
-//            lockResearchDialog |
-//            lockConstructionDialog |
-//            lockUpgradeWeaponDialog |
             lockAllianceDialog |
             lockToolbarAlliance | 
-//            lockGiveMoneyDialog |
-//            lockGiveUnitsDialog |
-//            lockShowToolbar |
-//            lockToolbarMap |
-//            lockToolbarPanel |
             lockToolbarSwitchMode |
             lockToolbarLevelName |
-//            lockToolbarTunnels |
             lockToolbarObjectives |
-//            lockToolbarResearching |
-//            lockToolbarConstruction |
-//            lockToolbarMenu |
             lockToolbarMoney |
             lockToolbarHelpMode |
-//            lockDisplayToolbarLevelName |
             lockDisplayToolbarMoney |
-//            lockCreateBuildPanel |
-//            lockCreateMoneyProgress | 
             0);
     }
         

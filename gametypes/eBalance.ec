@@ -31,56 +31,56 @@ mission "translateBalance"
         for(i=0; i < 8; i=i+1)
         {
             rPlayer=GetPlayer(i);
-            if(rPlayer!=null) 
+            if(rPlayer==null)
+                continue;
+
+            if(rPlayer.IsAI())
             {
-                if(rPlayer.IsAI())
-                {
-                    // boty na start dostają bonus mleka, ponieważ czasem startując z 2 drwalami i z 2 krowami, kupują na start drogę :>
-                    rPlayer.SetMaxMoney(400);
-                    rPlayer.SetMoney(400);
-                }
-                else
-                {
-                    CheckMilkPool(4);
-                    rPlayer.SetMoney(100);        
-                }
-
-                rPlayer.SetScriptData(0, 0);
-
-                RegisterGoal(0, "translateBalanceGoal");
-                EnableGoal(0, true);
-
-                rPlayer.EnableResearchUpdate("AUTOSPELL_PRIEST4"            , false); // 2
-                rPlayer.EnableResearchUpdate("AUTOSPELL_FIREBALL4"          , false); // 2
-                rPlayer.EnableResearchUpdate("SPELL_SHIELD3"                , false); // 2
-                rPlayer.EnableResearchUpdate("SPELL_CAPTURE2"               , false); // 1
-                rPlayer.EnableResearchUpdate("SPELL_STORM2"                 , false); // 1
-                rPlayer.EnableResearchUpdate("SPELL_CONVERSION2"            , false); // 1
-                rPlayer.EnableResearchUpdate("SPELL_FIRERAIN2"              , false); // 1
-                rPlayer.EnableResearchUpdate("SPELL_SEEING3"                , false); // 2
-                rPlayer.EnableResearchUpdate("SPELL_TELEPORTATION3"         , false); // 2
-                rPlayer.EnableResearchUpdate("SPELL_GHOST3"                 , false); // 2
-                rPlayer.EnableResearchUpdate("SPELL_WOLF2"                  , false); // 1
-
-                // Budynki - GE
-                
-                rPlayer.SetMaxCountLimitForObject("TEMPLE", 2);
-                rPlayer.SetMaxCountLimitForObject("SHRINE", 2);
-                rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
-                rPlayer.SetMaxCountLimitForObject("COURT", 1);
-                
-                // Postacie - GE
-                
-                rPlayer.SetMaxCountLimitForObject("SORCERER", 8);
-                rPlayer.SetMaxCountLimitForObject("PRIESTESS", 4);
-                rPlayer.SetMaxCountLimitForObject("PRIEST", 4);
-                rPlayer.SetMaxCountLimitForObject("WITCH", 8);
-
-                rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
-
-                if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
-                    CreateStartingUnits(rPlayer, comboStartingUnits, true);
+                // boty na start dostają bonus mleka, ponieważ czasem startując z 2 drwalami i z 2 krowami, kupują na start drogę :>
+                rPlayer.SetMaxMoney(400);
+                rPlayer.SetMoney(400);
             }
+            else
+            {
+                CheckMilkPool(4);
+                rPlayer.SetMoney(100);        
+            }
+
+            rPlayer.SetScriptData(0, 0);
+
+            RegisterGoal(0, "translateBalanceGoal");
+            EnableGoal(0, true);
+
+            rPlayer.EnableResearchUpdate("AUTOSPELL_PRIEST4"            , false); // 2
+            rPlayer.EnableResearchUpdate("AUTOSPELL_FIREBALL4"          , false); // 2
+            rPlayer.EnableResearchUpdate("SPELL_SHIELD3"                , false); // 2
+            rPlayer.EnableResearchUpdate("SPELL_CAPTURE2"               , false); // 1
+            rPlayer.EnableResearchUpdate("SPELL_STORM2"                 , false); // 1
+            rPlayer.EnableResearchUpdate("SPELL_CONVERSION2"            , false); // 1
+            rPlayer.EnableResearchUpdate("SPELL_FIRERAIN2"              , false); // 1
+            rPlayer.EnableResearchUpdate("SPELL_SEEING3"                , false); // 2
+            rPlayer.EnableResearchUpdate("SPELL_TELEPORTATION3"         , false); // 2
+            rPlayer.EnableResearchUpdate("SPELL_GHOST3"                 , false); // 2
+            rPlayer.EnableResearchUpdate("SPELL_WOLF2"                  , false); // 1
+
+            // Budynki - GE
+            
+            rPlayer.SetMaxCountLimitForObject("TEMPLE", 2);
+            rPlayer.SetMaxCountLimitForObject("SHRINE", 2);
+            rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
+            rPlayer.SetMaxCountLimitForObject("COURT", 1);
+            
+            // Postacie - GE
+            
+            rPlayer.SetMaxCountLimitForObject("SORCERER", 8);
+            rPlayer.SetMaxCountLimitForObject("PRIESTESS", 4);
+            rPlayer.SetMaxCountLimitForObject("PRIEST", 4);
+            rPlayer.SetMaxCountLimitForObject("WITCH", 8);
+
+            rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+
+            if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
+                CreateStartingUnits(rPlayer, comboStartingUnits, true);
         }
 
         // SOJUSZE

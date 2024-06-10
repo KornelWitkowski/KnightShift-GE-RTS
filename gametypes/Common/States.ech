@@ -17,16 +17,16 @@ state Victory
     {
         rPlayer = GetPlayer(i);
 
-        if(rPlayer!=null && rPlayer.IsAlive()) 
+        if (rPlayer == null || !rPlayer.IsAlive())
+            continue;
+
+        if (rPlayer.GetScriptData(1) == 1)
         {
-            if(rPlayer.GetScriptData(1)==1)
-            {
-                rPlayer.Defeat();
-            }
-            else
-            {
-                rPlayer.Victory();
-            }
+            rPlayer.Defeat();
+        }
+        else
+        {
+            rPlayer.Victory();
         }
     }
 
@@ -42,16 +42,11 @@ state Defeat
     {
         rPlayer = GetPlayer(i);
 
-        if(rPlayer!=null)
-        {
-            if(rPlayer.IsAlive()) 
-            {
-                if(rPlayer.GetScriptData(1)==1)
-                {
-                    rPlayer.Defeat();
-                }
-            }
-        }
+        if (rPlayer == null || !rPlayer.IsAlive())
+            continue;
+
+        if(rPlayer.GetScriptData(1)==1) 
+            rPlayer.Defeat();
     }
 
     return Nothing;

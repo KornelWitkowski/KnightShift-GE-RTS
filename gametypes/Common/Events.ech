@@ -46,6 +46,8 @@ event Timer3()
             UseMagic(rPlayer);
         }
     }
+
+    MakeMarkerPeriodicEvents();
 }
 
 // Eventy pogodowe. Należy ustawić timery, w skrypcie trybu, aby działały
@@ -271,6 +273,5 @@ event UnitCreated(unitex uUnit)
 
 event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefact)
 {
-    MarkerFunctionsEventArtefact(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
-    return false;
+    return MarkerFunctionsEventArtefact(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
 }

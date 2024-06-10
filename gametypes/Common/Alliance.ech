@@ -52,8 +52,8 @@ function void CreateTeam(int m_TeamPlayers[])
     }
 }
 
-function void MakeEnemies()
 // Ustawia graczy jako przeciwników, jeśli nie są sojusznikami
+function void MakeEnemies()
 {
     int i, j;
     player rPlayer0, rPlayer1;
@@ -61,25 +61,23 @@ function void MakeEnemies()
     for (i = 0; i < 8; ++i) 
     {
         rPlayer0 = GetPlayer(i);
-        if(rPlayer0!=null && rPlayer0.IsAlive()) 
-        {
-            for(j=0; j < 8; ++j)    
-            {
-                if(i==j) continue;
+        if(rPlayer0==null || !rPlayer0.IsAlive()) 
+            continue;
 
-                rPlayer1 = GetPlayer(j);
-                if(rPlayer1!=null && rPlayer1.IsAlive()) 
-                {
-                    if(rPlayer0.IsAlly(rPlayer1)==0)
-                    {
-                        if(!rPlayer0.IsEnemy(rPlayer1))
-                        {
-                            SetEnemies(rPlayer0, rPlayer1);
-                        }
-                    }        
-                }
-            } 
-        }
+        for(j=0; j < 8; ++j)    
+        {
+            if(i==j) continue;
+
+            rPlayer1 = GetPlayer(j);
+            if(rPlayer1==null || !rPlayer1.IsAlive()) 
+                continue;
+
+            if(rPlayer0.IsAlly(rPlayer1))
+                continue;
+
+            if(!rPlayer0.IsEnemy(rPlayer1))
+                SetEnemies(rPlayer0, rPlayer1);  
+        } 
     }
 }
 
@@ -99,14 +97,14 @@ function void CreateTeamsFromComboButton(int comboAlliedVictory)
     for(i=0; i<8; i=i+1)
     {
         rPlayer1=GetPlayer(i);
-        if(rPlayer1!=null) 
+        if(rPlayer1==null) 
+            continue;
+        
+        if(rPlayer1.IsAI())
         {
-            if(rPlayer1.IsAI())
-            {
-                rPlayer1.EnableAIFeatures(aiNeutralForAI, false);
-                rPlayer1.EnableAIFeatures(aiChooseEnemy, false);
-                rPlayer1.EnableAIFeatures(aiRejectAlliance, false);
-            }
+            rPlayer1.EnableAIFeatures(aiNeutralForAI, false);
+            rPlayer1.EnableAIFeatures(aiChooseEnemy, false);
+            rPlayer1.EnableAIFeatures(aiRejectAlliance, false);
         }
     }
 
@@ -116,43 +114,45 @@ function void CreateTeamsFromComboButton(int comboAlliedVictory)
        for(i=0;i<8; i=i+1)
         {
             rPlayer1 = GetPlayer(i);
-            if(rPlayer1!=null) 
+            if(rPlayer1==null) 
+                continue;
+
+            for(j=i+1; j<8; j=j+1)
             {
-                for(j=i+1; j<8; j=j+1)
-                {
-                     rPlayer2 = GetPlayer(j);
-                     if(rPlayer2!=null) SetEnemies(rPlayer1, rPlayer2);
-                }
+                rPlayer2 = GetPlayer(j);
+                if(rPlayer2!=null) SetEnemies(rPlayer1, rPlayer2);
             }
         }
     }
     // Gracze vs AI    
     if(comboAlliedVictory==1)
     {
-       for(i=0; i<8; i=i+1)
+        for(i=0; i<8; i=i+1)
         {
             rPlayer1 = GetPlayer(i);
-            if(rPlayer1!=null) 
-            {
-                for(j=i+1; j<8; j=j+1)
-                {
-                    rPlayer2 = GetPlayer(j);
-                    if(rPlayer2==null) continue;
 
-                    if((rPlayer1.IsAI() && rPlayer2.IsAI()))
+            if(rPlayer1==null)
+                continue; 
+
+            for(j=i+1; j<8; j=j+1)
+            {
+                rPlayer2 = GetPlayer(j);
+                if(rPlayer2==null)
+                    continue;
+
+                if((rPlayer1.IsAI() && rPlayer2.IsAI()))
+                {
+                    SetAlly(rPlayer1, rPlayer2);
+                }
+                else if( (rPlayer1.IsHuman() && rPlayer2.IsHuman()))
+                {
+                    SetAlly(rPlayer1, rPlayer2);
+                }
+                else
+                {
+                    if(!rPlayer1.IsEnemy(rPlayer2))
                     {
-                        SetAlly(rPlayer1, rPlayer2);
-                    }
-                    else if( (rPlayer1.IsHuman() && rPlayer2.IsHuman()))
-                    {
-                        SetAlly(rPlayer1, rPlayer2);
-                    }
-                    else
-                    {
-                        if(!rPlayer1.IsEnemy(rPlayer2))
-                        {
-                            SetEnemies(rPlayer1, rPlayer2);
-                        }
+                        SetEnemies(rPlayer1, rPlayer2);
                     }
                 }
             }
@@ -164,21 +164,21 @@ function void CreateTeamsFromComboButton(int comboAlliedVictory)
         for(i=0; i<8; i=i+1)
         {
             rPlayer1 = GetPlayer(i);
-            if(rPlayer1!=null) 
+            if(rPlayer1==null)
+                continue; 
+
+            for(j=i+1; j<8; j=j+1)
             {
-                for(j=i+1; j<8; j=j+1)
+                rPlayer2 = GetPlayer(j);
+                if(rPlayer1.IsAI() && rPlayer2.IsAI())
                 {
-                     rPlayer2 = GetPlayer(j);
-                     if(rPlayer1.IsAI() && rPlayer2.IsAI())
+                    SetAlly(rPlayer1, rPlayer2);
+                }
+                else
+                {
+                    if(!rPlayer1.IsEnemy(rPlayer2))
                     {
-                        SetAlly(rPlayer1, rPlayer2);
-                     }
-                    else
-                    {
-                        if(!rPlayer1.IsEnemy(rPlayer2))
-                        {
-                            SetEnemies(rPlayer1, rPlayer2);
-                        }
+                        SetEnemies(rPlayer1, rPlayer2);
                     }
                 }
             }

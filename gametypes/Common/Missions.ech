@@ -1,0 +1,54 @@
+ function void InitializeCommunityGE01()
+{
+
+}
+
+function void InitializeCommunityGE02()
+{
+    int i, j;
+    int iNumberOfUnits;
+    player rPlayer;
+    unitex uUnit;
+
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        if(rPlayer!=null) 
+        {
+            rPlayer.SetMaxCountLimitForObject("NE_BRIDGE1", 0);
+            rPlayer.SetMaxCountLimitForObject("NE_BRIDGE2", 0);
+            rPlayer.SetMaxCountLimitForObject("NE_BRIDGE3", 0);
+        }
+    }
+
+    rPlayer = GetPlayer(14);
+    rPlayer.ResearchUpdate("AUTOSPELL_PRIEST5");
+    rPlayer.ResearchUpdate("AUTOSPELL_WITCH5");
+
+    if(rPlayer!=null) 
+    {
+        iNumberOfUnits = rPlayer.GetNumberOfUnits();
+        for(j=0; j<iNumberOfUnits; j=j+1)
+        {
+            uUnit = rPlayer.GetUnit(j);
+            uUnit.EnableCapture(false);
+            uUnit.EnableConversionByMagic(false);
+            uUnit.EnableConversionByPlace(false);
+            ImproveHPRegeneration(uUnit, 10);
+        }
+    }
+}
+ 
+ function void InititializeMissionScripts()
+ {
+    SetConsoleText(GetLevelName());
+    if(!CompareStringsNoCase(GetLevelName(), "COMMUNITY_GE_01"))
+    {
+
+    }
+    else if(!CompareStringsNoCase(GetLevelName(), "COMMUNITY_GE_02"))
+    {
+        InitializeCommunityGE02();
+    }
+ }

@@ -19,17 +19,17 @@ mission "translateKingOfTheHill"
     int iTowerXAverage, iTowerYAverage;
 
     function void RegisterTowers()
-    // Zliczamy także liczbę wież oraz średnie położenie - druga wartość
-    // jest wykorzystywana przez boty do wysyłania jednostek i ustawienia znacznik na mapie
     {
+        // Zliczamy także liczbę wież oraz średnie położenie - druga wartość
+        // jest wykorzystywana przez boty do wysyłania jednostek i ustawienia znacznik na mapie
         int j, iX, iY;
         iNumberOfTowers = 0;
         iTowerXAverage = 0;
         iTowerYAverage = 0;
 
-        for(j = 0; j < MAX_TOWER_NUMBER; j = j+1)
         // Maksymalnie może być 20 wież. Markery na wieżach muszą mieć numery 50-69 (w edytorze 51-70).
-           {        
+        for(j = 0; j < MAX_TOWER_NUMBER; j = j+1)
+        {        
             if(PointExist(MARKER_FIRST_TOWER + j))
             // Jeśli marker nie istnieje, to funkcje GetPoint dają wartości ostatniego markera.
             {
@@ -40,14 +40,14 @@ mission "translateKingOfTheHill"
                 iNumberOfTowers = iNumberOfTowers + 1;
             }
             else
-            // Zakładamy, że markery są ustawione po kolei i na ma żadnej dziury
-            // Dobre markery w edytorze: 51, 52, 53
-            // Złe: 51, 52, 54;
             {
+                // Zakładamy, że markery są ustawione po kolei i na ma żadnej dziury
+                // Dobre markery w edytorze: 51, 52, 53
+                // Złe: 51, 52, 54;
                 break;
             }
         }
-        if(iNumberOfTowers>0)
+        if(iNumberOfTowers > 0)
         {
             iTowerXAverage = iTowerXAverage/iNumberOfTowers;
             iTowerYAverage = iTowerYAverage/iNumberOfTowers;
@@ -56,8 +56,8 @@ mission "translateKingOfTheHill"
     }
 
     function int CalculatePlayerPoints(player rPlayer)
-    // Funkcja zlicza ile wież zostało zajęty przez gracza
     {
+    // Funkcja zlicza ile wież zostało zajęty przez gracza
         int j, iX, iY;
         unitex uTower;
         int iScore;
@@ -65,31 +65,32 @@ mission "translateKingOfTheHill"
         iScore = 0;
 
         for(j=0; j<iNumberOfTowers; j=j+1)
-           {        
-            if(PointExist(MARKER_FIRST_TOWER + j))
-            {
-                iX = GetPointX(MARKER_FIRST_TOWER + j);
-                iY = GetPointY(MARKER_FIRST_TOWER + j);
-                uTower = GetUnit(iX, iY);
+        {        
+            if(!PointExist(MARKER_FIRST_TOWER + j))
+                continue;
 
-                if(uTower.GetUnitOnTower()==null)
-                    continue;
+            iX = GetPointX(MARKER_FIRST_TOWER + j);
+            iY = GetPointY(MARKER_FIRST_TOWER + j);
+            uTower = GetUnit(iX, iY);
 
-                if(uTower.GetIFF()==rPlayer.GetIFF()) iScore = iScore + 1; 
-            }
+            if(uTower.GetUnitOnTower()==null)
+                continue;
+
+            if(uTower.GetIFF()==rPlayer.GetIFF()) iScore = iScore + 1; 
         }
         return iScore;
     }
 
     function int CanUnitBeSentOnTower(unitex uUnit)
-    // funkcja do trybu King of the Hill. Funkcja sprawdza, czy jednostka może zostać wysłana na wieże
     {
+        // funkcja do trybu King of the Hill. Funkcja sprawdza, czy jednostka może zostać wysłana na wieże
+
+        /* uUnit.GetWeaponType = 3 odpowiada strzelcom: łucznik, włócznik, mag, wiedźma, kapłan. 
+           Czarodziejka to uUnit.GetWeaponType = 6. GetMaxMagic()==200 odpowiada magowi.
+        */
         if(uUnit.GetWeaponType()!=3 || uUnit.IsFlyable() || uUnit.IsInTower() || uUnit.GetMaxMagic() == 200)
-        // uUnit.GetWeaponType = 3 odpowiada strzelcom: łucznik, włócznik, mag, wiedźma, kapłan. Czarodziejka to uUnit.GetWeaponType = 6.
-        // GetMaxMagic()==200 odpowiada magowi.
-        {
             return false;
-        }
+
         return true;
     }
 
@@ -98,9 +99,7 @@ mission "translateKingOfTheHill"
         player rPlayer1, rPlayer2;
 
         if(uUnit1.GetSideColor() == uUnit2.GetSideColor())
-        {
             return false;
-        }
          
         rPlayer1 = GetPlayer(uUnit1.GetSideColor());
         rPlayer2 = GetPlayer(uUnit2.GetSideColor());
@@ -121,22 +120,19 @@ mission "translateKingOfTheHill"
             iX = GetPointX(MARKER_FIRST_TOWER + i);
             iY = GetPointY(MARKER_FIRST_TOWER + i);
             uTower = GetUnit(iX, iY);
-            if(AreUnitsEnemies(uUnit, uTower))
+            if(!AreUnitsEnemies(uUnit, uTower))
+                continue;
+            
+            iDistance = uUnit.DistanceTo(iX, iY);
+            if(iDistance < iShortestDistance)
             {
-                iDistance = uUnit.DistanceTo(iX, iY);
-                if(iDistance < iShortestDistance)
-                {
-                    uClosestTower = uTower;
-                    iShortestDistance = iDistance;
-                }
+                uClosestTower = uTower;
+                iShortestDistance = iDistance;
             }
         }
 
-        if(iShortestDistance<10000)
-        {
+        if(iShortestDistance < 10000)
             uUnit.CommandAttack(uClosestTower);
-        }
-
     }
 
     function void ShowEndingScreen(player rPlayer)
@@ -156,9 +152,7 @@ mission "translateKingOfTheHill"
         {
             rPlayer2 = GetPlayer(i);
             if(rPlayer!=null)
-            {
                 rPlayer.SpyPlayer(rPlayer2.GetIFFNumber(), true, 10000);
-            }
         }
 
         ShowArea(rPlayer.GetIFFNumber(), GetPointX(MARKER_FIRST_TOWER), GetPointY(MARKER_FIRST_TOWER), 0, 100);
@@ -208,51 +202,50 @@ mission "translateKingOfTheHill"
         for(i=0;i<8;i=i+1)
         {
             rPlayer=GetPlayer(i);
-            if(rPlayer!=null) 
+            if(rPlayer==null) 
+                continue;
+
+            if(rPlayer.IsAI())
             {
-                if(rPlayer.IsAI())
+                // boty na start dostają bonus mleka
+                rPlayer.SetMaxMoney(400);
+                rPlayer.SetMoney(400);
+
+                if(iNumberOfTowers > 0)
+                // Jeśli na mapie są wieże to ustawiamy gracza 15 jako głównego przeciwnika AI
+                // Dodatkowo dajemy ekstra teleport botom, aby mogły przejmować zamknięte bramy
                 {
-                    // boty na start dostają bonus mleka
-                    rPlayer.SetMaxMoney(400);
-                    rPlayer.SetMoney(400);
-
-                    if(iNumberOfTowers > 0)
-                    // Jeśli na mapie są wieże to ustawiamy gracza 15 jako głównego przeciwnika AI
-                    // Dodatkowo dajemy ekstra teleport botom, aby mogły przejmować zamknięte bramy
-                    {
-                        rPlayer.ResearchUpdate("SPELL_TELEPORTATION");
-                        rPlayer.ResearchUpdate("SPELL_TELEPORTATION2");
-                        rPlayer.SetMainEnemyIFFNum(rPlayerTowers.GetIFFNumber());
-                    }
-
+                    rPlayer.ResearchUpdate("SPELL_TELEPORTATION");
+                    rPlayer.ResearchUpdate("SPELL_TELEPORTATION2");
+                    rPlayer.SetMainEnemyIFFNum(rPlayerTowers.GetIFFNumber());
                 }
-                else
-                {
-                    CheckMilkPool(4);    
-                    rPlayer.SetMoney(100);    
-                }
-
-                rPlayer.SetScriptData(0, 0);
-
-                rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
-                rPlayer.SetMaxCountLimitForObject("COURT", 1);
-                
-                // KING OF THE HILL
-                // Wpisujemy cele misji dla graczy
-
-                SetStringBuffTranslate(2, "translateKOTHGoal");
-                SetStringBuff(3, GetStringBuff(2), iNumberOfTowers);
-                rPlayer.RegisterGoal(0, GetStringBuff(3));
-                rPlayer.EnableGoal(0, true);
-                
-                // KING OF THE HILL
-                
-                rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
-
-                if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
-                    CreateStartingUnits(rPlayer, comboStartingUnits, true);
             }
-        }
+            else
+            {
+                CheckMilkPool(4);    
+                rPlayer.SetMoney(100);    
+            }
+
+            rPlayer.SetScriptData(0, 0);
+
+            rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
+            rPlayer.SetMaxCountLimitForObject("COURT", 1);
+            
+            // KING OF THE HILL
+            // Wpisujemy cele misji dla graczy
+
+            SetStringBuffTranslate(2, "translateKOTHGoal");
+            SetStringBuff(3, GetStringBuff(2), iNumberOfTowers);
+            rPlayer.RegisterGoal(0, GetStringBuff(3));
+            rPlayer.EnableGoal(0, true);
+            
+            // KING OF THE HILL
+            
+            rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+
+            if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
+                CreateStartingUnits(rPlayer, comboStartingUnits, true);
+    }
 
         // SOJUSZE
         CreateTeamsFromComboButton(comboAlliedVictory);
@@ -455,83 +448,83 @@ mission "translateKingOfTheHill"
         player rPlayer;
         
         for(i=0; i < 8; i=i+1)
+        {
+            rPlayer = GetPlayer(i);
+            if(rPlayer==null || !rPlayer.IsAlive())
+                continue;
+
+            if(!rPlayer.IsAI())
+                continue;
+
+            // Na wczesnym etapie gry nie atakujemy.
+            if(GetMissionTime() < rPlayer.GetStartAttacksTime())
+                continue;
+
+            if(RAND(1000) < 20)
+            // Średnio raz na 50 wywołań zegara atakujemy. Zegar się włącza co 10 sekund, więc średnio co 500 sekund, czyl 6 minut i 20 sekund.
             {
-                rPlayer = GetPlayer(i);
-                if(rPlayer!=null &&  rPlayer.IsAlive() && rPlayer.IsAI())
+                rPlayer.RussianAttack(iTowerXAverage-8+RAND(16), iTowerYAverage-8+RAND(16), 0);
+            } 
+            
+            iTowerCounter = 0;
+            
+            
+            iNumberOfUnits = rPlayer.GetNumberOfUnits();
+
+            iUnitRandIndex = RAND(iNumberOfUnits);
+            iTowerRandIndex = RAND(iNumberOfTowers);
+
+            for(j=0; j<iNumberOfUnits; j=j+1)
+            {
+                iUnitIndex = (iUnitRandIndex + j) % iNumberOfUnits;
+                uUnit = rPlayer.GetUnit(iUnitIndex);
+
+                if(!CanUnitBeSentOnTower(uUnit))
+                    continue;
+                // RAND(100) < 50 powoduje, że nie wszyscy strzelcy zostaną wysłani na pałe jeśli wieża jest pusta
+                if(RAND(100) < 50)
+                    continue;
+
+                // Jeśli jest ustawiona brama, to powinna być. Na markerze 50 
+                // Jeśli jednostka to kapłan (ma 100 many), to wysyłamy tę jednostkę na bramę, aby ją otworzyła.
+                if(uUnit.GetMaxMagic()==100)
                 {
-                    
-                    if(GetMissionTime() < rPlayer.GetStartAttacksTime())
-                    // We wczesnym etapie gry nie atakujemy.
+                    uTower = GetUnit(GetPointX(MARKER_FIRST_TOWER), GetPointY(MARKER_FIRST_TOWER));
+                    if(uTower.GetUnitOnTower()!=null)
                     {
+                        uUnit.CommandEnter(uTower);
                         continue;
                     }
+                }
 
-                    if(RAND(1000) < 20)
-                    // Średnio raz na 50 wywołań zegara atakujemy. Zegar się włącza co 10 sekund, więc średnio co 500 sekund, czyl 6 minut i 20 sekund.
+                iTowerIndex = (iTowerRandIndex + iTowerCounter) % iNumberOfTowers;
+                iTowerCounter = iTowerCounter + 1;
+                if(iTowerCounter >= iNumberOfTowers) iTowerCounter = 0;
+                uTower = GetUnit(GetPointX(MARKER_FIRST_TOWER + iTowerIndex), GetPointY(MARKER_FIRST_TOWER + iTowerIndex));
+
+                // Puste wieże są przekazywane graczowi o numerze 13. 
+                // Jeśli jest pusta to wysyłamy jednostki
+                if(uTower.GetUnitOnTower()==null)
+                {
+                    uUnit.CommandEnter(uTower);    
+                }
+                else if (AreUnitsEnemies(uUnit, uTower) && RAND(100) < 50) 
+                // Z pewnym prawdopobieństwem atakujemy najbliższą wieże jeśli jest na niej wróg
+                {
+                    AttackClosestTower(uUnit);    
+                }
+                else
+                {
+                    //  Jeśli wieża nie jest zajęta to próbujemy jeszcze raz jednostkę wysyłać, ale na kolejną wieżę
+                    iTowerIndex = (iTowerRandIndex + iTowerCounter) % iNumberOfTowers;
+                    iTowerCounter = iTowerCounter + 1;
+                    if(iTowerCounter >= iNumberOfTowers) iTowerCounter = 0;
+                    uTower = GetUnit(GetPointX(MARKER_FIRST_TOWER + iTowerIndex), GetPointY(MARKER_FIRST_TOWER + iTowerIndex));
+                    if(uTower.GetUnitOnTower()==null)
                     {
-                        rPlayer.RussianAttack(iTowerXAverage-8+RAND(16), iTowerYAverage-8+RAND(16), 0);
+                        uUnit.CommandEnter(uTower);    
                     } 
-                    
-                    iTowerCounter = 0;
-                    
-                    
-                    iNumberOfUnits = rPlayer.GetNumberOfUnits();
-
-                    iUnitRandIndex = RAND(iNumberOfUnits);
-                    iTowerRandIndex = RAND(iNumberOfTowers);
-
-                    for(j=0; j<iNumberOfUnits; j=j+1)
-                    {
-                        iUnitIndex = (iUnitRandIndex + j) % iNumberOfUnits;
-                        uUnit = rPlayer.GetUnit(iUnitIndex);
-
-                        if(CanUnitBeSentOnTower(uUnit) && RAND(100) < 50)
-                        // RAND(100) < 50 powoduje, że nie wszyscy strzelcy zostaną wysłani na pałe jeśli wieża jest pusta
-                        {
-                            if(uUnit.GetMaxMagic()==100)
-                            // Jeśli jest ustawiona brama, to powinna być. Na markerze 50 
-                            // Jeśli jednostka to kapłan (ma 100 many), to wysyłamy tę jednostkę na bramę, aby ją otworzyła.
-                            {
-                                uTower = GetUnit(GetPointX(MARKER_FIRST_TOWER), GetPointY(MARKER_FIRST_TOWER));
-                                if(uTower.GetUnitOnTower()==null)
-                                {
-                                    uUnit.CommandEnter(uTower);
-                                    continue;
-                                }
-                            }
-
-                            iTowerIndex = (iTowerRandIndex + iTowerCounter) % iNumberOfTowers;
-                            iTowerCounter = iTowerCounter + 1;
-                            if(iTowerCounter >= iNumberOfTowers) iTowerCounter = 0;
-                            uTower = GetUnit(GetPointX(MARKER_FIRST_TOWER + iTowerIndex), GetPointY(MARKER_FIRST_TOWER + iTowerIndex));
-
-                            // Puste wieże są przekazywane graczowi o numerze 13. 
-                            // Jeśli jest pusta to wysyłamy jednostki
-                            if(uTower.GetUnitOnTower()==null)
-                            {
-                                uUnit.CommandEnter(uTower);    
-                            }
-                            else if (AreUnitsEnemies(uUnit, uTower) && RAND(100) < 50) 
-                            // Z pewnym prawdopobieństwem atakujemy najbliższą wieże jeśli jest na niej wróg
-                            {
-                                AttackClosestTower(uUnit);    
-                            }
-                            else
-                            {
-                                //  Jeśli wieża nie jest zajęta to próbujemy jeszcze raz jednostkę wysyłać, ale na kolejną wieżę
-                                iTowerIndex = (iTowerRandIndex + iTowerCounter) % iNumberOfTowers;
-                                iTowerCounter = iTowerCounter + 1;
-                                if(iTowerCounter >= iNumberOfTowers) iTowerCounter = 0;
-                                uTower = GetUnit(GetPointX(MARKER_FIRST_TOWER + iTowerIndex), GetPointY(MARKER_FIRST_TOWER + iTowerIndex));
-                                if(uTower.GetUnitOnTower()==null)
-                                {
-                                    uUnit.CommandEnter(uTower);    
-                                } 
-                            }
-                            
-
-                        }
-                    }
+                }
             }
         }
     }

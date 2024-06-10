@@ -37,34 +37,34 @@ mission "translateGameTypeEightSheds"
         for(i=0; i<8; i=i+1)
         {
             rPlayer=GetPlayer(i);
-            if(rPlayer!=null) 
+            if(rPlayer==null)
+                continue; 
+
+            if(rPlayer.IsAI())
             {
-                if(rPlayer.IsAI())
-                {
-                    /* boty na start dostają bonus mleka, ponieważ czasem startując z 2 drwalami i z 2 krowami, 
-                       kupują na start drogę :> */
-                    rPlayer.SetMaxMoney(800);
-                    rPlayer.SetMoney(400);
-                }
-                else
-                {
-                    rPlayer.SetMoney(100);
-                    CheckMilkPool(8);        
-                }
-
-                rPlayer.SetScriptData(0, 0);
-
-                rPlayer.SetMaxCountLimitForObject("COWSHED", 8);
-                rPlayer.SetMaxCountLimitForObject("COURT", 1);
-
-                RegisterGoal(0, "translateEightShedsGoal");
-                EnableGoal(0, true);
-
-                rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
-
-                if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
-                    CreateStartingUnits(rPlayer, comboStartingUnits, true);
+                /* boty na start dostają bonus mleka, ponieważ czasem startując z 2 drwalami i z 2 krowami, 
+                    kupują na start drogę :> */
+                rPlayer.SetMaxMoney(800);
+                rPlayer.SetMoney(400);
             }
+            else
+            {
+                rPlayer.SetMoney(100);
+                CheckMilkPool(8);        
+            }
+
+            rPlayer.SetScriptData(0, 0);
+
+            rPlayer.SetMaxCountLimitForObject("COWSHED", 8);
+            rPlayer.SetMaxCountLimitForObject("COURT", 1);
+
+            RegisterGoal(0, "translateEightShedsGoal");
+            EnableGoal(0, true);
+
+            rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+
+            if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
+                CreateStartingUnits(rPlayer, comboStartingUnits, true);
         }
 
         // SOJUSZE

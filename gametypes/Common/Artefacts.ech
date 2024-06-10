@@ -110,9 +110,7 @@ function void CreatePrize(int comboArtifacts, int bMagicArtefacts)
     player rPlayer;
 
     if(comboArtifacts==0)
-    {
         return;
-    }
     
     nRandNum = RAND(8);
 
@@ -126,42 +124,33 @@ function void CreatePrize(int comboArtifacts, int bMagicArtefacts)
 
         rPlayer = GetPlayer(j);
 
-        if (rPlayer!=null && rPlayer.IsAlive())
         /* Dla losowo wybranego gracza sprawdzamy losowo pozycje, w których można umiesić item.
            Jeśli można do niego dojść to idziemy dalej
            Jeśli nie to dalej losujemy lub wybieramy innego gracza */
-        {
-            for (k=0; k<3; ++k)
-            {
-                // losujemy pozycje na mapie, ale omijając margines mapy
-                x = RAND(GetRight()-40) + 20;
-                y = RAND(GetBottom()-40) + 20;
-                z = 0;
+        if (rPlayer==null || !rPlayer.IsAlive())
+            continue;
 
-                if (IsPathAccessible(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 0, x, y, z, true, false, true))
-                {
-                    break;
-                }
-                else
-                {
-                    x = 0;
-                    y = 0;
-                }
-            }
+        for (k=0; k<3; ++k)
+        {
+            // losujemy pozycje na mapie, ale omijając margines mapy
+            x = RAND(GetRight()-40) + 20;
+            y = RAND(GetBottom()-40) + 20;
+            z = 0;
+
+            // Jeśli gracz może dojść do artefaktu to
+            if (IsPathAccessible(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 0, x, y, z, true, false, true))
+                break;
+
+            x = 0;
+            y = 0;
         }
 
-        if(x!=0)
         // Jeśli znaleźliśmy pozycje to kończymy losowanie
-        {
-            break;
-        }
+        if(x!=0) break;
     }
 
-    if(x==0)
     // Jeśli nie znaleźliśmy odpowiedniej pozycji to nie tworzymy artefaktu
-    {
-        return;
-    }
+    if(x==0) return;
 
     // W zależności od wyboru w menu tworzymy artefakt bądź wspomagacz
     if(comboArtifacts==1)
@@ -202,20 +191,17 @@ function void MakeEquipmentFromTimeToTime(int comboArtifacts, int bMagicArtefact
     */
     int i;
     int iNumberOfPlayers;
-    int iSizeModficator;
+    int iSizeModficator, iPlayerNumberModificator;
 
     player rPlayer;
     iNumberOfPlayers = 0;
     
-
-    if (GetMissionTime() > 60 * MINUTE)
     // Po godzinie gry wyłączamy spawnowanie artefaktów, aby nie zaspamować mapy
-    {
+    if (GetMissionTime() > 60 * MINUTE)
         return;
-    }
 
-    if(bClearConsole)
     // Czyścimy ekran po poprzednim komunikacie
+    if(bClearConsole)
     {
         SetConsoleText("");
         bClearConsole=false;
@@ -228,54 +214,22 @@ function void MakeEquipmentFromTimeToTime(int comboArtifacts, int bMagicArtefact
         if (rPlayer!=null &&  rPlayer.IsAlive()) ++iNumberOfPlayers;
     }
 
-    // Na mniejszych mapach generujemy trochę mniej artefaktów
-    if(GetRight() + GetBottom() > 500)
-    {
-        iSizeModficator = 0;
-    }
-    else if(GetRight()+GetBottom() > 400)
-    {
-        iSizeModficator = 1;
-    }
-    else if(GetRight()+GetBottom() > 300)
-    {
-        iSizeModficator = 2;
-    }
-    else if(GetRight()+GetBottom() > 200)
-    {
-        iSizeModficator = 3;
-    }
-    else
-    {
-        iSizeModficator = 4;
-    }
-    
+    // Na większych mapach generujemy więcej artefaktów
+    iSizeModficator = (GetRight() + GetBottom() - 40) / 100;
+    // Im więcej graczy tym więcej artefaktów
+    iPlayerNumberModificator = 2*iNumberOfPlayers;
 
-    // Poniżej wartości są dobrane, aby wartość oczekiwana artefaktów w ciągu godziny była odpowiednia
-    //     Liczba artefaktów wygerowanych to P(1) * K. P(1) to szansa na artefakt a K liczba losowań w ciągu godziny
-    //  Zegar jest ustawiony co 30 sekund, więc K = 120. Jeśli P(1)=0.25, to będzie średnio 30 artefaktów
-    if(iNumberOfPlayers>=6)
+    /*
+        Liczba artefaktów wygerowanych to P(1) * K. P(1) to szansa na artefakt a K liczba losowań w ciągu godziny
+        Zegar jest ustawiony co 20 sekund, więc K = 180. Jeśli P(1)=0.25, to będzie średnio 45 artefaktów
+
+        Dla dużej mapy i 8 graczy mamy iSizeModficator = (256 + 256 - 40) / 100 = 4,
+        iPlayerNumberModificator = 16, P(1) = 0.2. Zegar jest ustawiony co 20 sekund: 180 * 0.2 = 36. 
+    */ 
+
+    if(RAND(100) < iPlayerNumberModificator + iSizeModficator)
     {
-        if(RAND(100) < 20-iSizeModficator)
-        {
-            CreatePrize(comboArtifacts, bMagicArtefacts);
-            bClearConsole=true;
-        }            
-    }
-    else if (iNumberOfPlayers>=4)
-    {
-        if(RAND(100) < 14-iSizeModficator)
-        {
-            CreatePrize(comboArtifacts, bMagicArtefacts);
-            bClearConsole=true;
-        }        
-    }
-    else
-    {
-        if(RAND(100) < 9-iSizeModficator)
-        {
-            CreatePrize(comboArtifacts, bMagicArtefacts);
-            bClearConsole=true;
-        }        
-    }
+        CreatePrize(comboArtifacts, bMagicArtefacts);
+        bClearConsole=true;
+    }        
 }

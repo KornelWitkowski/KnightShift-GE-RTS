@@ -59,38 +59,36 @@ mission "translateEconomic"
         {
             uCow = rPlayerWinner.GetUnit(i);
             if(uCow.IsHarvester())
-            {
                 break;
-            }
         }
 
         for(i=0; i<8; i=i+1)
         {
             rPlayer = GetPlayer(i);
             rPlayer.ShowInterface(false);
-            if(rPlayer!=null && rPlayer.IsAlive()) 
+            if(rPlayer==null || !rPlayer.IsAlive())
+                continue; 
+
+            if(uCow != null)
             {
-                if(uCow != null)
-                {
-                    rPlayer.LookAt(uCow.GetLocationX(), uCow.GetLocationY(), 3,
-                                   uCow.GetAlphaAngle()-128, 20, 0);
-                    rPlayer.DelayedLookAt(uCow.GetLocationX()+1, uCow.GetLocationY()+2, 12,
-                                uCow.GetAlphaAngle()-128, 58, 0, 150, false);
-                    rPlayer.SpyPlayer(rPlayerWinner.GetIFFNumber(), true, 10000);
-                    ShowArea(rPlayer.GetIFFNumber(), uCow.GetLocationX(), uCow.GetLocationY(), 0, 300,
-                             showAreaPassives|showAreaBuildings|showAreaUnits);
-                }
-                else
-                {
-                    rPlayer.LookAt(rPlayerWinner.GetStartingPointX(), rPlayerWinner.GetStartingPointY(),
-                                6, 32, 20, 0);
-                    rPlayer.DelayedLookAt(rPlayerWinner.GetStartingPointX(), rPlayerWinner.GetStartingPointY(),
-                                6, 32, 20, 0, 100, 1);
-                    rPlayer.SpyPlayer(rPlayerWinner.GetIFFNumber(), true, 10000);
-                    ShowArea(rPlayer.GetIFFNumber(), rPlayerWinner.GetStartingPointX(), rPlayerWinner.GetStartingPointY(), 0, 300,
-                             showAreaPassives|showAreaBuildings|showAreaUnits);
-                }  
+                rPlayer.LookAt(uCow.GetLocationX(), uCow.GetLocationY(), 3,
+                                uCow.GetAlphaAngle()-128, 20, 0);
+                rPlayer.DelayedLookAt(uCow.GetLocationX()+1, uCow.GetLocationY()+2, 12,
+                            uCow.GetAlphaAngle()-128, 58, 0, 150, false);
+                rPlayer.SpyPlayer(rPlayerWinner.GetIFFNumber(), true, 10000);
+                ShowArea(rPlayer.GetIFFNumber(), uCow.GetLocationX(), uCow.GetLocationY(), 0, 300,
+                            showAreaPassives|showAreaBuildings|showAreaUnits);
             }
+            else
+            {
+                rPlayer.LookAt(rPlayerWinner.GetStartingPointX(), rPlayerWinner.GetStartingPointY(),
+                            6, 32, 20, 0);
+                rPlayer.DelayedLookAt(rPlayerWinner.GetStartingPointX(), rPlayerWinner.GetStartingPointY(),
+                            6, 32, 20, 0, 100, 1);
+                rPlayer.SpyPlayer(rPlayerWinner.GetIFFNumber(), true, 10000);
+                ShowArea(rPlayer.GetIFFNumber(), rPlayerWinner.GetStartingPointX(), rPlayerWinner.GetStartingPointY(), 0, 300,
+                            showAreaPassives|showAreaBuildings|showAreaUnits);
+            }  
         }
 
               
@@ -138,40 +136,40 @@ mission "translateEconomic"
         for(i=0; i<8; i=i+1)
         {
             rPlayer=GetPlayer(i);
-            if(rPlayer!=null) 
-            {
-                rPlayer.SetScriptData(0, 0);
+            if(rPlayer==null)
+                continue; 
 
-                // ECONOMIC
-                // ilość mleka potrzebna do wygranej
+            rPlayer.SetScriptData(0, 0);
 
-                if(comboMilkToWin==0) rPlayer.SetMaxMoney(1500); 
-                if(comboMilkToWin==1) rPlayer.SetMaxMoney(10000); 
-                if(comboMilkToWin==2) rPlayer.SetMaxMoney(20000); 
-                if(comboMilkToWin==3) rPlayer.SetMaxMoney(50000); 
-                if(comboMilkToWin==4) rPlayer.SetMaxMoney(100000);
-                if(comboMilkToWin==5) rPlayer.SetMaxMoney(200000); 
-                if(comboMilkToWin==6) rPlayer.SetMaxMoney(500000);  
-                iMilkToWin = rPlayer.GetMaxMoney();
+            // ECONOMIC
+            // ilość mleka potrzebna do wygranej
 
-                rPlayer.SetScriptData(0, 0);
-                rPlayer.SetMoney(1000);
+            if(comboMilkToWin==0) rPlayer.SetMaxMoney(1500); 
+            if(comboMilkToWin==1) rPlayer.SetMaxMoney(10000); 
+            if(comboMilkToWin==2) rPlayer.SetMaxMoney(20000); 
+            if(comboMilkToWin==3) rPlayer.SetMaxMoney(50000); 
+            if(comboMilkToWin==4) rPlayer.SetMaxMoney(100000);
+            if(comboMilkToWin==5) rPlayer.SetMaxMoney(200000); 
+            if(comboMilkToWin==6) rPlayer.SetMaxMoney(500000);  
+            iMilkToWin = rPlayer.GetMaxMoney();
 
-                SetStringBuffTranslate(2, "translateEconomicGoal");
-                SetStringBuff(3, GetStringBuff(2), iMilkToWin);
-                RegisterGoal(0, GetStringBuff(3));
-                EnableGoal(0, true);
+            rPlayer.SetScriptData(0, 0);
+            rPlayer.SetMoney(1000);
 
-                // dowolna ilość obór i dworów
-                rPlayer.SetMaxCountLimitForObject("COWSHED", -1);
-                rPlayer.SetMaxCountLimitForObject("COURT", -1);
-                // ECONOMIC        
-        
-                rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+            SetStringBuffTranslate(2, "translateEconomicGoal");
+            SetStringBuff(3, GetStringBuff(2), iMilkToWin);
+            RegisterGoal(0, GetStringBuff(3));
+            EnableGoal(0, true);
 
-                if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
-                    CreateDefaultUnitEconomic(rPlayer, rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 0);
-            }
+            // dowolna ilość obór i dworów
+            rPlayer.SetMaxCountLimitForObject("COWSHED", -1);
+            rPlayer.SetMaxCountLimitForObject("COURT", -1);
+            // ECONOMIC        
+    
+            rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+
+            if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
+                CreateDefaultUnitEconomic(rPlayer, rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 0);
         }
 
         SetTimer(0, 1);
@@ -234,39 +232,40 @@ mission "translateEconomic"
 
         SetStringBuff(0, "");
 
-        for(i=0; i<maxNormalPlayersCnt; i=i+1)
+        for(i=0; i<8; i=i+1)
         {
             rPlayer = GetPlayer(i);
-            if(rPlayer!=null && rPlayer.IsAlive()) 
+            if(rPlayer==null || !rPlayer.IsAlive())
+                continue; 
+
+            iMoney = rPlayer.GetMoney();
+            // Łączymy wyniki wszystkich graczy w jeden string
+
+            SetBufferSideColorName(5, rPlayer.GetSideColor());
+
+            SetStringBuff(1, " %s: %d ", GetStringBuff(5), iMoney);
+            SetStringBuff(0, " %s %s ", GetStringBuff(0), GetStringBuff(1));
+
+            if(iMoney >= iMilkToWin)        
             {
-                iMoney = rPlayer.GetMoney();
-                // Łączymy wyniki wszystkich graczy w jeden string
+                ShowEndingScreen(rPlayer);
 
-                SetBufferSideColorName(5, rPlayer.GetSideColor());
-
-                SetStringBuff(1, " %s: %d ", GetStringBuff(5), iMoney);
-                SetStringBuff(0, " %s %s ", GetStringBuff(0), GetStringBuff(1));
-
-                if(iMoney >= iMilkToWin)        
+                SetStateDelay(250);
+                
+                for(j=0; j<8; j=j+1)
                 {
-                    ShowEndingScreen(rPlayer);
-
-                    SetStateDelay(250);
-                    
-                    for(j=0; j<maxNormalPlayersCnt; j=j+1)
-                    {
-                            if(i==j) continue;
-                            rPlayer2 = GetPlayer(j);
-                            rPlayer2.SetScriptData(1, 1);
-                    }
-
-                    state Victory;
+                        if(i==j) continue;
+                        rPlayer2 = GetPlayer(j);
+                        rPlayer2.SetScriptData(1, 1);
                 }
+
+                state Victory;
             }
+
 
         }
 
-    //Wyświetlamy wyniki. Żeby połączyć string 'translate...' trzeba użyć specjalną funkcję.
+        //Wyświetlamy wyniki. Żeby połączyć string 'translate...' trzeba użyć specjalną funkcję.
     
         // Na początku misji wyświetlamy na górze dodatkowo cel gry
         if (GetMissionTime() < 10*60*SECOND)

@@ -31,69 +31,69 @@ mission "translateFastgame"
         for(i=0; i<8; i=i+1)
         {
             rPlayer=GetPlayer(i);
-            if(rPlayer!=null) 
+            if(rPlayer==null)
+                continue;
+
+            if(rPlayer.IsAI())
             {
-                if(rPlayer.IsAI())
-                {
-                    // boty na start dostają bonus mleka, ponieważ czasem startując z 2 drwalami i z 2 krowami, kupują na start drogę :>
-                    rPlayer.SetMaxMoney(400);
-                    rPlayer.SetMoney(400);
-                }
-                else
-                {
-                    CheckMilkPool(4);    
-                    rPlayer.SetMoney(100);    
-                }
-
-                rPlayer.SetScriptData(0, 0);
-
-                RegisterGoal(0, "translateFastGameGoal");
-                EnableGoal(0, true);
-
-                rPlayer.SetScriptData(0, 0);
-
-                // FAST GAME
-                
-                rPlayer.EnableResearchUpdate("AUTOSPELL_PRIEST4"            , false); // 2
-                rPlayer.EnableResearchUpdate("AUTOSPELL_WITCH4"             , false); // 2
-                rPlayer.EnableResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS4", false); // 2
-                rPlayer.EnableResearchUpdate("AUTOSPELL_FIREBALL4"          , false); // 2
-                rPlayer.EnableResearchUpdate("SPELL_SHIELD2"                , false); // 1
-                rPlayer.EnableResearchUpdate("SPELL_CAPTURE"                , false); // 0
-                rPlayer.EnableResearchUpdate("SPELL_STORM2"                 , false); // 1
-                rPlayer.EnableResearchUpdate("SPELL_CONVERSION"             , false); // 0
-                rPlayer.EnableResearchUpdate("SPELL_FIRERAIN2"              , false); // 1
-                rPlayer.EnableResearchUpdate("SPELL_SEEING2"                , false); // 1
-                rPlayer.EnableResearchUpdate("SPELL_TELEPORTATION2"         , false); // 1
-                rPlayer.EnableResearchUpdate("SPELL_GHOST2"                 , false); // 1
-                rPlayer.EnableResearchUpdate("SPELL_WOLF"                   , false); // 0
-                
-                rPlayer.EnableResearchUpdate("SPEAR4"  , false); // 2
-                rPlayer.EnableResearchUpdate("BOW4"    , false); // 2
-                rPlayer.EnableResearchUpdate("SWORD2A" , false); // 2
-                rPlayer.EnableResearchUpdate("AXE4"    , false); // 2
-                rPlayer.EnableResearchUpdate("SHIELD2" , false); // 2
-                rPlayer.EnableResearchUpdate("ARMOUR3" , false); // 2
-                rPlayer.EnableResearchUpdate("HELMET2A", false); // 2
-                
-                rPlayer.SetMaxCountLimitForObject("HUT", 3);
-                rPlayer.SetMaxCountLimitForObject("BARRACKS", 2);
-                rPlayer.SetMaxCountLimitForObject("TEMPLE", 1);
-                rPlayer.SetMaxCountLimitForObject("SHRINE", 1);
-                rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
-                rPlayer.SetMaxCountLimitForObject("COURT", 1);
-                
-                rPlayer.SetMaxCountLimitForObject("SORCERER", 2);
-                rPlayer.SetMaxCountLimitForObject("PRIESTESS", 2);
-                rPlayer.SetMaxCountLimitForObject("PRIEST", 2);
-                rPlayer.SetMaxCountLimitForObject("WITCH", 2);
-
-                // FAST GAME
-
-                rPlayer.LookAt(rPlayer.GetStartingPointX(),rPlayer.GetStartingPointY(), 6, 32, 20, 0);
-                if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
-                    CreateStartingUnits(rPlayer, comboStartingUnits, true);
+                // boty na start dostają bonus mleka, ponieważ czasem startując z 2 drwalami i z 2 krowami, kupują na start drogę :>
+                rPlayer.SetMaxMoney(400);
+                rPlayer.SetMoney(400);
             }
+            else
+            {
+                CheckMilkPool(4);    
+                rPlayer.SetMoney(100);    
+            }
+
+            rPlayer.SetScriptData(0, 0);
+
+            RegisterGoal(0, "translateFastGameGoal");
+            EnableGoal(0, true);
+
+            rPlayer.SetScriptData(0, 0);
+
+            // FAST GAME
+            
+            rPlayer.EnableResearchUpdate("AUTOSPELL_PRIEST4"            , false); // 2
+            rPlayer.EnableResearchUpdate("AUTOSPELL_WITCH4"             , false); // 2
+            rPlayer.EnableResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS4", false); // 2
+            rPlayer.EnableResearchUpdate("AUTOSPELL_FIREBALL4"          , false); // 2
+            rPlayer.EnableResearchUpdate("SPELL_SHIELD2"                , false); // 1
+            rPlayer.EnableResearchUpdate("SPELL_CAPTURE"                , false); // 0
+            rPlayer.EnableResearchUpdate("SPELL_STORM2"                 , false); // 1
+            rPlayer.EnableResearchUpdate("SPELL_CONVERSION"             , false); // 0
+            rPlayer.EnableResearchUpdate("SPELL_FIRERAIN2"              , false); // 1
+            rPlayer.EnableResearchUpdate("SPELL_SEEING2"                , false); // 1
+            rPlayer.EnableResearchUpdate("SPELL_TELEPORTATION2"         , false); // 1
+            rPlayer.EnableResearchUpdate("SPELL_GHOST2"                 , false); // 1
+            rPlayer.EnableResearchUpdate("SPELL_WOLF"                   , false); // 0
+            
+            rPlayer.EnableResearchUpdate("SPEAR4"  , false); // 2
+            rPlayer.EnableResearchUpdate("BOW4"    , false); // 2
+            rPlayer.EnableResearchUpdate("SWORD2A" , false); // 2
+            rPlayer.EnableResearchUpdate("AXE4"    , false); // 2
+            rPlayer.EnableResearchUpdate("SHIELD2" , false); // 2
+            rPlayer.EnableResearchUpdate("ARMOUR3" , false); // 2
+            rPlayer.EnableResearchUpdate("HELMET2A", false); // 2
+            
+            rPlayer.SetMaxCountLimitForObject("HUT", 3);
+            rPlayer.SetMaxCountLimitForObject("BARRACKS", 2);
+            rPlayer.SetMaxCountLimitForObject("TEMPLE", 1);
+            rPlayer.SetMaxCountLimitForObject("SHRINE", 1);
+            rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
+            rPlayer.SetMaxCountLimitForObject("COURT", 1);
+            
+            rPlayer.SetMaxCountLimitForObject("SORCERER", 2);
+            rPlayer.SetMaxCountLimitForObject("PRIESTESS", 2);
+            rPlayer.SetMaxCountLimitForObject("PRIEST", 2);
+            rPlayer.SetMaxCountLimitForObject("WITCH", 2);
+
+            // FAST GAME
+
+            rPlayer.LookAt(rPlayer.GetStartingPointX(),rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+            if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
+                CreateStartingUnits(rPlayer, comboStartingUnits, true);
         }
 
         // SOJUSZE

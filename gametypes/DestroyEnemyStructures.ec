@@ -3,6 +3,7 @@ mission "translateGameTypeDestroyStructures"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
+    #include "Common\Missions.ech"
     #include "Common\MarkerFunctions.ech"
     #include "Common\Events.ech"
     #include "Common\Artefacts.ech"
@@ -22,7 +23,7 @@ mission "translateGameTypeDestroyStructures"
         SetResourceGrowSpeed(400);
         
         CreateTeleportsAndSwitches();
-
+        InititializeMissionScripts();
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
 

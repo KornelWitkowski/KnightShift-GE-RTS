@@ -39,116 +39,116 @@ mission "translateGameTypeBattle"
         for(i=0; i<8; i=i+1)
         {
             rPlayer=GetPlayer(i);
-            if(rPlayer!=null) 
+            if(rPlayer==null)
+                continue; 
+
+            if (rPlayer.IsAI())
             {
-                if (rPlayer.IsAI())
-                {
-                    rPlayer.PlayerCommand1(true);
-                    rPlayer.EnableAIFeatures2(ai2ControlOffense | ai2ControlOffenseMagic, false);
-                    ++m_nAIPlayers;
-                }
-
-                // Cele misji
-                RegisterGoal(0, "translateDestroyEnemyStrucuresGoal");
-                EnableGoal(0, true);
-  
-                // Skrócenie czasu produkcji jednostek
-                rPlayer.SetUnitsBuildTimePercent(20);
-                rPlayer.SetCalcMinMoneyInUnitsCounts(true);
-                rPlayer.SetScriptData(0, 0);              
-                                
-                if(GetPointX(i))
-                {
-                    rPlayer.LookAt(GetPointX(i)+1, GetPointY(i)-1, 6, 32, 20, 0);
-                    rPlayer.CreateBuilding(GetPointX(i), GetPointY(i), 0, 0, "SKIRMISH_COURT");
-                }
-                else
-                {
-                    rPlayer.CreateBuilding(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 0, 0, "SKIRMISH_COURT");
-                    rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
-                }
-
-                if(comboStartingMilk==0){rPlayer.SetMaxMoney(2000); rPlayer.SetMoney(2000);}
-                if(comboStartingMilk==1){rPlayer.SetMaxMoney(5000); rPlayer.SetMoney(5000);}
-                if(comboStartingMilk==2){rPlayer.SetMaxMoney(10000); rPlayer.SetMoney(10000);}
-                if(comboStartingMilk==3){rPlayer.SetMaxMoney(20000); rPlayer.SetMoney(20000);}
-                if(comboStartingMilk==4){rPlayer.SetMaxMoney(50000); rPlayer.SetMoney(50000);}
-    
-                rPlayer.SetMaxUnitsCountInBuilding("SKIRMISH_COURT", 200);
-
-                rPlayer.SetUnitProductionBuilding("WOODCUTTER", "SKIRMISH_COURT");
-                rPlayer.SetUnitProductionBuilding("HUNTER", "SKIRMISH_COURT");
-                rPlayer.SetUnitProductionBuilding("FOOTMAN", "SKIRMISH_COURT");
-                rPlayer.SetUnitProductionBuilding("SPEARMAN", "SKIRMISH_COURT");
-                rPlayer.SetUnitProductionBuilding("KNIGHT", "SKIRMISH_COURT");
-                rPlayer.SetUnitProductionBuilding("SORCERER", "SKIRMISH_COURT");
-                rPlayer.SetUnitProductionBuilding("WITCH", "SKIRMISH_COURT");
-                rPlayer.SetUnitProductionBuilding("PRIEST", "SKIRMISH_COURT");
-                rPlayer.SetUnitProductionBuilding("PRIESTESS", "SKIRMISH_COURT");
-
-                rPlayer.SetMaxCountLimitForObject("COWSHED", 0);
-                rPlayer.SetMaxCountLimitForObject("HUT", 0);
-                rPlayer.SetMaxCountLimitForObject("BARRACKS", 0);
-                rPlayer.SetMaxCountLimitForObject("COURT", 0);
-                rPlayer.SetMaxCountLimitForObject("TEMPLE", 0);
-                rPlayer.SetMaxCountLimitForObject("SHRINE", 0);
-
-                rPlayer.SetMaxCountLimitForObject("TOWER2", 0);
-                rPlayer.SetMaxCountLimitForObject("DRAWBRIDGE2", 0);
-                rPlayer.SetMaxCountLimitForObject("GATE2", 0);
-                //rPlayer.SetMaxCountLimitForObject("WALL2_O_USER", 0);
-                rPlayer.EnableCommand(commandPlayerBuildRoad, false);
-                rPlayer.EnableCommand(commandPlayerBuildRoad2x2, false);
-
-                rPlayer.SetMaxCountLimitForObject("COW"     , 0);
-                rPlayer.SetMaxCountLimitForObject("SHEPHERD", 0);
-                rPlayer.SetMaxCountLimitForObject("DIPLOMAT", 0);
-
-                rPlayer.ResearchUpdate("SPELL_SHIELD");
-                rPlayer.ResearchUpdate("SPELL_SHIELD2");
-                rPlayer.ResearchUpdate("SPELL_SHIELD3");
-                rPlayer.ResearchUpdate("SPELL_SHIELD4");
-                
-                rPlayer.ResearchUpdate("SPELL_CAPTURE");
-                rPlayer.ResearchUpdate("SPELL_CAPTURE2");
-                rPlayer.ResearchUpdate("SPELL_CAPTURE3");
-                rPlayer.ResearchUpdate("SPELL_CAPTURE4");
-                
-                rPlayer.ResearchUpdate("SPELL_STORM");
-                rPlayer.ResearchUpdate("SPELL_STORM2");
-                rPlayer.ResearchUpdate("SPELL_STORM3");
-                rPlayer.ResearchUpdate("SPELL_STORM4");
-                
-                rPlayer.ResearchUpdate("SPELL_CONVERSION");
-                rPlayer.ResearchUpdate("SPELL_CONVERSION2");
-                rPlayer.ResearchUpdate("SPELL_CONVERSION3");
-                rPlayer.ResearchUpdate("SPELL_CONVERSION4");
-                
-                rPlayer.ResearchUpdate("SPELL_FIRERAIN");
-                rPlayer.ResearchUpdate("SPELL_FIRERAIN2");
-                rPlayer.ResearchUpdate("SPELL_FIRERAIN3");
-                rPlayer.ResearchUpdate("SPELL_FIRERAIN4");
-                
-                rPlayer.ResearchUpdate("SPELL_SEEING");
-                rPlayer.ResearchUpdate("SPELL_SEEING2");
-                rPlayer.ResearchUpdate("SPELL_SEEING3");
-                rPlayer.ResearchUpdate("SPELL_SEEING4");
-                
-                rPlayer.ResearchUpdate("SPELL_TELEPORTATION");
-                rPlayer.ResearchUpdate("SPELL_TELEPORTATION2");
-                rPlayer.ResearchUpdate("SPELL_TELEPORTATION3");
-                rPlayer.ResearchUpdate("SPELL_TELEPORTATION4");
-                
-                rPlayer.ResearchUpdate("SPELL_GHOST");
-                rPlayer.ResearchUpdate("SPELL_GHOST2");
-                rPlayer.ResearchUpdate("SPELL_GHOST3");
-                rPlayer.ResearchUpdate("SPELL_GHOST4");
-                
-                rPlayer.ResearchUpdate("SPELL_WOLF");
-                rPlayer.ResearchUpdate("SPELL_WOLF2");
-                rPlayer.ResearchUpdate("SPELL_WOLF3");
-                rPlayer.ResearchUpdate("SPELL_WOLF4");
+                rPlayer.PlayerCommand1(true);
+                rPlayer.EnableAIFeatures2(ai2ControlOffense | ai2ControlOffenseMagic, false);
+                ++m_nAIPlayers;
             }
+
+            // Cele misji
+            RegisterGoal(0, "translateDestroyEnemyStrucuresGoal");
+            EnableGoal(0, true);
+
+            // Skrócenie czasu produkcji jednostek
+            rPlayer.SetUnitsBuildTimePercent(20);
+            rPlayer.SetCalcMinMoneyInUnitsCounts(true);
+            rPlayer.SetScriptData(0, 0);              
+                            
+            if(GetPointX(i))
+            {
+                rPlayer.LookAt(GetPointX(i)+1, GetPointY(i)-1, 6, 32, 20, 0);
+                rPlayer.CreateBuilding(GetPointX(i), GetPointY(i), 0, 0, "SKIRMISH_COURT");
+            }
+            else
+            {
+                rPlayer.CreateBuilding(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 0, 0, "SKIRMISH_COURT");
+                rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+            }
+
+            if(comboStartingMilk==0){rPlayer.SetMaxMoney(2000); rPlayer.SetMoney(2000);}
+            if(comboStartingMilk==1){rPlayer.SetMaxMoney(5000); rPlayer.SetMoney(5000);}
+            if(comboStartingMilk==2){rPlayer.SetMaxMoney(10000); rPlayer.SetMoney(10000);}
+            if(comboStartingMilk==3){rPlayer.SetMaxMoney(20000); rPlayer.SetMoney(20000);}
+            if(comboStartingMilk==4){rPlayer.SetMaxMoney(50000); rPlayer.SetMoney(50000);}
+
+            rPlayer.SetMaxUnitsCountInBuilding("SKIRMISH_COURT", 200);
+
+            rPlayer.SetUnitProductionBuilding("WOODCUTTER", "SKIRMISH_COURT");
+            rPlayer.SetUnitProductionBuilding("HUNTER", "SKIRMISH_COURT");
+            rPlayer.SetUnitProductionBuilding("FOOTMAN", "SKIRMISH_COURT");
+            rPlayer.SetUnitProductionBuilding("SPEARMAN", "SKIRMISH_COURT");
+            rPlayer.SetUnitProductionBuilding("KNIGHT", "SKIRMISH_COURT");
+            rPlayer.SetUnitProductionBuilding("SORCERER", "SKIRMISH_COURT");
+            rPlayer.SetUnitProductionBuilding("WITCH", "SKIRMISH_COURT");
+            rPlayer.SetUnitProductionBuilding("PRIEST", "SKIRMISH_COURT");
+            rPlayer.SetUnitProductionBuilding("PRIESTESS", "SKIRMISH_COURT");
+
+            rPlayer.SetMaxCountLimitForObject("COWSHED", 0);
+            rPlayer.SetMaxCountLimitForObject("HUT", 0);
+            rPlayer.SetMaxCountLimitForObject("BARRACKS", 0);
+            rPlayer.SetMaxCountLimitForObject("COURT", 0);
+            rPlayer.SetMaxCountLimitForObject("TEMPLE", 0);
+            rPlayer.SetMaxCountLimitForObject("SHRINE", 0);
+
+            rPlayer.SetMaxCountLimitForObject("TOWER2", 0);
+            rPlayer.SetMaxCountLimitForObject("DRAWBRIDGE2", 0);
+            rPlayer.SetMaxCountLimitForObject("GATE2", 0);
+            //rPlayer.SetMaxCountLimitForObject("WALL2_O_USER", 0);
+            rPlayer.EnableCommand(commandPlayerBuildRoad, false);
+            rPlayer.EnableCommand(commandPlayerBuildRoad2x2, false);
+
+            rPlayer.SetMaxCountLimitForObject("COW"     , 0);
+            rPlayer.SetMaxCountLimitForObject("SHEPHERD", 0);
+            rPlayer.SetMaxCountLimitForObject("DIPLOMAT", 0);
+
+            rPlayer.ResearchUpdate("SPELL_SHIELD");
+            rPlayer.ResearchUpdate("SPELL_SHIELD2");
+            rPlayer.ResearchUpdate("SPELL_SHIELD3");
+            rPlayer.ResearchUpdate("SPELL_SHIELD4");
+            
+            rPlayer.ResearchUpdate("SPELL_CAPTURE");
+            rPlayer.ResearchUpdate("SPELL_CAPTURE2");
+            rPlayer.ResearchUpdate("SPELL_CAPTURE3");
+            rPlayer.ResearchUpdate("SPELL_CAPTURE4");
+            
+            rPlayer.ResearchUpdate("SPELL_STORM");
+            rPlayer.ResearchUpdate("SPELL_STORM2");
+            rPlayer.ResearchUpdate("SPELL_STORM3");
+            rPlayer.ResearchUpdate("SPELL_STORM4");
+            
+            rPlayer.ResearchUpdate("SPELL_CONVERSION");
+            rPlayer.ResearchUpdate("SPELL_CONVERSION2");
+            rPlayer.ResearchUpdate("SPELL_CONVERSION3");
+            rPlayer.ResearchUpdate("SPELL_CONVERSION4");
+            
+            rPlayer.ResearchUpdate("SPELL_FIRERAIN");
+            rPlayer.ResearchUpdate("SPELL_FIRERAIN2");
+            rPlayer.ResearchUpdate("SPELL_FIRERAIN3");
+            rPlayer.ResearchUpdate("SPELL_FIRERAIN4");
+            
+            rPlayer.ResearchUpdate("SPELL_SEEING");
+            rPlayer.ResearchUpdate("SPELL_SEEING2");
+            rPlayer.ResearchUpdate("SPELL_SEEING3");
+            rPlayer.ResearchUpdate("SPELL_SEEING4");
+            
+            rPlayer.ResearchUpdate("SPELL_TELEPORTATION");
+            rPlayer.ResearchUpdate("SPELL_TELEPORTATION2");
+            rPlayer.ResearchUpdate("SPELL_TELEPORTATION3");
+            rPlayer.ResearchUpdate("SPELL_TELEPORTATION4");
+            
+            rPlayer.ResearchUpdate("SPELL_GHOST");
+            rPlayer.ResearchUpdate("SPELL_GHOST2");
+            rPlayer.ResearchUpdate("SPELL_GHOST3");
+            rPlayer.ResearchUpdate("SPELL_GHOST4");
+            
+            rPlayer.ResearchUpdate("SPELL_WOLF");
+            rPlayer.ResearchUpdate("SPELL_WOLF2");
+            rPlayer.ResearchUpdate("SPELL_WOLF3");
+            rPlayer.ResearchUpdate("SPELL_WOLF4");
         }
 
         // SOJUSZE

@@ -172,9 +172,7 @@ function void EnablePlayer14Spells()
         uUnit = rPlayer.GetUnit(i);
 
         if(uUnit.GetMaxMagic()>= 200)
-        {
             uUnit.CommandSetMakeMagicConversionMode(true);
-        }
     }    
 }
 
@@ -187,6 +185,9 @@ function void EnableExtraSkirmishPlayersMilkPool()
     rPlayer.SetMaxMoney(1000000);
 
     rPlayer = GetPlayer(13);
+    rPlayer.SetMaxMoney(1000000);
+
+    rPlayer = GetPlayer(12);
     rPlayer.SetMaxMoney(1000000);
 }
 

@@ -31,58 +31,58 @@ mission "translateZeroupgrades"
         for(i=0; i < 8; i=i+1)
         {
             rPlayer=GetPlayer(i);
-            if(rPlayer!=null) 
+            if(rPlayer==null)
+                continue;
+
+            if(rPlayer.IsAI())
             {
-                if(rPlayer.IsAI())
-                {
-                    rPlayer.SetMaxMoney(400);
-                    rPlayer.SetMoney(400);
-                }
-                else
-                {
-                    rPlayer.SetMoney(100);    
-                    CheckMilkPool(4);    
-                }
-
-                rPlayer.SetScriptData(0, 0);
-
-                RegisterGoal(0, "translateZeroUpgradesGoal");
-                EnableGoal(0, true);
-
-                // Ulepszenia - GE
-                
-                rPlayer.EnableResearchUpdate("AUTOSPELL_PRIEST"            , false); // 0
-                rPlayer.EnableResearchUpdate("AUTOSPELL_WITCH"             , false); // 0
-                rPlayer.EnableResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS", false); // 0
-                rPlayer.EnableResearchUpdate("AUTOSPELL_FIREBALL"          , false); // 0
-                rPlayer.EnableResearchUpdate("SPELL_SHIELD"                , false); // 0
-                rPlayer.EnableResearchUpdate("SPELL_CAPTURE"               , false); // 0
-                rPlayer.EnableResearchUpdate("SPELL_STORM"                 , false); // 0
-                rPlayer.EnableResearchUpdate("SPELL_CONVERSION"            , false); // 0
-                rPlayer.EnableResearchUpdate("SPELL_FIRERAIN"              , false); // 0
-                rPlayer.EnableResearchUpdate("SPELL_SEEING"                , false); // 0
-                rPlayer.EnableResearchUpdate("SPELL_TELEPORTATION"         , false); // 0
-                rPlayer.EnableResearchUpdate("SPELL_GHOST"                 , false); // 0
-                rPlayer.EnableResearchUpdate("SPELL_WOLF"                  , false); // 0
-                
-                rPlayer.EnableResearchUpdate("SPEAR1"  , false); // 0
-                rPlayer.EnableResearchUpdate("BOW1"    , false); // 0
-                rPlayer.EnableResearchUpdate("SWORD1" , false); // 0
-                rPlayer.EnableResearchUpdate("AXE1"    , false); // 0
-                rPlayer.EnableResearchUpdate("SHIELD1" , false); // 0
-                rPlayer.EnableResearchUpdate("ARMOUR1" , false); // 0
-                rPlayer.EnableResearchUpdate("HELMET1", false); // 0
-
-                // Budynki - GE
-                
-                rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
-                rPlayer.SetMaxCountLimitForObject("COURT", 1);
-                
-
-                rPlayer.LookAt(rPlayer.GetStartingPointX(),rPlayer.GetStartingPointY(), 6, 32, 20, 0);
-                if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
-                    CreateStartingUnits(rPlayer, comboStartingUnits, false);
+                rPlayer.SetMaxMoney(400);
+                rPlayer.SetMoney(400);
             }
+            else
+            {
+                rPlayer.SetMoney(100);    
+                CheckMilkPool(4);    
+            }
+
+            rPlayer.SetScriptData(0, 0);
+
+            RegisterGoal(0, "translateZeroUpgradesGoal");
+            EnableGoal(0, true);
+
+            // Ulepszenia - GE
+            
+            rPlayer.EnableResearchUpdate("AUTOSPELL_PRIEST"            , false); // 0
+            rPlayer.EnableResearchUpdate("AUTOSPELL_WITCH"             , false); // 0
+            rPlayer.EnableResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS", false); // 0
+            rPlayer.EnableResearchUpdate("AUTOSPELL_FIREBALL"          , false); // 0
+            rPlayer.EnableResearchUpdate("SPELL_SHIELD"                , false); // 0
+            rPlayer.EnableResearchUpdate("SPELL_CAPTURE"               , false); // 0
+            rPlayer.EnableResearchUpdate("SPELL_STORM"                 , false); // 0
+            rPlayer.EnableResearchUpdate("SPELL_CONVERSION"            , false); // 0
+            rPlayer.EnableResearchUpdate("SPELL_FIRERAIN"              , false); // 0
+            rPlayer.EnableResearchUpdate("SPELL_SEEING"                , false); // 0
+            rPlayer.EnableResearchUpdate("SPELL_TELEPORTATION"         , false); // 0
+            rPlayer.EnableResearchUpdate("SPELL_GHOST"                 , false); // 0
+            rPlayer.EnableResearchUpdate("SPELL_WOLF"                  , false); // 0
+            
+            rPlayer.EnableResearchUpdate("SPEAR1"  , false); // 0
+            rPlayer.EnableResearchUpdate("BOW1"    , false); // 0
+            rPlayer.EnableResearchUpdate("SWORD1" , false); // 0
+            rPlayer.EnableResearchUpdate("AXE1"    , false); // 0
+            rPlayer.EnableResearchUpdate("SHIELD1" , false); // 0
+            rPlayer.EnableResearchUpdate("ARMOUR1" , false); // 0
+            rPlayer.EnableResearchUpdate("HELMET1", false); // 0
+
+            // Budynki - GE
+            
+            rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
+            rPlayer.SetMaxCountLimitForObject("COURT", 1);
+            
+
+            rPlayer.LookAt(rPlayer.GetStartingPointX(),rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+            if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
+                CreateStartingUnits(rPlayer, comboStartingUnits, false);
         }
 
         // SOJUSZE
