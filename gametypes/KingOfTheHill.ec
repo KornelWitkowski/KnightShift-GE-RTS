@@ -187,7 +187,7 @@ mission "translateKingOfTheHill"
         EnableAssistant(0xffffff, false);
 
         // TELEPORTY
-        CreateTeleportsAndSwitches();
+        InitializeMarkerFunctions();
         // TELEPORTY
 
         // SOJUSZE
@@ -328,32 +328,30 @@ mission "translateKingOfTheHill"
             // Przygotowujemy buffer do wyświetlenia wyników
             SetStringBuff(0, "");
 
-            for(i=0; i<maxNormalPlayersCnt; i=i+1)
+            for(i=0; i<8; i=i+1)
             {
                 rPlayer = GetPlayer(i);
                 iOccupiedTowers = 0;
 
-                if(rPlayer!=null && rPlayer.IsAlive()) 
+                if(rPlayer==null || !rPlayer.IsAlive()) 
+                    continue;
+                iOccupiedTowers = CalculatePlayerPoints(rPlayer);
+
+                for(j=0; j<8; j=j+1)
                 {
-                    iOccupiedTowers = CalculatePlayerPoints(rPlayer);
-
-                    for(j=0; j<maxNormalPlayersCnt; j=j+1)
-                    {
-                        rPlayer2 = GetPlayer(j);
-                        if(i!=j && rPlayer2!=null && rPlayer2.IsAlive() && ((rPlayer.IsAlly(rPlayer2) && comboAlliedVictory)))
-                        // Zliczamy zajęte wieże przez sojuszników 
-                        {
-                            iOccupiedTowers =  iOccupiedTowers + CalculatePlayerPoints(rPlayer2);
-                        }
-                    }
-
-                    // Łączymy wyniki wszystkich graczy w jeden string
-
-                    SetBufferSideColorName(5, rPlayer.GetSideColor());
-
-                    SetStringBuff(1, " %s: %d ", GetStringBuff(5), iOccupiedTowers);
-                    SetStringBuff(0, " %s %s ", GetStringBuff(0), GetStringBuff(1));
+                    rPlayer2 = GetPlayer(j);
+                    // Zliczamy zajęte wieże przez sojuszników 
+                    if(i!=j && rPlayer2!=null && rPlayer2.IsAlive() && ((rPlayer.IsAlly(rPlayer2) && comboAlliedVictory)))
+                        iOccupiedTowers =  iOccupiedTowers + CalculatePlayerPoints(rPlayer2);
                 }
+
+                // Łączymy wyniki wszystkich graczy w jeden string
+
+                SetBufferSideColorName(5, rPlayer.GetSideColor());
+
+                SetStringBuff(1, " %s: %d ", GetStringBuff(5), iOccupiedTowers);
+                SetStringBuff(0, " %s %s ", GetStringBuff(0), GetStringBuff(1));
+
 
                 // Jeśli któryś gracz bądź drużyna zdobyła wszystkie wieże, to kończymy grę
                     if(iOccupiedTowers >= iNumberOfTowers)        
@@ -425,9 +423,7 @@ mission "translateKingOfTheHill"
     {
         // Jeśli nie ma na mapie wież, to gramy zwykłą wojne wiosek
         if(iNumberOfTowers == 0)
-        {
             AiChooseEnemy();
-        }    
     }
 
     event Timer5()
@@ -460,14 +456,11 @@ mission "translateKingOfTheHill"
             if(GetMissionTime() < rPlayer.GetStartAttacksTime())
                 continue;
 
-            if(RAND(1000) < 20)
             // Średnio raz na 50 wywołań zegara atakujemy. Zegar się włącza co 10 sekund, więc średnio co 500 sekund, czyl 6 minut i 20 sekund.
-            {
+            if(RAND(1000) < 20)
                 rPlayer.RussianAttack(iTowerXAverage-8+RAND(16), iTowerYAverage-8+RAND(16), 0);
-            } 
             
             iTowerCounter = 0;
-            
             
             iNumberOfUnits = rPlayer.GetNumberOfUnits();
 

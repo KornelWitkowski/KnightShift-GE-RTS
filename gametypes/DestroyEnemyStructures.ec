@@ -22,7 +22,7 @@ mission "translateGameTypeDestroyStructures"
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
         
-        CreateTeleportsAndSwitches();
+        InitializeMarkerFunctions();
         InititializeMissionScripts();
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);

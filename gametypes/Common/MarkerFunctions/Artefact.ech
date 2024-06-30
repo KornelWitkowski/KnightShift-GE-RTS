@@ -1,0 +1,219 @@
+function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefact)
+{
+    int i, j, n;
+    int iArmour1, iArmour2;
+    int iMarker;
+    unitex uUnit;
+    player rPlayer;
+
+    if((iArtefactNum & ~MASK0) == MASK_OPEN_GATE)
+    {
+        iMarker = iArtefactNum & ~MASK_OPEN_GATE;
+        OPEN_GATE(iMarker);
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_CLOSE_GATE)
+    {
+        iMarker = iArtefactNum & ~MASK_CLOSE_GATE;
+        CLOSE_GATE(iMarker);
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_FAST_TELEPORT)
+    {
+        iMarker = iArtefactNum & ~MASK_FAST_TELEPORT;
+        CreateObjectAtUnit(uUnitOnArtefact, "CAST_TELEPORT");
+        uUnitOnArtefact.SetImmediatePosition(GetPointX(iMarker),
+                                             GetPointY(iMarker),
+                                             GetPointZ(iMarker), 
+                                             uUnitOnArtefact.GetAlphaAngle(),
+                                             true);
+        CreateObjectAtUnit(uUnitOnArtefact, "CAST_TELEPORT");
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_CAVE_FALL)
+    {
+        iMarker = iArtefactNum & ~MASK_CAVE_FALL;
+
+        CreateObjectAtUnit(uUnitOnArtefact, "EXP_PALISADE");
+        uUnitOnArtefact.SetImmediatePosition(GetPointX(iMarker),
+                                            GetPointY(iMarker),
+                                            1, 
+                                            uUnitOnArtefact.GetAlphaAngle(),
+                                            true);
+        CreateObjectAtUnit(uUnitOnArtefact, "EXP_PALISADE");
+
+        // Dodajemy obrażenia od upadku. Im silniejsza zbroja tym większy - ciężki pancerz bardziej boli przy spadku.
+        if(uUnitOnArtefact.GetMaxMagic() > 0)
+        {
+            //Jeśli czarodziejka ma tarcze, to nie chcemy jej dawać dodatkowych obrażeń. 
+            uUnitOnArtefact.DamageUnit(20);
+        }
+        else 
+        {    
+            iArmour1 = uUnitOnArtefact.GetArmour(0);
+            iArmour2 = uUnitOnArtefact.GetArmour(1);
+            uUnitOnArtefact.DamageUnit(20 + iArmour1/3 + iArmour2/3);
+        }
+
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_TRAP_LIGHTNING)
+    {
+        iMarker = iArtefactNum & ~MASK_TRAP_LIGHTNING;
+        if(uUnitOnArtefact.GetIFFNumber() != 13)
+            Lighting(GetPointX(iMarker), GetPointY(iMarker), 5);
+
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_TRAP_ON_STEP_GHOST)
+    {
+        iMarker = iArtefactNum & ~MASK_TRAP_ON_STEP_GHOST;
+        if(uUnitOnArtefact.GetIFFNumber() == 14)
+            return false;
+
+        rPlayer = GetPlayer(14);
+
+        if(RAND(2)==0)
+            uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_KNIGHTGHOST");
+        else 
+            uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_KNIGHTGHOST2");
+
+        CreateObjectAtUnit(uUnit, "CAST_WOLF");
+        return true;
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_TRAP_ON_STEP_MINOTAUR)
+    {
+        iMarker = iArtefactNum & ~MASK_TRAP_ON_STEP_MINOTAUR;
+        if(uUnitOnArtefact.GetIFFNumber() == 14)
+            return false;
+
+        rPlayer = GetPlayer(14);
+
+        if(RAND(2)==0)
+            uUnit = CreateUnitAtMarker(rPlayer, iMarker, "POLICEMAN");
+        else 
+            uUnit = CreateUnitAtMarker(rPlayer, iMarker, "POLICEMANT");
+
+        CreateObjectAtUnit(uUnit, "CAST_WOLF");
+        return true;
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_TRAP_CAPTURE_FIELD)
+    {
+        iMarker = iArtefactNum & ~MASK_TRAP_CAPTURE_FIELD;
+        if(uUnitOnArtefact.GetIFFNumber() == 14)
+            return false;
+
+        rPlayer = GetPlayer(14);
+        uUnitOnArtefact.ChangePlayer(rPlayer);
+        CreateObjectAtUnit(uUnitOnArtefact, "CAST_CAPTURE");
+        return true;
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_EXP_LVL_FIELD)
+    {
+        /* 
+            Poniższy kod jest bardzo trudny do zrozumienia bez znajomości operacji na bitach. 
+
+            W tym miejscu dodajemy lvl za wejście na pole zwiększające lvl. Jednostka może tylko raz wzmocnić lvl
+            za pomocą tego samego pola, więc musimy zapisać, że jednostka odwiedziła pole.
+
+            Jednostce możemy przypisać inta za pomocą funkcji uUnit.SetScriptData. Inta możemy zareprezentować w postaci
+            dwójkowej np. 27 = 16 + 8 + 2 + 1 =  2^4 + 2^3 + 2^1 + 2^0 = 11011. Możemy zatem z liczby stworzyć tablice z 
+            wartościami 0 i 1. Każda taka wartość może reprezentować, czy pole zostało odwiedzone - wystarczy do 
+            ScriptData dodawać odpowiednie potęgi dwójki jeśli odwiedzamy pole. Za pomocą operacji bitowych możemy też 
+            sprawdzić, czy już byliśmy na danym polu.
+        
+        */
+
+        // Dla gracza 14 (15) ScriptData zawiera dane o pułapkach, więc omijamy
+        if(uUnitOnArtefact.GetIFFNumber() == 14)
+            return false;
+
+        iMarker = iArtefactNum & ~MASK_EXP_LVL_FIELD;
+
+        i = uUnitOnArtefact.GetScriptData();
+        
+        j = 1 << (iMarker - MARKER_FIRST_EXPERIENCE_LVL_FIELD);
+        n = i & j;
+
+        if(n != 0)  // Jeśli odwiedziliśmy już pole, to nie dajemy więcej doświadczenia
+            return false;
+
+        uUnitOnArtefact.SetScriptData(i + j);
+        i = uUnitOnArtefact.GetExperienceLevel();
+
+        if(i >= 12)
+            return false;
+
+        CreateObjectAtUnit(uUnitOnArtefact, "EXP_EXPERIENCE1");
+        uUnitOnArtefact.SetExperienceLevel(i + 1);
+    }
+    else if((iArtefactNum & ~MASK0) == MASK_CONV_RESISTANCE)
+    {
+        /*
+          Dodajemy odporność na zamianę w krowę i przejęcie jednostkom odwiedzającym pole
+          Logika jest podobna do pól dodających lvl, ale w tym wypadku wystarcza nam jedynie jeden bit do zapisania,
+          że odporność została dodana.
+        */
+
+        // Dla gracza 14 (15) ScriptData zawiera dane o pułapkach, więc omijamy
+        if(uUnitOnArtefact.GetIFFNumber() == 14)
+            return false;
+
+        iMarker = iArtefactNum & ~MASK_CONV_RESISTANCE;
+
+        i = uUnitOnArtefact.GetScriptData();
+        n = i & SCRIPT_DATA_CONVERSION_CAPTURE_RESISTANCE;
+
+        if(n != 0)
+            return false;
+
+        uUnitOnArtefact.SetScriptData(i + SCRIPT_DATA_CONVERSION_CAPTURE_RESISTANCE);
+
+        // W zalezności od postaci dajemy efekt czaru, na który jednostka została uodporniona.
+        // Przez brak odpowiednich getterów nie możemy zrobić tego w lepszy sposób.
+        if((uUnitOnArtefact.GetWeaponType()) == 6 || uUnitOnArtefact.IsFlyable())
+        {
+            // czarodziejka i wiedźma
+        }
+        else if(uUnitOnArtefact.GetMaxMagic() > 0)
+        {
+            // mag i kapłan
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_CAPTURE");
+        }
+        else if((uUnitOnArtefact.GetMaxHP()) >= 1500 || uUnitOnArtefact.IsAnimal())
+        {
+            // Rycerz
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_CONVERT");
+        }
+        else
+        {
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_CONVERT");
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_CAPTURE");
+        }
+        uUnitOnArtefact.EnableCapture(false);
+        uUnitOnArtefact.EnableConversionByMagic(false);
+        uUnitOnArtefact.EnableConversionByPlace(false);
+    }
+    else if ((iArtefactNum & ~MASK0) == MASK_TRAP_REMOVE_UNIT)
+    {
+        PlayWave("Special\\SND_SUMMONING_PRINCE_HIT.wav");
+        uUnitOnArtefact.RemoveUnit();    
+    }
+    else if ((iArtefactNum & ~MASK0) == MASK_STEP_ON_TO_WIN)
+    {
+        for(j=0; j<8; j=j+1)
+        {
+            if(rPlayerOnArtefact.GetIFFNumber()==j) 
+                continue;
+
+            rPlayer = GetPlayer(j);
+
+            if(rPlayer==null || !rPlayer.IsAlive()) 
+                continue;
+
+            if(!rPlayer.IsAlly(rPlayerOnArtefact)) 
+                continue;   
+
+            rPlayer.SetScriptData(1, 1);
+        }
+        SetStateDelay(150);
+        state Victory;
+    }
+
+    return false;
+}

@@ -269,6 +269,7 @@ event OnHit(unit uByUnit)
     unit uTarget, uNewTarget;
     int bByBlindAttack;
     
+
     if (ExitSleepModeOnHit())
     {
         return true;

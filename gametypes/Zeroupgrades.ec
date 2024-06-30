@@ -18,7 +18,7 @@ mission "translateZeroupgrades"
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
         
-        CreateTeleportsAndSwitches();
+        InitializeMarkerFunctions();
 
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);

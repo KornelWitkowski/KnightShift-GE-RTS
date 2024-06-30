@@ -1,0 +1,111 @@
+function void CreateOpenGateSwitch(int iMarkerSwitch, int iMarkerGate)
+{
+    unitex uGate;
+
+    if(!(PointExist(iMarkerSwitch) && PointExist(iMarkerGate)))
+        return;
+
+    uGate = GetUnit(GetPointX(iMarkerGate), GetPointY(iMarkerGate), GetPointZ(iMarkerGate));
+    uGate.CommandBuildingSetGateMode(modeGateClosed);
+
+    CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(iMarkerSwitch), GetPointY(iMarkerSwitch),
+        GetPointZ(iMarkerSwitch), MASK_OPEN_GATE|iMarkerGate);
+}
+
+
+function void CreateCloseGateSwitch(int iMarkerSwitch, int iMarkerGate)
+{
+    if(!(PointExist(iMarkerSwitch) && PointExist(iMarkerGate)))
+        return;
+
+    CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(iMarkerSwitch), GetPointY(iMarkerSwitch),
+        GetPointZ(iMarkerSwitch), MASK_CLOSE_GATE|iMarkerGate);
+}
+
+function void CloseGateWhenAtLeastOneUnitOnMarker(int iMarkerGate, int iMarkerButtonLast)
+{
+    int i;
+    int iMarker;
+    int iNumberOfButtons;
+    int bUnitOnButton;
+    unitex uUnit, uGate;
+    int iMarkerButtonFirst;
+
+    if(!PointExist(iMarkerGate))
+        return;
+
+    uGate = GetUnit(GetPointX(iMarkerGate), GetPointY(iMarkerGate), GetPointZ(iMarkerGate));
+
+    if(uGate == null)
+        return;
+
+    iMarkerButtonFirst = iMarkerGate + 1;
+    bUnitOnButton = false;
+
+    for(i=iMarkerButtonFirst; i<=iMarkerButtonLast; ++i)
+    {
+        iMarker = i;
+        if(!PointExist(iMarker))
+            continue;
+        
+        uUnit = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+        if(uUnit!=null)
+        {
+            bUnitOnButton = true;
+            break;
+        }
+    }
+
+    if(bUnitOnButton)
+    {
+        uGate.CommandBuildingSetGateMode(modeGateClosed);
+    }
+    else
+    {
+        uGate.CommandBuildingSetGateMode(modeGateOpened);
+    }
+}
+
+function void OpenGateWhenUnitsOnAllMarkers(int iMarkerGate, int iMarkerButtonLast)
+{
+    int i;
+    int iMarker;
+    int iNumberOfButtons;
+    int bAllUnitsOnButton;
+    unitex uUnit, uGate;
+    int iMarkerButtonFirst;
+
+    if(!PointExist(iMarkerGate))
+        return;
+
+    uGate = GetUnit(GetPointX(iMarkerGate), GetPointY(iMarkerGate), GetPointZ(iMarkerGate));
+
+    if(uGate == null)
+        return;
+
+    bAllUnitsOnButton = true;
+    iMarkerButtonFirst = iMarkerGate + 1;
+
+    for(i=iMarkerButtonFirst; i<=iMarkerButtonLast; ++i)
+    {
+        iMarker = i;
+        if(!PointExist(iMarker))
+            continue;
+        
+        uUnit = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+        if(uUnit==null)
+        {
+            bAllUnitsOnButton = false;
+            break;
+        }
+    }
+
+    if(bAllUnitsOnButton)
+    {
+        uGate.CommandBuildingSetGateMode(modeGateOpened);
+    }
+    else
+    {
+        uGate.CommandBuildingSetGateMode(modeGateClosed);
+    }
+}

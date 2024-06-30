@@ -1,0 +1,33 @@
+function void MakeMarkerPeriodicEvents()
+{
+    int i;
+
+    CloseGateWhenAtLeastOneUnitOnMarker(320, 326);
+    CloseGateWhenAtLeastOneUnitOnMarker(327, 329);
+    OpenGateWhenUnitsOnAllMarkers(330, 336);
+    OpenGateWhenUnitsOnAllMarkers(337, 339);
+
+    CheckGateKeepers(340); // takes 20 markers
+
+    for(i=640; i<660; ++i)
+    {
+        DropMeteorInMarkeredRectangle(i, i+1);
+    }
+    for(i=660; i<680; ++i)
+    {
+        DropLightingInMarkeredRectangle(i, i+1);
+    }
+
+    TurnMedusaEnemyIntoStone(uMedusa0);
+    TurnMedusaEnemyIntoStone(uMedusa1);
+    TurnMedusaEnemyIntoStone(uMedusa2);
+    TurnMedusaEnemyIntoStone(uMedusa3);
+    TurnMedusaEnemyIntoStone(uMedusa4);
+
+    for(i=680; i<690; ++i)
+    {
+        if(RAND(10) == 0)
+            CreateArtefactAtMarkerWhenUnitsNotNearby(i, "ART_MILK_GE_200", 20);
+    }
+
+}

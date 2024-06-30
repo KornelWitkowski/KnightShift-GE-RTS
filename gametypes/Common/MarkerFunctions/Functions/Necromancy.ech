@@ -1,0 +1,125 @@
+function int IsUnitInNecromancyRectangle(int iX, int iY, int iZ, int iMarker1, int iMarker2)
+{
+    int iMaxX, iMaxY, iMinX, iMinY;
+
+    if(!(PointExist(iMarker1) && PointExist(iMarker2)))
+        return false;
+
+    if(GetPointZ(iMarker1) != GetPointZ(iMarker2))
+        return false;
+
+    if(GetPointZ(iMarker1) != iZ)
+        return false;
+    
+    iMaxX = MAX(GetPointX(iMarker1), GetPointX(iMarker2));
+    iMinX = MIN(GetPointX(iMarker1), GetPointX(iMarker2));
+
+    if((iX > iMaxX) || (iX < iMinX))
+        return false;
+
+    iMaxY = MAX(GetPointY(iMarker1), GetPointY(iMarker2));
+    iMinY = MIN(GetPointY(iMarker1), GetPointY(iMarker2));
+
+    if((iY > iMaxY) || (iY < iMinY))
+        return false;
+
+    return true;
+}
+
+function int ResurrectUnit(int iX, int iY, int iZ, int iAlpha, unitex uUnitKilled, player rPlayer)
+{
+    int iLevel;
+    unitex uUnit;
+    iLevel = uUnitKilled.GetExperienceLevel();
+
+    if(uUnitKilled.IsCamouflageModeUnit())
+    {
+        if(uUnitKilled.GetMaxHP() >= 480)
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON_HUNTER3");
+        else if(uUnitKilled.GetMaxHP() >= 300)
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON_HUNTER2");
+        else 
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON_HUNTER");
+    }
+    else if(uUnitKilled.GetMaxMagic())
+    {
+        uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "NECROMANCER");
+        uUnit.AddHP(-500);
+    }
+    else if(uUnitKilled.IsBuilder())
+    {
+        uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON1");
+    }
+    else if (uUnitKilled.IsRepairer())
+    {
+        return false;
+    }
+    else if(uUnitKilled.GetWeaponType()==3)
+    {
+        if(uUnitKilled.GetMaxHP() >= 800)
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON_SPEARMAN3");
+        else if(uUnitKilled.GetMaxHP() >= 600)
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON_SPEARMAN2");
+        else 
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON_SPEARMAN");    
+    }
+    else if(uUnitKilled.IsAnimal())
+    {
+        if(uUnitKilled.GetMaxHP() >= 1800)
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "MONSTER4");
+        else if(uUnitKilled.GetMaxHP() >= 1200)
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "MONSTER3");
+        else if(uUnitKilled.GetMaxHP() >= 600)
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "MONSTER2");
+        else 
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "MONSTER");
+    }
+    else
+    {
+        if(uUnitKilled.GetMaxHP() >= 1800)
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON4");
+        else if(uUnitKilled.GetMaxHP() >= 1200)
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON3");
+        else if(uUnitKilled.GetMaxHP() >= 600)
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON2");
+        else 
+            uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON1");
+    }
+
+    uUnit.SetExperienceLevel(iLevel);
+    CreateObjectAtUnit(uUnit, "HIT_WOLF");
+    return true;
+}
+
+
+function int ResurrectUnitIfInNecromanyField(unitex uUnitKilled)
+{
+    int i;
+    int iX, iY, iZ, iAlpha;
+    player rPlayer;
+    int bIsInNecromanyField, bUnitResurrected;
+    unitex uUnit;
+
+    // wskrzeszamy tylko jednostki graczy
+    if(uUnitKilled.GetIFFNumber() > 7)
+        return false;
+        
+    iX = uUnitKilled.GetLocationX();
+    iY = uUnitKilled.GetLocationY();
+    iZ = uUnitKilled.GetLocationZ();
+    iAlpha = uUnitKilled.GetAlphaAngle();
+
+    for(i=690; i<710; ++i)
+    {
+        bIsInNecromanyField = IsUnitInNecromancyRectangle(iX, iY, iZ, i, i+1);
+        if(bIsInNecromanyField)
+            break;
+    }
+    
+    if(!bIsInNecromanyField)
+        return false;
+    
+    rPlayer = GetPlayer(14);
+    bUnitResurrected = ResurrectUnit(iX, iY, iZ, iAlpha, uUnitKilled, rPlayer);
+    return bUnitResurrected;
+}

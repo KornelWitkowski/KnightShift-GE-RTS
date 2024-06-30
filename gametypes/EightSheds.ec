@@ -20,7 +20,7 @@ mission "translateGameTypeEightSheds"
         SetResourceGrowSpeed(400);
         
         // TELEPORTY 
-        CreateTeleportsAndSwitches();
+        InitializeMarkerFunctions();
 
         // SOJUSZE
         CreateTeamsFromComboButton(comboAlliedVictory);

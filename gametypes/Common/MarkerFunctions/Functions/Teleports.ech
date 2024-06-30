@@ -1,0 +1,18 @@
+function void CreateFastTeleportBetweenMarkers(int iMarkerIn, int iMarkerOut)
+{
+    if(!(PointExist(iMarkerIn) && PointExist(iMarkerOut)))
+        return;
+
+    CreateArtefact("ARTIFACT_INVISIBLE", 
+        GetPointX(iMarkerIn), GetPointY(iMarkerIn), GetPointZ(iMarkerIn), MASK_FAST_TELEPORT|iMarkerOut);
+}
+
+
+function void CreateFallToCave(int iMarker)
+{
+    if(!PointExist(iMarker))
+        return;
+
+    CreateArtefact("ARTIFACT_INVISIBLE",
+        GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_CAVE_FALL|iMarker);
+}

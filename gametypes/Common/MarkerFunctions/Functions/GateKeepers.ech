@@ -1,0 +1,63 @@
+/*
+    Gatekeepers protect a certain gate - if the gatekeepers are defeated then the gate is being opened
+*/
+
+unitex uGateKeeper00, uGateKeeper10, uGateKeeper20, uGateKeeper30;
+unitex uGateKeeper01, uGateKeeper11, uGateKeeper21, uGateKeeper31;
+unitex uGateKeeper02, uGateKeeper12, uGateKeeper22, uGateKeeper32;
+unitex uGateKeeper03, uGateKeeper13, uGateKeeper23, uGateKeeper33;
+
+function void OpenIfGateKeepersDestroyed(int iMarkerGate, unitex uUnit0,
+                    unitex uUnit1, unitex uUnit2, unitex uUnit3)
+{
+    unitex uGate;
+
+    if(!PointExist(iMarkerGate))
+        return;
+
+    uGate = GetUnit(GetPointX(iMarkerGate), GetPointY(iMarkerGate), GetPointZ(iMarkerGate));
+
+    if(uGate == null)
+        return;
+
+    if((uUnit0 != null) || (uUnit1 != null) || (uUnit2 != null) || (uUnit3 != null))
+        uGate.CommandBuildingSetGateMode(modeGateClosed);
+    else
+        uGate.CommandBuildingSetGateMode(modeGateOpened);
+}
+
+function void AssignGateKeepers(int iMarkerGate, unitex uUnit0, unitex uUnit1, unitex uUnit2, unitex uUnit3)
+{
+    int iMarker;
+    iMarker = iMarkerGate + 1;
+    if(PointExist(iMarker))
+       uUnit0 = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+
+    iMarker = iMarkerGate + 1;
+    if(PointExist(iMarker))
+       uUnit1 = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+
+    iMarker = iMarkerGate + 1;
+    if(PointExist(iMarker))
+       uUnit2 = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+
+    iMarker = iMarkerGate + 1;
+    if(PointExist(iMarker))
+       uUnit3 = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+}
+
+function void CheckGateKeepers(int iMarkerStart)
+{
+    OpenIfGateKeepersDestroyed(iMarkerStart,    uGateKeeper00, uGateKeeper01, uGateKeeper02, uGateKeeper03);
+    OpenIfGateKeepersDestroyed(iMarkerStart+5,  uGateKeeper10, uGateKeeper11, uGateKeeper12, uGateKeeper13);
+    OpenIfGateKeepersDestroyed(iMarkerStart+10, uGateKeeper20, uGateKeeper21, uGateKeeper22, uGateKeeper23);
+    OpenIfGateKeepersDestroyed(iMarkerStart+15, uGateKeeper30, uGateKeeper31, uGateKeeper32, uGateKeeper33);
+}
+
+function void InitializeGateKeepers(int iMarkerStart)
+{
+    AssignGateKeepers(iMarkerStart,    uGateKeeper00, uGateKeeper01, uGateKeeper02, uGateKeeper03);
+    AssignGateKeepers(iMarkerStart+5,  uGateKeeper10, uGateKeeper11, uGateKeeper12, uGateKeeper13);
+    AssignGateKeepers(iMarkerStart+10, uGateKeeper20, uGateKeeper21, uGateKeeper22, uGateKeeper23);
+    AssignGateKeepers(iMarkerStart+15, uGateKeeper30, uGateKeeper31, uGateKeeper32, uGateKeeper33);
+}

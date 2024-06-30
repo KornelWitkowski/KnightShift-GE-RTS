@@ -178,7 +178,8 @@ function void EnablePlayer14Spells()
 
 function void EnableExtraSkirmishPlayersMilkPool()
 {
-    /* Jeśli gracz 14 i 15 mają na mapie postawione obory, to krowy będą się normalnie pasły, a nie stały przy oborze. */
+    /* Jeśli gracz 13, 14 i 15 mają na mapie postawione obory, to krowy będą się normalnie pasły,
+     a nie stały przy oborze. */
     player rPlayer;
 
     rPlayer = GetPlayer(14);

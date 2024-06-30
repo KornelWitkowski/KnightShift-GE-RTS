@@ -62,29 +62,31 @@ event Timer7()
     StartWind();
 }
 
-event UnitDestroyed(unitex uUnit)
+event UnitDestroyed(unitex uUnitKilled)
 {
     /* 
         Event przekazuje wieże, na której zginęła jednostka, graczowi AI. 
         Jeśli wieża należy do gracza AI to wysyła na nią jednostki.
     */
-    int iX, iY, iZ;
+    int iX, iY, iZ, iAlpha;
     unit uAttacker;
     unitex uTower;
     unitex uUnit2, uUnit3;
+    int bMarkerFunctionActivated;
 
     player rPlayerAttacker, rPlayerUnit;
 
-    iX = uUnit.GetLocationX();
-    iY = uUnit.GetLocationY();
-    iZ = uUnit.GetLocationZ();
+    iX = uUnitKilled.GetLocationX();
+    iY = uUnitKilled.GetLocationY();
+    iZ = uUnitKilled.GetLocationZ();
+    iAlpha = uUnitKilled.GetAlphaAngle();
+    uAttacker = uUnitKilled.GetAttacker();
+    rPlayerAttacker  = GetPlayer(uAttacker.GetIFFNumber());
 
     // Poniższy if przekazuje wieże botom po pokonaniu jednostki na wieży. Umożliwia to botom zajmowanie wież po pokonanym przeciwniku
-    if(uUnit.IsInTower())
+    if(uUnitKilled.IsInTower())
     {
         uTower = GetUnit(iX, iY);
-        uAttacker = uUnit.GetAttacker();
-        rPlayerAttacker  = GetPlayer(uAttacker.GetIFFNumber());
 
         if((rPlayerAttacker.IsAI()) && (rPlayerAttacker.GetIFFNumber() != 14))
         {
@@ -94,7 +96,7 @@ event UnitDestroyed(unitex uUnit)
         }
     }
 
-    CheckMarkeredUnits(uUnit);
+    CheckMarkeredUnitDestroyedEvents(uUnitKilled);    
 }
 
 function void RemoveBows(int iX, int iY, int iZ, int bTier5)

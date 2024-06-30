@@ -86,7 +86,7 @@ event Artefact(int iArtefactNum,  unitex uUnitOnArtefact, player rPlayerOnArtefa
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
 
-        CreateTeleportsAndSwitches();
+        InitializeMarkerFunctions();
 
         /* Jeśli misja ma swój skrypt to robimy Initialize dla tej misji.
            Jeśli nie to skrypt będzie działać dalej jak wojna wiosek. 

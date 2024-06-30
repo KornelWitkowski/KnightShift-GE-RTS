@@ -1,0 +1,177 @@
+function void InitializeMarkerFunctions()
+{
+    int i, j, iLevel;
+    unitex uUnit;
+
+    /* 
+        0 - 99 - markers for specific gametypes:
+            - 0 - 7 Court position in the battle gametype
+            - 50 - 69 the KotH  gametype tower markers
+            - 0 - 99 Adventure 
+    */
+
+    for(i=100; i<116; ++i)
+    {
+        CreateExperienceLevelField(i);
+    }
+
+    for(i=116; i<130; ++i)
+    {
+        CreateConversionAndCaptureResistanceField(i);
+    }
+
+    for(i=130; i<140; ++i)
+    {
+        CreateStepOnToWinField(i);
+    }
+
+    for(i=140+1; i<170+1; i=i+2)
+    {
+        SetupTeleportBetweenMarkers(i, i+1);
+    }
+
+    for(i=170+1; i<200+1; i=i+2)
+    {
+        SetupOneWayTeleportBetweenMarkers(i, i+1);
+    }
+
+    for(i=200 + 1; i<240; i=i+1)
+    {
+        CreateFallToCave(i);
+    }
+
+    SetupOneWayTeleportBetweenMarkers(241, 240); 
+    SetupOneWayTeleportBetweenMarkers(242, 240);
+    SetupOneWayTeleportBetweenMarkers(243, 240);
+    SetupOneWayTeleportBetweenMarkers(244, 240);
+    SetupOneWayTeleportBetweenMarkers(245, 240);
+
+    SetupOneWayTeleportBetweenMarkers(247, 246);
+    SetupOneWayTeleportBetweenMarkers(248, 246);
+    SetupOneWayTeleportBetweenMarkers(249, 246);
+    SetupOneWayTeleportBetweenMarkers(250, 246);
+    SetupOneWayTeleportBetweenMarkers(251, 246);
+
+    for(i=252; i<290; i=i+3)
+    {
+        CreateOpenGateSwitch(i, i+2);
+        CreateCloseGateSwitch(i+1, i+2);
+    }
+
+    for(i=290; i<320; i=i+3)
+    {
+        CreateOpenGateSwitch(i, i+2);
+        CreateCloseGateSwitch(i+1, i+2);
+    }
+
+    // Poniższe funkcje są wywoływane w MarkerPeriodicEvents
+    // Zamykamy lub otwieramy na początku gry przed wywołaniem pierwszego eventu
+    CloseGateWhenAtLeastOneUnitOnMarker(320, 326);
+    CloseGateWhenAtLeastOneUnitOnMarker(327, 329);
+    OpenGateWhenUnitsOnAllMarkers(330, 336);
+    OpenGateWhenUnitsOnAllMarkers(337, 339);
+
+    InitializeGateKeepers(340); // Markery od 340 do 360
+
+    for(i=360; i<440; i=i+2)
+    {
+        CreateFastTeleportBetweenMarkers(i, i+1);
+    }
+
+    // Doświadczenie dla jednostek: markery od 420 do 539. 420-429 + 1 lvl, 430-439 + 2 lvl, ..., 530-539 + 12 lvl.
+    // Lvl z markerów sumuje się: można dać 2 x + 1 lvl aby uzyskać + 2 lvl.
+    for(j=0; j<12; ++j)
+    {
+        for(i=440+10*j; i<440+10+10*j; ++i)
+        {
+            AddExperienceLevel(i, j);
+        }
+    }
+
+    for(i=560; i<600; ++i)
+    {
+        SetUnitImmortal(i);
+    }
+
+    uMedusa0 = GetUnit(GetPointX(600), GetPointY(600), GetPointZ(600));
+    uMedusa1 = GetUnit(GetPointX(601), GetPointY(601), GetPointZ(601));
+    uMedusa2 = GetUnit(GetPointX(602), GetPointY(602), GetPointZ(602));
+    uMedusa3 = GetUnit(GetPointX(603), GetPointY(603), GetPointZ(603));
+    uMedusa4 = GetUnit(GetPointX(604), GetPointY(604), GetPointZ(604));
+
+    for(i=605; i<620; ++i)
+    {
+        SetUnitNecromancer(i);
+    }
+
+    for(i=620; i<630; ++i)
+    {
+       SetUnitOnMarkerScriptData(i, SCRIPT_DATA_LOSE_WHEN_KILLED);
+    }
+
+    for(i=630; i<640; ++i)
+    {
+       SetUnitOnMarkerScriptData(i, SCRIPT_DATA_WIN_WHEN_KILLED);
+    }
+
+    // Wieczny deszcz ognia 640 - 659
+    // Wieczna burza 660 - 679
+    // Mleko 680-685
+
+    // Pole nekromancji 690-709
+
+    for(i=710; i<770; ++i)
+    {
+       CreateRemoveUnitField(i);
+    }
+
+    for(i=770; i<810; ++i)
+    {
+        CreateCaptureFieldTrap(i);
+    }
+    
+    for(i=810; i<830; ++i)
+    {
+        CreateLightingTrap(i);
+    }
+
+    for(i=830; i<850; i=i+2)
+    {
+        CreateGhostTrapOnMarker(i, i+1);
+    }
+
+    for(i=850; i<870; i=i+2)
+    {
+        CreateMinotaurTrapOnMarker(i, i+1);
+    }
+
+
+    SetUnitOnMarkerScriptData(870, SCRIPT_DATA_TRAP_5_SKELETON_TIER_1);
+    SetUnitOnMarkerScriptData(871, SCRIPT_DATA_TRAP_5_SKELETON_TIER_1);
+    SetUnitOnMarkerScriptData(872, SCRIPT_DATA_TRAP_5_SKELETON_TIER_1);
+
+    SetUnitOnMarkerScriptData(873, SCRIPT_DATA_TRAP_5_SKELETON_TIER_2);
+    SetUnitOnMarkerScriptData(874, SCRIPT_DATA_TRAP_5_SKELETON_TIER_2);
+    SetUnitOnMarkerScriptData(875, SCRIPT_DATA_TRAP_5_SKELETON_TIER_2);
+
+    SetUnitOnMarkerScriptData(876, SCRIPT_DATA_TRAP_5_SKELETON_TIER_3);
+    SetUnitOnMarkerScriptData(877, SCRIPT_DATA_TRAP_5_SKELETON_TIER_3);
+    SetUnitOnMarkerScriptData(878, SCRIPT_DATA_TRAP_5_SKELETON_TIER_3);
+
+    SetUnitOnMarkerScriptData(879, SCRIPT_DATA_TRAP_5_SKELETON_TIER_4);
+    SetUnitOnMarkerScriptData(880, SCRIPT_DATA_TRAP_5_SKELETON_TIER_4);
+    SetUnitOnMarkerScriptData(881, SCRIPT_DATA_TRAP_5_SKELETON_TIER_4);
+
+    SetUnitOnMarkerScriptData(882, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_1);
+    SetUnitOnMarkerScriptData(883, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_2);
+    SetUnitOnMarkerScriptData(884, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_3);
+    SetUnitOnMarkerScriptData(885, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_4);
+
+    SetUnitOnMarkerScriptData(886, SCRIPT_DATA_TRAP_DEMON_1);
+    SetUnitOnMarkerScriptData(887, SCRIPT_DATA_TRAP_DEMON_1);
+    SetUnitOnMarkerScriptData(888, SCRIPT_DATA_TRAP_DEMON_1);
+
+    SetUnitOnMarkerScriptData(889, SCRIPT_DATA_TRAP_DEMON_2);
+    SetUnitOnMarkerScriptData(890, SCRIPT_DATA_TRAP_DEMON_2);
+    SetUnitOnMarkerScriptData(891, SCRIPT_DATA_TRAP_DEMON_2);
+}

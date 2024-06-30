@@ -1,0 +1,38 @@
+function void DropMeteorInMarkeredRectangle(int iMarker1, int iMarker2)
+{
+    int iMaxX, iMinX, iMaxY, iMinY;
+
+    if(!(PointExist(iMarker1) && PointExist(iMarker2)))
+        return;
+
+    if(RAND(100) > 70)
+    {
+        iMaxX = MAX(GetPointX(iMarker1), GetPointX(iMarker2));
+        iMinX = MIN(GetPointX(iMarker1), GetPointX(iMarker2));
+
+        iMaxY = MAX(GetPointY(iMarker1), GetPointY(iMarker2));
+        iMinY = MIN(GetPointY(iMarker1), GetPointY(iMarker2));
+
+        Meteor(iMinX+RAND(iMaxX-iMinX), iMinY + RAND(iMaxY-iMinY), 10);
+    }
+}
+
+
+function void DropLightingInMarkeredRectangle(int iMarker1, int iMarker2)
+{
+    int iMaxX, iMinX, iMaxY, iMinY;
+
+    if(!(PointExist(iMarker1) && PointExist(iMarker2)))
+        return;
+
+    if(RAND(100) < 30)
+    {
+        iMaxX = MAX(GetPointX(iMarker1), GetPointX(iMarker2));
+        iMinX = MIN(GetPointX(iMarker1), GetPointX(iMarker2));
+
+        iMaxY = MAX(GetPointY(iMarker1), GetPointY(iMarker2));
+        iMinY = MIN(GetPointY(iMarker1), GetPointY(iMarker2));
+
+        Lighting(iMinX+RAND(iMaxX-iMinX), iMinY + RAND(iMaxY-iMinY), 10);
+    }
+}

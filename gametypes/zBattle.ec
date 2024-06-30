@@ -31,7 +31,7 @@ mission "translateGameTypeBattle"
         EnableAssistant(0xffffff, false);
 
         // TELEPORTY
-        CreateTeleportsAndSwitches();
+        InitializeMarkerFunctions();
         // TELEPORTY
 
         m_nAIPlayers = 0;

@@ -1,0 +1,52 @@
+function void SetUnitImmortal(int iMarker)
+{
+    unitex uUnit;
+    uUnit = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+    if(uUnit == null)
+        return;
+
+    uUnit.SetScriptImmortal(true);
+    uUnit.EnableCapture(false);
+    uUnit.EnableConversionByMagic(false);
+    uUnit.EnableConversionByPlace(false);
+}
+
+function void SetUnitNecromancer(int iMarker)
+{
+    int iScriptData;
+    unitex uUnit;
+    uUnit = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+    if(uUnit == null)
+        return;
+
+    uUnit.GetScriptData();
+    // Używamy operatora OR aby zachować informacje o pułapkach.
+    uUnit.SetScriptData(iScriptData | SCRIPT_DATA_NECROMANCER);
+}
+
+
+function void AddExperienceLevel(int iMarker, int iLevelToAdd)
+{
+    int iLevel;
+    unitex uUnit;
+    if(!PointExist(iMarker)) return;
+
+    uUnit = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+    if(uUnit==null) return;
+
+    if(uUnit.IsBuilding())
+    {
+        uUnit = uUnit.GetUnitOnTower();
+        if(uUnit==null) return;
+    }
+
+    iLevel = uUnit.GetExperienceLevel();
+
+    if((iLevel + iLevelToAdd + 1) > 12)
+        uUnit.SetExperienceLevel(12);
+    else
+        uUnit.SetExperienceLevel(iLevel + iLevelToAdd + 1);
+
+    uUnit.RegenerateMagic();
+    uUnit.RegenerateHP();
+}

@@ -1,0 +1,9 @@
+function void SetUnitOnMarkerScriptData(int iMarker, int iScriptData)
+{
+    unitex uUnit;
+    uUnit = GetUnitAtMarker(iMarker);
+    if(uUnit == null)
+        return;
+
+    uUnit.SetScriptData(iScriptData | uUnit.GetScriptData());    
+}

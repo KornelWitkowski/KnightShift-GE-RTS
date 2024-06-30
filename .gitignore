@@ -2,6 +2,7 @@
 *.bat
 *.txt
 *.json
+*preprocessed
 test.ec
 
 # Prerequisites

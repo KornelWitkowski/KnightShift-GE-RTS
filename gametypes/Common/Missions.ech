@@ -10,24 +10,13 @@ function void InitializeCommunityGE02()
     player rPlayer;
     unitex uUnit;
 
-
-    for(i=0; i<8; i=i+1)
+    for(i=11; i<15; ++i)
     {
-        rPlayer = GetPlayer(i);
-        if(rPlayer!=null) 
-        {
-            rPlayer.SetMaxCountLimitForObject("NE_BRIDGE1", 0);
-            rPlayer.SetMaxCountLimitForObject("NE_BRIDGE2", 0);
-            rPlayer.SetMaxCountLimitForObject("NE_BRIDGE3", 0);
-        }
-    }
+        rPlayer = GetPlayer(14);
+        rPlayer.ResearchUpdate("AUTOSPELL_PRIEST5");
+        rPlayer.ResearchUpdate("AUTOSPELL_FIREBALL5");
+        rPlayer.ResearchUpdate("AUTOSPELL_WITCH5");
 
-    rPlayer = GetPlayer(14);
-    rPlayer.ResearchUpdate("AUTOSPELL_PRIEST5");
-    rPlayer.ResearchUpdate("AUTOSPELL_WITCH5");
-
-    if(rPlayer!=null) 
-    {
         iNumberOfUnits = rPlayer.GetNumberOfUnits();
         for(j=0; j<iNumberOfUnits; j=j+1)
         {
@@ -35,14 +24,26 @@ function void InitializeCommunityGE02()
             uUnit.EnableCapture(false);
             uUnit.EnableConversionByMagic(false);
             uUnit.EnableConversionByPlace(false);
-            ImproveHPRegeneration(uUnit, 10);
+
+            if(uUnit.IsInTower())
+            {
+                uUnit.AddHP(400);
+                uUnit.SetExperienceLevel(12);
+                ImproveHPRegeneration(uUnit, 5);
+                uUnit.RegenerateMagic();
+                uUnit.RegenerateHP();
+                uUnit.AddDamage(30, 1);
+            }
+            else
+            {
+                ImproveHPRegeneration(uUnit, 10);
+            }
         }
     }
 }
  
  function void InititializeMissionScripts()
  {
-    SetConsoleText(GetLevelName());
     if(!CompareStringsNoCase(GetLevelName(), "COMMUNITY_GE_01"))
     {
 

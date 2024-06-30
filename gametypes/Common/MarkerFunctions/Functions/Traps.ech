@@ -1,0 +1,93 @@
+function void CreateUnitsNearKilledUnit(unitex uUnitKilled, string strUnit, int iUnitsNumber, int iScriptData)
+{
+    /*
+        Argument iScriptData służy do ustawiania nowym unitom wartości ScriptData.  
+    */
+    int j;
+    int iUnitsCounter;
+    int iX, iY, iZ, iAlpha;
+    
+    unitex uUnit1, uUnit2;
+    player rPlayerUnit;
+
+    iX = uUnitKilled.GetLocationX();
+    iY = uUnitKilled.GetLocationY();
+    iZ = uUnitKilled.GetLocationZ();
+    iAlpha = uUnitKilled.GetAlphaAngle();
+
+    iUnitsCounter = 1; 
+
+    rPlayerUnit = GetPlayer(uUnitKilled.GetIFFNumber());
+    uUnit1 = rPlayerUnit.CreateUnit(iX, iY, iZ, iAlpha, strUnit);
+    CreateObjectAtUnit(uUnit1, "HIT_TELEPORT");
+    uUnit1.SetScriptData(iScriptData);
+    
+    for(j=0; j<25; ++j)
+    {
+        if(iUnitsCounter >= iUnitsNumber)
+            return;
+
+        uUnit1 = rPlayerUnit.CreateUnit(iX -2 + RAND(5), iY -2 + RAND(5), iZ, iAlpha, strUnit);
+
+        if(uUnit1 == null)
+            break;
+
+        ++ iUnitsCounter;
+        CreateObjectAtUnit(uUnit1, "HIT_TELEPORT");
+        uUnit1.SetScriptData(iScriptData);
+    }     
+}
+
+function void CreateLightingTrap(int iMarker)
+{
+    if(!PointExist(iMarker))
+        return;
+
+    if(GetPointZ(iMarker) == 1)
+        return;
+
+    CreateArtefact("ARTIFACT_INVISIBLE",
+        GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_TRAP_LIGHTNING|iMarker);
+}
+
+function void CreateGhostTrapOnMarker(int iMarkerTrigger, int iMarkerGhost)
+{
+    if(!PointExist(iMarkerTrigger))
+        return;
+
+    if(!PointExist(iMarkerGhost))
+        return;
+
+    CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(iMarkerTrigger), GetPointY(iMarkerTrigger),
+        GetPointZ(iMarkerTrigger), MASK_TRAP_ON_STEP_GHOST|iMarkerGhost);
+}
+
+function void CreateMinotaurTrapOnMarker(int iMarkerTrigger, int iMarkerMinotaur)
+{
+    if(!PointExist(iMarkerTrigger))
+        return;
+
+    if(!PointExist(iMarkerMinotaur))
+        return;
+
+    CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(iMarkerTrigger), GetPointY(iMarkerTrigger),
+        GetPointZ(iMarkerTrigger), MASK_TRAP_ON_STEP_MINOTAUR|iMarkerMinotaur);
+}
+
+function void CreateRemoveUnitField(int iMarker)
+{
+    if(!PointExist(iMarker))
+        return;
+
+    CreateArtefact("ARTIFACT_INVISIBLE",
+        GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_TRAP_REMOVE_UNIT|iMarker);
+}
+
+function void CreateCaptureFieldTrap(int iMarker)
+{
+    if(!PointExist(iMarker))
+        return;
+
+    CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(iMarker), GetPointY(iMarker),
+        GetPointZ(iMarker), MASK_TRAP_CAPTURE_FIELD|iMarker);
+}

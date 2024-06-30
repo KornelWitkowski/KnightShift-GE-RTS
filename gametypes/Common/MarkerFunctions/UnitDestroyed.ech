@@ -1,0 +1,159 @@
+function int CheckWinLoseUnits(unitex uUnitKilled)
+{
+    int j;
+    int iScriptData;
+    player rPlayer, rPlayerAttacker;
+    unit uAttacker;
+    iScriptData = uUnitKilled.GetScriptData();
+
+    if((iScriptData & SCRIPT_DATA_LOSE_WHEN_KILLED) != 0)
+    {
+        rPlayer = GetPlayer(uUnitKilled.GetIFFNumber());
+        rPlayer.SetScriptData(1, 1);
+    }
+    else if(iScriptData & SCRIPT_DATA_WIN_WHEN_KILLED != 0)
+    {
+        uAttacker = uUnitKilled.GetAttacker();
+        if(uAttacker == null)
+            return false;
+
+        rPlayerAttacker  = GetPlayer(uAttacker.GetIFFNumber());
+        for(j=0; j<8; j=j+1)
+        {
+            if(rPlayer.GetIFFNumber()==j) continue;
+            rPlayer = GetPlayer(j);
+
+            if(!((rPlayer!=null) && rPlayer.IsAlive() && (rPlayer.IsAlly(rPlayerAttacker))))
+                rPlayer.SetScriptData(1, 1);
+        }
+        SetStateDelay(150);
+        state Victory;
+    }
+    else
+    {
+        return false;
+    }
+
+    return true;
+}
+
+function int CheckUnitDestoyedTraps(unitex uUnitKilled)
+{
+    /*
+        Wywołuje pułapki i inne eventy po pokonaniu jednostki.
+
+        returns: `true` jeśli został wywołany jakiś event, `false` w przeciwnim wypadku.
+    */
+
+    int i, j, n;
+    int iX, iY, iZ, iAlpha;
+    int iScriptData;
+    int iTrapScriptData;
+    unit uAttacker;
+    player rPlayer;
+
+    // pułapki mogą być umieszczone tylko na unitach graczy niezależnych
+    if(uUnitKilled.GetIFFNumber() <= 7)
+        return false;
+
+    // teściowe przejmujące budynki są oznaczone jako killed
+    if(uUnitKilled.IsInBuilding())
+        return false;
+
+    iX = uUnitKilled.GetLocationX();
+    iY = uUnitKilled.GetLocationY();
+    iZ = uUnitKilled.GetLocationZ();
+    iAlpha = uUnitKilled.GetAlphaAngle();
+
+    iScriptData = uUnitKilled.GetScriptData();
+
+    // Odzyskujemy informacje o pułapkach
+    iTrapScriptData = iScriptData & MASK_SCRIPT_DATA_TRAP;
+
+    if(iTrapScriptData == SCRIPT_DATA_TRAP_5_SKELETON_TIER_1)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON1", 5, 0);
+    else if(iTrapScriptData == SCRIPT_DATA_TRAP_5_SKELETON_TIER_2)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON2", 5, 0);
+    else if(iTrapScriptData == SCRIPT_DATA_TRAP_5_SKELETON_TIER_3)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON3", 5, 0);
+    else if(iTrapScriptData == SCRIPT_DATA_TRAP_5_SKELETON_TIER_4)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON4", 5, 0);
+    else if(iTrapScriptData == SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_1)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON1", 2, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_1);
+    else if(iTrapScriptData == SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_2)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON2", 2, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_2);
+    else if(iTrapScriptData == SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_3)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON3", 2, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_3);
+    else if(iTrapScriptData == SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_4)
+        CreateUnitsNearKilledUnit(uUnitKilled, "SKELETON4", 2, SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_4);
+    else if(iTrapScriptData == SCRIPT_DATA_TRAP_DEMON_1)
+        CreateUnitsNearKilledUnit(uUnitKilled, "RPG_ARENAMONSTER1", 1, 0);
+    else if(iTrapScriptData == SCRIPT_DATA_TRAP_DEMON_2)
+        CreateUnitsNearKilledUnit(uUnitKilled, "RPG_ARENAMONSTER3", 1, 0);
+    else
+        return false;
+
+    return true;
+}
+
+function void CheckUnitDestroyedFunctional(unitex uUnitKilled)
+{
+    int iScriptData, iFunctionalScriptData;
+    int iX, iY, iZ, iAlpha;
+    unit uAttacker;
+    player rPlayerAttacker;
+
+    iX = uUnitKilled.GetLocationX();
+    iY = uUnitKilled.GetLocationY();
+    iZ = uUnitKilled.GetLocationZ();
+    iAlpha = uUnitKilled.GetAlphaAngle();
+    uAttacker = uUnitKilled.GetAttacker();
+
+    uAttacker = uUnitKilled.GetAttacker();
+    iScriptData = uAttacker.GetScriptData();
+    /* 
+        iFunctionalScriptData = MASK_SCRIPT_DATA_FUNCTIONAL  & iScriptData;
+        SetConsoleText("A = <%0>, B =<%1>, A and B = <%2>")
+
+        Z bliżej nieznanego mi powodu zakomentowany kod powyżej nie działa.
+        dodatkowo jeśli jest zapisany jako:
+
+        iFunctionalScriptData =  iScriptData & MASK_SCRIPT_DATA_FUNCTIONAL;
+
+        Daje inny wynik. Uzyskane w operacji AND wartości, w są równe:
+
+        4032  & 66 = 128 ???
+        66 & 4032 = 256 ???
+
+        Zamiana zmiennej na wartość liczbową naprawia ten problem. :)
+
+    */ 
+    iFunctionalScriptData = 4032  & iScriptData;
+
+    rPlayerAttacker = GetPlayer(uAttacker.GetIFFNumber());
+
+    if(iFunctionalScriptData == SCRIPT_DATA_NECROMANCER)
+    {
+        ResurrectUnit(iX, iY, iZ, iAlpha, uUnitKilled, rPlayerAttacker);
+    }  
+    else
+    {
+        ResurrectUnitIfInNecromanyField(uUnitKilled);
+    }
+}
+
+function void CheckMarkeredUnitDestroyedEvents(unitex uUnitKilled)
+{
+    int bEventOccured;
+    bEventOccured = CheckWinLoseUnits(uUnitKilled);
+
+    if(bEventOccured)
+        return;
+
+    bEventOccured = CheckUnitDestoyedTraps(uUnitKilled);
+
+    if(bEventOccured)
+        return;
+
+    CheckUnitDestroyedFunctional(uUnitKilled);
+}

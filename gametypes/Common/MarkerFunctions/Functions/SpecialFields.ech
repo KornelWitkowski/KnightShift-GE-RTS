@@ -1,0 +1,27 @@
+function void CreateExperienceLevelField(int iMarker)
+{
+    if(!PointExist(iMarker))
+        return;
+
+    CreateArtefact("ARTIFACT_INVISIBLE",
+        GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_EXP_LVL_FIELD|iMarker);
+}
+
+function void CreateConversionAndCaptureResistanceField(int iMarker)
+{
+    if(!PointExist(iMarker))
+        return;
+
+    CreateArtefact("ARTIFACT_INVISIBLE",
+        GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_CONV_RESISTANCE|iMarker);
+}
+
+
+function void CreateStepOnToWinField(int iMarker)
+{
+    if(!PointExist(iMarker))
+        return;
+
+    CreateArtefact("ARTIFACT_INVISIBLE",
+        GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_STEP_ON_TO_WIN|iMarker);
+}

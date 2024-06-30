@@ -121,7 +121,7 @@ mission "translateEconomic"
         EnableAssistant(0xffffff, false);
 
         // TELEPORTY
-        CreateTeleportsAndSwitches();
+        InitializeMarkerFunctions();
         // TELEPORTY
 
         // Czary dla gracza 14, czyli od czarnego od potworków na mapie

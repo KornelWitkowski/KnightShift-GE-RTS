@@ -1,0 +1,31 @@
+
+function void CreateArtefactAtMarkerWhenUnitsNotNearby(int iMarker, string ArtefactName, int iRange)
+{
+    // Tworzy artefact jeśli nie ma jednostek graczy w pobliżu
+    int i;
+    int iX, iY, iZ;
+    player rPlayer;
+
+    if(!PointExist(iMarker))
+        return;
+
+    iX = GetPointX(iMarker);
+    iY = GetPointY(iMarker);
+    iZ = GetPointZ(iMarker);
+
+    for(i=0; i<8; ++i)
+    {
+        rPlayer=GetPlayer(i);
+
+        if(rPlayer == null || !rPlayer.IsAlive())
+            continue;
+
+        if(rPlayer.GetNumberOfUnits(iX, iY, iZ, iRange) > 0)
+            return;
+    }
+
+    // Usuwamy artefakt, ponieważ funkcja sprawdzająca, czy artefakt jest w danym miejscu nie działa poprawnie
+    // i nie chcemy zaspamować pola artefaktami.
+    RemoveArtefact(iX, iY, iZ, ArtefactName);
+    CreateArtefact(ArtefactName, iX, iY, iZ, 0);
+}
