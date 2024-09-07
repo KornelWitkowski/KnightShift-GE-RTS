@@ -182,7 +182,7 @@ function void CreateTeamsFromComboButton(int comboAlliedVictory)
                     }
                 }
             }
-    }
+        }
     }
     // Dwie druzyny (1, 2) vs (3, 4)
     if(comboAlliedVictory==3)

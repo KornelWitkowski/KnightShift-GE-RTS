@@ -1,4 +1,4 @@
-mission "translateGameTypeDestroyStructures"
+mission "MapkaMese"
 {
     #include "Common\States.ech"
     #include "Common\Common.ech"
@@ -10,11 +10,109 @@ mission "translateGameTypeDestroyStructures"
     #include "Common\Alliance.ech"
     #include "Common\StartingUnits.ech"
 
+    int bMercDestroyed;
+
+    player rPlayer2, rPlayer11, rPlayer12, rPlayer13, rPlayer14, rPlayer15;
+
+    unitex uHero;
+    int bPeasantTaken;
+    unitex uPeasant1, uPeasant2, uPeasant3, uPeasantLeader;
+    unitex uMerc1, uMerc2, uMerc3, uMerc4, uMerc5, uMerc6;
+    unitex uPeasantLeaderSmoke;
+
+    function void InitializeMecenaries()
+    {
+        bMercDestroyed = false;
+        bPeasantTaken = false;
+        uMerc1 = GetUnitAtMarker(11);
+        uMerc2 = GetUnitAtMarker(12);
+        uMerc3 = GetUnitAtMarker(13);
+        uMerc4 = GetUnitAtMarker(14);
+        uMerc5 = GetUnitAtMarker(15);
+        uMerc6 = GetUnitAtMarker(16);
+
+        uPeasant1 = GetUnitAtMarker(7);
+        uPeasant2 = GetUnitAtMarker(8);
+        uPeasant3 = GetUnitAtMarker(9);
+        uPeasantLeader = GetUnitAtMarker(10);
+        
+        // SetRealImmortal(uPeasant1);
+        // SetRealImmortal(uPeasant2);
+        // SetRealImmortal(uPeasant3);
+        // SetRealImmortal(uPeasantLeader);
+    }
+
+    function int CheckIfMercenariesKilled()
+    {
+        if(IsAlive(uMerc1)) return false;
+        if(IsAlive(uMerc2)) return false;
+        if(IsAlive(uMerc3)) return false;
+        if(IsAlive(uMerc4)) return false;
+        if(IsAlive(uMerc5)) return false;
+        if(IsAlive(uMerc6)) return false;
+        return true;
+    }
+
     state Initialize
     {
         player rPlayer;
         int i;
         int j;
+
+        
+
+        rPlayer2  =  GetPlayer(2 - 1);
+        rPlayer11 = GetPlayer(11 - 1);
+        rPlayer12 = GetPlayer(12 - 1);
+        rPlayer13 = GetPlayer(13 - 1);
+        rPlayer14 = GetPlayer(14 - 1);
+        rPlayer15 = GetPlayer(15 - 1);
+
+        rPlayer2.SetNeutral(rPlayer12);
+        rPlayer2.SetNeutral(rPlayer14);
+
+        rPlayer2.SetEnemy(rPlayer11);
+        rPlayer2.SetEnemy(rPlayer13);
+
+        rPlayer14.SetNeutral(rPlayer2);
+        rPlayer14.SetNeutral(rPlayer11);
+        rPlayer14.SetNeutral(rPlayer12);
+        rPlayer14.SetNeutral(rPlayer15);
+
+        rPlayer14.SetEnemy(rPlayer13);
+
+        rPlayer13.SetNeutral(rPlayer15);
+
+        rPlayer13.SetEnemy(rPlayer2);
+        rPlayer13.SetEnemy(rPlayer11);
+        rPlayer13.SetEnemy(rPlayer12);
+        rPlayer13.SetEnemy(rPlayer14);
+
+        rPlayer11.SetNeutral(rPlayer14);
+        rPlayer11.SetNeutral(rPlayer15);
+
+        rPlayer11.SetEnemy(rPlayer2);
+        rPlayer11.SetEnemy(rPlayer12);
+        rPlayer11.SetEnemy(rPlayer13);
+
+        rPlayer15.SetNeutral(rPlayer11);
+        rPlayer15.SetNeutral(rPlayer13);
+        rPlayer15.SetNeutral(rPlayer14);
+
+        rPlayer15.SetEnemy(rPlayer2);
+        rPlayer15.SetEnemy(rPlayer12);
+
+        rPlayer12.SetNeutral(rPlayer2);
+        rPlayer12.SetNeutral(rPlayer14);
+        
+        rPlayer12.SetEnemy(rPlayer11);
+        rPlayer12.SetEnemy(rPlayer13);
+        rPlayer12.SetEnemy(rPlayer15);
+
+
+        uHero = GetUnitAtMarker(0);
+        InitializeMecenaries();
+
     
         /* Ilość mleka z trawki i prędkość wzrostu. Pierwsza wartość im większa tym krowa dostaje więcej mleka z jednego gryza
            Druga wartość to bardziej 'rate' niż 'speed'. Im mniejsza tym szybciej trawa rośnie.
@@ -75,7 +173,7 @@ mission "translateGameTypeDestroyStructures"
 
         // Timery, czy wydarzenia, które są wywoływane co jakiś czas, aby sprawdzić stan gry i dokonywać pewnych zmian.
         SetTimer(0, 5*SECOND);  // Sprawdzenie stanu graczy, obór itd.
-        SetTimer(1, 20*SECOND); // Artefakty
+        SetTimer(1, 1*SECOND); // Artefakty
         SetTimer(2, 4*MINUTE);  // Wybór przeciwników przez AI. Przeciwnicy są też wybierani po pokonaniu gracza.
 
         // Efektywne czary dla najtrudniejszych botów
@@ -114,11 +212,6 @@ mission "translateGameTypeDestroyStructures"
         int bActiveEnemies;
         int bOneHasBeenDestroyed;
 
-        unitex uUnit;
-
-        uUnit = GetUnitAtMarker(9);
-       // SetConsoleText("<%0>", uUnit.SetCustomEvent(3, 0, 0, 0, 0, null));
-
         // Jeśli state to Victory lub Defeat to nie ma potrzeby sprawdzać
         if ( state != Nothing ) return;
 
@@ -137,50 +230,39 @@ mission "translateGameTypeDestroyStructures"
         SetStateDelay(150);
         state Victory;
     }
-    
+
     event Timer1()
     {
-        /* Losowe tworzenie artefaktów na mapie. Prawodpobieństwo, czy zostanie
-         stworzony artefakt, zależy od liczby graczy, rozmiaru mapy. */
-        MakeEquipmentFromTimeToTime(comboArtifacts, true);
+        if(!bMercDestroyed)
+        {
+            bMercDestroyed = CheckIfMercenariesKilled();
+            // SetConsoleText("mercdestroyed <%0>", bMercDestroyed);
+            if(bMercDestroyed)
+            {
+                uPeasantLeaderSmoke = CreateObjectAtUnit(uPeasantLeader, "PART_TALK");
+                uPeasantLeaderSmoke.SetSmokeObject(uPeasantLeader.GetUnitRef(), true, true, true, true);
+            }
+        }
+        else if (!bPeasantTaken)
+        {
+            // SetConsoleText("dystans: <%0>", uPeasantLeader.DistanceTo(uHero.GetLocationX(), uHero.GetLocationY()));
+            if(uPeasantLeader.DistanceTo(uHero.GetLocationX(), uHero.GetLocationY()) <= 2)
+            {
+                uPeasantLeaderSmoke.RemoveUnit();
+                uPeasantLeader.ChangePlayer(rPlayer2);
+                uPeasant1.ChangePlayer(rPlayer2);
+                uPeasant2.ChangePlayer(rPlayer2);
+                uPeasant3.ChangePlayer(rPlayer2);
+                bPeasantTaken = true;
+            }
+        }
     }
 
-    event Timer2()
-    {
-        /* Funkcja wybiera głównego przeciwnika dla graczy AI. Główny przeciwnik jest wybierany
-         na początku gry i po pokonaniu wroga, ale także może być zmieniony w czasie gry.
-         Sprawia to, że gracze AI są mniej przewidywalni */
-        AiChooseEnemy();
-    }
 
-    command Initialize()
-    {
-        comboAlliedVictory=1;
-        comboArtifacts=3;
-        comboStartingUnits=0;
-        return true;
-    }
-    
     command Uninitialize()
     {
         return true;
     }
         
-    command Combo1(int nMode) button comboStartingUnits 
-    {
-        comboStartingUnits = nMode;
-        return true;
-    }
 
-    command Combo2(int nMode) button comboAlliedVictory
-    {
-        comboAlliedVictory = nMode;
-        return true;
-    }
-    
-    command Combo3(int nMode) button comboArtifacts
-    {
-        comboArtifacts = nMode;
-        return true;
-    }
 }

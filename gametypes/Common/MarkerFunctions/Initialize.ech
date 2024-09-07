@@ -71,14 +71,14 @@ function void InitializeMarkerFunctions()
     OpenGateWhenUnitsOnAllMarkers(330, 336);
     OpenGateWhenUnitsOnAllMarkers(337, 339);
 
-    InitializeGateKeepers(340); // Markery od 340 do 360
+    InitializeGateKeepers(340); // Markery od 340 do 359
 
     for(i=360; i<440; i=i+2)
     {
         CreateFastTeleportBetweenMarkers(i, i+1);
     }
 
-    // Doświadczenie dla jednostek: markery od 420 do 539. 420-429 + 1 lvl, 430-439 + 2 lvl, ..., 530-539 + 12 lvl.
+    // Doświadczenie dla jednostek: markery od 440 do 559. 440-449 + 1 lvl, 450-459 + 2 lvl, ..., 550-559 + 12 lvl.
     // Lvl z markerów sumuje się: można dać 2 x + 1 lvl aby uzyskać + 2 lvl.
     for(j=0; j<12; ++j)
     {
@@ -174,4 +174,36 @@ function void InitializeMarkerFunctions()
     SetUnitOnMarkerScriptData(889, SCRIPT_DATA_TRAP_DEMON_2);
     SetUnitOnMarkerScriptData(890, SCRIPT_DATA_TRAP_DEMON_2);
     SetUnitOnMarkerScriptData(891, SCRIPT_DATA_TRAP_DEMON_2);
+
+    SetUnitOnMarkerScriptData(892, SCRIPT_DATA_TRAP_POISON_ATTACKER);
+    SetUnitOnMarkerScriptData(893, SCRIPT_DATA_TRAP_POISON_ATTACKER);
+    SetUnitOnMarkerScriptData(894, SCRIPT_DATA_TRAP_POISON_ATTACKER);
+
+    SetUnitOnMarkerScriptData(895, SCRIPT_DATA_TRAP_POISON);
+    SetUnitOnMarkerScriptData(896, SCRIPT_DATA_TRAP_POISON);
+    SetUnitOnMarkerScriptData(897, SCRIPT_DATA_TRAP_POISON);
+
+    for(i=900; i<905; i=i+1)
+    {
+        AddMagicDamage(i, 50);
+    }
+
+    for(i=905; i<910; i=i+1)
+    {
+        AddMagicDamage(i, 100);
+    }
+
+    for(i=910; i<915; i=i+1)
+    {
+        AddMagicDamage(i, 200);
+    }
+
+    for(i=915; i<920; i=i+1)
+    {
+        AddMagicDamage(i, 400);
+    }
+
+    InitializePrisoners(920, 939); 
+
+    InitializeSleepers(940, 950);
 }

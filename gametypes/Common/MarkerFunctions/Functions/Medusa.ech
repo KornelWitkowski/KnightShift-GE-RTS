@@ -13,7 +13,7 @@ function void TurnMedusaEnemyIntoStone(unitex uMedusa)
     unit uAttacker;
     unitex uUnit;
     player rPlayer;
-    int iX, iY, iZ, iAlpha;
+    int iX, iY, iZ, iAlphaAttacker, iAlphaMedusa;
 
     if(uMedusa == null)
         return;
@@ -25,32 +25,36 @@ function void TurnMedusaEnemyIntoStone(unitex uMedusa)
     iX = uAttacker.GetLocationX();
     iY = uAttacker.GetLocationY();
     iZ = uAttacker.GetLocationZ();
-    iAlpha = uAttacker.GetAlphaAngle();
+    iAlphaAttacker = uAttacker.GetAlphaAngle();
+    iAlphaMedusa = uMedusa.GetAlphaAngle();
 
-    rPlayer = GetPlayer(14); 
+    if(ABS(iAlphaAttacker - iAlphaMedusa) > 128 + 64)
+        return;
+    if(ABS(iAlphaAttacker - iAlphaMedusa) < 128 - 64)
+        return;
+
     uUnit = GetUnit(iX, iY, iZ);
     CreateObjectAtUnit(uUnit, "CAST_CONVERT");
-    
 
     if(uUnit.IsCamouflageModeUnit())
     {
         uUnit.RemoveUnit();
-        CreateObject(iX, iY, iZ, iAlpha, "GADGET59");
+        CreateObject(iX, iY, iZ, iAlphaAttacker, "GADGET59");
     }
     else if(uUnit.IsBuilder())
     {
         uUnit.RemoveUnit();
-        CreateObject(iX, iY, iZ, iAlpha, "GADGET60");
+        CreateObject(iX, iY, iZ, iAlphaAttacker, "GADGET60");
     }
     else if(uUnit.GetWeaponType() == 1 && uUnit.GetMaxHP() < 1500)
     {
         uUnit.RemoveUnit();
-        CreateObject(iX, iY, iZ, iAlpha, "GADGET58");
+        CreateObject(iX, iY, iZ, iAlphaAttacker, "GADGET58");
     }
     else
     {
         uUnit.RemoveUnit();
-        CreateObject(iX, iY, iZ, iAlpha, "GADGET3");
+        CreateObject(iX, iY, iZ, iAlphaAttacker, "GADGET3");
         
     }
 

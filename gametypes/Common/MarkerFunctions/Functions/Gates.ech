@@ -39,6 +39,7 @@ function void CloseGateWhenAtLeastOneUnitOnMarker(int iMarkerGate, int iMarkerBu
     if(uGate == null)
         return;
 
+    
     iMarkerButtonFirst = iMarkerGate + 1;
     bUnitOnButton = false;
 
@@ -52,7 +53,7 @@ function void CloseGateWhenAtLeastOneUnitOnMarker(int iMarkerGate, int iMarkerBu
         if(uUnit!=null)
         {
             bUnitOnButton = true;
-            break;
+            uUnit.CommandSetMovementMode(modeHoldPos);
         }
     }
 

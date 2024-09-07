@@ -101,7 +101,7 @@ function int ResurrectUnitIfInNecromanyField(unitex uUnitKilled)
     unitex uUnit;
 
     // wskrzeszamy tylko jednostki graczy
-    if(uUnitKilled.GetIFFNumber() > 7)
+    if(uUnitKilled.GetIFFNumber() == 14)
         return false;
         
     iX = uUnitKilled.GetLocationX();

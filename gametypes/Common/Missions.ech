@@ -7,12 +7,14 @@ function void InitializeCommunityGE02()
 {
     int i, j;
     int iNumberOfUnits;
-    player rPlayer;
-    unitex uUnit;
+    player rPlayer, rPlayer1, rPlayer2;
+    unitex uUnit, uTalkerSmoke;
 
-    for(i=11; i<15; ++i)
+    // buffy dla jednostek graczy niezależnych
+    for(i=10; i<15; ++i)
     {
-        rPlayer = GetPlayer(14);
+        rPlayer = GetPlayer(i);
+        if(i==13) continue;
         rPlayer.ResearchUpdate("AUTOSPELL_PRIEST5");
         rPlayer.ResearchUpdate("AUTOSPELL_FIREBALL5");
         rPlayer.ResearchUpdate("AUTOSPELL_WITCH5");
@@ -21,6 +23,8 @@ function void InitializeCommunityGE02()
         for(j=0; j<iNumberOfUnits; j=j+1)
         {
             uUnit = rPlayer.GetUnit(j);
+            if(uUnit.IsHarvester()) continue;
+
             uUnit.EnableCapture(false);
             uUnit.EnableConversionByMagic(false);
             uUnit.EnableConversionByPlace(false);
@@ -32,7 +36,9 @@ function void InitializeCommunityGE02()
                 ImproveHPRegeneration(uUnit, 5);
                 uUnit.RegenerateMagic();
                 uUnit.RegenerateHP();
-                uUnit.AddDamage(30, 1);
+                uUnit.AddDamage(0, 25);
+                uUnit.AddDamage(1, 25);
+                uUnit.AddDamage(2, 25);
             }
             else
             {
@@ -40,6 +46,32 @@ function void InitializeCommunityGE02()
             }
         }
     }
+
+    for(i=8; i<15; i=i+1)
+    {
+        rPlayer1 = GetPlayer(i);
+        if(rPlayer1==null)
+            continue; 
+
+        for(j=i+1; j<15; j=j+1)
+        {
+            rPlayer2 = GetPlayer(j);
+
+            if(rPlayer2==null)
+                continue; 
+            rPlayer1.SetNeutral(rPlayer2);
+            rPlayer2.SetNeutral(rPlayer1);
+        }
+    }
+
+
+    // tytan do zabicia w podziemiach
+    uUnit = GetUnitAtMarker(11);
+    uUnit.AddHP(-3000);
+
+    // tytan do wzięcia z podziemi
+    uUnit = GetUnitAtMarker(12);
+    uUnit.AddHP(-3000);
 }
  
  function void InititializeMissionScripts()
@@ -53,3 +85,61 @@ function void InitializeCommunityGE02()
         InitializeCommunityGE02();
     }
  }
+
+ function void TimerCommunityGE02(int iMarkerGate, int iMarkerButtonLast)
+{
+    int i;
+    int iMarker;
+    int iNumberOfButtons;
+    int bAllUnitsOnButton;
+    unitex uUnit, uGate;
+    int iMarkerButtonFirst;
+
+    if(!PointExist(iMarkerGate))
+        return;
+
+    uGate = GetUnit(GetPointX(iMarkerGate), GetPointY(iMarkerGate), GetPointZ(iMarkerGate));
+
+    if(uGate == null)
+        return;
+
+    bAllUnitsOnButton = true;
+    iMarkerButtonFirst = iMarkerGate + 1;
+
+    for(i=iMarkerButtonFirst; i<=iMarkerButtonLast; ++i)
+    {
+        iMarker = i;
+        if(!PointExist(iMarker))
+            continue;
+        
+        uUnit = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+        if(uUnit==null || !uUnit.IsHarvester())
+        {
+            bAllUnitsOnButton = false;
+            break;
+        }
+    }
+
+    if(bAllUnitsOnButton)
+    {
+        uGate.CommandBuildingSetGateMode(modeGateOpened);
+    }
+    else
+    {
+        uGate.CommandBuildingSetGateMode(modeGateClosed);
+    }
+}
+
+
+function void MakeMissionPeriodicEvents()
+{
+    if(!CompareStringsNoCase(GetLevelName(), "COMMUNITY_GE_01"))
+    {
+
+    }
+    else if(!CompareStringsNoCase(GetLevelName(), "COMMUNITY_GE_02"))
+    {
+        TimerCommunityGE02(95, 99);
+    }
+
+}

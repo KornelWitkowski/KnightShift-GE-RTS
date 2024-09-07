@@ -9,6 +9,7 @@ mission "translateKingOfTheHill"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
+    #include "Common\Missions.ech"
     #include "Common\MarkerFunctions.ech"
     #include "Common\Events.ech"
     #include "Common\Artefacts.ech"
@@ -188,6 +189,7 @@ mission "translateKingOfTheHill"
 
         // TELEPORTY
         InitializeMarkerFunctions();
+        InititializeMissionScripts();
         // TELEPORTY
 
         // SOJUSZE

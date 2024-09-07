@@ -17,6 +17,14 @@ function int MAX(int nVal1, int nVal2)
     return nVal2;
 }
 
+function int ABS(int nVal)
+{
+    if (nVal < 0)
+    {
+        return 0 - nVal;
+    }
+    return nVal;
+}
 
 function int Power(int iBase, int iExponent)
 {

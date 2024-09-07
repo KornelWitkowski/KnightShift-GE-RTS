@@ -23,7 +23,8 @@
 #define MASK_TRAP_CAPTURE_FIELD      20480   //0b 1001 0000 0000 0000
 #define MASK_TRAP_REMOVE_UNIT        22528   //0b 1001 1000 0000 0000
 #define MASK_TRAP_ON_STEP_MINOTAUR   24576   //0b 1010 0000 0000 0000
-
+#define MASK_TRAP_POISON             26624   //0b 1010 1000 0000 0000
+#define MASK_PRISONER                28672   //0b 1011 0000 0000 0000
 
 /*
     Każdemu unitowi można przypisać liczbę funkcją unit.SetScriptData.
@@ -47,17 +48,21 @@
 #define SCRIPT_DATA_TRAP_HYDRA_SKELETON_TIER_4 8
 #define SCRIPT_DATA_TRAP_DEMON_1 9
 #define SCRIPT_DATA_TRAP_DEMON_2 10
+#define SCRIPT_DATA_TRAP_POISON_ATTACKER  11
+#define SCRIPT_DATA_TRAP_POISON  12
 
 #define MASK_SCRIPT_DATA_FUNCTIONAL 63 << 6 //0b 0000 1111 1100 0000
 
-#define SCRIPT_DATA_NECROMANCER 1 << 6
+
 #define SCRIPT_DATA_MEDUSA  2 << 6
 
 #define SCRIPT_DATA_CONVERSION_CAPTURE_RESISTANCE (1 << 16)
 #define SCRIPT_DATA_LOSE_WHEN_KILLED (1 << 17)
 #define SCRIPT_DATA_WIN_WHEN_KILLED (1 << 18)
+#define SCRIPT_DATA_NECROMANCER (1 << 19)
 
 #define MARKER_FIRST_EXPERIENCE_LVL_FIELD 100
+#define MARKER_FIRST_PRISONERS 920
 
 #include "MarkerFunctions\Functions\Common.ech"
 
@@ -71,6 +76,8 @@
 #include "MarkerFunctions\Functions\Teleports.ech"
 #include "MarkerFunctions\Functions\Traps.ech"
 #include "MarkerFunctions\Functions\UnitBoosts.ech"
+#include "MarkerFunctions\Functions\Prisoners.ech"
+#include "MarkerFunctions\Functions\Sleepers.ech"
 
 #include "MarkerFunctions\Artefact.ech"
 #include "MarkerFunctions\Initialize.ech"

@@ -122,7 +122,16 @@ function void SetBufferSideColorName(int iBuffer, int iSideColor)
     }
 }
 
+function int IsAlive(unitex uUnit)
+{
+    if(uUnit == null)
+        return false;
 
+    if(!uUnit.IsLive())
+        return false;
+
+    return true;
+}
 
 function void MakeWeather()
 // Losowe efekty pogodowe

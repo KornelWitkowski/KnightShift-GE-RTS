@@ -1,0 +1,20 @@
+function void InitializeSleepers(int iMarkerStart, int iMarkerEnd)
+{
+    int i;
+    unitex uSleeper;
+
+    for(i=iMarkerStart; i<=iMarkerEnd; ++i)
+    {
+        if(!PointExist(i))
+            return;
+
+        uSleeper = GetUnit(GetPointX(i), GetPointY(i), GetPointZ(i));
+
+        if(uSleeper == null)
+            return;
+
+        uSleeper.AddHPRegenerationSpeed(64, false); // wyłączamy regeneracje aby unit spał w nieskończoność
+	    uSleeper.DamageUnit(10);
+        uSleeper.CommandSleepMode(1);
+    }
+}

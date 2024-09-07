@@ -48,6 +48,7 @@ event Timer3()
     }
 
     MakeMarkerPeriodicEvents();
+    MakeMissionPeriodicEvents();
 }
 
 // Eventy pogodowe. Należy ustawić timery, w skrypcie trybu, aby działały
@@ -167,11 +168,10 @@ function void RemoveFootmanEquipment(int iX, int iY, int iZ, int bTier5)
     RemoveArtefact(iX, iY, iZ, "ART_HELMET2A");
     RemoveArtefact(iX, iY, iZ, "ART_HELMET3");
 
-
+    RemoveArtefact(iX, iY, iZ, "ART_SWORD1A");
     RemoveArtefact(iX, iY, iZ, "ART_SWORD2");
     RemoveArtefact(iX, iY, iZ, "ART_SWORD2A");
     RemoveArtefact(iX, iY, iZ, "ART_SWORD3");
-    RemoveArtefact(iX, iY, iZ, "ART_SWORD3A");
 
     if(bTier5)
     {

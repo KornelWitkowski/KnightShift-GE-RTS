@@ -3,6 +3,7 @@ mission "translateGameTypeEightSheds"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
+    #include "Common\Missions.ech"
     #include "Common\MarkerFunctions.ech"
     #include "Common\Events.ech"
     #include "Common\Artefacts.ech"
@@ -21,6 +22,7 @@ mission "translateGameTypeEightSheds"
         
         // TELEPORTY 
         InitializeMarkerFunctions();
+        InititializeMissionScripts();
 
         // SOJUSZE
         CreateTeamsFromComboButton(comboAlliedVictory);

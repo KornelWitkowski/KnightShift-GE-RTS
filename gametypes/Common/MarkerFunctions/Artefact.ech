@@ -3,7 +3,7 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
     int i, j, n;
     int iArmour1, iArmour2;
     int iMarker;
-    unitex uUnit;
+    unitex uUnit, uSmoke;
     player rPlayer;
 
     if((iArtefactNum & ~MASK0) == MASK_OPEN_GATE)
@@ -103,6 +103,37 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         CreateObjectAtUnit(uUnitOnArtefact, "CAST_CAPTURE");
         return true;
     }
+    else if((iArtefactNum & ~MASK0) == MASK_PRISONER)
+    {
+        iMarker = iArtefactNum & ~MASK_PRISONER;
+
+        uUnit = GetUnitAtMarker(iMarker);
+
+        if(uUnit == null)
+            return true;
+
+        if(rPlayerOnArtefact.GetIFFNumber() > 7)
+            return false;
+
+        rPlayer = GetPlayer(uUnit.GetIFFNumber());
+
+        if(!rPlayerOnArtefact.IsNeutral(rPlayer))
+        {
+            return false;
+        }
+
+        j = iMarker-iMarkerFirstPrisoners;
+        uUnit.ChangePlayer(rPlayerOnArtefact);
+
+        //m_nAnimNum, m_bAnimLooped, m_bResetAnim, m_nTimeSec
+        uUnit.CommandMakeCustomAnimation(2, true, true , 2, 0, 0); 
+        CreateObjectAtUnit(uUnit, "EXP_EXPERIENCE1");
+
+        uSmoke = uSmokes[j]; 
+        uSmoke.RemoveUnit();
+
+        return true;
+    }
     else if((iArtefactNum & ~MASK0) == MASK_EXP_LVL_FIELD)
     {
         /* 
@@ -191,7 +222,7 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
     }
     else if ((iArtefactNum & ~MASK0) == MASK_TRAP_REMOVE_UNIT)
     {
-        PlayWave("Special\\SND_SUMMONING_PRINCE_HIT.wav");
+        PlayWave("Special\\Wilhelm.wav");
         uUnitOnArtefact.RemoveUnit();    
     }
     else if ((iArtefactNum & ~MASK0) == MASK_STEP_ON_TO_WIN)

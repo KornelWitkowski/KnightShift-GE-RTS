@@ -3,6 +3,7 @@ mission "translateEconomic"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
+    #include "Common\Missions.ech"
     #include "Common\MarkerFunctions.ech"
     #include "Common\Events.ech"
 
@@ -122,6 +123,7 @@ mission "translateEconomic"
 
         // TELEPORTY
         InitializeMarkerFunctions();
+        InititializeMissionScripts();
         // TELEPORTY
 
         // Czary dla gracza 14, czyli od czarnego od potworków na mapie

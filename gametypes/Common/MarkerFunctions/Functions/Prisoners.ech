@@ -1,0 +1,55 @@
+unitex uSmokes[];
+int iMarkerFirstPrisoners;
+
+function void CreatePrisoner(int iMarkerPrisoner)
+{
+    int i, j;
+    unitex uPrisoner, uTalkerSmoke;
+
+    if(!PointExist(iMarkerPrisoner))
+        return;
+
+    uPrisoner = GetUnit(GetPointX(iMarkerPrisoner), GetPointY(iMarkerPrisoner), GetPointZ(iMarkerPrisoner));
+
+    if(uPrisoner == null)
+        return;
+
+    if(uPrisoner.GetMaxHP() < 2000 )
+        uTalkerSmoke = CreateObjectAtUnit(uPrisoner, "PART_TALK");
+    else
+        uTalkerSmoke = CreateObjectAtUnit(uPrisoner, "PART_TALK_GIANT");
+    
+    
+    uTalkerSmoke.SetSmokeObject(uPrisoner.GetUnitRef(), true, true, true, true);
+    j = iMarkerPrisoner-iMarkerFirstPrisoners;
+    uSmokes[j] = uTalkerSmoke; 
+
+    for(i=-1; i <= 1; ++i)
+    {
+        for(j=-1; j <= 1; ++j)
+        {
+            if(i==0 && j==0) continue;
+            CreateArtefact("ARTIFACT_INVISIBLE", GetPointX(iMarkerPrisoner)+i, GetPointY(iMarkerPrisoner)+j,
+                            GetPointZ(iMarkerPrisoner), MASK_PRISONER|iMarkerPrisoner);
+        }
+    }
+}
+
+function void InitializePrisoners(int iMarkerStart, int iMarkerEnd)
+{
+    int i, iSize;
+
+    iSize = iMarkerEnd - iMarkerStart;
+    iMarkerFirstPrisoners = iMarkerStart; // używane w funkcji `CreatePrisoner`
+
+    uSmokes.Create(iSize);
+    for(i=0; i<iSize; ++i)
+    {
+        uSmokes[i] == null;
+    }
+
+    for(i=iMarkerStart; i<=iMarkerEnd; ++i)
+    {
+        CreatePrisoner(i);
+    }
+}

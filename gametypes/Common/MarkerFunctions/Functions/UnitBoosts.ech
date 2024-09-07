@@ -50,3 +50,20 @@ function void AddExperienceLevel(int iMarker, int iLevelToAdd)
     uUnit.RegenerateMagic();
     uUnit.RegenerateHP();
 }
+
+function void AddMagicDamage(int iMarker, int iDamage)
+{
+    unitex uUnit;
+    if(!PointExist(iMarker)) return;
+
+    uUnit = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
+    if(uUnit==null) return;
+
+    if(uUnit.IsBuilding())
+    {
+        uUnit = uUnit.GetUnitOnTower();
+        if(uUnit==null) return;
+    }
+
+    uUnit.AddDamage(2, iDamage);
+}
