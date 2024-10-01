@@ -275,6 +275,7 @@ function int CountNormalBuildings(player rPlayer)
     iNumberOfBuldings = iNumberOfBuldings + rPlayer.GetNumberOfBuildings("SKIRMISH_COURT");
 
     iNumberOfUnits = rPlayer.GetNumberOfUnits();
+    iNumberOfTowers = 0;
     for(i=0; i<iNumberOfUnits; ++i)
     {
         uUnit = rPlayer.GetUnit(i);

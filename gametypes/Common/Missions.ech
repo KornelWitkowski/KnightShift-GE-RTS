@@ -64,13 +64,22 @@ function void InitializeCommunityGE02()
         }
     }
 
+    for(i=0; i<6; i=i+1)
+    {
+        uUnit = GetUnitAtMarker(10 + i);
+        rPlayer1 = GetPlayer(i);
+        if(rPlayer1 != null)
+        {
+            uUnit.ChangePlayer(rPlayer1);  
+        }
+    }
 
     // tytan do zabicia w podziemiach
-    uUnit = GetUnitAtMarker(11);
+    uUnit = GetUnitAtMarker(20);
     uUnit.AddHP(-3000);
 
     // tytan do wzięcia z podziemi
-    uUnit = GetUnitAtMarker(12);
+    uUnit = GetUnitAtMarker(21);
     uUnit.AddHP(-3000);
 }
  

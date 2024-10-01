@@ -23,7 +23,7 @@ function int CheckWinLoseUnits(unitex uUnitKilled)
             if(rPlayer.GetIFFNumber()==j) continue;
             rPlayer = GetPlayer(j);
 
-            if(!((rPlayer!=null) && rPlayer.IsAlive() && (rPlayer.IsAlly(rPlayerAttacker))))
+            if(!((rPlayer!=null) && rPlayer.IsAlive() && (!rPlayer.IsAlly(rPlayerAttacker))))
                 rPlayer.SetScriptData(1, 1);
         }
         SetStateDelay(150);
