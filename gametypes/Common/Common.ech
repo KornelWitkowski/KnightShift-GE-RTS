@@ -239,7 +239,7 @@ function void CheckMilkPool(int iMaxCowSheds)
 
                     if(iMaxCowSheds < iCountBuilding)
                     {
-                        // Maksymalna ilość mleka jest ograniczona przed limit obór w trybie.
+                        // Maksymalna ilość mleka jest ograniczona przez limit obór w trybie.
                         rPlayer.SetMaxMoney(100*iMaxCowSheds);
                     }   
                     else if (iCountBuilding==0)
@@ -324,6 +324,7 @@ function int CheckIfPlayerWasDestroyed(int bAiChooseNewMainEnemy)
                     {
                         rPlayer.SetScriptData(1, 1);
                         KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
+                        KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
                         rPlayer.SetGoalState(0, goalFailed, true);
 
                         SetStateDelay(150);

@@ -10,22 +10,15 @@ function int CheckWinLoseUnits(unitex uUnitKilled)
     {
         rPlayer = GetPlayer(uUnitKilled.GetIFFNumber());
         rPlayer.SetScriptData(1, 1);
+
+        KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
+        KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
+
+        SetStateDelay(150);
+        state Defeat;
     }
     else if(iScriptData & SCRIPT_DATA_WIN_WHEN_KILLED != 0)
     {
-        uAttacker = uUnitKilled.GetAttacker();
-        if(uAttacker == null)
-            return false;
-
-        rPlayerAttacker  = GetPlayer(uAttacker.GetIFFNumber());
-        for(j=0; j<8; j=j+1)
-        {
-            if(rPlayer.GetIFFNumber()==j) continue;
-            rPlayer = GetPlayer(j);
-
-            if(!((rPlayer!=null) && rPlayer.IsAlive() && (!rPlayer.IsAlly(rPlayerAttacker))))
-                rPlayer.SetScriptData(1, 1);
-        }
         SetStateDelay(150);
         state Victory;
     }

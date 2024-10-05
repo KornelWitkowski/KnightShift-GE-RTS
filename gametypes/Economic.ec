@@ -252,12 +252,15 @@ mission "translateEconomic"
             {
                 ShowEndingScreen(rPlayer);
 
-                SetStateDelay(250);
+                SetStateDelay(50);
                 
                 for(j=0; j<8; j=j+1)
                 {
                         if(i==j) continue;
                         rPlayer2 = GetPlayer(j);
+
+                        KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
+                        KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
                         rPlayer2.SetScriptData(1, 1);
                 }
 

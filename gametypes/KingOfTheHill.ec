@@ -373,13 +373,15 @@ mission "translateKingOfTheHill"
                             else
                             {
                                 rPlayer2.SetScriptData(1, 1);
+                                KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
+                                KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
                                 rPlayer2.SetGoalState(0, goalFailed, true);
                             }
                             ShowEndingScreen(rPlayer2);
                         }
 
                         ShowEndingScreen(rPlayer);
-                        SetStateDelay(300);
+                        SetStateDelay(50);
 
                         state Victory;
                     }
