@@ -48,8 +48,8 @@ mission "translateEconomic"
         player rPlayer;
 
         SetBufferSideColorName(6, rPlayerWinner.GetSideColor());
-        SetStringBuff(5, "translateEconomicEndGame", GetStringBuff(6));
-        SetStringBuffTranslate(4, GetStringBuff(5));
+        SetStringBuffTranslate(5, "translateEconomicEndGame");
+        SetStringBuff(4, GetStringBuff(5), GetStringBuff(6));
         SetCutsceneText(GetStringBuff(4));
         
         ShowInterfaceBlackBorders(true, 15, 15, 0xFF000000, 0xFF000000, 0, 0);
@@ -146,7 +146,7 @@ mission "translateEconomic"
             // ECONOMIC
             // ilość mleka potrzebna do wygranej
 
-            if(comboMilkToWin==0) rPlayer.SetMaxMoney(1500); 
+            if(comboMilkToWin==0) rPlayer.SetMaxMoney(5000); 
             if(comboMilkToWin==1) rPlayer.SetMaxMoney(10000); 
             if(comboMilkToWin==2) rPlayer.SetMaxMoney(20000); 
             if(comboMilkToWin==3) rPlayer.SetMaxMoney(50000); 
@@ -170,8 +170,7 @@ mission "translateEconomic"
     
             rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
 
-            if (!rPlayer.GetNumberOfUnits() && !rPlayer.GetNumberOfBuildings())
-                CreateDefaultUnitEconomic(rPlayer, rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 0);
+            CreateDefaultUnitEconomic(rPlayer, rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 0);
         }
 
         SetTimer(0, 1);
@@ -252,7 +251,7 @@ mission "translateEconomic"
             {
                 ShowEndingScreen(rPlayer);
 
-                SetStateDelay(50);
+                SetStateDelay(300);
                 
                 for(j=0; j<8; j=j+1)
                 {
