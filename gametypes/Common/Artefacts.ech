@@ -77,7 +77,7 @@ function void CreateRandomSupplement(int x, int y)
     int nRandNum;
     nRandNum = RAND(10);
 
-    CreateArtefactIfNumberMatches(x, y, "ART_ADD_HP_GE_050",       0, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_ADD_HP_GE_050",      0, nRandNum);
     CreateArtefactIfNumberMatches(x, y, "ART_ADD_HP_GE_100",      1, nRandNum);
     CreateArtefactIfNumberMatches(x, y, "ART_ADD_HP_GE_200",      2, nRandNum);
 

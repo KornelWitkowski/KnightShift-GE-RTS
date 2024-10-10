@@ -194,7 +194,7 @@ event Artefact(int iArtefactNum,  unitex uUnitOnArtefact, player rPlayerOnArtefa
 
     event SpecialLevelFlags()
     {
-	return 8;
+	    return 8;
       //  return 0x01;
     }
 

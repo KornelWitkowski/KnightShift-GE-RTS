@@ -108,7 +108,6 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         iMarker = iArtefactNum & ~MASK_PRISONER;
 
         uUnit = GetUnitAtMarker(iMarker);
-
         if(uUnit == null)
             return true;
 
@@ -123,6 +122,9 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         }
 
         j = iMarker-iMarkerFirstPrisoners;
+
+        if(j < 0) j = iMarker; // Operacja jest wykonywana dla unitów w trybie Tower Defense, które są oznaczone niższymi markerami
+
         uUnit.ChangePlayer(rPlayerOnArtefact);
 
         //m_nAnimNum, m_bAnimLooped, m_bResetAnim, m_nTimeSec

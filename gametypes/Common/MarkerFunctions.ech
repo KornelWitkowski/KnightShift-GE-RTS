@@ -36,8 +36,8 @@
     (000000 111111 & 000110 000011)  = 000000 000011.
 
 */
-#define MASK_SCRIPT_DATA_TRAP (63 << 20) //0b 0000 0000 0011 1111
 
+#define MASK_SCRIPT_DATA_TRAP (63 << 20) //0b 0000 0000 0011 1111
 
 
 #define SCRIPT_DATA_CONVERSION_CAPTURE_RESISTANCE (1 << 16)
@@ -56,7 +56,7 @@
 #define SCRIPT_DATA_TRAP_DEMON_2 (10 << 20)
 #define SCRIPT_DATA_TRAP_POISON_ATTACKER  (11 << 20)
 #define SCRIPT_DATA_TRAP_POISON  (12 << 20)
-#define MASK_SCRIPT_DATA_FUNCTIONAL 63 << 26 //0b 0000 1111 1100 0000
+#define MASK_SCRIPT_DATA_FUNCTIONAL 63 << 26
 #define SCRIPT_DATA_MEDUSA  2 << 26
 
 #define MARKER_FIRST_EXPERIENCE_LVL_FIELD 100
@@ -81,3 +81,14 @@
 #include "MarkerFunctions\Initialize.ech"
 #include "MarkerFunctions\PeriodicEvents.ech"
 #include "MarkerFunctions\UnitDestroyed.ech"
+
+/*
+    `Initialize.ech` - zawiera funkcje przypisującą odpowiednie własności do danych punktów, jednostek, obiektów:
+        tworzy teleporty, pułapki, nadaje doświadczenie, itp.
+
+    `Artefact.ech` - obsługuje eventy związane z wejściem na dane pole - obsługuje pułapki, otwieranie bram itd.
+
+    `PerodicEvents.ech` - obsługuje periodyczne eventy zainicjowane w `Initialize.ech`. Plik m.in. odpowiedzialny jest za wieczną burzę i wieczny deszcz ognia
+
+    `UnitDestroyed.ech` - obsługuje zdarzenia po śmierci jednostek jak pułapki, wygrana, przegrana itp.
+*/

@@ -89,7 +89,7 @@ function int CheckUnitDestoyedTraps(unitex uUnitKilled)
     else if(iTrapScriptData == SCRIPT_DATA_TRAP_DEMON_1)
         CreateUnitsNearKilledUnit(uUnitKilled, "RPG_ARENAMONSTER1", 1, 0);
     else if(iTrapScriptData == SCRIPT_DATA_TRAP_DEMON_2)
-        CreateUnitsNearKilledUnit(uUnitKilled, "RPG_ARENAMONSTER3", 1, 0);
+        CreateUnitsNearKilledUnit(uUnitKilled, "RPG_ARENAMONSTER1S", 1, 0);
     else if(iTrapScriptData == SCRIPT_DATA_TRAP_POISON_ATTACKER)
     {
         CreateObjectAtUnit(uAttackerEx, "POISONTRAP4");

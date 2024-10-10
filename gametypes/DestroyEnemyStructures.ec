@@ -114,11 +114,6 @@ mission "translateGameTypeDestroyStructures"
         int bActiveEnemies;
         int bOneHasBeenDestroyed;
 
-        unitex uUnit;
-
-        uUnit = GetUnitAtMarker(9);
-       // SetConsoleText("<%0>", uUnit.SetCustomEvent(3, 0, 0, 0, 0, null));
-
         // Jeśli state to Victory lub Defeat to nie ma potrzeby sprawdzać
         if ( state != Nothing ) return;
 

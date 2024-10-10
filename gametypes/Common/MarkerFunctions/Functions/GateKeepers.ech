@@ -1,5 +1,5 @@
 /*
-    Gatekeepers protect a certain gate - if the gatekeepers are defeated then the gate is being opened
+    Gatekeepers protect a certain gate - if the gatekeepers are defeated then the gate is opened
 */
 
 unitex uGateKeeper00, uGateKeeper01, uGateKeeper02, uGateKeeper03;
