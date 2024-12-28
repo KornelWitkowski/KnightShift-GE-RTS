@@ -1,6 +1,8 @@
- function void InitializeCommunityGE01()
-{
+unitex uJanosik;
 
+function void InitializeCommunityGE01()
+{
+    uJanosik = GetUnit(GetPointX(18), GetPointY(18), GetPointZ(18));
 }
 
 function void InitializeCommunityGE02()
@@ -87,7 +89,7 @@ function void InitializeCommunityGE02()
  {
     if(!CompareStringsNoCase(GetLevelName(), "COMMUNITY_GE_01"))
     {
-
+        InitializeCommunityGE01();
     }
     else if(!CompareStringsNoCase(GetLevelName(), "COMMUNITY_GE_02"))
     {
@@ -95,15 +97,27 @@ function void InitializeCommunityGE02()
     }
  }
 
- function void TimerCommunityGE02(int iMarkerGate, int iMarkerButtonLast)
+
+int bDemonGateOpened;
+unitex uMedusaWitch;
+
+function void TimerCommunityGE01(int iMarkerGate, int iMarkerButtonLast)
+{
+
+}
+
+function void TimerCommunityGE02(int iMarkerGate, int iMarkerButtonLast)
 {
     int i;
     int iMarker;
+    int iDistance;
     int iNumberOfButtons;
     int bAllUnitsOnButton;
+    unit uAttacker;
     unitex uUnit, uGate;
     int iMarkerButtonFirst;
 
+    // Demon w podziemiach do wzięcia za ustawienie 4 krów na guzikach.
     if(!PointExist(iMarkerGate))
         return;
 
@@ -129,13 +143,55 @@ function void InitializeCommunityGE02()
         }
     }
 
-    if(bAllUnitsOnButton)
+    if(bAllUnitsOnButton || bDemonGateOpened)
     {
         uGate.CommandBuildingSetGateMode(modeGateOpened);
+
+        // Poświecamy krowy na guzikach. If sprawia, że ofiara jest jednorazowa
+        if(!bDemonGateOpened)
+        {
+            iMarkerButtonFirst = iMarkerGate + 1;
+            for(i=iMarkerButtonFirst; i<=iMarkerButtonLast; ++i)
+            {
+                uUnit = GetUnit(GetPointX(i), GetPointY(i), GetPointZ(i));
+                uUnit.KillUnit();
+            }
+        }
+        bDemonGateOpened = true;
     }
     else
     {
         uGate.CommandBuildingSetGateMode(modeGateClosed);
+    }
+
+    // Spacerująca wiedźma.
+
+    if(uMedusaWitch == null)
+        uMedusaWitch = GetUnit(GetPointX(600), GetPointY(600), GetPointZ(600));
+
+    if(uMedusaWitch == null)
+        return;
+
+    uAttacker = uMedusaWitch.GetAttacker();
+
+    if(uAttacker != null)
+    {
+        uUnit = GetUnit(uAttacker.GetLocationX(), uAttacker.GetLocationY(), uAttacker.GetLocationZ());
+        uMedusaWitch.CommandAttack(uUnit);
+        return;
+    }
+        
+
+    if(RAND(1000) > 30)
+        return;
+
+    i = RAND(10);
+
+    iDistance = uMedusaWitch.DistanceTo(GetPointX(30+i), GetPointY(30+i));
+
+    if(iDistance > 10)
+    {
+        uMedusaWitch.CommandMove(GetPointX(30+i), GetPointY(30+i), GetPointZ(30+i));
     }
 }
 
@@ -151,4 +207,66 @@ function void MakeMissionPeriodicEvents()
         TimerCommunityGE02(95, 99);
     }
 
+}
+
+function void UnitDestroyedCommunityGE01(unitex uKilledUnit)
+{
+    int i;
+    unitex uUnit;
+    player rPlayer;
+
+    rPlayer = GetPlayer(14);
+
+    if(uKilledUnit == null)
+        return;
+
+    if(uKilledUnit == uJanosik)
+    {
+
+        for(i = 10; i <= 13; ++i)
+        {
+            uUnit = GetUnit(GetPointX(i), GetPointY(i), GetPointZ(i));
+            CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+            uUnit.KillUnit();
+            uUnit = CreateUnitAtMarker(rPlayer, i, "STONE_FOOTMAN");
+            uUnit.AddDamage(0, 15);
+            uUnit.AddDamage(1, 15);
+            uUnit.AddDamage(2, 15);
+            uUnit.AddHP(200);
+            uUnit.SetExperienceLevel(6);
+        }
+
+        for(i = 14; i <= 17; ++i)
+        {
+            uUnit = GetUnit(GetPointX(i), GetPointY(i), GetPointZ(i));
+            CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+            uUnit.KillUnit();
+            uUnit = CreateUnitAtMarker(rPlayer, i, "STONE_HUNTER");
+            uUnit.AddDamage(0, 15);
+            uUnit.AddDamage(1, 15);
+            uUnit.AddDamage(2, 15);
+            uUnit.AddHP(200);
+            uUnit.SetExperienceLevel(6);
+        }
+    }
+}
+
+
+function void UnitDestroyedCommunityGE02(unitex uUnit)
+{
+
+
+}
+
+
+function void MakeMissionUnitDestroyedEvents(unitex uUnit)
+{
+    if(!CompareStringsNoCase(GetLevelName(), "COMMUNITY_GE_01"))
+    {
+        UnitDestroyedCommunityGE01(uUnit);
+    }
+    else if(!CompareStringsNoCase(GetLevelName(), "COMMUNITY_GE_02"))
+    {
+        UnitDestroyedCommunityGE02(uUnit);
+    }
 }

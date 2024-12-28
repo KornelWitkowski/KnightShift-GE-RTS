@@ -4,11 +4,11 @@ mission "translateZeroupgrades"
     #include "Common\Common.ech"
 
     #include "Common\Missions.ech"
-    #include "Common\MarkerFunctions.ech"
-    #include "Common\Events.ech"
     #include "Common\Artefacts.ech"
     #include "Common\Alliance.ech"
+    #include "Common\MarkerFunctions.ech"
     #include "Common\StartingUnits.ech"
+    #include "Common\Events.ech"
     
     state Initialize
     {
@@ -18,8 +18,6 @@ mission "translateZeroupgrades"
     
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
-        
-        InitializeMarkerFunctions();
 
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
@@ -49,7 +47,7 @@ mission "translateZeroupgrades"
             rPlayer.SetScriptData(0, 0);
 
             RegisterGoal(0, "translateZeroUpgradesGoal");
-            EnableGoal(0, true);
+            EnableGoal(0, true, true);
 
             // Ulepszenia - GE
             
@@ -90,6 +88,10 @@ mission "translateZeroupgrades"
         CreateTeamsFromComboButton(comboAlliedVictory);
         AiChooseEnemy();
         // SOJUSZE
+        // TELEPORTY
+        InititializeMissionScripts();
+        InitializeMarkerFunctions();
+        // TELEPORTY
 
         SetTimer(0, 5*SECOND);  // Sprawdzenie stanu graczy, obór itd.
         SetTimer(1, 20*SECOND); // Artefakty
@@ -156,6 +158,12 @@ mission "translateZeroupgrades"
         AiChooseEnemy();
     }
 
+    // Ta flaga wybiera mapy, na których dany tryb może być grany. 0x01 = 1 oznacza ustawienie `Wojny Wiosek` w edytorze.
+    // 2, to bitwa, a 4 to RPG. Inne ustawienia wymagają ustawienia flagi bezpośrednio w pliku mapy.
+    event SpecialLevelFlags()
+    {
+        return 1;
+    }
 
     command Initialize()
     {

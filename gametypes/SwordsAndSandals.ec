@@ -4,11 +4,11 @@ mission "translateSwordsandsandals"
     #include "Common\Common.ech"
 
     #include "Common\Missions.ech"
-    #include "Common\MarkerFunctions.ech"
-    #include "Common\Events.ech"
     #include "Common\Artefacts.ech"
     #include "Common\Alliance.ech"
+    #include "Common\MarkerFunctions.ech"
     #include "Common\StartingUnits.ech"
+    #include "Common\Events.ech"
 
     function void RemoveMagicUnits()
     {
@@ -50,9 +50,6 @@ mission "translateSwordsandsandals"
     
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
-        
-        InitializeMarkerFunctions();
-        InititializeMissionScripts();
 
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
@@ -81,7 +78,7 @@ mission "translateSwordsandsandals"
             }
 
             RegisterGoal(0, "translateSwordsAndSandalsGoal");
-            EnableGoal(0, true);
+            EnableGoal(0, true, true);
 
             rPlayer.SetScriptData(0, 0);
 
@@ -112,6 +109,9 @@ mission "translateSwordsandsandals"
         AiChooseEnemy();
         // SOJUSZE
 
+        InitializeMarkerFunctions();
+        InititializeMissionScripts();
+
         SetTimer(0, 5*SECOND);  // Sprawdzenie stanu graczy, obór itd.
         SetTimer(1, 20*SECOND); // Artefakty
         SetTimer(2, 4*MINUTE);  // Wybór przeciwników przez AI. Przeciwnicy są też wybierani po pokonaniu gracza.
@@ -130,6 +130,13 @@ mission "translateSwordsandsandals"
         if(comboStartingUnits) return true;
         return false;
 
+    }
+
+    // Ta flaga wybiera mapy, na których dany tryb może być grany. 0x01 = 1 oznacza ustawienie `Wojny Wiosek` w edytorze.
+    // 2, to bitwa, a 4 to RPG. Inne ustawienia wymagają ustawienia flagi bezpośrednio w pliku mapy.
+    event SpecialLevelFlags()
+    {
+        return 1;
     }
     
     event SetupInterface()

@@ -1,7 +1,6 @@
 function void InitializeMarkerFunctions()
 {
-    int i, j, iLevel;
-    unitex uUnit;
+    int i, j;
 
     /* 
         0 - 99 - markers for specific gametypes:
@@ -93,25 +92,32 @@ function void InitializeMarkerFunctions()
         SetUnitImmortal(i);
     }
 
-    uMedusa0 = GetUnit(GetPointX(600), GetPointY(600), GetPointZ(600));
-    uMedusa1 = GetUnit(GetPointX(601), GetPointY(601), GetPointZ(601));
-    uMedusa2 = GetUnit(GetPointX(602), GetPointY(602), GetPointZ(602));
-    uMedusa3 = GetUnit(GetPointX(603), GetPointY(603), GetPointZ(603));
-    uMedusa4 = GetUnit(GetPointX(604), GetPointY(604), GetPointZ(604));
+    if(PointExist(600))
+        uMedusa0 = GetUnit(GetPointX(600), GetPointY(600), GetPointZ(600));
+    if(PointExist(601))
+        uMedusa1 = GetUnit(GetPointX(601), GetPointY(601), GetPointZ(601));
+    if(PointExist(602))    
+        uMedusa2 = GetUnit(GetPointX(602), GetPointY(602), GetPointZ(602));
+    if(PointExist(603))
+        uMedusa3 = GetUnit(GetPointX(603), GetPointY(603), GetPointZ(603));
+    if(PointExist(604))
+        uMedusa4 = GetUnit(GetPointX(604), GetPointY(604), GetPointZ(604));
 
     for(i=605; i<620; ++i)
     {
         SetUnitNecromancer(i);
     }
 
+    // LOSE_WHEN_KILLED
     for(i=620; i<630; ++i)
     {
-       SetUnitOnMarkerScriptData(i, SCRIPT_DATA_LOSE_WHEN_KILLED);
+       SetLoseWhenKilledUnit(i);
     }
 
+    // WIN WHEN KILLED
     for(i=630; i<640; ++i)
     {
-       SetUnitOnMarkerScriptData(i, SCRIPT_DATA_WIN_WHEN_KILLED);
+        SetWinWhenKilledUnit(i);
     }
 
     // Wieczny deszcz ognia 640 - 659
@@ -182,6 +188,9 @@ function void InitializeMarkerFunctions()
     SetUnitOnMarkerScriptData(895, SCRIPT_DATA_TRAP_POISON);
     SetUnitOnMarkerScriptData(896, SCRIPT_DATA_TRAP_POISON);
     SetUnitOnMarkerScriptData(897, SCRIPT_DATA_TRAP_POISON);
+
+    SetUnitOnMarkerScriptData(898, SCRIPT_DATA_TRAP_MAGIC_DAMAGE);
+    SetUnitOnMarkerScriptData(899, SCRIPT_DATA_TRAP_MAGIC_DAMAGE);
 
     for(i=900; i<905; i=i+1)
     {

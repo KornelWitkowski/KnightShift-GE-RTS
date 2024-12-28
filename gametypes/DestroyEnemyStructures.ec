@@ -4,10 +4,10 @@ mission "translateGameTypeDestroyStructures"
     #include "Common\Common.ech"
 
     #include "Common\Missions.ech"
+    #include "Common\Alliance.ech"
     #include "Common\MarkerFunctions.ech"
     #include "Common\Events.ech"
     #include "Common\Artefacts.ech"
-    #include "Common\Alliance.ech"
     #include "Common\StartingUnits.ech"
 
     state Initialize
@@ -22,14 +22,12 @@ mission "translateGameTypeDestroyStructures"
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
         
-        InitializeMarkerFunctions();
-        InititializeMissionScripts();
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
 
-        // Czary dla gracza 14, czyli od czarnego od potworków na mapie
+        // Czary dla gracza 14, czyli czarnego od potworków na mapie
         EnablePlayer14Spells();
-        // Nieskończony milk pool dla gracza 14 i 15 dzięki czemu krowy tego gracza będą się pasły w nieskończoność
+        // Bardzo duży milk pool dla gracza 14 i 15 dzięki czemu krowy tego gracza będą się pasły w nieskończoność
         EnableExtraSkirmishPlayersMilkPool();
 
         for(i=0; i<8; i=i+1)
@@ -58,7 +56,7 @@ mission "translateGameTypeDestroyStructures"
 
                 // Cele misji
                 RegisterGoal(0, "translateDestroyEnemyStrucuresGoal");
-                EnableGoal(0, true);
+                EnableGoal(0, true, true);
 
                 rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
 
@@ -72,6 +70,9 @@ mission "translateGameTypeDestroyStructures"
         CreateTeamsFromComboButton(comboAlliedVictory);
         AiChooseEnemy();
         // SOJUSZE
+        InititializeMissionScripts();
+        InitializeMarkerFunctions();
+
 
         // Timery, czy wydarzenia, które są wywoływane co jakiś czas, aby sprawdzić stan gry i dokonywać pewnych zmian.
         SetTimer(0, 5*SECOND);  // Sprawdzenie stanu graczy, obór itd.
@@ -146,6 +147,13 @@ mission "translateGameTypeDestroyStructures"
          na początku gry i po pokonaniu wroga, ale także może być zmieniony w czasie gry.
          Sprawia to, że gracze AI są mniej przewidywalni */
         AiChooseEnemy();
+    }
+
+    // Ta flaga wybiera mapy, na których dany tryb może być grany. 0x01 = 1 oznacza ustawienie `Wojny Wiosek` w edytorze.
+    // 2, to bitwa, a 4 to RPG. Inne ustawienia wymagają ustawienia flagi bezpośrednio w pliku mapy.
+    event SpecialLevelFlags()
+    {
+        return 0x01;
     }
 
     command Initialize()

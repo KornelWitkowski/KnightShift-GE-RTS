@@ -121,11 +121,6 @@ mission "translateEconomic"
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
 
-        // TELEPORTY
-        InitializeMarkerFunctions();
-        InititializeMissionScripts();
-        // TELEPORTY
-
         // Czary dla gracza 14, czyli od czarnego od potworków na mapie
         EnablePlayer14Spells();
         // Nieskończony milk pool dla gracza 14 i 15 dzięki czemu krowy tego gracza będą się pasły w nieskończoność
@@ -161,7 +156,7 @@ mission "translateEconomic"
             SetStringBuffTranslate(2, "translateEconomicGoal");
             SetStringBuff(3, GetStringBuff(2), iMilkToWin);
             RegisterGoal(0, GetStringBuff(3));
-            EnableGoal(0, true);
+            EnableGoal(0, true, true);
 
             // dowolna ilość obór i dworów
             rPlayer.SetMaxCountLimitForObject("COWSHED", -1);
@@ -172,6 +167,11 @@ mission "translateEconomic"
 
             CreateDefaultUnitEconomic(rPlayer, rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 0);
         }
+
+        // TELEPORTY
+        InitializeMarkerFunctions();
+        InititializeMissionScripts();
+        // TELEPORTY
 
         SetTimer(0, 1);
 
@@ -195,6 +195,13 @@ mission "translateEconomic"
     event RemoveUnits()
     {
         return true;
+    }
+
+    // Ta flaga wybiera mapy, na których dany tryb może być grany. 0x01 = 1 oznacza ustawienie `Wojny Wiosek` w edytorze.
+    // 2, to bitwa, a 4 to RPG. Inne ustawienia wymagają ustawienia flagi bezpośrednio w pliku mapy.
+    event SpecialLevelFlags()
+    {
+        return 0x01;
     }
     
     event SetupInterface()

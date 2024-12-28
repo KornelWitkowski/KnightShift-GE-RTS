@@ -134,7 +134,7 @@ state KillingUninvitedGuestsAdventureGE6
             SetStringBuffTranslate(2, "translateAdventureGE06_DestroyUninvitedGuests");
             SetStringBuff(3, GetStringBuff(2), iNumberOfUnits);
             rPlayer.RegisterGoal(1, GetStringBuff(3));
-            rPlayer.EnableGoal(1, true);
+            rPlayer.EnableGoal(1, true, true);
 
             if(iNumberOfUnits == 0)
             {

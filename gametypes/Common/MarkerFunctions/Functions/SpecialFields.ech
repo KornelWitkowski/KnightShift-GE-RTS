@@ -24,4 +24,8 @@ function void CreateStepOnToWinField(int iMarker)
 
     CreateArtefact("ARTIFACT_INVISIBLE",
         GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_STEP_ON_TO_WIN|iMarker);
+
+    AddWorldMapSign(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, -1);
+    RegisterGoal(STEP_TO_WIN_GOAL, "translateStepToWin");
+    EnableGoal(STEP_TO_WIN_GOAL, true, true);
 }

@@ -10,11 +10,11 @@ mission "translateKingOfTheHill"
     #include "Common\Common.ech"
 
     #include "Common\Missions.ech"
-    #include "Common\MarkerFunctions.ech"
-    #include "Common\Events.ech"
     #include "Common\Artefacts.ech"
     #include "Common\Alliance.ech"
+    #include "Common\MarkerFunctions.ech"
     #include "Common\StartingUnits.ech"
+    #include "Common\Events.ech"
 
     int iNumberOfTowers;
     int iTowerXAverage, iTowerYAverage;
@@ -187,11 +187,6 @@ mission "translateKingOfTheHill"
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
 
-        // TELEPORTY
-        InitializeMarkerFunctions();
-        InititializeMissionScripts();
-        // TELEPORTY
-
         // SOJUSZE
         CreateTeamsFromComboButton(comboAlliedVictory);
         // SOJUSZE
@@ -239,7 +234,7 @@ mission "translateKingOfTheHill"
             SetStringBuffTranslate(2, "translateKOTHGoal");
             SetStringBuff(3, GetStringBuff(2), iNumberOfTowers);
             rPlayer.RegisterGoal(0, GetStringBuff(3));
-            rPlayer.EnableGoal(0, true);
+            rPlayer.EnableGoal(0, true, true);
             
             // KING OF THE HILL
             
@@ -252,6 +247,11 @@ mission "translateKingOfTheHill"
         // SOJUSZE
         CreateTeamsFromComboButton(comboAlliedVictory);
         // SOJUSZE
+
+        // TELEPORTY
+        InitializeMarkerFunctions();
+        InititializeMissionScripts();
+        // TELEPORTY
 
         SetTimer(0, 5*SECOND);  // Sprawdzenie stanu graczy, obór itd.
         SetTimer(1, 20*SECOND); // Artefakty
@@ -284,6 +284,13 @@ mission "translateKingOfTheHill"
         if(comboStartingUnits) return true;
         return false;
 
+    }
+
+    // Ta flaga wybiera mapy, na których dany tryb może być grany. 0x01 = 1 oznacza ustawienie `Wojny Wiosek` w edytorze.
+    // 2, to bitwa, a 4 to RPG. Inne ustawienia wymagają ustawienia flagi bezpośrednio w pliku mapy.
+    event SpecialLevelFlags()
+    {
+        return 8;
     }
     
     event SetupInterface()

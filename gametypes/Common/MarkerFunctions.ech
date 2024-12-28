@@ -18,13 +18,14 @@
 #define MASK_EXP_LVL_FIELD           10240   //0b 0010 1000 0000 0000
 #define MASK_CONV_RESISTANCE         12288   //0b 0011 0000 0000 0000
 #define MASK_STEP_ON_TO_WIN          14336   //0b 0011 1000 0000 0000
-#define MASK_TRAP_LIGHTNING          16384   //0b 1000 0000 0000 0000
-#define MASK_TRAP_ON_STEP_GHOST      18432   //0b 1000 1000 0000 0000
-#define MASK_TRAP_CAPTURE_FIELD      20480   //0b 1001 0000 0000 0000
-#define MASK_TRAP_REMOVE_UNIT        22528   //0b 1001 1000 0000 0000
-#define MASK_TRAP_ON_STEP_MINOTAUR   24576   //0b 1010 0000 0000 0000
-#define MASK_TRAP_POISON             26624   //0b 1010 1000 0000 0000
-#define MASK_PRISONER                28672   //0b 1011 0000 0000 0000
+#define MASK_TRAP_LIGHTNING          16384   //0b 0100 0000 0000 0000
+#define MASK_TRAP_ON_STEP_GHOST      18432   //0b 0100 1000 0000 0000
+#define MASK_TRAP_CAPTURE_FIELD      20480   //0b 0101 0000 0000 0000
+#define MASK_TRAP_REMOVE_UNIT        22528   //0b 0101 1000 0000 0000
+#define MASK_TRAP_ON_STEP_MINOTAUR   24576   //0b 0110 0000 0000 0000
+#define MASK_PRISONER                26624   //0b 0110 1000 0000 0000
+// #define MASK_TRAP_MAGIC_DAMAGE       28672   //0b 0111 0000 0000 0000
+// #define MASK_PRISONER                30720   //0b 0111 1000 0000 0000
 
 /*
     Każdemu unitowi można przypisać liczbę funkcją unit.SetScriptData.
@@ -56,11 +57,16 @@
 #define SCRIPT_DATA_TRAP_DEMON_2 (10 << 20)
 #define SCRIPT_DATA_TRAP_POISON_ATTACKER  (11 << 20)
 #define SCRIPT_DATA_TRAP_POISON  (12 << 20)
+#define SCRIPT_DATA_TRAP_MAGIC_DAMAGE  (13 << 20)
 #define MASK_SCRIPT_DATA_FUNCTIONAL 63 << 26
 #define SCRIPT_DATA_MEDUSA  2 << 26
 
 #define MARKER_FIRST_EXPERIENCE_LVL_FIELD 100
 #define MARKER_FIRST_PRISONERS 920
+
+#define STEP_TO_WIN_GOAL 2
+#define KILL_TO_WIN_GOAL 3 
+#define LOSE_WHEN_KILL_GOAL 4
 
 #include "MarkerFunctions\Functions\Common.ech"
 
@@ -74,6 +80,7 @@
 #include "MarkerFunctions\Functions\Teleports.ech"
 #include "MarkerFunctions\Functions\Traps.ech"
 #include "MarkerFunctions\Functions\UnitBoosts.ech"
+#include "MarkerFunctions\Functions\UnitGoals.ech"
 #include "MarkerFunctions\Functions\Prisoners.ech"
 #include "MarkerFunctions\Functions\Sleepers.ech"
 

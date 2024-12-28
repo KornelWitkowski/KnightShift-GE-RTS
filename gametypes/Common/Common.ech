@@ -413,194 +413,205 @@ function void UseMagic(player rPlayer)
     /* Efektywne czary: deszcz ognia, burza, zamiana w krowe i przejęcie dla botów. Funkcja jest umieszczona w skrypcie
        misji, ponieważ boty nie mają dostępu do wszystkich graczy tylko do jednego przez 'GetMainEnemy'. 
        Aby boty rzucały czarny to należy wywoływać funkcje w zegarze  */
+{
+    int i, j;
+    int iX, iY;
+    int iMinDistance, iDistance;
+    int iRandNum;
+
+    int iNumberOfUnits, iNumberOfEnemyUnits;
+    int bBombardBase;
+    unitex uUnit, uUnitEnemy, uEnemyClosestTower, uEnemyClosest;
+    player rPlayer2, rPlayerEnemy;
+    
+    rPlayerEnemy = null;
+    
+    if(RAND(2)==0)
     {
-        int i, j;
-        int iX, iY;
-        int iMinDistance, iDistance;
-        int iRandNum;
-
-        int iNumberOfUnits, iNumberOfEnemyUnits;
-        int bBombardBase;
-        unitex uUnit, uUnitEnemy, uEnemyClosestTower, uEnemyClosest;
-        player rPlayer2, rPlayerEnemy;
-        
-        rPlayerEnemy = null;
-        
-        if(RAND(2)==0)
+        rPlayerEnemy = rPlayer.GetMainEnemy();
+    }
+    else
+    {
+        iRandNum = RAND(8);
+        for(j=0; j<8; j=j+1)
         {
-            rPlayerEnemy = rPlayer.GetMainEnemy();
-        }
-        else
-        {
-            iRandNum = RAND(8);
-            for(j=0; j<8; j=j+1)
-            {
-                rPlayer2 = GetPlayer((j+iRandNum) % 8);
+            rPlayer2 = GetPlayer((j+iRandNum) % 8);
 
-                if(rPlayer2 == null)
-                    continue;
-
-                if(rPlayer.GetIFFNumber()==rPlayer2.GetIFFNumber())
-                    continue;
-
-                if(rPlayer.IsEnemy(rPlayer2)!=0 && rPlayer2.IsAlive() && rPlayer2.GetScriptData(1)!=1)
-                {
-                    rPlayerEnemy = rPlayer2;
-                    break;
-                }
-            }
-        }
-        
-        if(rPlayerEnemy==null) 
-            return;
-
-        iNumberOfUnits = rPlayer.GetNumberOfUnits();
-        iNumberOfEnemyUnits = rPlayerEnemy.GetNumberOfUnits();
-
-        for(i=0; i<iNumberOfUnits; i=i+1)
-        {
-            uUnit = rPlayer.GetUnit(i);
-
-            if(uUnit.IsInSleepMode())
+            if(rPlayer2 == null)
                 continue;
 
-            // Jeśli jednostka nie jest magiem lub czarodziejką to omijamy iteracje
-            if(uUnit.GetMaxMagic() < 200 || uUnit.IsFlyable())
+            if(rPlayer.GetIFFNumber()==rPlayer2.GetIFFNumber())
                 continue;
 
-            // Deszcz ognia
-            if(RAND(2)==0)
+            if(rPlayer.IsEnemy(rPlayer2)!=0 && rPlayer2.IsAlive() && rPlayer2.GetScriptData(1)!=1)
             {
-                // Koszt za 4 lvl burzy to 140 many. Reszta opcji jest droższa. Jeśli postać nie ma many to idziemy do kolejnej.
-                if(uUnit.GetMagic() >= 140)
-                {
-                    // Na początku szukamy fortyfikacji do zniszczenia. Szukamy najbliższej wieży
-                    iMinDistance = 1000;
-                    uEnemyClosestTower == null;
-
-                    for(j=0; j<iNumberOfEnemyUnits; ++j)
-                    {
-                        uUnitEnemy = rPlayerEnemy.GetUnit(j);
-                        if(uUnitEnemy.IsInTower())
-                        {
-                            // Dodajemy szum, aby zwiększyć liczbę możliwych targetowanych wież.
-                            iDistance = uUnit.DistanceTo(uUnitEnemy.GetLocationX() - 2 + RAND(5),
-                                                        uUnitEnemy.GetLocationY() - 2 + RAND(5));
-
-                            if(iDistance < iMinDistance)
-                            {
-                                iMinDistance = iDistance;
-                                uEnemyClosestTower = uUnitEnemy;
-                            }
-                        }
-                    }
-
-                    if((uEnemyClosestTower!=null) && (iMinDistance < 30))
-                    {
-                        uUnit.CommandStop();
-                        if(uUnit.GetWeaponType() == 6)
-                        {
-                            uUnit.CommandMakeMagicStorm(uEnemyClosestTower.GetLocationX(), uEnemyClosestTower.GetLocationY(), 0);
-                        }
-                        else
-                        {
-                            uUnit.CommandMakeMagicFireRain(uEnemyClosestTower.GetLocationX(), uEnemyClosestTower.GetLocationY(), 0);
-                        }
-                        
-                        continue;
-                    }
-
-                    // Jeśli nie znaleźliśmy żadnych fortyfikacji do szukamy celów w pobliżu bazy wroga
-                    bBombardBase = false;
-
-                    // Tutaj sprawdzamy, czy jest możliwy atak na budynki w bazie wroga. Sprawdzamy teren w okolicy punktu startowego
-                    for(j=0; j<12; ++j)
-                    {
-                        iX = rPlayerEnemy.GetStartingPointX() + GaussianDistribution(15);
-                        iY = rPlayerEnemy.GetStartingPointY() + GaussianDistribution(15);
-
-                        // Jeśli deszcz będzie za blisko magów, to nie rzucamy
-                        if(uUnit.DistanceTo(iX, iY) < 6)
-                            continue;
-
-                        if(uUnit.DistanceTo(iX, iY) > 24)
-                            continue;
-
-                        // Jeśli wróg ma budynki, lub unity, w wylosowanym punkcie to rzucamy.
-                        if((rPlayerEnemy.GetNumberOfBuildings(iX, iY, 0, 8) >= 3) || (rPlayerEnemy.GetNumberOfUnits(iX, iY, 0, 8) >= 5))
-                        {
-                            bBombardBase = true;
-                            break;   
-                        }      
-                    }
-
-                    if(bBombardBase)
-                    {
-                        uUnit.CommandStop();
-                        if(uUnit.GetWeaponType()==6)
-                        {
-                            uUnit.CommandMakeMagicStorm(iX, iY, 0);
-                        }
-                        else
-                        {
-                            uUnit.CommandMakeMagicFireRain(iX, iY, 0);
-                        }
-
-                        continue;
-                    }
-                }
-            }
-
-            if(uUnit.GetMagic() < 70)
-                continue;
-
-            iMinDistance = 1000;
-            uEnemyClosest == null;
-
-            for(j=0; j<iNumberOfEnemyUnits; ++j)
-            {
-                uUnitEnemy = rPlayerEnemy.GetUnit(j);
-
-                // CommadMakeMagic nie działa na unity na wieżach
-                if(uUnitEnemy.IsInTower())
-                    continue;
-
-                // Nie chcemy zamieniać krowy w krowę
-                if(uUnitEnemy.IsHarvester())
-                    continue;
-
-                // Jak jednostka jest w trybie skradania, to udajemy, że jej nie widzimy ;>
-                if(uUnitEnemy.IsInCamouflageMode())
-                    continue;
-
-                // Dodajemy szum, aby nie targetować zawsze tego samego unitu, ale umożliwić targetowanie innych znajdujących się blisko
-                iDistance = uUnit.DistanceTo(uUnitEnemy.GetLocationX() - 3 + RAND(7),
-                                                uUnitEnemy.GetLocationY() - 3 + RAND(7));
-
-                if(iDistance < iMinDistance)
-                {
-                    iMinDistance = iDistance;
-                    uEnemyClosest = uUnitEnemy;
-                }
-
-                if(iMinDistance < 8)
-                {
-                    break;
-                }
-            }
-
-            if(iMinDistance <= 18)
-            {
-                uUnit.CommandStop();
-                if(uUnit.GetWeaponType()==6)
-                {
-                    uUnit.CommandMakeMagicCapturing(uEnemyClosest);
-                }
-                else
-                {
-                    uUnit.CommandMakeMagicConversion(uEnemyClosest);
-                }
-
+                rPlayerEnemy = rPlayer2;
+                break;
             }
         }
     }
+    
+    if(rPlayerEnemy==null) 
+        return;
+
+    iNumberOfUnits = rPlayer.GetNumberOfUnits();
+    iNumberOfEnemyUnits = rPlayerEnemy.GetNumberOfUnits();
+
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        uUnit = rPlayer.GetUnit(i);
+
+        if(uUnit.IsInSleepMode())
+            continue;
+
+        // Jeśli jednostka nie jest magiem lub czarodziejką to omijamy iteracje
+        if(uUnit.GetMaxMagic() < 200 || uUnit.IsFlyable())
+            continue;
+
+        // Deszcz ognia
+        if(RAND(2)==0)
+        {
+            // Koszt za 4 lvl burzy to 140 many. Reszta opcji jest droższa. Jeśli postać nie ma many to idziemy do kolejnej.
+            if(uUnit.GetMagic() >= 140)
+            {
+                // Na początku szukamy fortyfikacji do zniszczenia. Szukamy najbliższej wieży
+                iMinDistance = 1000;
+                uEnemyClosestTower == null;
+
+                for(j=0; j<iNumberOfEnemyUnits; ++j)
+                {
+                    uUnitEnemy = rPlayerEnemy.GetUnit(j);
+                    if(uUnitEnemy.IsInTower())
+                    {
+                        // Dodajemy szum, aby zwiększyć liczbę możliwych targetowanych wież.
+                        iDistance = uUnit.DistanceTo(uUnitEnemy.GetLocationX() - 2 + RAND(5),
+                                                    uUnitEnemy.GetLocationY() - 2 + RAND(5));
+
+                        if(iDistance < iMinDistance)
+                        {
+                            iMinDistance = iDistance;
+                            uEnemyClosestTower = uUnitEnemy;
+                        }
+                    }
+                }
+
+                if((uEnemyClosestTower!=null) && (iMinDistance < 30))
+                {
+                    uUnit.CommandStop();
+                    if(uUnit.GetWeaponType() == 6)
+                    {
+                        uUnit.CommandMakeMagicStorm(uEnemyClosestTower.GetLocationX(), uEnemyClosestTower.GetLocationY(), 0);
+                    }
+                    else
+                    {
+                        uUnit.CommandMakeMagicFireRain(uEnemyClosestTower.GetLocationX(), uEnemyClosestTower.GetLocationY(), 0);
+                    }
+                    
+                    continue;
+                }
+
+                // Jeśli nie znaleźliśmy żadnych fortyfikacji do szukamy celów w pobliżu bazy wroga
+                bBombardBase = false;
+
+                // Tutaj sprawdzamy, czy jest możliwy atak na budynki w bazie wroga. Sprawdzamy teren w okolicy punktu startowego
+                for(j=0; j<12; ++j)
+                {
+                    iX = rPlayerEnemy.GetStartingPointX() + GaussianDistribution(15);
+                    iY = rPlayerEnemy.GetStartingPointY() + GaussianDistribution(15);
+
+                    // Jeśli deszcz będzie za blisko magów, to nie rzucamy
+                    if(uUnit.DistanceTo(iX, iY) < 6)
+                        continue;
+
+                    if(uUnit.DistanceTo(iX, iY) > 24)
+                        continue;
+
+                    // Jeśli wróg ma budynki, lub unity, w wylosowanym punkcie to rzucamy.
+                    if((rPlayerEnemy.GetNumberOfBuildings(iX, iY, 0, 8) >= 3) || (rPlayerEnemy.GetNumberOfUnits(iX, iY, 0, 8) >= 5))
+                    {
+                        bBombardBase = true;
+                        break;   
+                    }      
+                }
+
+                if(bBombardBase)
+                {
+                    uUnit.CommandStop();
+                    if(uUnit.GetWeaponType()==6)
+                    {
+                        uUnit.CommandMakeMagicStorm(iX, iY, 0);
+                    }
+                    else
+                    {
+                        uUnit.CommandMakeMagicFireRain(iX, iY, 0);
+                    }
+
+                    continue;
+                }
+            }
+        }
+
+        if(uUnit.GetMagic() < 70)
+            continue;
+
+        iMinDistance = 1000;
+        uEnemyClosest == null;
+
+        for(j=0; j<iNumberOfEnemyUnits; ++j)
+        {
+            uUnitEnemy = rPlayerEnemy.GetUnit(j);
+
+            // CommadMakeMagic nie działa na unity na wieżach
+            if(uUnitEnemy.IsInTower())
+                continue;
+
+            // Nie chcemy zamieniać krowy w krowę
+            if(uUnitEnemy.IsHarvester())
+                continue;
+
+            // Jak jednostka jest w trybie skradania, to udajemy, że jej nie widzimy ;>
+            if(uUnitEnemy.IsInCamouflageMode())
+                continue;
+
+            // Dodajemy szum, aby nie targetować zawsze tego samego unitu, ale umożliwić targetowanie innych znajdujących się blisko
+            iDistance = uUnit.DistanceTo(uUnitEnemy.GetLocationX() - 3 + RAND(7),
+                                            uUnitEnemy.GetLocationY() - 3 + RAND(7));
+
+            if(iDistance < iMinDistance)
+            {
+                iMinDistance = iDistance;
+                uEnemyClosest = uUnitEnemy;
+            }
+
+            if(iMinDistance < 8)
+            {
+                break;
+            }
+        }
+
+        if(iMinDistance <= 18)
+        {
+            uUnit.CommandStop();
+            if(uUnit.GetWeaponType()==6)
+            {
+                uUnit.CommandMakeMagicCapturing(uEnemyClosest);
+            }
+            else
+            {
+                uUnit.CommandMakeMagicConversion(uEnemyClosest);
+            }
+
+        }
+    }
+}
+
+
+function int IsShooter(unitex uUnit)
+{
+    /* 
+        uUnit.GetWeaponType = 3 odpowiada strzelcom: łucznik, włócznik, mag, wiedźma, kapłan. 
+        Czarodziejka (i inne jednostki z piorunami) to uUnit.GetWeaponType = 6.
+    */
+
+    return (uUnit.GetWeaponType() == 3 || uUnit.GetWeaponType() == 6);
+}

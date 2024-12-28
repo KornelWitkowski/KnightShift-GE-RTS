@@ -4,12 +4,12 @@ mission "translateFastgame"
     #include "Common\Common.ech"
 
     #include "Common\Missions.ech"
-    #include "Common\MarkerFunctions.ech"
-    #include "Common\Events.ech"
     #include "Common\Artefacts.ech"
     #include "Common\Alliance.ech"
+    #include "Common\MarkerFunctions.ech"
     #include "Common\StartingUnits.ech"
-    
+    #include "Common\Events.ech"
+  
     state Initialize
     {
        player rPlayer;
@@ -18,9 +18,6 @@ mission "translateFastgame"
     
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
-        
-        InitializeMarkerFunctions();
-        InititializeMissionScripts();
 
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
@@ -51,7 +48,7 @@ mission "translateFastgame"
             rPlayer.SetScriptData(0, 0);
 
             RegisterGoal(0, "translateFastGameGoal");
-            EnableGoal(0, true);
+            EnableGoal(0, true, true);
 
             rPlayer.SetScriptData(0, 0);
 
@@ -103,6 +100,9 @@ mission "translateFastgame"
         AiChooseEnemy();
         // SOJUSZE
 
+        InitializeMarkerFunctions();
+        InititializeMissionScripts();
+
         SetTimer(0, 5*SECOND);  // Sprawdzenie stanu graczy, obór itd.
         SetTimer(1, 20*SECOND); // Artefakty
         SetTimer(2, 4*MINUTE);  // Wybór przeciwników przez AI. Przeciwnicy są też wybierani po pokonaniu gracza.
@@ -126,6 +126,13 @@ mission "translateFastgame"
 
     }
     
+    // Ta flaga wybiera mapy, na których dany tryb może być grany. 0x01 = 1 oznacza ustawienie `Wojny Wiosek` w edytorze.
+    // 2, to bitwa, a 4 to RPG. Inne ustawienia wymagają ustawienia flagi bezpośrednio w pliku mapy.
+    event SpecialLevelFlags()
+    {
+        return 0x01;
+    }
+
     event SetupInterface()
     {
         SetInterfaceOptions(

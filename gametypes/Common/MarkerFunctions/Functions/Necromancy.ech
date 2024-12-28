@@ -48,7 +48,7 @@ function int ResurrectUnit(int iX, int iY, int iZ, int iAlpha, unitex uUnitKille
     }
     else if(uUnitKilled.IsBuilder())
     {
-        uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON1");
+        uUnit = rPlayer.CreateUnit(iX, iY, iZ, iAlpha, "SKELETON_WOODCUTTER");
     }
     else if (uUnitKilled.IsRepairer())
     {

@@ -1,0 +1,69 @@
+function void SetLoseWhenKilledUnit(int iMarker)
+{
+    unitex uUnit;
+    player rPlayer;
+
+    if(!PointExist(iMarker))
+        return;
+
+    uUnit = GetUnitAtMarker(iMarker);
+
+    if(uUnit == null)
+        return;    
+
+    SetUnitOnMarkerScriptData(iMarker, SCRIPT_DATA_LOSE_WHEN_KILLED);
+
+    rPlayer = GetPlayer(uUnit.GetIFFNumber());
+
+    rPlayer.RegisterGoal(LOSE_WHEN_KILL_GOAL, "translateLoseWhenKilled");
+    rPlayer.EnableGoal(LOSE_WHEN_KILL_GOAL, true, true);
+    rPlayer.AddWorldMapSign(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 2, 600);
+}  
+
+function void SetWinWhenKilledUnit(int iMarker)
+{
+    int j;
+    unitex uUnit;
+    player rUnitPlayer, rPlayer;
+
+    if(!PointExist(iMarker))
+        return;
+
+    uUnit = GetUnitAtMarker(iMarker);
+    if(uUnit == null)
+        return;
+
+    rUnitPlayer = GetPlayer(uUnit.GetIFFNumber());
+
+    SetUnitOnMarkerScriptData(iMarker, SCRIPT_DATA_WIN_WHEN_KILLED);
+    if(uUnit.GetIFFNumber() > 7)
+    {
+        AddWorldMapSign(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 1, -1);
+        RegisterGoal(KILL_TO_WIN_GOAL, "translateKillToWin");
+        EnableGoal(KILL_TO_WIN_GOAL, true, true);
+    }
+    else
+    {
+        for(j=0; j<8; j=j+1)
+        {
+            rPlayer = GetPlayer(j);
+
+            if(rPlayer==null || !rPlayer.IsAlive()) 
+                continue;
+
+            if(rUnitPlayer.GetIFFNumber()==j || rPlayer.IsAlly(rUnitPlayer))
+            {
+                rPlayer.RegisterGoal(LOSE_WHEN_KILL_GOAL, "translateLoseWhenKilled");
+                rPlayer.EnableGoal(LOSE_WHEN_KILL_GOAL, true, true);
+                rPlayer.AddWorldMapSign(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 2, 600);
+            }
+            else
+            {
+                rPlayer.AddWorldMapSign(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 1, 1200);
+                rPlayer.RegisterGoal(KILL_TO_WIN_GOAL, "translateKillToWin");
+                rPlayer.EnableGoal(KILL_TO_WIN_GOAL, true, true);
+            }
+        }
+
+    }
+}

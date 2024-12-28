@@ -3,10 +3,10 @@ mission "translateGameTypeBattle"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
+    #include "Common\Alliance.ech"
+    #include "Common\Missions.ech"
     #include "Common\MarkerFunctions.ech"
     #include "Common\Artefacts.ech"
-    #include "Common\Alliance.ech"
-
 
     int m_nAIPlayers;
 
@@ -30,10 +30,6 @@ mission "translateGameTypeBattle"
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
 
-        // TELEPORTY
-        InitializeMarkerFunctions();
-        // TELEPORTY
-
         m_nAIPlayers = 0;
 
         for(i=0; i<8; i=i+1)
@@ -51,7 +47,7 @@ mission "translateGameTypeBattle"
 
             // Cele misji
             RegisterGoal(0, "translateDestroyEnemyStrucuresGoal");
-            EnableGoal(0, true);
+            EnableGoal(0, true, true);
 
             // Skrócenie czasu produkcji jednostek
             rPlayer.SetUnitsBuildTimePercent(20);
@@ -156,17 +152,23 @@ mission "translateGameTypeBattle"
         AiChooseEnemy();
         // SOJUSZE
 
+        // TELEPORTY
+        InititializeMissionScripts();
+        InitializeMarkerFunctions();
+        // TELEPORTY
+
         SetTimer(0, 5*SECOND);  // Sprawdzenie stanu graczy, obór itd.
         SetTimer(1, 20*SECOND); // Artefakty
         SetTimer(2, 4*MINUTE);  // Wybór przeciwników przez AI. Przeciwnicy są też wybierani po pokonaniu gracza.
+
+        // Efektywne czary dla najtrudniejszych botów
+        SetTimer(3, SECOND);
 
         SetTimer(4, MINUTE);
         SetTimer(5, 2*MINUTE);
 
         SetTimer(7, GetWindTimerTicks());
         StartWind();
-
-        KillArea(1<<14, GetRight()/2, GetBottom()/2, 0, 128);
 
         InitializeStatistics();
 
@@ -233,6 +235,31 @@ mission "translateGameTypeBattle"
     {
         AiChooseEnemy();
     }
+
+    event Timer3()
+    {
+        /* Ulepszone czary dla najtrudniejszych botów */
+
+        int i;
+        player rPlayer;
+
+        for(i=0; i<8; ++i)
+        {
+            rPlayer = GetPlayer(i);
+
+            if(rPlayer == null)
+                continue;
+
+            // ScriptData(10)==1 jest ustawione dla botów z moda
+            if((rPlayer.GetScriptData(10)==1) && rPlayer.IsAI())
+            {
+                UseMagic(rPlayer);
+            }
+        }
+
+        MakeMarkerPeriodicEvents();
+        MakeMissionPeriodicEvents();
+    }
     
     event Timer4()
     {
@@ -246,10 +273,14 @@ mission "translateGameTypeBattle"
 
     event UnitDestroyed(unitex uUnit)
     {
-        // event dodaje mleko za każdą pokonaną jednostkę
+        
         player pPlayer;
         unit uAttacker;
 
+        CheckMarkeredUnitDestroyedEvents(uUnit);    
+        MakeMissionUnitDestroyedEvents(uUnit);
+
+        // dodawanie mleka za każdą pokonaną jednostkę
         uAttacker = uUnit.GetAttacker();
 
         if ( uAttacker == null ) return;
@@ -261,7 +292,21 @@ mission "translateGameTypeBattle"
         pPlayer = GetPlayer(uAttacker.GetIFFNumber());
 
         pPlayer.AddMoney(150);
+
+
     }
+
+    // Włączenie graczy 9-15 na mapie
+    event UseExtraSkirmishPlayers()
+    {
+        return true;
+    }
+
+    event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefact)
+    {
+        return MarkerFunctionsEventArtefact(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
+    }
+
 
     command Initialize()
     {

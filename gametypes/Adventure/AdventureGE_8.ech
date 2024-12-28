@@ -104,7 +104,7 @@ state KillingBanditsAdventureGE8
             }
 
             rPlayer.RegisterGoal(1, GetStringBuff(3));
-            rPlayer.EnableGoal(1, true);
+            rPlayer.EnableGoal(1, true, true);
         }
     }
     return KillingBanditsAdventureGE8, 20;

@@ -4,11 +4,11 @@ mission "translateGameTypeEightSheds"
     #include "Common\Common.ech"
 
     #include "Common\Missions.ech"
-    #include "Common\MarkerFunctions.ech"
-    #include "Common\Events.ech"
     #include "Common\Artefacts.ech"
     #include "Common\Alliance.ech"
+    #include "Common\MarkerFunctions.ech"
     #include "Common\StartingUnits.ech"
+    #include "Common\Events.ech"
     
     state Initialize
     {
@@ -19,10 +19,6 @@ mission "translateGameTypeEightSheds"
         // SZYBSZA TRAWKA
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
-        
-        // TELEPORTY 
-        InitializeMarkerFunctions();
-        InititializeMissionScripts();
 
         // SOJUSZE
         CreateTeamsFromComboButton(comboAlliedVictory);
@@ -61,7 +57,7 @@ mission "translateGameTypeEightSheds"
             rPlayer.SetMaxCountLimitForObject("COURT", 1);
 
             RegisterGoal(0, "translateEightShedsGoal");
-            EnableGoal(0, true);
+            EnableGoal(0, true, true);
 
             rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
 
@@ -73,6 +69,8 @@ mission "translateGameTypeEightSheds"
         CreateTeamsFromComboButton(comboAlliedVictory);
         AiChooseEnemy();
         // SOJUSZE
+        InititializeMissionScripts();
+        InitializeMarkerFunctions();
 
         SetTimer(0, 5*SECOND);  // Sprawdzenie stanu graczy, obór itd.
         SetTimer(1, 20*SECOND); // Artefakty
@@ -96,6 +94,13 @@ mission "translateGameTypeEightSheds"
         if(comboStartingUnits) return true;
         return false;
 
+    }
+
+    // Ta flaga wybiera mapy, na których dany tryb może być grany. 0x01 = 1 oznacza ustawienie `Wojny Wiosek` w edytorze.
+    // 2, to bitwa, a 4 to RPG. Inne ustawienia wymagają ustawienia flagi bezpośrednio w pliku mapy.
+    event SpecialLevelFlags()
+    {
+        return 0x01;
     }
     
     event SetupInterface()

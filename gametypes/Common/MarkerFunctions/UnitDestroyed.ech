@@ -1,8 +1,8 @@
 function int CheckWinLoseUnits(unitex uUnitKilled)
 {
-    int j;
+    int i, j;
     int iScriptData;
-    player rPlayer, rPlayerAttacker;
+    player rPlayer, rPlayerAttacker, rKilledUnitPlayer;
     unit uAttacker;
     iScriptData = uUnitKilled.GetScriptData();
 
@@ -10,6 +10,7 @@ function int CheckWinLoseUnits(unitex uUnitKilled)
     {
         rPlayer = GetPlayer(uUnitKilled.GetIFFNumber());
         rPlayer.SetScriptData(1, 1);
+        rPlayer.SetGoalState(LOSE_WHEN_KILL_GOAL, goalFailed, true);
 
         KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
         KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
@@ -19,6 +20,47 @@ function int CheckWinLoseUnits(unitex uUnitKilled)
     }
     else if(iScriptData & SCRIPT_DATA_WIN_WHEN_KILLED != 0)
     {
+        rKilledUnitPlayer = GetPlayer(uUnitKilled.GetIFFNumber());
+
+        if(rKilledUnitPlayer.GetIFFNumber() > 7)
+        {
+            /* 
+                Na początku gry tworzony jest znacznik na mapie w miejscu postaci do pokonania -
+                nie można odzyskać numeru markera z pokonanej postaci dlatego po prostu usuwamy znaczniki w okolicy.
+                Rozwiązanie z gatunku "good enough".
+            */
+            for(i=-10; i<10; i=i+1)
+            {
+                for(j=-10; j<10; j=j+1)
+                {
+                    RemoveWorldMapSign(
+                        uUnitKilled.GetLocationX()+i,
+                        uUnitKilled.GetLocationY()+j,
+                        uUnitKilled.GetLocationZ()
+                    );
+                }
+            }
+        }
+        else
+        {
+            for(j=0; j<8; j=j+1)
+            {
+                rPlayer = GetPlayer(j);
+                if(rPlayer==null || !rPlayer.IsAlive())
+                    continue;
+
+                if(rPlayer.IsAlly(rKilledUnitPlayer))
+                {
+                    rPlayer.SetScriptData(1, 1);
+                    rPlayer.SetGoalState(LOSE_WHEN_KILL_GOAL, goalFailed, true);
+                }
+                else
+                {
+                    rPlayer.SetGoalState(KILL_TO_WIN_GOAL, goalAchieved, true);
+                }
+            }
+        }
+        
         SetStateDelay(150);
         state Victory;
     }
@@ -100,6 +142,13 @@ function int CheckUnitDestoyedTraps(unitex uUnitKilled)
         uTemp = rPlayer.CreateUnit(iX, iY, iZ, 0, "DWARF_WOODCUTTER_1");
         uTemp.AddHP(-uTemp.GetMaxHP()+1);
         CreateObjectAtUnit(uTemp, "POISONTRAP4");
+    }
+    else if(iTrapScriptData == SCRIPT_DATA_TRAP_MAGIC_DAMAGE)
+    {
+        // sztuczka magika - w miejsce pokonanego unita dajemy krasnoludka, żeby zdetonował bombę
+        uTemp = rPlayer.CreateUnit(iX, iY, iZ, 0, "DWARF_WOODCUTTER_1");
+        uTemp.AddHP(-uTemp.GetMaxHP()+1);
+        CreateObjectAtUnit(uTemp, "BOMBTRAP4");
     } 
     else
         return false;
@@ -136,6 +185,7 @@ function void CheckUnitDestroyedFunctional(unitex uUnitKilled)
 function void CheckMarkeredUnitDestroyedEvents(unitex uUnitKilled)
 {
     int bEventOccured;
+
     bEventOccured = CheckWinLoseUnits(uUnitKilled);
 
     if(bEventOccured)

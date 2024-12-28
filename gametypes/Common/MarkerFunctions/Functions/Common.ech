@@ -1,6 +1,9 @@
 function void SetUnitOnMarkerScriptData(int iMarker, int iScriptData)
 {
     unitex uUnit;
+
+    if(!PointExist(iMarker)) return;
+
     uUnit = GetUnitAtMarker(iMarker);
     if(uUnit == null)
         return;

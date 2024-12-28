@@ -15,13 +15,6 @@ event UseExtraSkirmishPlayers()
     return true;
 }
 
-// Ta flaga wybiera mapy, na których dany tryb może być grany. 0x01 = 1 oznacza ustawienie `Wojny Wiosek` w edytorze.
-// 2, to bitwa, a 4 to RPG. Inne ustawienia wymagają ustawienia flagi bezpośrednio w pliku mapy.
-event SpecialLevelFlags()
-{
-    return 0x01;
-}
-
 // Włączenie botów. Jeśli ustawimy return false, to botów w grze nie będzie.
 event AIPlayerFlags()
 {
@@ -100,6 +93,7 @@ event UnitDestroyed(unitex uUnitKilled)
     }
 
     CheckMarkeredUnitDestroyedEvents(uUnitKilled);    
+    MakeMissionUnitDestroyedEvents(uUnitKilled);
 }
 
 function void RemoveBows(int iX, int iY, int iZ, int bTier5)

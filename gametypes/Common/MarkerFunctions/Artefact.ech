@@ -229,20 +229,29 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
     }
     else if ((iArtefactNum & ~MASK0) == MASK_STEP_ON_TO_WIN)
     {
+
+        RemoveWorldMapSign(
+                        uUnitOnArtefact.GetLocationX(),
+                        uUnitOnArtefact.GetLocationY(),
+                        uUnitOnArtefact.GetLocationZ()
+        );
+
         for(j=0; j<8; j=j+1)
         {
-            if(rPlayerOnArtefact.GetIFFNumber()==j) 
-                continue;
-
             rPlayer = GetPlayer(j);
 
             if(rPlayer==null || !rPlayer.IsAlive()) 
                 continue;
 
-            if(!rPlayer.IsAlly(rPlayerOnArtefact)) 
-                continue;   
-
-            rPlayer.SetScriptData(1, 1);
+            if(rPlayerOnArtefact.GetIFFNumber()==j || rPlayer.IsAlly(rPlayerOnArtefact))
+            {
+                rPlayer.SetGoalState(STEP_TO_WIN_GOAL, goalAchieved, true);
+            }
+            else
+            {
+                rPlayer.SetScriptData(1, 1);
+                rPlayer.SetGoalState(STEP_TO_WIN_GOAL, goalFailed, true);
+            }
         }
         SetStateDelay(150);
         state Victory;

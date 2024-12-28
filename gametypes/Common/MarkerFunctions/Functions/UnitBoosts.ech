@@ -1,6 +1,8 @@
 function void SetUnitImmortal(int iMarker)
 {
     unitex uUnit;
+    if(!PointExist(iMarker)) return;
+    
     uUnit = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
     if(uUnit == null)
         return;
@@ -15,6 +17,9 @@ function void SetUnitNecromancer(int iMarker)
 {
     int iScriptData;
     unitex uUnit;
+    
+    if(!PointExist(iMarker)) return;
+
     uUnit = GetUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker));
     if(uUnit == null)
         return;
