@@ -1,0 +1,1030 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1250">
+<title> mission object </title>
+</head>
+
+<body>
+
+<hr>
+
+<p><big><strong>mission</strong> object</big></p>
+
+<p><big>Functions</big></p>
+<pre>
+<functions_begin>
+int GetWorldNum() private
+int GetMissionNum() private
+void EnableNextMission(int nNr, int bEnable) private
+void SetTimer(int iNr, int nInterval) private
+void EndMission(int) private
+int GetMissionTime() private
+player GetPlayer(int nNumber) private
+void EnableGoal(int nNr, int bEnable) private
+void EnableGoal(int nNr, int bEnable, int bNotify) private
+void SetGoalState(int iNr, int nState) private
+void SetGoalState(int iNr, int nState, int bNotify) private
+int GetGoalState(int nNr) private
+int GetNumberOfEnabledGoals() private
+void Rain(int x, int y, int iRange, int iUpTime, int iConstTime, int iDownTime, int nIntensity) private
+void Snow(int x, int y, int iRange, int iUpTime, int iConstTime, int iDownTime, int nIntensity) private
+void Storm(int x, int y, int iRange, int iUpTime, int iConstTime, int iDownTime, int iRainIntensity, int iStormIntensity, int nStormPower) private
+void MeteorRain(int x, int y, int iRange, int iUpTime, int iConstTime, int iDownTime, int iIntensity, int nPower) private
+void Wind(int iUpTime, int iConstTime, int iDownTime, int iIntensity, int nWindAlpha) private
+void RemoveCloud(int x, int y) private
+void Lighting(int x, int y, int nPower) private
+void Meteor(int, int, int) private
+void KillArea(int nff, int x, int y, int z, int range) private
+void ClearArea(int nff, int x, int y, int z, int range) private
+void DamageArea(int nff, int x, int y, int z, int range, int damage1) private
+void DamageArea(int nff, int x, int y, int z, int range, int damage1, int damage2, int damage3) private
+void ShowArea(int nff, int x, int y, int z, int range) private
+void ShowArea(int nff, int x, int y, int z, int range, int nShowFlags) private
+void HideArea(int nff, int x, int y, int z, int range) private
+unitex GetUnit(int iX, int nY) private
+unitex GetUnit(int iX, int iY, int nTunnels) private
+int IsUnitNearPoint(int nGx, int nGy, int nLz, int nRange, int nIFFMask) private
+int GetLeft() private
+int GetRight() private
+int GetTop() private
+int GetBottom() private
+int IsGoalEnabled(int nNr) private
+void CallCamera() private
+int PointExist(int nNr) private
+int PointExist(string strMarkerID, int nNr) private
+int GetPointX(int nNr) private
+int GetPointX(string strMarkerID, int nNr) private
+int GetPointY(int nNr) private
+int GetPointY(string strMarkerID, int nNr) private
+int GetPointZ(int nNr) private
+int GetPointZ(string strMarkerID, int nNr) private
+int GetPointAlpha(int nNr) private
+int GetPointAlpha(string strMarkerID, int nNr) private
+unitex CreateArtefact(string strName, int iX, int iY, int iTunnel, int nNumber) private
+unitex CreateArtefactEx(string strName, int iX, int iY, int iTunnel, int nNumber) private
+unitex CreateArtefact(string strName, int iX, int iY, int iTunnel, int iNumber, int nPlayerNum) private
+unitex CreateArtefactEx(string strName, int iX, int iY, int iTunnel, int iNumber, int nPlayerNum) private
+int RemoveArtefact(int iX, int iY, int nTunnel) private
+int RemoveArtefact(int iX, int iY, int nTunnel, string strName) private
+unitex CreateObject(int, int, int, int, string) private
+void CacheObject(player pPlayer, string strObjectName) private
+void RegisterGoal(int nNr, string strText) private
+void AddBriefing(string szBriefing szWave, string strBriefing) private
+void SetConsoleText(string) private
+void SetLowConsoleText(string strText) private
+void EnableUnitSounds(int bEnable) private
+void EnableBuildingSounds(int bEnable) private
+int GetTerrainType() private
+void SetStatisticShowDelay(int nDelay) private
+void SetStatisticBitmap(string strBitmap) private
+void StatisticReset() private
+int StatisticAddTab(string strTabName, int nTabType, int bUseMaximumColumnWidth) private
+int StatisticAddColumn(int nTabNum, string strColumnName, int nSubColumnsCnt) private
+int StatisticAddColumn(int nTabNum, int nPlayerIFFNum, int nStatisticDataNum, int nDataTypeMask) private
+int StatisticAddColumn(int nTabNum, int nPlayerIFFNum, int nStatisticDataNum, int nDataTypeMask, int nColumnNumWithProgressMax) private
+int StatisticAddColumn(int nTabNum, string strColumnName, int nStatisticDataNum, int nDataTypeMask) private
+int StatisticAddColumn(int nTabNum, string strColumnName, int nStatisticDataNum, int nDataTypeMask, int nColumnNumWithProgressMax) private
+void StatisticSetUserData(int nTabNum, int nColumnNum, int nIFFNum, int nValue) private
+void StatisticSetSortOrder(int nTabNum, int nColumnNum, int bOrder) private
+void AddWorldMapSign(int nGx, int nGy, int nLz, int nSignNum, int nTicks) private
+void RemoveWorldMapSign(int nGx, int nGy, int nLz) private
+void SetGameRect(int nLeft, int nTop, int nRight, int nBottom) private
+void SetLimitedStepRect(int nLeft, int nTop, int nRight, int nBottom, int nffAllowStep) private
+int GetMaxResourcesPerGrid() private
+void SetMaxResourcesPerGrid(int nMaxRes) private
+int GetResourceGrowSpeed() private
+void SetResourceGrowSpeed(int nTicks) private
+int GetMoneyPerResource100x() private
+void SetMoneyPerResource100x(int nMoney100x) private
+void SetInterfaceOptions(int nValue) private
+void StartTalkDefinition() private
+void AddTalk(unitex uTalkUnit, int nAnimNum, int bAnimLooped, int bResetAnim, string pszWave, int nSec, string strText) private
+void AddTalk(unitex uTalkUnit, int nAnimNum, int bAnimLooped, int bResetAnim, string pszWave, int nSec, string strText, int nParam1) private
+void AddTalk(unitex uTalkUnit, int nAnimNum, int bAnimLooped, int bResetAnim, string pszWave, int nSec, string strText, int nParam1, int nParam2) private
+void AddTalk(unitex uTalkUnit, int nAnimNum, int bAnimLooped, int bResetAnim, int nSec) private
+void AddTalkSyncPrev(unitex uTalkUnit, int nAnimNum, int bAnimLooped, int bResetAnim) private
+void AddTalkPause(int nSec) private
+void AddTalkLookAt(int x, int y, int z, int alpha, int view, int nTunnel) private
+void AddTalkDelayedLookAt(int x, int y, int z, int alpha, int view, int iTunnel, int iDelay, int nDirection) private
+void PlayTalkDefinition() private
+void SaveTalkDialog(int nLeft, int nTop, int nRight, int nBottom, string strDialogName) private
+void MakeCurrSaveTalkDialogScreenShoot(int nLeft, int nTop, int nRight, int nBottom) private
+void EndCurrSaveTalkDialog() private
+void EnableAssistant(int nEnableMask, int bEnable) private
+void SetAssistCounts(int nMoreHarvestFactories, int nBuildersToIncrease, int nHarvestersToIncrease) private
+void PrepareInterfaceToTalk(int bStartTalk, int nTop, int nBottom, int nColor) private
+void ZoomInMap(int nZoomLevel) private
+unitex GetUnitExRef(unit uGeneric) private static
+void SetAllBridgesImmortal(int bSet) private
+void CameraFollowObject(unitex uObject) private
+int IsCameraFollowingObject(unitex uObject) private
+void SetStateDelay(int nDelay) private
+void ReplaceLoadObject(string pszEditorObject, string strLoadObject) private
+string GetLevelName() private
+void LoadNextLevel() private
+int HaveNextLevel() private
+int GetCostCategory(string strObjectID) private
+int IsPointLocatedByAnyPlayer(int nGx, int nGy, int nLz, int nIFF) private
+int IsPointLocatedByAllPlayers(int nGx, int nGy, int nLz, int nIFF) private
+unitex GetArtefactFromPoint(int nGx, int nGy, int nLz) private
+int IsPathAccessible(int nGx1, int nGy1, int nLz1, int nGx2, int nGy2, int nLz2, int bOnLand, int bOnWater, int bExactOnly) private
+void RegisterGoal(int nNr, string strText, int) private
+void RegisterGoal(int nNr, string strText, string) private
+void RegisterGoal(int nNr, string strText, int, int) private
+void RegisterGoal(int nNr, string strText, int, string) private
+void RegisterGoal(int nNr, string strText, string, int) private
+void RegisterGoal(int nNr, string strText, string, string) private
+void RegisterGoal(int nNr, string strText, int, int, int) private
+void RegisterGoal(int nNr, string strText, int, int, string) private
+void RegisterGoal(int nNr, string strText, int, string, int) private
+void RegisterGoal(int nNr, string strText, int, string, string) private
+void RegisterGoal(int nNr, string strText, string, int, int) private
+void RegisterGoal(int nNr, string strText, string, int, string) private
+void RegisterGoal(int nNr, string strText, string, string, int) private
+void RegisterGoal(int nNr, string strText, string, string, string) private
+void RegisterGoal(int nNr, string strText, int, int, int, int) private
+void RegisterGoal(int nNr, string strText, int, int, int, string) private
+void RegisterGoal(int nNr, string strText, int, int, string, int) private
+void RegisterGoal(int nNr, string strText, int, int, string, string) private
+void RegisterGoal(int nNr, string strText, int, string, int, int) private
+void RegisterGoal(int nNr, string strText, int, string, int, string) private
+void RegisterGoal(int nNr, string strText, int, string, string, int) private
+void RegisterGoal(int nNr, string strText, int, string, string, string) private
+void RegisterGoal(int nNr, string strText, string, int, int, int) private
+void RegisterGoal(int nNr, string strText, string, int, int, string) private
+void RegisterGoal(int nNr, string strText, string, int, string, int) private
+void RegisterGoal(int nNr, string strText, string, int, string, string) private
+void RegisterGoal(int nNr, string strText, string, string, int, int) private
+void RegisterGoal(int nNr, string strText, string, string, int, string) private
+void RegisterGoal(int nNr, string strText, string, string, string, int) private
+void RegisterGoal(int nNr, string strText, string, string, string, string) private
+void RegisterGoal(int nNr, string strText, int, int, int, int, int) private
+void RegisterGoal(int nNr, string strText, int, int, int, int, string) private
+void RegisterGoal(int nNr, string strText, int, int, int, string, int) private
+void RegisterGoal(int nNr, string strText, int, int, int, string, string) private
+void RegisterGoal(int nNr, string strText, int, int, string, int, int) private
+void RegisterGoal(int nNr, string strText, int, int, string, int, string) private
+void RegisterGoal(int nNr, string strText, int, int, string, string, int) private
+void RegisterGoal(int nNr, string strText, int, int, string, string, string) private
+void RegisterGoal(int nNr, string strText, int, string, int, int, int) private
+void RegisterGoal(int nNr, string strText, int, string, int, int, string) private
+void RegisterGoal(int nNr, string strText, int, string, int, string, int) private
+void RegisterGoal(int nNr, string strText, int, string, int, string, string) private
+void RegisterGoal(int nNr, string strText, int, string, string, int, int) private
+void RegisterGoal(int nNr, string strText, int, string, string, int, string) private
+void RegisterGoal(int nNr, string strText, int, string, string, string, int) private
+void RegisterGoal(int nNr, string strText, int, string, string, string, string) private
+void RegisterGoal(int nNr, string strText, string, int, int, int, int) private
+void RegisterGoal(int nNr, string strText, string, int, int, int, string) private
+void RegisterGoal(int nNr, string strText, string, int, int, string, int) private
+void RegisterGoal(int nNr, string strText, string, int, int, string, string) private
+void RegisterGoal(int nNr, string strText, string, int, string, int, int) private
+void RegisterGoal(int nNr, string strText, string, int, string, int, string) private
+void RegisterGoal(int nNr, string strText, string, int, string, string, int) private
+void RegisterGoal(int nNr, string strText, string, int, string, string, string) private
+void RegisterGoal(int nNr, string strText, string, string, int, int, int) private
+void RegisterGoal(int nNr, string strText, string, string, int, int, string) private
+void RegisterGoal(int nNr, string strText, string, string, int, string, int) private
+void RegisterGoal(int nNr, string strText, string, string, int, string, string) private
+void RegisterGoal(int nNr, string strText, string, string, string, int, int) private
+void RegisterGoal(int nNr, string strText, string, string, string, int, string) private
+void RegisterGoal(int nNr, string strText, string, string, string, string, int) private
+void RegisterGoal(int nNr, string strText, string, string, string, string, string) private
+void RegisterGoal(int nNr, string strText, int, int, int, int, int, int) private
+void RegisterGoal(int nNr, string strText, int, int, int, int, int, string) private
+void RegisterGoal(int nNr, string strText, int, int, int, int, string, int) private
+void RegisterGoal(int nNr, string strText, int, int, int, int, string, string) private
+void RegisterGoal(int nNr, string strText, int, int, int, string, int, int) private
+void RegisterGoal(int nNr, string strText, int, int, int, string, int, string) private
+void RegisterGoal(int nNr, string strText, int, int, int, string, string, int) private
+void RegisterGoal(int nNr, string strText, int, int, int, string, string, string) private
+void RegisterGoal(int nNr, string strText, int, int, string, int, int, int) private
+void RegisterGoal(int nNr, string strText, int, int, string, int, int, string) private
+void RegisterGoal(int nNr, string strText, int, int, string, int, string, int) private
+void RegisterGoal(int nNr, string strText, int, int, string, int, string, string) private
+void RegisterGoal(int nNr, string strText, int, int, string, string, int, int) private
+void RegisterGoal(int nNr, string strText, int, int, string, string, int, string) private
+void RegisterGoal(int nNr, string strText, int, int, string, string, string, int) private
+void RegisterGoal(int nNr, string strText, int, int, string, string, string, string) private
+void RegisterGoal(int nNr, string strText, int, string, int, int, int, int) private
+void RegisterGoal(int nNr, string strText, int, string, int, int, int, string) private
+void RegisterGoal(int nNr, string strText, int, string, int, int, string, int) private
+void RegisterGoal(int nNr, string strText, int, string, int, int, string, string) private
+void RegisterGoal(int nNr, string strText, int, string, int, string, int, int) private
+void RegisterGoal(int nNr, string strText, int, string, int, string, int, string) private
+void RegisterGoal(int nNr, string strText, int, string, int, string, string, int) private
+void RegisterGoal(int nNr, string strText, int, string, int, string, string, string) private
+void RegisterGoal(int nNr, string strText, int, string, string, int, int, int) private
+void RegisterGoal(int nNr, string strText, int, string, string, int, int, string) private
+void RegisterGoal(int nNr, string strText, int, string, string, int, string, int) private
+void RegisterGoal(int nNr, string strText, int, string, string, int, string, string) private
+void RegisterGoal(int nNr, string strText, int, string, string, string, int, int) private
+void RegisterGoal(int nNr, string strText, int, string, string, string, int, string) private
+void RegisterGoal(int nNr, string strText, int, string, string, string, string, int) private
+void RegisterGoal(int nNr, string strText, int, string, string, string, string, string) private
+void RegisterGoal(int nNr, string strText, string, int, int, int, int, int) private
+void RegisterGoal(int nNr, string strText, string, int, int, int, int, string) private
+void RegisterGoal(int nNr, string strText, string, int, int, int, string, int) private
+void RegisterGoal(int nNr, string strText, string, int, int, int, string, string) private
+void RegisterGoal(int nNr, string strText, string, int, int, string, int, int) private
+void RegisterGoal(int nNr, string strText, string, int, int, string, int, string) private
+void RegisterGoal(int nNr, string strText, string, int, int, string, string, int) private
+void RegisterGoal(int nNr, string strText, string, int, int, string, string, string) private
+void RegisterGoal(int nNr, string strText, string, int, string, int, int, int) private
+void RegisterGoal(int nNr, string strText, string, int, string, int, int, string) private
+void RegisterGoal(int nNr, string strText, string, int, string, int, string, int) private
+void RegisterGoal(int nNr, string strText, string, int, string, int, string, string) private
+void RegisterGoal(int nNr, string strText, string, int, string, string, int, int) private
+void RegisterGoal(int nNr, string strText, string, int, string, string, int, string) private
+void RegisterGoal(int nNr, string strText, string, int, string, string, string, int) private
+void RegisterGoal(int nNr, string strText, string, int, string, string, string, string) private
+void RegisterGoal(int nNr, string strText, string, string, int, int, int, int) private
+void RegisterGoal(int nNr, string strText, string, string, int, int, int, string) private
+void RegisterGoal(int nNr, string strText, string, string, int, int, string, int) private
+void RegisterGoal(int nNr, string strText, string, string, int, int, string, string) private
+void RegisterGoal(int nNr, string strText, string, string, int, string, int, int) private
+void RegisterGoal(int nNr, string strText, string, string, int, string, int, string) private
+void RegisterGoal(int nNr, string strText, string, string, int, string, string, int) private
+void RegisterGoal(int nNr, string strText, string, string, int, string, string, string) private
+void RegisterGoal(int nNr, string strText, string, string, string, int, int, int) private
+void RegisterGoal(int nNr, string strText, string, string, string, int, int, string) private
+void RegisterGoal(int nNr, string strText, string, string, string, int, string, int) private
+void RegisterGoal(int nNr, string strText, string, string, string, int, string, string) private
+void RegisterGoal(int nNr, string strText, string, string, string, string, int, int) private
+void RegisterGoal(int nNr, string strText, string, string, string, string, int, string) private
+void RegisterGoal(int nNr, string strText, string, string, string, string, string, int) private
+void RegisterGoal(int nNr, string strText, string, string, string, string, string, string) private
+void AddBriefing(string strBriefing, string, int) private
+void AddBriefing(string strBriefing, string, string) private
+void AddBriefing(string strBriefing, string, int, int) private
+void AddBriefing(string strBriefing, string, int, string) private
+void AddBriefing(string strBriefing, string, string, int) private
+void AddBriefing(string strBriefing, string, string, string) private
+void AddBriefing(string strBriefing, string, int, int, int) private
+void AddBriefing(string strBriefing, string, int, int, string) private
+void AddBriefing(string strBriefing, string, int, string, int) private
+void AddBriefing(string strBriefing, string, int, string, string) private
+void AddBriefing(string strBriefing, string, string, int, int) private
+void AddBriefing(string strBriefing, string, string, int, string) private
+void AddBriefing(string strBriefing, string, string, string, int) private
+void AddBriefing(string strBriefing, string, string, string, string) private
+void AddBriefing(string strBriefing, string, int, int, int, int) private
+void AddBriefing(string strBriefing, string, int, int, int, string) private
+void AddBriefing(string strBriefing, string, int, int, string, int) private
+void AddBriefing(string strBriefing, string, int, int, string, string) private
+void AddBriefing(string strBriefing, string, int, string, int, int) private
+void AddBriefing(string strBriefing, string, int, string, int, string) private
+void AddBriefing(string strBriefing, string, int, string, string, int) private
+void AddBriefing(string strBriefing, string, int, string, string, string) private
+void AddBriefing(string strBriefing, string, string, int, int, int) private
+void AddBriefing(string strBriefing, string, string, int, int, string) private
+void AddBriefing(string strBriefing, string, string, int, string, int) private
+void AddBriefing(string strBriefing, string, string, int, string, string) private
+void AddBriefing(string strBriefing, string, string, string, int, int) private
+void AddBriefing(string strBriefing, string, string, string, int, string) private
+void AddBriefing(string strBriefing, string, string, string, string, int) private
+void AddBriefing(string strBriefing, string, string, string, string, string) private
+void AddBriefing(string strBriefing, string, int, int, int, int, int) private
+void AddBriefing(string strBriefing, string, int, int, int, int, string) private
+void AddBriefing(string strBriefing, string, int, int, int, string, int) private
+void AddBriefing(string strBriefing, string, int, int, int, string, string) private
+void AddBriefing(string strBriefing, string, int, int, string, int, int) private
+void AddBriefing(string strBriefing, string, int, int, string, int, string) private
+void AddBriefing(string strBriefing, string, int, int, string, string, int) private
+void AddBriefing(string strBriefing, string, int, int, string, string, string) private
+void AddBriefing(string strBriefing, string, int, string, int, int, int) private
+void AddBriefing(string strBriefing, string, int, string, int, int, string) private
+void AddBriefing(string strBriefing, string, int, string, int, string, int) private
+void AddBriefing(string strBriefing, string, int, string, int, string, string) private
+void AddBriefing(string strBriefing, string, int, string, string, int, int) private
+void AddBriefing(string strBriefing, string, int, string, string, int, string) private
+void AddBriefing(string strBriefing, string, int, string, string, string, int) private
+void AddBriefing(string strBriefing, string, int, string, string, string, string) private
+void AddBriefing(string strBriefing, string, string, int, int, int, int) private
+void AddBriefing(string strBriefing, string, string, int, int, int, string) private
+void AddBriefing(string strBriefing, string, string, int, int, string, int) private
+void AddBriefing(string strBriefing, string, string, int, int, string, string) private
+void AddBriefing(string strBriefing, string, string, int, string, int, int) private
+void AddBriefing(string strBriefing, string, string, int, string, int, string) private
+void AddBriefing(string strBriefing, string, string, int, string, string, int) private
+void AddBriefing(string strBriefing, string, string, int, string, string, string) private
+void AddBriefing(string strBriefing, string, string, string, int, int, int) private
+void AddBriefing(string strBriefing, string, string, string, int, int, string) private
+void AddBriefing(string strBriefing, string, string, string, int, string, int) private
+void AddBriefing(string strBriefing, string, string, string, int, string, string) private
+void AddBriefing(string strBriefing, string, string, string, string, int, int) private
+void AddBriefing(string strBriefing, string, string, string, string, int, string) private
+void AddBriefing(string strBriefing, string, string, string, string, string, int) private
+void AddBriefing(string strBriefing, string, string, string, string, string, string) private
+void AddBriefing(string strBriefing, string, int, int, int, int, int, int) private
+void AddBriefing(string strBriefing, string, int, int, int, int, int, string) private
+void AddBriefing(string strBriefing, string, int, int, int, int, string, int) private
+void AddBriefing(string strBriefing, string, int, int, int, int, string, string) private
+void AddBriefing(string strBriefing, string, int, int, int, string, int, int) private
+void AddBriefing(string strBriefing, string, int, int, int, string, int, string) private
+void AddBriefing(string strBriefing, string, int, int, int, string, string, int) private
+void AddBriefing(string strBriefing, string, int, int, int, string, string, string) private
+void AddBriefing(string strBriefing, string, int, int, string, int, int, int) private
+void AddBriefing(string strBriefing, string, int, int, string, int, int, string) private
+void AddBriefing(string strBriefing, string, int, int, string, int, string, int) private
+void AddBriefing(string strBriefing, string, int, int, string, int, string, string) private
+void AddBriefing(string strBriefing, string, int, int, string, string, int, int) private
+void AddBriefing(string strBriefing, string, int, int, string, string, int, string) private
+void AddBriefing(string strBriefing, string, int, int, string, string, string, int) private
+void AddBriefing(string strBriefing, string, int, int, string, string, string, string) private
+void AddBriefing(string strBriefing, string, int, string, int, int, int, int) private
+void AddBriefing(string strBriefing, string, int, string, int, int, int, string) private
+void AddBriefing(string strBriefing, string, int, string, int, int, string, int) private
+void AddBriefing(string strBriefing, string, int, string, int, int, string, string) private
+void AddBriefing(string strBriefing, string, int, string, int, string, int, int) private
+void AddBriefing(string strBriefing, string, int, string, int, string, int, string) private
+void AddBriefing(string strBriefing, string, int, string, int, string, string, int) private
+void AddBriefing(string strBriefing, string, int, string, int, string, string, string) private
+void AddBriefing(string strBriefing, string, int, string, string, int, int, int) private
+void AddBriefing(string strBriefing, string, int, string, string, int, int, string) private
+void AddBriefing(string strBriefing, string, int, string, string, int, string, int) private
+void AddBriefing(string strBriefing, string, int, string, string, int, string, string) private
+void AddBriefing(string strBriefing, string, int, string, string, string, int, int) private
+void AddBriefing(string strBriefing, string, int, string, string, string, int, string) private
+void AddBriefing(string strBriefing, string, int, string, string, string, string, int) private
+void AddBriefing(string strBriefing, string, int, string, string, string, string, string) private
+void AddBriefing(string strBriefing, string, string, int, int, int, int, int) private
+void AddBriefing(string strBriefing, string, string, int, int, int, int, string) private
+void AddBriefing(string strBriefing, string, string, int, int, int, string, int) private
+void AddBriefing(string strBriefing, string, string, int, int, int, string, string) private
+void AddBriefing(string strBriefing, string, string, int, int, string, int, int) private
+void AddBriefing(string strBriefing, string, string, int, int, string, int, string) private
+void AddBriefing(string strBriefing, string, string, int, int, string, string, int) private
+void AddBriefing(string strBriefing, string, string, int, int, string, string, string) private
+void AddBriefing(string strBriefing, string, string, int, string, int, int, int) private
+void AddBriefing(string strBriefing, string, string, int, string, int, int, string) private
+void AddBriefing(string strBriefing, string, string, int, string, int, string, int) private
+void AddBriefing(string strBriefing, string, string, int, string, int, string, string) private
+void AddBriefing(string strBriefing, string, string, int, string, string, int, int) private
+void AddBriefing(string strBriefing, string, string, int, string, string, int, string) private
+void AddBriefing(string strBriefing, string, string, int, string, string, string, int) private
+void AddBriefing(string strBriefing, string, string, int, string, string, string, string) private
+void AddBriefing(string strBriefing, string, string, string, int, int, int, int) private
+void AddBriefing(string strBriefing, string, string, string, int, int, int, string) private
+void AddBriefing(string strBriefing, string, string, string, int, int, string, int) private
+void AddBriefing(string strBriefing, string, string, string, int, int, string, string) private
+void AddBriefing(string strBriefing, string, string, string, int, string, int, int) private
+void AddBriefing(string strBriefing, string, string, string, int, string, int, string) private
+void AddBriefing(string strBriefing, string, string, string, int, string, string, int) private
+void AddBriefing(string strBriefing, string, string, string, int, string, string, string) private
+void AddBriefing(string strBriefing, string, string, string, string, int, int, int) private
+void AddBriefing(string strBriefing, string, string, string, string, int, int, string) private
+void AddBriefing(string strBriefing, string, string, string, string, int, string, int) private
+void AddBriefing(string strBriefing, string, string, string, string, int, string, string) private
+void AddBriefing(string strBriefing, string, string, string, string, string, int, int) private
+void AddBriefing(string strBriefing, string, string, string, string, string, int, string) private
+void AddBriefing(string strBriefing, string, string, string, string, string, string, int) private
+void AddBriefing(string strBriefing, string, string, string, string, string, string, string) private
+void SetConsoleText(string, int) private
+void SetConsoleText(string, string) private
+void SetConsoleText(string, int, int) private
+void SetConsoleText(string, int, string) private
+void SetConsoleText(string, string, int) private
+void SetConsoleText(string, string, string) private
+void SetConsoleText(string, int, int, int) private
+void SetConsoleText(string, int, int, string) private
+void SetConsoleText(string, int, string, int) private
+void SetConsoleText(string, int, string, string) private
+void SetConsoleText(string, string, int, int) private
+void SetConsoleText(string, string, int, string) private
+void SetConsoleText(string, string, string, int) private
+void SetConsoleText(string, string, string, string) private
+void SetConsoleText(string, int, int, int, int) private
+void SetConsoleText(string, int, int, int, string) private
+void SetConsoleText(string, int, int, string, int) private
+void SetConsoleText(string, int, int, string, string) private
+void SetConsoleText(string, int, string, int, int) private
+void SetConsoleText(string, int, string, int, string) private
+void SetConsoleText(string, int, string, string, int) private
+void SetConsoleText(string, int, string, string, string) private
+void SetConsoleText(string, string, int, int, int) private
+void SetConsoleText(string, string, int, int, string) private
+void SetConsoleText(string, string, int, string, int) private
+void SetConsoleText(string, string, int, string, string) private
+void SetConsoleText(string, string, string, int, int) private
+void SetConsoleText(string, string, string, int, string) private
+void SetConsoleText(string, string, string, string, int) private
+void SetConsoleText(string, string, string, string, string) private
+void SetConsoleText(string, int, int, int, int, int) private
+void SetConsoleText(string, int, int, int, int, string) private
+void SetConsoleText(string, int, int, int, string, int) private
+void SetConsoleText(string, int, int, int, string, string) private
+void SetConsoleText(string, int, int, string, int, int) private
+void SetConsoleText(string, int, int, string, int, string) private
+void SetConsoleText(string, int, int, string, string, int) private
+void SetConsoleText(string, int, int, string, string, string) private
+void SetConsoleText(string, int, string, int, int, int) private
+void SetConsoleText(string, int, string, int, int, string) private
+void SetConsoleText(string, int, string, int, string, int) private
+void SetConsoleText(string, int, string, int, string, string) private
+void SetConsoleText(string, int, string, string, int, int) private
+void SetConsoleText(string, int, string, string, int, string) private
+void SetConsoleText(string, int, string, string, string, int) private
+void SetConsoleText(string, int, string, string, string, string) private
+void SetConsoleText(string, string, int, int, int, int) private
+void SetConsoleText(string, string, int, int, int, string) private
+void SetConsoleText(string, string, int, int, string, int) private
+void SetConsoleText(string, string, int, int, string, string) private
+void SetConsoleText(string, string, int, string, int, int) private
+void SetConsoleText(string, string, int, string, int, string) private
+void SetConsoleText(string, string, int, string, string, int) private
+void SetConsoleText(string, string, int, string, string, string) private
+void SetConsoleText(string, string, string, int, int, int) private
+void SetConsoleText(string, string, string, int, int, string) private
+void SetConsoleText(string, string, string, int, string, int) private
+void SetConsoleText(string, string, string, int, string, string) private
+void SetConsoleText(string, string, string, string, int, int) private
+void SetConsoleText(string, string, string, string, int, string) private
+void SetConsoleText(string, string, string, string, string, int) private
+void SetConsoleText(string, string, string, string, string, string) private
+void SetConsoleText(string, int, int, int, int, int, int) private
+void SetConsoleText(string, int, int, int, int, int, string) private
+void SetConsoleText(string, int, int, int, int, string, int) private
+void SetConsoleText(string, int, int, int, int, string, string) private
+void SetConsoleText(string, int, int, int, string, int, int) private
+void SetConsoleText(string, int, int, int, string, int, string) private
+void SetConsoleText(string, int, int, int, string, string, int) private
+void SetConsoleText(string, int, int, int, string, string, string) private
+void SetConsoleText(string, int, int, string, int, int, int) private
+void SetConsoleText(string, int, int, string, int, int, string) private
+void SetConsoleText(string, int, int, string, int, string, int) private
+void SetConsoleText(string, int, int, string, int, string, string) private
+void SetConsoleText(string, int, int, string, string, int, int) private
+void SetConsoleText(string, int, int, string, string, int, string) private
+void SetConsoleText(string, int, int, string, string, string, int) private
+void SetConsoleText(string, int, int, string, string, string, string) private
+void SetConsoleText(string, int, string, int, int, int, int) private
+void SetConsoleText(string, int, string, int, int, int, string) private
+void SetConsoleText(string, int, string, int, int, string, int) private
+void SetConsoleText(string, int, string, int, int, string, string) private
+void SetConsoleText(string, int, string, int, string, int, int) private
+void SetConsoleText(string, int, string, int, string, int, string) private
+void SetConsoleText(string, int, string, int, string, string, int) private
+void SetConsoleText(string, int, string, int, string, string, string) private
+void SetConsoleText(string, int, string, string, int, int, int) private
+void SetConsoleText(string, int, string, string, int, int, string) private
+void SetConsoleText(string, int, string, string, int, string, int) private
+void SetConsoleText(string, int, string, string, int, string, string) private
+void SetConsoleText(string, int, string, string, string, int, int) private
+void SetConsoleText(string, int, string, string, string, int, string) private
+void SetConsoleText(string, int, string, string, string, string, int) private
+void SetConsoleText(string, int, string, string, string, string, string) private
+void SetConsoleText(string, string, int, int, int, int, int) private
+void SetConsoleText(string, string, int, int, int, int, string) private
+void SetConsoleText(string, string, int, int, int, string, int) private
+void SetConsoleText(string, string, int, int, int, string, string) private
+void SetConsoleText(string, string, int, int, string, int, int) private
+void SetConsoleText(string, string, int, int, string, int, string) private
+void SetConsoleText(string, string, int, int, string, string, int) private
+void SetConsoleText(string, string, int, int, string, string, string) private
+void SetConsoleText(string, string, int, string, int, int, int) private
+void SetConsoleText(string, string, int, string, int, int, string) private
+void SetConsoleText(string, string, int, string, int, string, int) private
+void SetConsoleText(string, string, int, string, int, string, string) private
+void SetConsoleText(string, string, int, string, string, int, int) private
+void SetConsoleText(string, string, int, string, string, int, string) private
+void SetConsoleText(string, string, int, string, string, string, int) private
+void SetConsoleText(string, string, int, string, string, string, string) private
+void SetConsoleText(string, string, string, int, int, int, int) private
+void SetConsoleText(string, string, string, int, int, int, string) private
+void SetConsoleText(string, string, string, int, int, string, int) private
+void SetConsoleText(string, string, string, int, int, string, string) private
+void SetConsoleText(string, string, string, int, string, int, int) private
+void SetConsoleText(string, string, string, int, string, int, string) private
+void SetConsoleText(string, string, string, int, string, string, int) private
+void SetConsoleText(string, string, string, int, string, string, string) private
+void SetConsoleText(string, string, string, string, int, int, int) private
+void SetConsoleText(string, string, string, string, int, int, string) private
+void SetConsoleText(string, string, string, string, int, string, int) private
+void SetConsoleText(string, string, string, string, int, string, string) private
+void SetConsoleText(string, string, string, string, string, int, int) private
+void SetConsoleText(string, string, string, string, string, int, string) private
+void SetConsoleText(string, string, string, string, string, string, int) private
+void SetConsoleText(string, string, string, string, string, string, string) private
+int IsAllowDynamicConnection() private
+<functions_end>
+</pre>
+
+<p><big>Commands</big></p>
+<pre>
+<commands_begin>
+int Initialize() public
+int Uninitialize() public
+int Combo1(int) public
+int Combo2(int) public
+int Combo3(int) public
+int PlayerCombo1(int, int) public
+int InitializeLoad() public
+<commands_end>
+</pre>
+
+<p><big>Events</big></p>
+<pre>
+<events_begin>
+void Timer0() public
+void Timer1() public
+void Timer2() public
+void Timer3() public
+void Timer4() public
+void Timer5() public
+void Timer6() public
+void Timer7() public
+int RemoveResources() public
+int RemoveUnits() public
+int UseExtraSkirmishPlayers() public
+int SpecialLevelFlags() public
+int AIPlayerFlags() public
+int Artefact(int, unitex, player) public
+void UnitCreated(unitex) public
+void BuildingCreated(unitex) public
+void UnitDestroyed(unitex) public
+void BuildingDestroyed(unitex) public
+void PassiveDestroyed(unitex, unitex) public
+void EndMission() public
+void SetupInterface() public
+void EndTalk(int) public
+void EndPrepareInterfaceToTalk(int, int) public
+void DebugEndMission() public
+void EscapeCutscene() public
+void RecreateRPGCharacter(int) public
+int CheckValidRPGLevel() public
+void ResetFog(int) public
+int OpenRPGShop(unitex, unitex) public
+void CustomEvent0(int, int, int, int) public
+void CustomEvent1(int, int, int, int) public
+void CustomEvent2(int, int, int, int) public
+void CustomEvent3(int, int, int, int) public
+void CustomEvent4(int, int, int, int) public
+void CustomEvent5(int, int, int, int) public
+void CustomEvent6(int, int, int, int) public
+void CustomEvent7(int, int, int, int) public
+void NewDynamicConnectionPlayer(int) public
+<events_end>
+</pre>
+
+<p><big>Enums</big></p>
+<pre>
+<enums_begin>
+goalAchieved
+goalNotAchieved
+goalFailed
+terrainType1
+terrainType2
+terrainType3
+terrainType4
+terrainType5
+terrainType6
+terrainType7
+terrainType8
+artefactRegenerateHP
+artefactRegenerateMagic
+artefactAddMaxHP
+artefactAddDamage
+artefactAddMaxMagic
+artefactAddHP
+artefactAddMagic
+artefactGiveMoney
+artefactShowMap
+artefactEquipment
+artefactRPGUnitOnly
+artefactSpecialAI
+artefactNoRPGUnit
+magicImmortalShield
+magicFreeze
+magicCapturing
+magicStorm
+magicSeeing
+magicConversion
+magicFireRain
+magicRemoveStormFireRain
+magicTeleportation
+magicGhost
+magicWildAnimal
+magicTrap
+magicGetHP
+magicSingleFreeze
+magicBlindAttack
+magicTimedCapturing
+magicOurWildAnimal
+magicOurHoldWildAnimal
+magicOurMagicMirror
+magicRandConversion
+magicAroundDamage
+magicSelfHealing
+magicFireWall
+lockAllianceDialog
+lockGiveMoneyDialog
+lockGiveUnitsDialog
+lockShowToolbar
+lockToolbarMap
+lockToolbarPanel
+lockToolbarLevelName
+lockToolbarSwitchMode
+lockToolbarTunnels
+lockToolbarAlliance
+lockToolbarGiveMoney
+lockToolbarObjectives
+lockToolbarMenu
+lockToolbarMoney
+lockDisplayToolbarLevelName
+lockDisplayToolbarMoney
+lockCreateBuildPanel
+lockCreatePanel
+lockCreateMap
+lockCreateMoneyProgress
+lockToolbarHelpMode
+lockToolbarLockedCameraMode
+lockCompass
+lockResearchUpdates
+toolbarDisplayLevel
+toolbarDisplayMoney
+statsAddMoneyTotal
+statsAddMoneyFromHarvest
+statsAddMoneyFromOtherPlayers
+statsGetMoneyTotal
+statsGetMoneyForBuildings
+statsGetMoneyForUnits
+statsGetMoneyForConstructions
+statsGetMoneyForOtherPlayers
+statsCreatedBuildings
+statsKilledBuildings
+statsCreatedUnits
+statsConvertedUnits
+statsTakenUnits
+statsKilledUnits
+statsConvertLostUnits
+statsGivenUnits
+statsSoldUnits
+statsDestroyedBuildings
+statsDestroyedUnits
+statsUnitsWithExperience
+statsTotalScore
+statsDestroyedBuildingsSum
+statsDestroyedUnitsSum
+statisticTabTypeSummary
+statisticTabTypeMoney
+statisticTabTypeUnits
+statisticTabTypeKilledUnits
+statisticTabTypeKilledBuildings
+statisticTabUserDefined
+statisticDataHarvestedMoney
+statisticDataCreatedBuildings
+statisticDataCreatedUnits
+statisticDataTotalScore
+statisticDataTotalAddMoney
+statisticDataTotalSpentMoney
+statisticDataMoneyForBuildings
+statisticDataMoneyForUnits
+statisticDataMoneyForOtherPlayers
+statisticDataLostUnits
+statisticDataUnitsWithExperience0
+statisticDataUnitsWithExperience1
+statisticDataUnitsWithExperience2
+statisticDataUnitsWithExperience3
+statisticDataUnitsWithExperience4
+statisticDataUnitsWithExperience5
+statisticDataUnitsWithExperience6
+statisticDataUnitsWithExperience7
+statisticDataUnitsWithExperience8
+statisticDataUnitsWithExperience9
+statisticDataUnitsWithExperience10
+statisticDataUnitsWithExperience11
+statisticDataUnitsWithExperience12
+statisticDataDestroyedBuildings0
+statisticDataDestroyedBuildings1
+statisticDataDestroyedBuildings2
+statisticDataDestroyedBuildings3
+statisticDataDestroyedBuildings4
+statisticDataDestroyedBuildings5
+statisticDataDestroyedBuildings6
+statisticDataDestroyedBuildings7
+statisticDataDestroyedBuildings8
+statisticDataDestroyedBuildings9
+statisticDataDestroyedBuildings10
+statisticDataDestroyedBuildings11
+statisticDataDestroyedBuildings12
+statisticDataDestroyedBuildings13
+statisticDataDestroyedBuildings14
+statisticDataDestroyedBuildings15
+statisticDataDestroyedBuildingsSum
+statisticDataDestroyedUnits0
+statisticDataDestroyedUnits1
+statisticDataDestroyedUnits2
+statisticDataDestroyedUnits3
+statisticDataDestroyedUnits4
+statisticDataDestroyedUnits5
+statisticDataDestroyedUnits6
+statisticDataDestroyedUnits7
+statisticDataDestroyedUnits8
+statisticDataDestroyedUnits9
+statisticDataDestroyedUnits10
+statisticDataDestroyedUnits11
+statisticDataDestroyedUnits12
+statisticDataDestroyedUnits13
+statisticDataDestroyedUnits14
+statisticDataDestroyedUnits15
+statisticDataDestroyedUnitsSum
+statisticDataUserDefined
+statisticUseProgress
+statisticUseProgressGrow
+statisticUseValueGrow
+statisticUsePlayerBanner
+statisticUseColumnProgressTotal
+statisticUseLineIfZero
+statisticUseForceColumnWidth
+statisticRemoveColumnIfAllZero
+commandStop
+commandLand
+commandMove
+commandMoveEx
+commandMoveAndDefend
+commandTurn
+commandTurnDelayed
+commandAttack
+commandAttackOnPoint
+commandRepair
+commandConvert
+commandCaptureBuilding
+commandSetRepairMode
+commandSetConvertMode
+commandSetCaptureBuildingMode
+commandEnter
+commandSleepMode
+commandCamouflageMode
+commandRecycleUnit
+commandBuildObject
+commandSetLights
+commandSetAttackMode
+commandSetMovementMode
+commandSetTakeEquipmentArtefactMode
+commandSetSmartAttackMode
+commandDropEquipment
+commandMakeCustomAnimation
+commandStopCustomAnimation
+commandMakeChatTalk
+commandSetTalkMode
+commandStartStrongFight
+commandPutHoldTrap
+commandPutHoldTrapOnce
+commandGetHoldTrap
+commandSetUpHoldTrap
+commandSetRPGSkillsLevel
+commandUseObjectFromRPGInventory
+commandDropObjectFromRPGInventory
+commandDropEquipmentToRPGInventory
+commandSoldInventoryInShop
+commandSoldEquipmentInShop
+commandBuyInventoryFromShop
+commandHireRPGUnit
+commandRegenerateHPFromInventory
+commandRegenerateMagicFromInventory
+commandUseNextRPGWeapon
+commandSetAutoSelectRPGWeaponMode
+commandMoveToShopUnit
+commandMoveToUnitToHire
+commandMakeMagicImmortalShield
+commandMakeMagicFreeze
+commandMakeMagicCapturing
+commandMakeMagicStorm
+commandMakeMagicSeeing
+commandMakeMagicConversion
+commandMakeMagicFireRain
+commandMakeMagicRemoveStormFireRain
+commandMakeMagicTeleportation
+commandMakeMagicGhost
+commandMakeMagicWildAnimal
+commandMakeMagicTrap
+commandMakeMagicGetHP
+commandMakeMagicSingleFreeze
+commandMakeMagicBlindAttack
+commandMakeMagicTimedCapturing
+commandMakeMagicOurWildAnimal
+commandMakeMagicOurHoldWildAnimal
+commandMakeMagicOurMagicMirror
+commandMakeMagicRandConversion
+commandMakeMagicAroundDamage
+commandMakeMagicSelfHealing
+commandMakeMagicFireWall
+commandMakeMagicFirst
+commandMakeMagicLast
+commandSetMakeMagicImmortalShieldMode
+commandSetMakeMagicFreezeMode
+commandSetMakeMagicCapturingMode
+commandSetMakeMagicStormMode
+commandSetMakeMagicSeeingMode
+commandSetMakeMagicConversionMode
+commandSetMakeMagicFireRainMode
+commandSetMakeMagicRemoveStormFireRainMode
+commandSetMakeMagicTeleportationMode
+commandSetMakeMagicGhostMode
+commandSetMakeMagicWildAnimalMode
+commandSetMakeMagicTrapMode
+commandSetMakeMagicGetHPMode
+commandSetMakeMagicSingleFreezeMode
+commandSetMakeMagicBlindAttackMode
+commandSetMakeMagicTimedCapturingMode
+commandSetMakeMagicOurWildAnimalMode
+commandSetMakeMagicOurHoldWildAnimalMode
+commandSetMakeMagicOurMagicMirrorMode
+commandSetMakeMagicRandConversionMode
+commandSetMakeMagicAroundDamageMode
+commandSetMakeMagicSelfHealing
+commandSetMakeMagicFireWallMode
+commandUserNoParam0
+commandUserNoParam1
+commandUserNoParam2
+commandUserNoParam3
+commandUserNoParam4
+commandUserNoParam5
+commandUserNoParam6
+commandUserNoParam7
+commandUserNoParam8
+commandUserNoParam9
+commandUserOneParam0
+commandUserOneParam1
+commandUserOneParam2
+commandUserOneParam3
+commandUserOneParam4
+commandUserOneParam5
+commandUserOneParam6
+commandUserOneParam7
+commandUserOneParam8
+commandUserOneParam9
+commandUserObject0
+commandUserObject1
+commandUserObject2
+commandUserObject3
+commandUserObject4
+commandUserObject5
+commandUserObject6
+commandUserObject7
+commandUserObject8
+commandUserObject9
+commandUserPoint0
+commandUserPoint1
+commandUserPoint2
+commandUserPoint3
+commandUserPoint4
+commandUserPoint5
+commandUserPoint6
+commandUserPoint7
+commandUserPoint8
+commandUserPoint9
+commandUserLine0
+commandUserLine1
+commandUserLine2
+commandUserLine3
+commandUserLine4
+commandUserLine5
+commandUserLine6
+commandUserLine7
+commandUserLine8
+commandUserLine9
+commandUserDoubleLine0
+commandUserDoubleLine1
+commandUserDoubleLine2
+commandUserDoubleLine3
+commandUserDoubleLine4
+commandUserDoubleLine5
+commandUserDoubleLine6
+commandUserDoubleLine7
+commandUserDoubleLine8
+commandUserDoubleLine9
+commandUserArea0
+commandUserArea1
+commandUserArea2
+commandUserArea3
+commandUserArea4
+commandUserArea5
+commandUserArea6
+commandUserArea7
+commandUserArea8
+commandUserArea9
+commandAutodestruction
+commandSoldBuilding
+commandStopSoldBuilding
+commandPlayerBuildRoad
+commandPlayerBuildRoad2x2
+commandPlayerBuildWall
+commandPlayerBuildNarrowBridge
+commandPlayerBuildWideBridge
+commandPlayerBuildSingleBridge
+commandMoveToDepot
+commandMoveInventoryToDepot
+commandMoveEquipmentToDepot
+commandMoveDepotToInventory
+buildingNormal
+buildingFactory
+buildingHarvestFactory
+buildingGate
+buildingBridgeGate
+buildingTower
+buildingWall
+buildingCopula
+buildingExNone
+disallowAICommands
+disposeIfNoUnits
+moveAllToPoint
+moveKeepFormation
+moveSquareFormation
+moveLineFormation
+movePlatoonFormation
+notMoveBuilders
+showAreaPassives
+showAreaBuildings
+showAreaUnits
+sortUnitsByHPValue
+sortUnitsByHPPercent
+sortUnitsByExperience
+sortUnitsReversed
+aiThinkSpeedBuildUnits
+aiThinkSpeedExecuteOrders
+aiThinkSpeedControlUnits
+aiThinkSpeedControlUnitsEx
+aiThinkSpeedBuildBuildingsEx
+aiThinkSpeedMakeDefense
+aiThinkSpeedMovePlatoonsOutsideBase
+aiThinkSpeedMakeSmallAttack
+aiThinkSpeedMakeBigAttack
+aiThinkSpeedControlConverters
+aiThinkSpeedControlCapturers
+aiThinkSpeedBuildNewBridges
+aiThinkSpeedRebuildLostBridges
+aiThinkSpeedResearchUpdates
+aiEnabled
+aiRejectAlliance
+aiBNSendResult
+aiChooseEnemy
+aiNeutralForAI
+aiAttackAIOnly
+aiBuildRoads
+aiBuildRoadsWide
+aiRebuildLostBuildings
+aiBuildNewBuildings
+aiRebuildLostDefenceBuildings
+aiBuildTowers
+aiBuildTowersEx
+aiBuildNewBridges
+aiRebuildLostBridges
+aiAllowBuildClose
+aiProduceUnits
+aiCaptureStartingPoints
+ai2UsePlatoons
+ai2ControlTowers
+ai2ControlBuildersBuild
+ai2ControlBuildersRepair
+ai2ControlHarvesters
+ai2ControlConverters
+ai2ControlHarvestIncreasers
+ai2ControlCapturers
+ai2ControlBuildIncreasers
+ai2ControlOffense
+ai2ControlDefense
+ai2ControlOffenseMagic
+ai2UseAutoMagic
+ai2DefendBuildings
+ai2DefendUnits
+ai2DefendDestroyedObjects
+ai2SmartHarvesters
+ai2TakeEquipmentArtefacts
+ai2MovePlatoonsOutsideBase
+ai2PlatoonAttackInGroup
+ai2PlatoonEscapeOnStorm
+ai2DefendUnitsInPlatoon
+ai2RandomizedBehaviours
+ai2SetSmartUnitAttackMode
+ai2ResearchUpdatesLevel0
+ai2ResearchUpdatesLevelAll
+assistSelectBuildingPlaceHarvestFactory
+assistSelectBuildingPlaceNearRoad
+assistSelectBuildingPlaceTower
+assistSelectBuildingPlaceGate
+assistSelectBuildingPlaceBridgeGate
+assistSelectBuildRoad
+assistBuildBuildings
+assistMoreHarvestFactories
+assistDblClkSelect
+assistCreateGroup
+assistRecordCommand
+assistSetNewUnitGroup
+assistGoToPlayerTalk
+assistCenterOnGroup
+assistBuildIncreaseHarvestSpeedUnit
+assistBuildIncreaseBuildSpeedUnit
+assistBuildBuilder
+assistSleepDamaged
+assistLazyHarvester
+assistAttackedHoldPosition
+assistEmptyTower
+assistEmptyGate
+<enums_end>
+</pre>
+
+</body>
+</html>

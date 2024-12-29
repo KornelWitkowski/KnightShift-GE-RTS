@@ -1,0 +1,243 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1250">
+<title> campaign object </title>
+</head>
+
+<body>
+
+<hr>
+
+<p><big><strong>campaign</strong> object</big></p>
+
+<p><big>Functions</big></p>
+<pre>
+<functions_begin>
+int GetCampaignTime() private static
+void RegisterMission(int iNr, string szMis, string szScript, string strShortBriefing, int dwFlags, int iLongitude, int iLatitude, int iDistance0, int iDistance1, int iDistance2, int iNext0, int iNext1, int iNext2, int nNext3) private static
+void RegisterMission(int iNr, string szScript, string szMis, string strShortBriefing, int dwFlags, int iLongitude, int iLatitude, int iDistance0, int iDistance1, int iDistance2, int iNext0, int iNext1, int nNext2) private static
+void RegisterMission(int iNr, string szScript, string szMis, string strShortBriefing, int dwFlags, int iLongitude, int iLatitude, int iDistance0, int iDistance1, int iDistance2, int iNext0, int nNext1) private static
+void RegisterMission(int iNr, string szScript, string szMis, string strShortBriefing, int dwFlags, int iLongitude, int iLatitude, int iDistance0, int iDistance1, int iDistance2, int nNext0) private static
+void RegisterMission(int iNr, string szScript, string szMis, string strShortBriefing, int dwFlags, int iLongitude, int iLatitude, int iDistance0, int iDistance1, int nDistance2) private static
+void EnableMission(int nNr, int bEnable) private static
+void ActivateMission(int nNr, int bActive) private static
+void EnableMissionsEq(int iAndValue, int nEqValue, int bEnable) private static
+void EnableMissions(int, int) private static
+void ActivateMissionsEq(int iAndValue, int nEqValue, int bActive) private static
+void ActivateMissions(int, int) private static
+int IsMissionEnabled(int nMission) private static
+int IsMissionActive(int nMission) private static
+int AreMissionsEnabled(int nAndValue) private static
+int AreMissionsActive(int nAndValue) private static
+int AreMissionsEnabledEq(int iAndValue, int nValue) private static
+int AreMissionsActiveEq(int iAndValue, int nValue) private static
+int GetNextMission(int iNr, int nPosition) private static
+void LoadMission(int, int) private static
+void SetWorldsToLoad(int nWorldsToLoad) private static
+void ForceKeepBitmapAfterDialog() private static
+void SetActivePlayerAndWorld(int iPlayerNr, int nWorld) private static
+void SetTimer(int iNr, int nInterval) private static
+void EnableChooseMissionButton(int bShow) private static
+void CreateGamePlayer(int iNr, int race, int nType) private static
+int GetPlayerSideColor(int nffNum) private static
+void SetPlayerSideColor(int nffNum, int nNewSideColor) private static
+int GetSeason() private static
+void SetSeason(int nSeason) private static
+void SetMissionState(int iNr, int nState) private static
+int GetMissionState(int nNr) private static
+void LoadGameParameters(string strParams1) private static
+void LoadGameParameters(string pszParams1, string strParams2) private static
+void LoadGameParameters(string pszParams1, string pszParams2, string strParams3) private static
+void LoadGameParameters(string pszParams1, string pszParams2, string pszParams3, string strParams4) private static
+void LoadGameParameters(string pszParams1, string pszParams2, string pszParams3, string pszParams4, string strParams5) private static
+void ShowStartMissionDialog(string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string strBackground, string szWave, string strText) private static
+int GetPlayerScriptData(int nIFFNum, int nDataIndex) private static
+void SetPlayerScriptData(int nIFFNum, int nDataIndex, int nData) private static
+int GetCurrPlayerStatisticValue(int nIFFNum, int nWorldNum, int nStatsType) private static
+int GetCurrPlayerStatisticValue(int nIFFNum, int nWorldNum, int nStatsType, int nStatsIndex) private static
+int GetPlayerStatisticValue(int nIFFNum, int nStatsType) private static
+int GetPlayerStatisticValue(int nIFFNum, int nStatsType, int nStatsIndex) private static
+void AddResearchToPlayer(int nIFFNum, string strResearch) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, string, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, int, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, string, string, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, int, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, int, string, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, int, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, int, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, int, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, int, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, string, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, string, int, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, string, string, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, string, string, string, string, string, string) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, int, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, int, int, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, int, int, int, int, int, int) private static
+void string pszStartButtonText, int bDisableStartButton, string pszQuitButtonButtonText, int bDisableQuitButton, string pszBackground, string szText, string, int, int, int, int, int, int, int, int, int, int) private static
+<functions_end>
+</pre>
+
+<p><big>Commands</big></p>
+<pre>
+<commands_begin>
+int Initialize() public
+int Uninitialize() public
+int DifficultyLevel(int) public
+<commands_end>
+</pre>
+
+<p><big>Events</big></p>
+<pre>
+<events_begin>
+void StartMission(int) public
+void EndingMission(int, int) public
+void EndMission(int, int) public
+void EnableNextMission(int, int, int) public
+void Timer0() public
+void Timer1() public
+void Timer2() public
+void Timer3() public
+void Timer4() public
+void Timer5() public
+void Timer6() public
+void Timer7() public
+void CustomEvent0(int, int, int, int) public
+void CustomEvent1(int, int, int, int) public
+void CustomEvent2(int, int, int, int) public
+void CustomEvent3(int, int, int, int) public
+void CustomEvent4(int, int, int, int) public
+void CustomEvent5(int, int, int, int) public
+void CustomEvent6(int, int, int, int) public
+void CustomEvent7(int, int, int, int) public
+<events_end>
+</pre>
+
+<p><big>Enums</big></p>
+<pre>
+<enums_begin>
+playerLocal
+playerAI
+stateAvailable
+stateFailed
+stateSkiped
+stateAccomplished
+<enums_end>
+</pre>
+
+</body>
+</html>

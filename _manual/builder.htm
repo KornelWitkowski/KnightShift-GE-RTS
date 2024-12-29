@@ -1,0 +1,62 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1250">
+<title> builder object </title>
+</head>
+
+<body>
+
+<hr>
+
+<p><big><strong>builder</strong> object</big></p>
+
+<p><big>Functions</big></p>
+<pre>
+<functions_begin>
+void CallBuildObject(unit uObject) private
+int IsBuildWorking() private
+int GetBuildType(unit uObject) private
+int GetCurrentBuildType() private
+int GetBuildLocationX(unit uObject) private
+int GetBuildLocationY(unit uObject) private
+int GetBuildLocationZ(unit uObject) private
+int GetBuildLocationX(unit uObject, int nMaxDistFromGx, int nMaxDistFromGy, int nMaxDistFromLz) private
+int GetBuildLocationY(unit uObject, int nMaxDistFromGx, int nMaxDistFromGy, int nMaxDistFromLz) private
+int GetBuildLocationZ(unit uObject, int nMaxDistFromGx, int nMaxDistFromGy, int nMaxDistFromLz) private
+unit FindNextObjectToBuild(int nTypeMask, int bCheckAccessible) private
+unit FindNextObjectToBuild(int nTypeMask, int nRange, int bCheckAccessible) private
+unit FindNextObjectToBuild(int nFromGx, int nFromGy, int nFromGz, int nType, int nRange, int bCheckAccessible) private
+int IsInGoodPlaceForBuildObject(unit uObject) private
+int IsGoodPlaceForBuildObject(unit uObject, int nGx, int nGy, int nLz) private
+int CanBeBuild(unit uObject) private
+<functions_end>
+</pre>
+
+<p><big>Commands</big></p>
+<pre>
+<commands_begin>
+<commands_end>
+</pre>
+
+<p><big>Events</big></p>
+<pre>
+<events_begin>
+<events_end>
+</pre>
+
+<p><big>Enums</big></p>
+<pre>
+<enums_begin>
+buildNone
+buildBuilding
+buildWall
+buildBridge
+buildBuildingMask
+buildWallMask
+buildBridgeMask
+<enums_end>
+</pre>
+
+</body>
+</html>

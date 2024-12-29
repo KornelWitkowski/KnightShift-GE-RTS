@@ -1,0 +1,426 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1250">
+<title> unit object </title>
+</head>
+
+<body>
+
+<hr>
+
+<p><big><strong>unit</strong> object</big></p>
+
+<p><big>Functions</big></p>
+<pre>
+<functions_begin>
+int GetIFF() public
+int GetIFFNumber() public
+int IsBuilding() public
+int IsLandTarget() public
+int IsLandUnit() public
+int IsFlyable() public
+int IsBuilder() public
+int IsRepairer() public
+int IsHarvester() public
+int IsAnimal() public
+int IsArmedAnimal() public
+int IsUnarmedAnimal() public
+int IsPassive() public
+int IsTunnelEntrance() public
+int IsVisibleFake() public
+unit GetVisibleFakeObject() public
+void CallFreeze(int nFreezeTime) private
+int IsFroozen() public
+void NextCommand(int nPrevCommandStatus) private
+int HaveEmptyCall() private
+int GetSideColor() public
+int GetPlayerSideColor() public
+int IsBlackFog(int nGx, int nGy, int nGz) private
+int IsResourceInPoint(int nGx, int nGy, int nLz) private
+int GetResourcesPercentInPoint(int nGx, int nGy, int nLz) private
+int IsEnemy(unit uTarget) private
+int IsLastEnemyTowerOrGate(unit uTarget) private
+int IsNeutral(unit uTarget) private
+int IsAlliance(unit uTarget) private
+int IsVisible(unit uTarget) private
+int GetWorldLeft() private
+int GetWorldTop() private
+int GetWorldRight() private
+int GetWorldBottom() private
+int GetGameLeft() private
+int GetGameTop() private
+int GetGameRight() private
+int GetGameBottom() private
+int DistanceTo(int nX, int nY) public
+int DistanceHiResTo(int nX, int nY) public
+int DistanceHiRes3DTo(int nX, int nY) public
+int DistanceTo(unit uObject) public
+int DistanceHiResTo(unit uObject) public
+int DistanceHiRes3DTo(unit uObject) public
+int DistanceToEx(unit uObject) public
+int DistanceHiResToEx(unit uObject) public
+int DistanceHiRes3DToEx(unit uObject) public
+int GetAlphaAngle() public
+int IsPlayer(int nPlayerNum) private static
+int GetBuildingType() public
+int GetBuildingTypeEx() public
+int IsBuildingWall() public
+int HaveUnitOnTower() public
+void SetUnitName(string strUnitName) public
+string GetUnitName() public
+unit GetUnitRef() public
+void SetStateDelay(int nDelay) private
+void CallMoveToPoint(int nGx, int nGy, int nGz) private
+void CallMoveToPointAlpha(int nGx, int nGy, int nLz, int nAlpha) private
+void CallMoveToPointForce(int nGx, int nGy, int nGz) private
+void CallMoveAndLandToPoint(int nGx, int nGy, int nLz) private
+void CallMoveAndLandToPointForce(int nGx, int nGy, int nLz) private
+void CallMoveLowToPoint(int nGx, int nGy, int nLz) private
+void CallMoveLowToPointForce(int nGx, int nGy, int nLz) private
+void CallMoveHighToPoint(int nGx, int nGy, int nLz) private
+void CallMoveHighToPointForce(int nGx, int nGy, int nLz) private
+void CallMoveOneField(int nGx, int nGy, int nLz) private
+void CallMoveCountFields(int nGx, int nGy, int nLz, int nCount) private
+void CallMoveInsideObject(unit uStoreable) private
+void CallMoveFlyUp(int nAngle) private
+void CallStopMoving() private
+void CallLand() private
+void CallTurnToAngle(int nAlpha) private
+void CallBeginSleepMode() private
+void CallEndSleepMode() private
+void CallBeginCamouflageMode() private
+void CallEndCamouflageMode() private
+void CallExBeginCamouflageModeImmediate() private
+void CallExEndCamouflageModeImmediate() private
+void CallStartCustomAnimation(int nAnimNum, int bLooped, int bResetAnim, int nSec) private
+void CallExStopCustomAnimation() private
+void CallChatWithUnit(unit uChatWithUnit) private
+void CallPutHoldTrap(int nGx, int nGy, int nLz, int dwTrapID) private
+void CallGetHoldTrap(int nGx, int nGy, int nLz) private
+void CallSetUpHoldTrap(int nGx, int nGy, int nLz) private
+int IsMoving() public
+int IsReallyMoving() public
+int IsPreparingToMove() public
+int IsInSleepMode() public
+int IsInCamouflageMode() public
+int IsMakingCustomAnimation() public
+int CanEnterSleepModeNow() private
+int CanEnterCamouflageModeNow() private
+int IsSleepModeUnit() public
+int IsCamouflageModeUnit() public
+int HaveNextCommand() public
+int IsFlyingUp() public
+int IsEntrapped() public
+int CanPutHoldTrapInPoint(int nGx, int nGy, int nLz, int dwTrapID) public
+int CanGetHoldTrapFromPoint(int nGx, int nGy, int nLz, int bPlayTalkIfCant) public
+int CanSetUpHoldTrapInPoint(int nGx, int nGy, int nLz) public
+int IsPuttingHoldTrap() public
+int IsGettingHoldTrap() public
+int IsSettingUpHoldTrap() public
+int IsInGoodPlaceToSetTrap(int nGx, int nGy, int nLz) public
+int IsLive() public
+int IsInWorld() public
+int GetHP() public
+int GetMaxHP() public
+int GetMagic() public
+int GetMaxMagic() public
+int GetArmour(int nType) public
+int IsDamaged() public
+int GetLocationX() public
+int GetLocationY() public
+int GetLocationZ() public
+int GetDirectionAlpha() public
+int GetStopLocationX() private
+int GetStopLocationY() private
+int GetStopLocationZ() private
+int GetStopLocationAngle() private
+int GetMoveTargetX() public
+int GetMoveTargetY() public
+int GetMoveTargetZ() public
+int IsFasterThenUnit(unit uUnit) public
+int IsSlowerThenUnit(unit uUnit) public
+void SetLightsMode(int nMode) private
+int IsFreePoint(int nX, int nY, int nZ) private
+int IsGoodPlaceForSleep(int nX, int nY, int nZ) private
+int IsGoodSurfaceForUnit(int nX, int nY, int nZ) private
+int IsGoodPlaceForUnit(int nX, int nY, int nZ) private
+int IsBridgeInPoint(int nX, int nY, int nZ) private
+int IsOnGround() public
+int IsInTower() public
+unit GetTowerWithUnit() public
+int CanEnterTower(unit uTower) private
+int CanEnterGate(unit uGate) private
+void CallExExitUnitFromTowerGate(unit uBuilding, int nMoveToGx, int nMoveToGy, int nMoveToLz) private
+unit GetAttacker() public
+unit GetLatestAttacker() public
+void ClearAttacker() public
+void SetTargetObject(unit uTarget) private
+int GetAngleToTarget(unit uTarget) public
+int GetRelativeAngleToTarget(unit uTarget) public
+int GetAngleToTargetEx(unit uTarget) public
+int GetRelativeAngleToTargetEx(unit uTarget) public
+int GetAngleToPoint(int nX, int nY, int nZ) public
+int GetRelativeAngleToPoint(int nX, int nY, int nZ) public
+int GetFrontPointX() public
+int GetFrontPointY() public
+int GetFrontPointZ() public
+unit FindTarget(int nTargetType, int nSideSelection, int nKindSelection) private
+void BuildTargetsArray(int nTargetType, int nSideSelection) private
+void BuildTargetsArray(int nTargetType, int nSideSelection, int nGxFrom, int nGyFrom, int nLzFrom, int nGRange) private
+void SetSortFoundTargetsArrayMode(int nSortMode) private
+void SortFoundTargetsArray() private
+void SortFoundTargetsArrayReversed() private
+int GetTargetsCount() private
+int StartEnumTargetsArray() private
+unit GetNextTarget() private
+void EndEnumTargetsArray() private
+unit FindClosestEnemy() private
+unit FindClosestEnemyEx(int nTargetType) private
+unit FindClosestEnemyUnitOrBuilding(int nTargetType) private
+int FindArtefact(int nArtefactMask) private
+int FindArtefact(int nArtefactMask, int nGRange) private
+int GetFoundArtefactX() private
+int GetFoundArtefactY() private
+int GetFoundArtefactZ() private
+int FindEquipmentArtefact() private
+int GetFoundEquipmentArtefactX() private
+int GetFoundEquipmentArtefactY() private
+int GetFoundEquipmentArtefactZ() private
+int FindHealingPlace(int nGRange) private
+int GetFoundHealingPlaceX() private
+int GetFoundHealingPlaceY() private
+int GetFoundHealingPlaceZ() private
+int IsArtefactInPoint(int nGx, int nGy, int nLz) private
+int IsHealingOrConversionPlaceInPoint(int nGx, int nGy, int nLz) private
+int IsHealingPlaceInPoint(int nGx, int nGy, int nLz) private
+void AllowScriptWithdraw(int bAllow) private
+int IsAllowingWithdraw() private
+void AllowScriptRegeneration(int bAllow) private
+void SetScriptImmortal(int bAllow) public
+int HaveDamageIncrease() private
+int HavePersonalDamageIncrease() private
+int HaveRadar() private
+int HaveShadow() private
+int HavePersonalShadow() private
+int HaveLookRoundEquipment(int nEquipmentType) private
+void MessageTalk(int nTalkNum) private
+unit FindBuilding(int nBuildingType) private
+unit FindBuildingNext(int nBuildingType) private
+unit FindRecycleBuilding() private
+unit FindFastEnemy(int bArmedOnly) private
+int FindStormOrFireRain(int bForOurPlayerToo, int bScriptWeatherToo) public
+int GetFoundStormOrFireRainX() public
+int GetFoundStormOrFireRainY() public
+int GetFoundStormOrFireRainZ() public
+int IsStormOrFireRainInPoint(int nGx, int nGy, int nLz, int bForOurPlayerToo, int bScriptWeatherToo) public
+int IsWaitingBeforeClosedGate() public
+unit GetWaitingBeforeClosedGate() private
+int IsWaitingBeforeNotWithdrawalUnit() public
+int IsAccessible(int nGx, int nGy, int nLz) public
+int IsAccessible(unit uTarget) public
+int IsInBuilding() public
+void SetScriptRunMode(int bRun) private
+void SetScriptAttackMode(int bAttack) private
+unit FindNeighbourUnitTarget(int bOnlyOurIDUnits, int bOnlyOurWeaponTypeUnits, int bCheckIsInRange, int nNeighboursRange) private
+unit FindNeighbourUnitTarget(int bOnlyOurIDUnits, int bOnlyOurWeaponTypeUnits, int bCheckIsInRange, int nNeighboursRange, int nFromGx, int nFromGy, int nFromLz, int nMaxTargetDistFromRange) private
+void CallAttackTarget(unit uTarget, int nShootCount) private
+void CallAttackPoint(int nGx, int nGy, int nLz, int nShootCount) private
+void CallStopAttack() private
+void CallForceEventOnEndAttackTarget() private
+int IsAttacking() private
+int GetWeaponType() public
+int HaveWeapon() public
+int HaveShooterSwordHit() public
+int HaveFlatShootCannon() public
+int CanAttackFlyable() public
+int CanAttackGround() public
+int GetAttackHPDamage() public
+int GetAttackHPDamage(int nType) public
+int GetHPDamageOnObject(unit uTarget) public
+int GetAttackRange() public
+int GetAttackMinimumRange() private
+int IsTargetInAttackRange(unit uTarget) private
+int IsPointInAttackRange(int nGx, int nGy, int nLz) private
+int FindFreePointInTargetNeighbourhood(unit uTarget) private
+int FindFreePointInTargetNeighbourhood(int nGx, int nGy, int nLz) private
+int GetFoundFreePointInTargetNeighbourhoodX() private
+int GetFoundFreePointInTargetNeighbourhoodY() private
+int GetFoundFreePointInTargetNeighbourhoodZ() private
+int IsPointInTargetNeighbourhood(unit uTarget, int nGx, int nGy, int nLz) private
+void SetAllowedStayAnimMask(int nMask) private
+int GetAllowedStayAnimMask() private
+int GetSightRange() public
+void CheckAttackMusic(unit uTarget) private
+int IsOtherUnitMakingMagicOnTarget(unit uTarget) private
+int HaveWorkingImmortalShield() public
+int IsInBlindAttack() public
+int IsMagicMirrorUnit() public
+void CallMakeMagic(int nMagicType) private
+void CallMakeMagic(int nMagicType, unit uTarget) private
+void CallMakeMagic(int nMagicType, int nGx, int nGy, int nLz) private
+void CallMakeMagic(int nMagicType, int nGx, int nGy, int nLz, int nAlpha) private
+int IsMakingMagic() private
+int HaveMagic(int nMagicType) private
+int IsMagicReady(int nMagicType) private
+int GetMagicRange(int nMagicType) private
+int GetMagicExecuteRange(int nMagicType) private
+int CanMakeMagic(int nMagicType) private
+int CanMakeMagic(int nMagicType, unit uTarget) private
+int CanMakeMagic(int nMagicType, int nGx, int nGy, int nLz) private
+int CanMakeMagic(int nMagicType, int nGx, int nGy, int nLz, int nAlpha) private
+void SimpleCountObjectsInArea(int nFromGx, int nFromGy, int nFromLz, int nRange) private
+int GetOurCountObjectsInArea() private
+int GetOtherCountObjectsInArea() private
+int IsExecutingCommand(int nCommand) public
+int GetExecutedCommand() public
+int IsExecutingAnyCommand() public
+int DropEquipment(int nEquipmentNum) private
+int SetEventOnSelectedToAttack(unit uByUnit) public
+int SetEventOnEndAttack(unit uByUnit) public
+unit SetEventOnGetTarget() public
+int SetEventOnGetAttackersCount() public
+int SetCustomEvent(int nEventNum, int nGx, int nGy, int nLz, int nParam, unit uObject) public
+void StartStrongFight() private
+void SetRPGSkillsLevel(int bSkillParam, int bIncreaseLevel, int nParamNum, int dwMagicID) private
+void UseObjectFromRPGInventory(int dwInventoryID) private
+void DropObjectFromRPGInventory(int dwInventoryID, int nDropRPGMoney) private
+void DropEquipmentToRPGInventory(int nEquipmentNum) private
+void SoldInventoryInShop(unit uShopUnit, int dwInventoryID, int nCount) private
+void SoldEquipmentInShop(unit uShopUnit, int nCountAndEquipmentNum) private
+void BuyInventoryFromShop(unit uShopUnit, int dwInventoryID, int nCount) private
+void HireRPGUnit(unit uHireUnit) private
+void RegenerateHPFromInventory() private
+void RegenerateMagicFromInventory() private
+void SetScriptData(int nData) public
+int GetScriptData() public
+void ShowRPGShopDialog(unit uShopUnit) private
+void ShowRPGHireDialog(unit uRPGUnit) private
+void UseNextRPGWeapon() private
+void SetRPGWeaponBestForTarget(unit uTarget) private
+int FindPlaceToRangeAttackTarget(unit uTarget) private
+int GetFoundPlaceToRangeAttackTargetX() private
+int GetFoundPlaceToRangeAttackTargetY() private
+int GetFoundPlaceToRangeAttackTargetZ() private
+void MoveInventoryToDepot(unit uDepot, int dwInventoryID, int nCount) private
+void MoveEquipmentToDepot(unit uDepot, int nCountAndEquipmentNum) private
+void MoveDepotToInventory(unit uDepot, int dwInventoryID, int nCount) private
+void ShowRPGDepotDialog(unit uDepot) private
+<functions_end>
+</pre>
+
+<p><big>Commands</big></p>
+<pre>
+<commands_begin>
+<commands_end>
+</pre>
+
+<p><big>Events</big></p>
+<pre>
+<events_begin>
+int OnHit(unit) public
+int OnHitInTower(unit) public
+int OnKilled() public
+int OnFreezeForRepair(int) public
+int OnConvertedToNewPlayer() public
+int OnCheckRecycleUnit() public
+unit OnEndAttackTarget(unit) public
+int OnSelectedToAttackByUnit(unit) public
+int OnEndAttackByUnit(unit) public
+unit OnGetTarget() public
+int OnGetAttackersCount() public
+int OnChangedEquipment() public
+int OnFindTowerUnitTarget(int, unit) public
+int OnCheckDoingNothing() public
+int OnCheckHoldPosition() public
+int OnEnterTower() public
+int Custom0(int, int, int, int, unit) public
+int Custom1(int, int, int, int, unit) public
+int Custom2(int, int, int, int, unit) public
+int Custom3(int, int, int, int, unit) public
+int Custom4(int, int, int, int, unit) public
+<events_end>
+</pre>
+
+<p><big>Enums</big></p>
+<pre>
+<enums_begin>
+buildingNormal
+buildingFactory
+buildingHarvestFactory
+buildingGate
+buildingBridgeGate
+buildingTower
+buildingWall
+buildingCopula
+buildingExNone
+artefactRegenerateHP
+artefactRegenerateMagic
+artefactAddMaxHP
+artefactAddDamage
+artefactAddMaxMagic
+artefactAddHP
+artefactAddMagic
+artefactGiveMoney
+artefactShowMap
+artefactEquipment
+artefactRPGUnitOnly
+artefactSpecialAI
+artefactNoRPGUnit
+magicImmortalShield
+magicFreeze
+magicCapturing
+magicStorm
+magicSeeing
+magicConversion
+magicFireRain
+magicRemoveStormFireRain
+magicTeleportation
+magicGhost
+magicWildAnimal
+magicTrap
+magicGetHP
+magicSingleFreeze
+magicBlindAttack
+magicTimedCapturing
+magicOurWildAnimal
+magicOurHoldWildAnimal
+magicOurMagicMirror
+magicRandConversion
+magicAroundDamage
+magicSelfHealing
+magicFireWall
+selectedTalk
+selectedSleepTalk
+commandOnSleepTalk
+commandTalk
+attackTalk
+workTalk
+enemyTalk
+helpTalk
+deadTalk
+takeEquipmentTalk
+dropEquipmentTalk
+beginSleepTalk
+endSleepTalk
+noSleepEnemiesTalk
+noSleepHealthyTalk
+wakeUpEnemyTalk
+magic1Talk
+magic2Talk
+magic3Talk
+magic4Talk
+lookRoundTypeDamageIncrease
+lookRoundTypeRadar
+lookRoundTypeShadow
+lookRoundTypeSpeedUpRegeneration
+lookRoundTypeSpeedUpMagicReload
+lookRoundTypeHarvestSpeedIncrease
+lookRoundTypeBuildSpeedIncrease
+lightsOFF
+lightsAUTO
+<enums_end>
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,223 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1250">
+<title> punit object </title>
+</head>
+
+<body>
+
+<hr>
+
+<p><big><strong>punit</strong> object</big></p>
+
+<p><big>Functions</big></p>
+<pre>
+<functions_begin>
+void BeginRecord() public
+void EndRecord() public
+void BeginQuickRecord() public
+void EndQuickRecord() public
+void RepeatRecordExecution() public
+void ExecuteRecord() public
+int IsExecutingCommand(int nCommand) public
+int IsExecutingAnyCommand() public
+int GetStopLocationX() public
+int GetStopLocationY() public
+int GetStopLocationZ() public
+void NextCommand(int nPrevCommandStatus) public
+void CommandStop() public
+void CommandLand() public
+void CommandMove(int, int, int) public
+void CommandMoveEx(int, int, int) public
+void CommandMoveAndDefend(int, int, int) public
+void CommandTurn(int) public
+void CommandTurnDelayed(int) public
+void CommandAttack(unit) public
+void CommandAttackOnPoint(int, int, int) public
+void CommandEnter(unit) public
+void CommandSleepMode(int) public
+void CommandCamouflageMode(int) public
+void CommandRecycleUnit() public
+void CommandSetLights(int) public
+void CommandSetAttackMode(int) public
+void CommandSetMovementMode(int) public
+void CommandSetTakeEquipmentArtefactMode(int) public
+void CommandSetSmartAttackMode(int) public
+void CommandDropEquipment(int) public
+void CommandMakeCustomAnimation(int, int, int, int, int, int) public
+void CommandStopCustomAnimation() public
+void CommandMakeChatTalk(unit) public
+void CommandSetTalkMode(int, int, int) public
+void CommandStartStrongFight() public
+void CommandPutHoldTrap(int, int, int) public
+void CommandPutHoldTrapOnce(int, int, int) public
+void CommandGetHoldTrap(int, int, int) public
+void CommandSetUpHoldTrap(int, int, int) public
+void CommandMoveToShopUnit(unit) public
+void CommandMoveToUnitToHire(unit) public
+void CommandUseNextRPGWeapon() public
+void CommandSetAutoSelectRPGWeaponMode(int) public
+void CommandMakeMagicImmortalShield() public
+void CommandMakeMagicFreeze() public
+void CommandMakeMagicCapturing(unit) public
+void CommandMakeMagicStorm(int, int, int) public
+void CommandMakeMagicSeeing(int, int, int) public
+void CommandMakeMagicConversion(unit) public
+void CommandMakeMagicFireRain(int, int, int) public
+void CommandMakeMagicRemoveStormFireRain(int, int, int) public
+void CommandMakeMagicTeleportation(int, int, int) public
+void CommandMakeMagicGhost(int, int, int) public
+void CommandMakeMagicWildAnimal(int, int, int) public
+void CommandMakeMagicTrap(int, int, int) public
+void CommandMakeMagicGetHP(unit) public
+void CommandMakeMagicSingleFreeze(unit) public
+void CommandMakeMagicBlindAttack(unit) public
+void CommandMakeMagicTimedCapturing(unit) public
+void CommandMakeMagicOurWildAnimal() public
+void CommandMakeMagicOurHoldWildAnimal(int, int, int) public
+void CommandMakeMagicOurMagicMirror() public
+void CommandMakeMagicRandConversion(unit) public
+void CommandMakeMagicAroundDamage() public
+void CommandMakeMagicSelfHealing() public
+void CommandSetMakeMagicImmortalShieldMode(int) public
+void CommandSetMakeMagicFreezeMode(int) public
+void CommandSetMakeMagicCapturingMode(int) public
+void CommandSetMakeMagicStormMode(int) public
+void CommandSetMakeMagicSeeingMode(int) public
+void CommandSetMakeMagicConversionMode(int) public
+void CommandSetMakeMagicFireRainMode(int) public
+void CommandSetMakeMagicRemoveStormFireRainMode(int) public
+void CommandSetMakeMagicTeleportationMode(int) public
+void CommandSetMakeMagicGhostMode(int) public
+void CommandSetMakeMagicWildAnimalMode(int) public
+void CommandSetMakeMagicTrapMode(int) public
+void CommandSetMakeMagicGetHPMode(int) public
+void CommandSetMakeMagicSingleFreezeMode(int) public
+void CommandSetMakeMagicBlindAttackMode(int) public
+void CommandSetMakeMagicTimedCapturingMode(int) public
+void CommandSetMakeMagicOurWildAnimalMode(int) public
+void CommandSetMakeMagicOurHoldWildAnimalMode(int) public
+void CommandSetMakeMagicOurMagicMirrorMode(int) public
+void CommandSetMakeMagicRandConversionMode(int) public
+void CommandSetMakeMagicAroundDamageMode(int) public
+void CommandSetMakeMagicSelfHealing(int) public
+void CommandSetMakeMagicFireWallMode(int) public
+void CommandRepair(unit) public
+void CommandConvert(unit) public
+void CommandCaptureBuilding(unit) public
+void CommandSetRepairMode(int) public
+void CommandSetConvertMode(int) public
+void CommandSetCaptureBuildingMode(int) public
+void CommandBuildObject(unit) public
+void CommandSetHarvestPoint(int, int, int) public
+void CommandSetHarvestDestination(unit) public
+void CommandInitHarvestDestination(unit) public
+void CommandMoveToDestination() public
+void CommandMoveToHarvestPoint() public
+void CommandSetHarvestMode(int) public
+void CommandDisposePlatoon() public
+void CommandAddUnitToPlatoon(unit) public
+void CommandRemoveUnitFromPlatoon(unit) public
+void CommandMoveAndDefendInGroup(int, int, int) public
+void CommandUserNoParam0() public
+void CommandUserNoParam1() public
+void CommandUserNoParam2() public
+void CommandUserNoParam3() public
+void CommandUserNoParam4() public
+void CommandUserNoParam5() public
+void CommandUserNoParam6() public
+void CommandUserNoParam7() public
+void CommandUserNoParam8() public
+void CommandUserNoParam9() public
+void CommandUserOneParam0(int) public
+void CommandUserOneParam1(int) public
+void CommandUserOneParam2(int) public
+void CommandUserOneParam3(int) public
+void CommandUserOneParam4(int) public
+void CommandUserOneParam5(int) public
+void CommandUserOneParam6(int) public
+void CommandUserOneParam7(int) public
+void CommandUserOneParam8(int) public
+void CommandUserOneParam9(int) public
+void CommandUserObject0(unit) public
+void CommandUserObject1(unit) public
+void CommandUserObject2(unit) public
+void CommandUserObject3(unit) public
+void CommandUserObject4(unit) public
+void CommandUserObject5(unit) public
+void CommandUserObject6(unit) public
+void CommandUserObject7(unit) public
+void CommandUserObject8(unit) public
+void CommandUserObject9(unit) public
+void CommandUserPoint0(int, int, int) public
+void CommandUserPoint1(int, int, int) public
+void CommandUserPoint2(int, int, int) public
+void CommandUserPoint3(int, int, int) public
+void CommandUserPoint4(int, int, int) public
+void CommandUserPoint5(int, int, int) public
+void CommandUserPoint6(int, int, int) public
+void CommandUserPoint7(int, int, int) public
+void CommandUserPoint8(int, int, int) public
+void CommandUserPoint9(int, int, int) public
+void CommandUserLine0(int, int, int, int, int, int) public
+void CommandUserLine1(int, int, int, int, int, int) public
+void CommandUserLine2(int, int, int, int, int, int) public
+void CommandUserLine3(int, int, int, int, int, int) public
+void CommandUserLine4(int, int, int, int, int, int) public
+void CommandUserLine5(int, int, int, int, int, int) public
+void CommandUserLine6(int, int, int, int, int, int) public
+void CommandUserLine7(int, int, int, int, int, int) public
+void CommandUserLine8(int, int, int, int, int, int) public
+void CommandUserLine9(int, int, int, int, int, int) public
+void CommandUserDoubleLine0(int, int, int, int, int, int) public
+void CommandUserDoubleLine1(int, int, int, int, int, int) public
+void CommandUserDoubleLine2(int, int, int, int, int, int) public
+void CommandUserDoubleLine3(int, int, int, int, int, int) public
+void CommandUserDoubleLine4(int, int, int, int, int, int) public
+void CommandUserDoubleLine5(int, int, int, int, int, int) public
+void CommandUserDoubleLine6(int, int, int, int, int, int) public
+void CommandUserDoubleLine7(int, int, int, int, int, int) public
+void CommandUserDoubleLine8(int, int, int, int, int, int) public
+void CommandUserDoubleLine9(int, int, int, int, int, int) public
+void CommandUserArea0(int, int, int, int, int, int) public
+void CommandUserArea1(int, int, int, int, int, int) public
+void CommandUserArea2(int, int, int, int, int, int) public
+void CommandUserArea3(int, int, int, int, int, int) public
+void CommandUserArea4(int, int, int, int, int, int) public
+void CommandUserArea5(int, int, int, int, int, int) public
+void CommandUserArea6(int, int, int, int, int, int) public
+void CommandUserArea7(int, int, int, int, int, int) public
+void CommandUserArea8(int, int, int, int, int, int) public
+void CommandUserArea9(int, int, int, int, int, int) public
+void CommandBuildingTurnOnOff(int) public
+void CommandPlayerAddUnitToProduction(int) public
+void CommandPlayerRemoveUnitFromProduction(int) public
+void CommandBuildingAutodestruction() public
+void CommandSoldBuilding() public
+void CommandBuildingSetGateMode(int) public
+void CommandBuildingMoveTowerUnitOutside() public
+void CommandSetBuildingAssemblyPoint(int, int, int) public
+<functions_end>
+</pre>
+
+<p><big>Commands</big></p>
+<pre>
+<commands_begin>
+<commands_end>
+</pre>
+
+<p><big>Events</big></p>
+<pre>
+<events_begin>
+<events_end>
+</pre>
+
+<p><big>Enums</big></p>
+<pre>
+<enums_begin>
+<enums_end>
+</pre>
+
+</body>
+</html>

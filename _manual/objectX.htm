@@ -1,0 +1,236 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1250">
+<title> objectX object </title>
+</head>
+
+<body>
+
+<hr>
+
+<p><big><strong>objectX</strong> object</big></p>
+
+<p><big>Functions</big></p>
+<pre>
+<functions_begin>
+void SaveCameraPosition() private static
+void RestoreCameraPosition() private static
+void SaveCameraPosition2(int nCamera) private static
+void RestoreCameraPosition2(int nCamera) private static
+void LookAt(int, int, int, int, int, int, int) private static
+void LookAt(int x, int y, int z, int alpha, int view, int iTunnel, int iWorld, int nCamera) private static
+void LookAt(int, int, int, int, int, int, int, int, int) private static
+void LookAt(int x, int y, int z, int alpha, int view, int iTunnel, int iWorld, int iDelay, int iDirection, int nCamera) private static
+int GetCameraX() private static
+int GetCameraY() private static
+int GetCameraZ() private static
+int GetCameraZLayer() private static
+int GetCameraAlphaAngle() private static
+int GetCameraViewAngle() private static
+void EnableCameraMovement(int bEnable) private static
+void EnableInterface(int bEnable) private static
+void ShowInterface(int bEnable) private static
+void ShowInterface(int bEnable, int nDelay) private static
+void ShowInterfaceBlackBorders(int bEnable, int nTop, int nBottom, int nTopColor, int nBottomColor) private static
+void ShowInterfaceBlackBorders(int bEnable, int nTop, int nBottom, int nTopColor, int nBottomColor, int nStartDelay, int nMoveDelay) private static
+int IsPanelVisible() private static
+void ShowPanel(int bShow) private static
+void ShowPanel(int bShow, int nDelay) private static
+void ShowVideo(string strVideoName) private static
+void MessageBox(string strMessage) private static
+void SetAvailableWorlds(int) private static
+int GetAvailableWorlds() private static
+void EndGame(string strOutro) private static
+void ShowFinishLoadDialog() private static
+void DefeatScreen() private static
+void CloseProgram(int nRetParam) private static
+int GetCurrentFrameRate() private static
+void SetTime(int) private static
+void SetDayLengthPercent(int nPercent) private static
+int GetDifficultyLevel() private static
+void SendCustomEvent(int iEvent, int iParam1, int iParam2, int iParam3, int nParam4) public static
+void SetTerrain(int) private static
+int IsNetworkGame() private static
+void PlayTrack(string strTrackName) private static
+void PlayWave(string strWaveName) private static
+void PlayWave(string strWaveName, int nDelayTicks) private static
+void PlayWaveEx(string strWaveName, int nVolumeId) private static
+void PlayWaveEx(string strWaveName, int nVolumeId, int nDelayTicks) private static
+void CacheWave(string strWaveName) private static
+void SetLoadBitmap(string strBitmap) private static
+void EnableCampaign(string strCampaignScript) private static
+void DisableCampaign(string strCampaignScript) private static
+void SelectBuildPanelTab(int nTabNum) private static
+void ShowMissionVideoDialog(string strVideoName, string strBackground, int bKeepMainInterface) private static
+int GetUpdateID(string strUpdateID) private static
+int GetMissionInWorld(int nWorld) private static
+int GetWorldWithMission(int nMissionNum) private static
+void EndMission(int, int) private static
+void CallCamera(int nWorld) private static
+void SaveGameRestart(string strRestartSaveName) private static
+void SaveEndMissionGame(int nMissionNum, string strSaveName) private static
+int ExecuteConsoleCommand(string strCommand) private static
+void SetStringBuff(int nBuffNum, string strText) private static
+string GetStringBuff(int nBuffNum) private static
+void CopyStringBuff(int nToBuffNum, int nFromBuffNum) private static
+void AppendStringBuff(int nToBuffNum, int nFromBuffNum) private static
+void SetStringBuffTranslate(int nBuffNum, string strTranslate) private static
+void SetStringBuffW(int nBuffNum, string strText) private static
+int CompareStringBuffNoCase(int nBuffNum, string strText) private static
+int CompareStringBuffNoCase(int nBuffNum, int nBuffNum2) private static
+int CompareStringsNoCase(string pszText1, string strText2) private static
+void SetExperienceParams(string strExperienceID) private static
+int GetCurrentTerrainNum() private static
+int GetLevelTerrainNum(string strLevel) private static
+int SetGameRate(int nGameRate) private static
+int GetGameRate() private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, int, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, int, string, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, int, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, int, string, string, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, int, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, int, string, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, int, string, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, int, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, int, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, int, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, int, string, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, string, int, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, string, int, string) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, string, string, int) private static
+void SetStringBuff(int nBuffNum, LPCSTR pszText, string, string, string, string, string, string) private static
+<functions_end>
+</pre>
+
+<p><big>Commands</big></p>
+<pre>
+<commands_begin>
+<commands_end>
+</pre>
+
+<p><big>Events</big></p>
+<pre>
+<events_begin>
+<events_end>
+</pre>
+
+<p><big>Enums</big></p>
+<pre>
+<enums_begin>
+<enums_end>
+</pre>
+
+</body>
+</html>

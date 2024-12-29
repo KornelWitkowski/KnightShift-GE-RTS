@@ -1,0 +1,457 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1250">
+<title> platoon object </title>
+</head>
+
+<body>
+
+<hr>
+
+<p><big><strong>platoon</strong> object</big></p>
+
+<p><big>Functions</big></p>
+<pre>
+<functions_begin>
+void NextCommand(int nPrevCommandStatus) public
+int IsEnemy(unit uTarget) public
+int IsNeutral(unit uTarget) public
+int IsAlliance(unit uTarget) public
+int IsVisible(unit uTarget) public
+int GetWorldLeft() public
+int GetWorldTop() public
+int GetWorldRight() public
+int GetWorldBottom() public
+int GetGameLeft() public
+int GetGameTop() public
+int GetGameRight() public
+int GetGameBottom() public
+int GetPlayerStartingPointX() public
+int GetPlayerStartingPointY() public
+void AddUnitToPlatoon(unit uUnit) public
+void RemoveUnitFromPlatoon(unit uUnit) public
+int AddUnitsToPlatoon(int nXFrom, int nYFrom, int nXTo, int nYTo, int nZ) public
+void LoadScript(string strScriptName) public
+void Dispose() public
+int GetUnitsCount() public
+punit GetUnit(int) public
+void SetPosition(int iUnit, int iDx, int nDy) public
+int GetPositionX(int nUnit) public
+int GetPositionY(int nUnit) public
+void SetLeader(int nUnit) public
+int InPlatoon(unit uGeneric) public
+void EnableFeatures(int nFlags, int bEnable) public
+void SetUnitData(int nUnit, int dwData) public
+void SetUnitData(punit uUnit, int dwData) public
+int GetUnitData(int nUnit) public
+int GetUnitData(punit uUnit) public
+void AddUnitDataForAll(int dwData) public
+void SaveFormation() public
+void TurnFormation(int nAngle) public
+int IsMoving() public
+void CommandMovePlatoon(int nCommand, int nGx, int nGy, int nLz, int nMoveMode, int nMoveUnitsMask, unit uExeptUnit) public
+void MoveTurnNextAngle() public
+void MoveTurnPrevAngle() public
+void SortUnitsBySpeed(int bAsceding) public
+int GetMaxDistanceFromLeader() public
+unitex GetUnitExRef(unit uGeneric) private static
+void BeginRecord() public
+void EndRecord() public
+void BeginQuickRecord() public
+void EndQuickRecord() public
+void RepeatRecordExecution() public
+void ExecuteRecord() public
+void CommandStop() public
+void CommandLand() public
+void CommandMove(int, int, int) public
+void CommandMoveEx(int, int, int) public
+void CommandMoveAndDefend(int, int, int) public
+void CommandTurn(int) public
+void CommandTurnDelayed(int) public
+void CommandAttack(unitex) public
+void CommandAttackOnPoint(int, int, int) public
+void CommandEnter(unitex) public
+void CommandSleepMode(int) public
+void CommandCamouflageMode(int) public
+void CommandRecycleUnit() public
+void CommandSetLights(int) public
+void CommandSetAttackMode(int) public
+void CommandSetMovementMode(int) public
+void CommandSetTakeEquipmentArtefactMode(int) public
+void CommandSetSmartAttackMode(int) public
+void CommandDropEquipment(int) public
+void CommandMakeCustomAnimation(int, int, int, int, int, int) public
+void CommandStopCustomAnimation() public
+void CommandMakeChatTalk(unitex) public
+void CommandSetTalkMode(int, int, int) public
+void CommandStartStrongFight() public
+void CommandPutHoldTrap(int, int, int) public
+void CommandPutHoldTrapOnce(int, int, int) public
+void CommandGetHoldTrap(int, int, int) public
+void CommandSetUpHoldTrap(int, int, int) public
+void CommandMoveToShopUnit(unitex) public
+void CommandMoveToUnitToHire(unitex) public
+void CommandUseNextRPGWeapon() public
+void CommandSetAutoSelectRPGWeaponMode(int) public
+void CommandMakeMagicImmortalShield() public
+void CommandMakeMagicFreeze() public
+void CommandMakeMagicCapturing(unitex) public
+void CommandMakeMagicStorm(int, int, int) public
+void CommandMakeMagicSeeing(int, int, int) public
+void CommandMakeMagicConversion(unitex) public
+void CommandMakeMagicFireRain(int, int, int) public
+void CommandMakeMagicRemoveStormFireRain(int, int, int) public
+void CommandMakeMagicTeleportation(int, int, int) public
+void CommandMakeMagicGhost(int, int, int) public
+void CommandMakeMagicWildAnimal(int, int, int) public
+void CommandMakeMagicTrap(int, int, int) public
+void CommandMakeMagicGetHP(unitex) public
+void CommandMakeMagicSingleFreeze(unitex) public
+void CommandMakeMagicBlindAttack(unitex) public
+void CommandMakeMagicTimedCapturing(unitex) public
+void CommandMakeMagicOurWildAnimal() public
+void CommandMakeMagicOurHoldWildAnimal(int, int, int) public
+void CommandMakeMagicOurMagicMirror() public
+void CommandMakeMagicRandConversion(unitex) public
+void CommandMakeMagicAroundDamage() public
+void CommandMakeMagicSelfHealing() public
+void CommandSetMakeMagicImmortalShieldMode(int) public
+void CommandSetMakeMagicFreezeMode(int) public
+void CommandSetMakeMagicCapturingMode(int) public
+void CommandSetMakeMagicStormMode(int) public
+void CommandSetMakeMagicSeeingMode(int) public
+void CommandSetMakeMagicConversionMode(int) public
+void CommandSetMakeMagicFireRainMode(int) public
+void CommandSetMakeMagicRemoveStormFireRainMode(int) public
+void CommandSetMakeMagicTeleportationMode(int) public
+void CommandSetMakeMagicGhostMode(int) public
+void CommandSetMakeMagicWildAnimalMode(int) public
+void CommandSetMakeMagicTrapMode(int) public
+void CommandSetMakeMagicGetHPMode(int) public
+void CommandSetMakeMagicSingleFreezeMode(int) public
+void CommandSetMakeMagicBlindAttackMode(int) public
+void CommandSetMakeMagicTimedCapturingMode(int) public
+void CommandSetMakeMagicOurWildAnimalMode(int) public
+void CommandSetMakeMagicOurHoldWildAnimalMode(int) public
+void CommandSetMakeMagicOurMagicMirrorMode(int) public
+void CommandSetMakeMagicRandConversionMode(int) public
+void CommandSetMakeMagicAroundDamageMode(int) public
+void CommandSetMakeMagicSelfHealing(int) public
+void CommandSetMakeMagicFireWallMode(int) public
+void CommandRepair(unitex) public
+void CommandConvert(unitex) public
+void CommandCaptureBuilding(unitex) public
+void CommandSetRepairMode(int) public
+void CommandSetConvertMode(int) public
+void CommandSetCaptureBuildingMode(int) public
+void CommandBuildObject(unitex) public
+void CommandSetHarvestPoint(int, int, int) public
+void CommandSetHarvestDestination(unitex) public
+void CommandInitHarvestDestination(unitex) public
+void CommandMoveToDestination() public
+void CommandMoveToHarvestPoint() public
+void CommandSetHarvestMode(int) public
+void CommandDisposePlatoon() public
+void CommandAddUnitToPlatoon(unitex) public
+void CommandRemoveUnitFromPlatoon(unitex) public
+void CommandMoveAndDefendInGroup(int, int, int) public
+void CommandUserNoParam0() public
+void CommandUserNoParam1() public
+void CommandUserNoParam2() public
+void CommandUserNoParam3() public
+void CommandUserNoParam4() public
+void CommandUserNoParam5() public
+void CommandUserNoParam6() public
+void CommandUserNoParam7() public
+void CommandUserNoParam8() public
+void CommandUserNoParam9() public
+void CommandUserOneParam0(int) public
+void CommandUserOneParam1(int) public
+void CommandUserOneParam2(int) public
+void CommandUserOneParam3(int) public
+void CommandUserOneParam4(int) public
+void CommandUserOneParam5(int) public
+void CommandUserOneParam6(int) public
+void CommandUserOneParam7(int) public
+void CommandUserOneParam8(int) public
+void CommandUserOneParam9(int) public
+void CommandUserObject0(unitex) public
+void CommandUserObject1(unitex) public
+void CommandUserObject2(unitex) public
+void CommandUserObject3(unitex) public
+void CommandUserObject4(unitex) public
+void CommandUserObject5(unitex) public
+void CommandUserObject6(unitex) public
+void CommandUserObject7(unitex) public
+void CommandUserObject8(unitex) public
+void CommandUserObject9(unitex) public
+void CommandUserPoint0(int, int, int) public
+void CommandUserPoint1(int, int, int) public
+void CommandUserPoint2(int, int, int) public
+void CommandUserPoint3(int, int, int) public
+void CommandUserPoint4(int, int, int) public
+void CommandUserPoint5(int, int, int) public
+void CommandUserPoint6(int, int, int) public
+void CommandUserPoint7(int, int, int) public
+void CommandUserPoint8(int, int, int) public
+void CommandUserPoint9(int, int, int) public
+void CommandUserLine0(int, int, int, int, int, int) public
+void CommandUserLine1(int, int, int, int, int, int) public
+void CommandUserLine2(int, int, int, int, int, int) public
+void CommandUserLine3(int, int, int, int, int, int) public
+void CommandUserLine4(int, int, int, int, int, int) public
+void CommandUserLine5(int, int, int, int, int, int) public
+void CommandUserLine6(int, int, int, int, int, int) public
+void CommandUserLine7(int, int, int, int, int, int) public
+void CommandUserLine8(int, int, int, int, int, int) public
+void CommandUserLine9(int, int, int, int, int, int) public
+void CommandUserDoubleLine0(int, int, int, int, int, int) public
+void CommandUserDoubleLine1(int, int, int, int, int, int) public
+void CommandUserDoubleLine2(int, int, int, int, int, int) public
+void CommandUserDoubleLine3(int, int, int, int, int, int) public
+void CommandUserDoubleLine4(int, int, int, int, int, int) public
+void CommandUserDoubleLine5(int, int, int, int, int, int) public
+void CommandUserDoubleLine6(int, int, int, int, int, int) public
+void CommandUserDoubleLine7(int, int, int, int, int, int) public
+void CommandUserDoubleLine8(int, int, int, int, int, int) public
+void CommandUserDoubleLine9(int, int, int, int, int, int) public
+void CommandUserArea0(int, int, int, int, int, int) public
+void CommandUserArea1(int, int, int, int, int, int) public
+void CommandUserArea2(int, int, int, int, int, int) public
+void CommandUserArea3(int, int, int, int, int, int) public
+void CommandUserArea4(int, int, int, int, int, int) public
+void CommandUserArea5(int, int, int, int, int, int) public
+void CommandUserArea6(int, int, int, int, int, int) public
+void CommandUserArea7(int, int, int, int, int, int) public
+void CommandUserArea8(int, int, int, int, int, int) public
+void CommandUserArea9(int, int, int, int, int, int) public
+void CommandBuildingTurnOnOff(int) public
+void CommandPlayerAddUnitToProduction(int) public
+void CommandPlayerRemoveUnitFromProduction(int) public
+void CommandBuildingAutodestruction() public
+void CommandSoldBuilding() public
+void CommandBuildingSetGateMode(int) public
+void CommandBuildingMoveTowerUnitOutside() public
+void CommandSetBuildingAssemblyPoint(int, int, int) public
+<functions_end>
+</pre>
+
+<p><big>Commands</big></p>
+<pre>
+<commands_begin>
+<commands_end>
+</pre>
+
+<p><big>Events</big></p>
+<pre>
+<events_begin>
+int DummyEvent() public
+<events_end>
+</pre>
+
+<p><big>Enums</big></p>
+<pre>
+<enums_begin>
+disallowAICommands
+disposeIfNoUnits
+moveAllToPoint
+moveKeepFormation
+moveSquareFormation
+moveLineFormation
+movePlatoonFormation
+notMoveBuilders
+buildingNormal
+buildingFactory
+buildingHarvestFactory
+buildingGate
+buildingBridgeGate
+buildingTower
+buildingWall
+buildingCopula
+buildingExNone
+commandStop
+commandLand
+commandMove
+commandMoveEx
+commandMoveAndDefend
+commandTurn
+commandTurnDelayed
+commandAttack
+commandAttackOnPoint
+commandRepair
+commandConvert
+commandCaptureBuilding
+commandSetRepairMode
+commandSetConvertMode
+commandSetCaptureBuildingMode
+commandEnter
+commandSleepMode
+commandCamouflageMode
+commandRecycleUnit
+commandBuildObject
+commandSetLights
+commandSetAttackMode
+commandSetMovementMode
+commandSetTakeEquipmentArtefactMode
+commandSetSmartAttackMode
+commandDropEquipment
+commandMakeCustomAnimation
+commandStopCustomAnimation
+commandMakeChatTalk
+commandSetTalkMode
+commandStartStrongFight
+commandPutHoldTrap
+commandPutHoldTrapOnce
+commandGetHoldTrap
+commandSetUpHoldTrap
+commandSetRPGSkillsLevel
+commandUseObjectFromRPGInventory
+commandDropObjectFromRPGInventory
+commandDropEquipmentToRPGInventory
+commandSoldInventoryInShop
+commandSoldEquipmentInShop
+commandBuyInventoryFromShop
+commandHireRPGUnit
+commandRegenerateHPFromInventory
+commandRegenerateMagicFromInventory
+commandUseNextRPGWeapon
+commandSetAutoSelectRPGWeaponMode
+commandMoveToShopUnit
+commandMoveToUnitToHire
+commandMakeMagicImmortalShield
+commandMakeMagicFreeze
+commandMakeMagicCapturing
+commandMakeMagicStorm
+commandMakeMagicSeeing
+commandMakeMagicConversion
+commandMakeMagicFireRain
+commandMakeMagicRemoveStormFireRain
+commandMakeMagicTeleportation
+commandMakeMagicGhost
+commandMakeMagicWildAnimal
+commandMakeMagicTrap
+commandMakeMagicGetHP
+commandMakeMagicSingleFreeze
+commandMakeMagicBlindAttack
+commandMakeMagicTimedCapturing
+commandMakeMagicOurWildAnimal
+commandMakeMagicOurHoldWildAnimal
+commandMakeMagicOurMagicMirror
+commandMakeMagicRandConversion
+commandMakeMagicAroundDamage
+commandMakeMagicSelfHealing
+commandMakeMagicFireWall
+commandMakeMagicFirst
+commandMakeMagicLast
+commandSetMakeMagicImmortalShieldMode
+commandSetMakeMagicFreezeMode
+commandSetMakeMagicCapturingMode
+commandSetMakeMagicStormMode
+commandSetMakeMagicSeeingMode
+commandSetMakeMagicConversionMode
+commandSetMakeMagicFireRainMode
+commandSetMakeMagicRemoveStormFireRainMode
+commandSetMakeMagicTeleportationMode
+commandSetMakeMagicGhostMode
+commandSetMakeMagicWildAnimalMode
+commandSetMakeMagicTrapMode
+commandSetMakeMagicGetHPMode
+commandSetMakeMagicSingleFreezeMode
+commandSetMakeMagicBlindAttackMode
+commandSetMakeMagicTimedCapturingMode
+commandSetMakeMagicOurWildAnimalMode
+commandSetMakeMagicOurHoldWildAnimalMode
+commandSetMakeMagicOurMagicMirrorMode
+commandSetMakeMagicRandConversionMode
+commandSetMakeMagicAroundDamageMode
+commandSetMakeMagicSelfHealing
+commandSetMakeMagicFireWallMode
+commandUserNoParam0
+commandUserNoParam1
+commandUserNoParam2
+commandUserNoParam3
+commandUserNoParam4
+commandUserNoParam5
+commandUserNoParam6
+commandUserNoParam7
+commandUserNoParam8
+commandUserNoParam9
+commandUserOneParam0
+commandUserOneParam1
+commandUserOneParam2
+commandUserOneParam3
+commandUserOneParam4
+commandUserOneParam5
+commandUserOneParam6
+commandUserOneParam7
+commandUserOneParam8
+commandUserOneParam9
+commandUserObject0
+commandUserObject1
+commandUserObject2
+commandUserObject3
+commandUserObject4
+commandUserObject5
+commandUserObject6
+commandUserObject7
+commandUserObject8
+commandUserObject9
+commandUserPoint0
+commandUserPoint1
+commandUserPoint2
+commandUserPoint3
+commandUserPoint4
+commandUserPoint5
+commandUserPoint6
+commandUserPoint7
+commandUserPoint8
+commandUserPoint9
+commandUserLine0
+commandUserLine1
+commandUserLine2
+commandUserLine3
+commandUserLine4
+commandUserLine5
+commandUserLine6
+commandUserLine7
+commandUserLine8
+commandUserLine9
+commandUserDoubleLine0
+commandUserDoubleLine1
+commandUserDoubleLine2
+commandUserDoubleLine3
+commandUserDoubleLine4
+commandUserDoubleLine5
+commandUserDoubleLine6
+commandUserDoubleLine7
+commandUserDoubleLine8
+commandUserDoubleLine9
+commandUserArea0
+commandUserArea1
+commandUserArea2
+commandUserArea3
+commandUserArea4
+commandUserArea5
+commandUserArea6
+commandUserArea7
+commandUserArea8
+commandUserArea9
+commandAutodestruction
+commandSoldBuilding
+commandStopSoldBuilding
+commandPlayerBuildRoad
+commandPlayerBuildRoad2x2
+commandPlayerBuildWall
+commandPlayerBuildNarrowBridge
+commandPlayerBuildWideBridge
+commandPlayerBuildSingleBridge
+commandMoveToDepot
+commandMoveInventoryToDepot
+commandMoveEquipmentToDepot
+commandMoveDepotToInventory
+<enums_end>
+</pre>
+
+</body>
+</html>

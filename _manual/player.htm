@@ -1,0 +1,744 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1250">
+<title> player object </title>
+</head>
+
+<body>
+
+<hr>
+
+<p><big><strong>player</strong> object</big></p>
+
+<p><big>Functions</big></p>
+<pre>
+<functions_begin>
+int PlayerCommand1(int nParam) public
+int PlayerCommand2(int nParam) public
+int PlayerCommand3(int nParam) public
+int PlayerCommand4(int nParam) public
+int PlayerCommand5(int nParam) public
+void AddMoney(int nMoney) public
+void SetMoney(int nMoney) public
+int GetMoney() public
+void SetMaxMoney(int nMaxMoney) public
+int GetMaxMoney() public
+void SetEnemy(player pEnemy) public
+void SetNeutral(player pNeutral) public
+void SetAlly(player pAlly) public
+void IgnoreNotifyAttackUnit(string strName, int bValue) public
+void SetScriptData(int nDataIndex, int nValue) public
+int GetScriptData(int nDataIndex) public
+void SetScriptUnit(int nIndex, unitex uUnit) public
+void SetScriptUnit(int nIndex, unitex uUnit, int bKeepKilled) public
+unitex GetScriptUnit(int nIndex) public
+int SaveUnits(int nToBuffer, int bAppendToBuffer, string strUnitID, int bRemoveFromWorld) public
+int SaveUnitsFromArea(int nToBuffer, int bAppendToBuffer, int nGx, int nGy, int nLz, int nGRange, string strUnitID, int bRemoveFromWorld) public
+int SaveUnitsFromArea(int nToBuffer, int bAppendToBuffer, int nGxFrom, int nGyFrom, int nGxTo, int nGyTo, int nLz, string strUnitID, int bRemoveFromWorld) public
+int SaveUnit(int, int, unitex, int) public
+int GetSavedUnitsCount(int nInBuffer) public
+int GetSavedUnitsCount(int nInBuffer, string strUnitID) public
+int RestoreUnitsAt(int nFromBuffer, int nGx, int nGy, int nLz, int bRestoreGroupNum) public
+int RestoreUnitsAt(int nFromBuffer, int nGx, int nGy, int nLz, string strUnitID, int nFromUnitNum, int nUnitsCount, int bRestoreGroupNum) public
+unitex RestoreUnitAt(int nFromBuffer, int nGx, int nGy, int nLz, int bRestoreGroupNum) public
+unitex RestoreUnitAt(int nFromBuffer, int nGx, int nGy, int nLz, string strUnitID, int nFromUnitNum, int nUnitsCount, int bRestoreGroupNum) public
+void ResetSavedUnits(int nInBuffer) public
+int AppendSavedUnitsBuffer(int nToBuffer, int nFromBuffer) public
+int MoveSavedUnitsBuffer(int nToBuffer, int nFromBuffer, int bAppendToBuffer, string strUnitID, int nFromUnitNum, int nUnitsCount) public
+void SortSavedUnitsBuffer(int nBuffer, int nSortFlags) public
+void GiveAllUnitsTo(player pPlayer2) public
+void GiveAllUnitsTo(player pPlayer2, int x, int y, int z, int r) public
+void GiveAllBuildingsTo(player pPlayer2) public
+void GiveAllBuildingsTo(player pPlayer2, int x, int y, int z, int r) public
+void GiveTo(player pPlayer2, unitex uGeneric) public
+int GetNumberOfUnits() public
+int GetNumberOfUnits(string strUnitID) public
+int GetNumberOfUnits(int x, int y, int z, int r) public
+int GetNumberOfBuildings() public
+int GetNumberOfBuildings(int nBuilding) public
+int GetNumberOfBuildings(int x, int y, int z, int r) public
+int GetNumberOfBuildings(string strBuildingID) public
+unitex GetUnit(int nIndex) public
+void EnableAI(int) public
+void EnableAIFeatures(int nFlags, int bEnable) public
+void EnableAIFeatures2(int nFlags, int bEnable) public
+int GetStartingPointX() public
+int GetStartingPointY() public
+int IsPointLocated(int iX, int iY, int nZ) public
+int IsPointLocated(int iX, int nY) public
+void Defeat() public
+void Victory() public
+void LookAt(int x, int y, int z, int alpha, int view, int nTunnel) public
+void DelayedLookAt(int x, int y, int z, int alpha, int view, int iTunnel, int iDelay, int nDirection) public
+void SetName(string strName) public
+string GetName() public
+int GetIFF() public
+int GetIFFNumber() public
+int GetAllyIFF() public
+int GetAllianceIFF() public
+int GetNeutralIFF() public
+int GetEnemyIFF() public
+int GetSideColor() public
+void SetSideColor(int nNewSideColor) public
+void SetSideColor(int nNewSideColor, int bNotifyGame) public
+int GetMissionTime() public
+void AddResearch(string strResearch) public
+int IsResearchInvented(string strResearch) public
+void EnableCommand(int nCommand, int bEnable) public
+int IsCommandEnabled(int nCommand) public
+int IsCommandDisabled(int nCommand) public
+int GetRace() public
+void RussianAttack(int iX, int iY, int nZ) public
+void Attack(int iX, int iY, int nZ) public
+void SetMainEnemyIFFNum(int nIFFNum) public
+int GetMainEnemyIFFNum() public
+player GetMainEnemy() public
+void LoadScript(string strScript) public
+void EnableStatistics(int bEnable) public
+int IsEnabledStatistics() public
+void SetStatisticBitmap(string strBitmap) public
+void CopyResearches(player pSrcPlayer) public
+void SetAllowGiveMoney(int bSet) public
+int IsAllowGiveMoney() public
+int IsAlive() public
+int IsHuman() public
+int IsAI() public
+int IsEnemy(player pPlayer2) public
+int IsAlly(player pPlayer2) public
+int IsNeutral(player pPlayer2) public
+unitex CreateUnit(int nGx, int nGy, int nLz, int nAngle, string strUnit) public
+unitex CreateUnit(int nGx, int nGy, int nLz, int nAngle, string pszUnit, string strSubObject1) public
+unitex CreateUnit(int nGx, int nGy, int nLz, int nAngle, string pszUnit, string pszSubObject1, string pszSubObject2, string pszSubObject3, string pszSubObject4, string pszSubObject5, string pszSubObject6, string pszSubObject7, string strSubObject8) public
+unitex CreateRPGCharacter(int nGx, int nGy, int nLz, int nAngle) public
+unitex CreateBuilding(int x, int y, int nTunnel, int nAngle, string strBuilding) public
+platoon CreatePlatoon() public
+platoon CreatePlatoon(string strScriptName) public
+platoon CreatePlatoon(string strScriptName, int nXFrom, int nYFrom, int nXTo, int nYTo, int nZ) public
+void SetAllowGiveUnits(int bSet) public
+int IsAllowGiveUnits() public
+void SetMaxDistance(int nRange) public
+int GetMaxDistance() public
+void SpyPlayer(int nPlayerNum, int bStartSpy, int nTime) public
+void SpyPlayer(player pSpyPlayer, int bStartSpy, int nTime) public
+int IsSpyingPlayer(int nPlayerNum) public
+int IsSpyingPlayer(player pSpyPlayer) public
+int GetStatisticValue(int nStatsType) public
+int GetStatisticValue(int nStatsType, int nStatsIndex) public
+void SetConsoleText(string) public
+void SetLowConsoleText(string strText) public
+void AddWorldMapSign(int nGx, int nGy, int nLz, int nSignNum, int nTicks) public
+void RemoveWorldMapSign(int nGx, int nGy, int nLz) public
+int MakeBombingAttack(int nGx, int nGy, string strBombID, int nBombsCnt, int nRange, int nTime, int nDetectedTalkNum) public
+int MakeBombingAttack(int nGx, int nGy, string pszBomberID, string strBombID, int nBombsCnt, int nRange, int nTime, int nDetectedTalkNum) public
+void AddUnitsToGroup(int nXFrom, int nYFrom, int nXTo, int nYTo, int nZ, int nGroupNum) public
+void AddUnitToGroup(unitex uUnit, int nGroupNum) public
+void SelectUnit(unitex uUnit, int bAddToSel) public
+void SetMaxCountLimitForObject(string strObjectID, int nMaxCount) public
+int GetMaxCountLimitForObject(string strObjectID) public
+int GetCurrCountLimitForObject(string strObjectID) public
+int CountMaxUnitsAvailableToBuild(string strUnitID) public
+void SetMaxUnitsCountInBuilding(string strBuildingID, int nMaxCount) public
+void SetUnitsRecyclePercent(int nPercent) public
+int GetUnitsRecyclePercent() public
+void SetBuildingsRecyclePercent(int nPercent) public
+int GetBuildingsRecyclePercent() public
+void SetThinkSpeed(int nType, int nThinkSpeed) public
+int GetThinkSpeed(int nType) public
+void SetMinHarvesters(int nMinCount) public
+int GetMinHarvesters() public
+void SetMinBuilders(int nMinCount) public
+int GetMinBuilders() public
+void SetUnitProdCount(string strUnitID, int nCount) public
+int GetUnitProdCount(string strUnitID) public
+void OrderUnit(string strUnitID, int nPriority) public
+void OrderBuilding(string strBuildingID, int nPriority) public
+int IsUnitProduced(string strUnitID) public
+void SetUnitProductionBuilding(string pszUnitID, string strBuildingID) public
+void SetUnitsInPlatoon(int nMaxCnt) public
+int GetUnitsInPlatoon() public
+void SetUnitsInBuildersPlatoon(int nCnt) public
+int GetUnitsInBuildersPlatoon() public
+void SetPlatoonsProportions(int nOffensiveCnt, int nDefensiveCnt) public
+int GetOffensivePlatoonProportion() public
+int GetDefensivePlatoonProportion() public
+void SetStartAttacksTime(int nTime) public
+int GetStartAttacksTime() public
+void SetMaxBuildBaseRange(int nTime) public
+int GetMaxBuildBaseRange() public
+void SetUnitsExperienceLevel(int nExperienceLevel) public
+void SetUnitsBuildTimePercent(int nPercent) public
+void SetCalcMinMoneyInUnitsCounts(int bSet) public
+void CameraFollowObject(unitex CGeneric* pObject) public
+int IsCameraFollowingObject(unitex CGeneric* pObject) public
+void StartTalkDefinition() public
+void AddTalk(unitex uTalkUnit, int nAnimNum, int bAnimLooped, int bResetAnim, string pszWave, int nSec, string strText) public
+void AddTalk(unitex uTalkUnit, int nAnimNum, int bAnimLooped, int bResetAnim, string pszWave, int nSec, string strText, int nParam1) public
+void AddTalk(unitex uTalkUnit, int nAnimNum, int bAnimLooped, int bResetAnim, string pszWave, int nSec, string strText, int nParam1, int nParam2) public
+void AddTalk(unitex uTalkUnit, int nAnimNum, int bAnimLooped, int bResetAnim, int nSec) public
+void AddTalkSyncPrev(unitex uTalkUnit, int nAnimNum, int bAnimLooped, int bResetAnim) public
+void AddTalkPause(int nSec) public
+void AddTalkLookAt(int x, int y, int z, int alpha, int view, int nTunnel) public
+void AddTalkDelayedLookAt(int x, int y, int z, int alpha, int view, int iTunnel, int iDelay, int nDirection) public
+void PlayTalkDefinition() public
+void SaveTalkDialogTexts(string strDialogName) public
+void PrepareInterfaceToTalk(int bStartTalk, int nTop, int nBottom, int nColor) public
+void EnableCameraMovement(int bEnable) public
+void EnableInterface(int bEnable) public
+void ShowInterface(int bEnable) public
+void ShowInterface(int bEnable, int nDelay) public
+void ShowInterfaceBlackBorders(int bEnable, int nTop, int nBottom, int nTopColor, int nBottomColor) public
+void ShowInterfaceBlackBorders(int bEnable, int nTop, int nBottom, int nTopColor, int nBottomColor, int nStartDelay, int nMoveDelay) public
+void EnableGoal(int, int) public
+void EnableGoal(int nNr, int bEnable, int bNotify) public
+void SetGoalState(int, int) public
+void SetGoalState(int iNr, int nState, int bNotify) public
+int GetGoalState(int nNr) public
+int IsGoalEnabled(int nNr) public
+void RegisterGoal(int nNr, string strText) public
+int GetNumberOfEnabledGoals() public
+int LoadObjectsFromFile(int, int, int, int, string) public
+int GetLoadedGateX() public
+int GetLoadedGateY() public
+int GetLoadedGateZ() public
+int GetLoadedTeleportX() public
+int GetLoadedTeleportY() public
+int GetLoadedTeleportZ() public
+int GetLoadedShopUnitX() public
+int GetLoadedShopUnitY() public
+int GetLoadedShopUnitZ() public
+void ShowRecreateRPGCharacterDialog() public
+void ResearchUpdate(string strObjectID) public
+void EnableResearchUpdate(string strObjectID, int bEnable) public
+void EnableNextLevel() public
+void SetDropSubObjectsOnKill(int bSet) public
+void RegisterGoal(int nNr, string strText, int) public
+void RegisterGoal(int nNr, string strText, string) public
+void RegisterGoal(int nNr, string strText, int, int) public
+void RegisterGoal(int nNr, string strText, int, string) public
+void RegisterGoal(int nNr, string strText, string, int) public
+void RegisterGoal(int nNr, string strText, string, string) public
+void RegisterGoal(int nNr, string strText, int, int, int) public
+void RegisterGoal(int nNr, string strText, int, int, string) public
+void RegisterGoal(int nNr, string strText, int, string, int) public
+void RegisterGoal(int nNr, string strText, int, string, string) public
+void RegisterGoal(int nNr, string strText, string, int, int) public
+void RegisterGoal(int nNr, string strText, string, int, string) public
+void RegisterGoal(int nNr, string strText, string, string, int) public
+void RegisterGoal(int nNr, string strText, string, string, string) public
+void RegisterGoal(int nNr, string strText, int, int, int, int) public
+void RegisterGoal(int nNr, string strText, int, int, int, string) public
+void RegisterGoal(int nNr, string strText, int, int, string, int) public
+void RegisterGoal(int nNr, string strText, int, int, string, string) public
+void RegisterGoal(int nNr, string strText, int, string, int, int) public
+void RegisterGoal(int nNr, string strText, int, string, int, string) public
+void RegisterGoal(int nNr, string strText, int, string, string, int) public
+void RegisterGoal(int nNr, string strText, int, string, string, string) public
+void RegisterGoal(int nNr, string strText, string, int, int, int) public
+void RegisterGoal(int nNr, string strText, string, int, int, string) public
+void RegisterGoal(int nNr, string strText, string, int, string, int) public
+void RegisterGoal(int nNr, string strText, string, int, string, string) public
+void RegisterGoal(int nNr, string strText, string, string, int, int) public
+void RegisterGoal(int nNr, string strText, string, string, int, string) public
+void RegisterGoal(int nNr, string strText, string, string, string, int) public
+void RegisterGoal(int nNr, string strText, string, string, string, string) public
+void RegisterGoal(int nNr, string strText, int, int, int, int, int) public
+void RegisterGoal(int nNr, string strText, int, int, int, int, string) public
+void RegisterGoal(int nNr, string strText, int, int, int, string, int) public
+void RegisterGoal(int nNr, string strText, int, int, int, string, string) public
+void RegisterGoal(int nNr, string strText, int, int, string, int, int) public
+void RegisterGoal(int nNr, string strText, int, int, string, int, string) public
+void RegisterGoal(int nNr, string strText, int, int, string, string, int) public
+void RegisterGoal(int nNr, string strText, int, int, string, string, string) public
+void RegisterGoal(int nNr, string strText, int, string, int, int, int) public
+void RegisterGoal(int nNr, string strText, int, string, int, int, string) public
+void RegisterGoal(int nNr, string strText, int, string, int, string, int) public
+void RegisterGoal(int nNr, string strText, int, string, int, string, string) public
+void RegisterGoal(int nNr, string strText, int, string, string, int, int) public
+void RegisterGoal(int nNr, string strText, int, string, string, int, string) public
+void RegisterGoal(int nNr, string strText, int, string, string, string, int) public
+void RegisterGoal(int nNr, string strText, int, string, string, string, string) public
+void RegisterGoal(int nNr, string strText, string, int, int, int, int) public
+void RegisterGoal(int nNr, string strText, string, int, int, int, string) public
+void RegisterGoal(int nNr, string strText, string, int, int, string, int) public
+void RegisterGoal(int nNr, string strText, string, int, int, string, string) public
+void RegisterGoal(int nNr, string strText, string, int, string, int, int) public
+void RegisterGoal(int nNr, string strText, string, int, string, int, string) public
+void RegisterGoal(int nNr, string strText, string, int, string, string, int) public
+void RegisterGoal(int nNr, string strText, string, int, string, string, string) public
+void RegisterGoal(int nNr, string strText, string, string, int, int, int) public
+void RegisterGoal(int nNr, string strText, string, string, int, int, string) public
+void RegisterGoal(int nNr, string strText, string, string, int, string, int) public
+void RegisterGoal(int nNr, string strText, string, string, int, string, string) public
+void RegisterGoal(int nNr, string strText, string, string, string, int, int) public
+void RegisterGoal(int nNr, string strText, string, string, string, int, string) public
+void RegisterGoal(int nNr, string strText, string, string, string, string, int) public
+void RegisterGoal(int nNr, string strText, string, string, string, string, string) public
+void RegisterGoal(int nNr, string strText, int, int, int, int, int, int) public
+void RegisterGoal(int nNr, string strText, int, int, int, int, int, string) public
+void RegisterGoal(int nNr, string strText, int, int, int, int, string, int) public
+void RegisterGoal(int nNr, string strText, int, int, int, int, string, string) public
+void RegisterGoal(int nNr, string strText, int, int, int, string, int, int) public
+void RegisterGoal(int nNr, string strText, int, int, int, string, int, string) public
+void RegisterGoal(int nNr, string strText, int, int, int, string, string, int) public
+void RegisterGoal(int nNr, string strText, int, int, int, string, string, string) public
+void RegisterGoal(int nNr, string strText, int, int, string, int, int, int) public
+void RegisterGoal(int nNr, string strText, int, int, string, int, int, string) public
+void RegisterGoal(int nNr, string strText, int, int, string, int, string, int) public
+void RegisterGoal(int nNr, string strText, int, int, string, int, string, string) public
+void RegisterGoal(int nNr, string strText, int, int, string, string, int, int) public
+void RegisterGoal(int nNr, string strText, int, int, string, string, int, string) public
+void RegisterGoal(int nNr, string strText, int, int, string, string, string, int) public
+void RegisterGoal(int nNr, string strText, int, int, string, string, string, string) public
+void RegisterGoal(int nNr, string strText, int, string, int, int, int, int) public
+void RegisterGoal(int nNr, string strText, int, string, int, int, int, string) public
+void RegisterGoal(int nNr, string strText, int, string, int, int, string, int) public
+void RegisterGoal(int nNr, string strText, int, string, int, int, string, string) public
+void RegisterGoal(int nNr, string strText, int, string, int, string, int, int) public
+void RegisterGoal(int nNr, string strText, int, string, int, string, int, string) public
+void RegisterGoal(int nNr, string strText, int, string, int, string, string, int) public
+void RegisterGoal(int nNr, string strText, int, string, int, string, string, string) public
+void RegisterGoal(int nNr, string strText, int, string, string, int, int, int) public
+void RegisterGoal(int nNr, string strText, int, string, string, int, int, string) public
+void RegisterGoal(int nNr, string strText, int, string, string, int, string, int) public
+void RegisterGoal(int nNr, string strText, int, string, string, int, string, string) public
+void RegisterGoal(int nNr, string strText, int, string, string, string, int, int) public
+void RegisterGoal(int nNr, string strText, int, string, string, string, int, string) public
+void RegisterGoal(int nNr, string strText, int, string, string, string, string, int) public
+void RegisterGoal(int nNr, string strText, int, string, string, string, string, string) public
+void RegisterGoal(int nNr, string strText, string, int, int, int, int, int) public
+void RegisterGoal(int nNr, string strText, string, int, int, int, int, string) public
+void RegisterGoal(int nNr, string strText, string, int, int, int, string, int) public
+void RegisterGoal(int nNr, string strText, string, int, int, int, string, string) public
+void RegisterGoal(int nNr, string strText, string, int, int, string, int, int) public
+void RegisterGoal(int nNr, string strText, string, int, int, string, int, string) public
+void RegisterGoal(int nNr, string strText, string, int, int, string, string, int) public
+void RegisterGoal(int nNr, string strText, string, int, int, string, string, string) public
+void RegisterGoal(int nNr, string strText, string, int, string, int, int, int) public
+void RegisterGoal(int nNr, string strText, string, int, string, int, int, string) public
+void RegisterGoal(int nNr, string strText, string, int, string, int, string, int) public
+void RegisterGoal(int nNr, string strText, string, int, string, int, string, string) public
+void RegisterGoal(int nNr, string strText, string, int, string, string, int, int) public
+void RegisterGoal(int nNr, string strText, string, int, string, string, int, string) public
+void RegisterGoal(int nNr, string strText, string, int, string, string, string, int) public
+void RegisterGoal(int nNr, string strText, string, int, string, string, string, string) public
+void RegisterGoal(int nNr, string strText, string, string, int, int, int, int) public
+void RegisterGoal(int nNr, string strText, string, string, int, int, int, string) public
+void RegisterGoal(int nNr, string strText, string, string, int, int, string, int) public
+void RegisterGoal(int nNr, string strText, string, string, int, int, string, string) public
+void RegisterGoal(int nNr, string strText, string, string, int, string, int, int) public
+void RegisterGoal(int nNr, string strText, string, string, int, string, int, string) public
+void RegisterGoal(int nNr, string strText, string, string, int, string, string, int) public
+void RegisterGoal(int nNr, string strText, string, string, int, string, string, string) public
+void RegisterGoal(int nNr, string strText, string, string, string, int, int, int) public
+void RegisterGoal(int nNr, string strText, string, string, string, int, int, string) public
+void RegisterGoal(int nNr, string strText, string, string, string, int, string, int) public
+void RegisterGoal(int nNr, string strText, string, string, string, int, string, string) public
+void RegisterGoal(int nNr, string strText, string, string, string, string, int, int) public
+void RegisterGoal(int nNr, string strText, string, string, string, string, int, string) public
+void RegisterGoal(int nNr, string strText, string, string, string, string, string, int) public
+void RegisterGoal(int nNr, string strText, string, string, string, string, string, string) public
+void SetConsoleText(string, int) public
+void SetConsoleText(string, string) public
+void SetConsoleText(string, int, int) public
+void SetConsoleText(string, int, string) public
+void SetConsoleText(string, string, int) public
+void SetConsoleText(string, string, string) public
+void SetConsoleText(string, int, int, int) public
+void SetConsoleText(string, int, int, string) public
+void SetConsoleText(string, int, string, int) public
+void SetConsoleText(string, int, string, string) public
+void SetConsoleText(string, string, int, int) public
+void SetConsoleText(string, string, int, string) public
+void SetConsoleText(string, string, string, int) public
+void SetConsoleText(string, string, string, string) public
+void SetConsoleText(string, int, int, int, int) public
+void SetConsoleText(string, int, int, int, string) public
+void SetConsoleText(string, int, int, string, int) public
+void SetConsoleText(string, int, int, string, string) public
+void SetConsoleText(string, int, string, int, int) public
+void SetConsoleText(string, int, string, int, string) public
+void SetConsoleText(string, int, string, string, int) public
+void SetConsoleText(string, int, string, string, string) public
+void SetConsoleText(string, string, int, int, int) public
+void SetConsoleText(string, string, int, int, string) public
+void SetConsoleText(string, string, int, string, int) public
+void SetConsoleText(string, string, int, string, string) public
+void SetConsoleText(string, string, string, int, int) public
+void SetConsoleText(string, string, string, int, string) public
+void SetConsoleText(string, string, string, string, int) public
+void SetConsoleText(string, string, string, string, string) public
+void SetConsoleText(string, int, int, int, int, int) public
+void SetConsoleText(string, int, int, int, int, string) public
+void SetConsoleText(string, int, int, int, string, int) public
+void SetConsoleText(string, int, int, int, string, string) public
+void SetConsoleText(string, int, int, string, int, int) public
+void SetConsoleText(string, int, int, string, int, string) public
+void SetConsoleText(string, int, int, string, string, int) public
+void SetConsoleText(string, int, int, string, string, string) public
+void SetConsoleText(string, int, string, int, int, int) public
+void SetConsoleText(string, int, string, int, int, string) public
+void SetConsoleText(string, int, string, int, string, int) public
+void SetConsoleText(string, int, string, int, string, string) public
+void SetConsoleText(string, int, string, string, int, int) public
+void SetConsoleText(string, int, string, string, int, string) public
+void SetConsoleText(string, int, string, string, string, int) public
+void SetConsoleText(string, int, string, string, string, string) public
+void SetConsoleText(string, string, int, int, int, int) public
+void SetConsoleText(string, string, int, int, int, string) public
+void SetConsoleText(string, string, int, int, string, int) public
+void SetConsoleText(string, string, int, int, string, string) public
+void SetConsoleText(string, string, int, string, int, int) public
+void SetConsoleText(string, string, int, string, int, string) public
+void SetConsoleText(string, string, int, string, string, int) public
+void SetConsoleText(string, string, int, string, string, string) public
+void SetConsoleText(string, string, string, int, int, int) public
+void SetConsoleText(string, string, string, int, int, string) public
+void SetConsoleText(string, string, string, int, string, int) public
+void SetConsoleText(string, string, string, int, string, string) public
+void SetConsoleText(string, string, string, string, int, int) public
+void SetConsoleText(string, string, string, string, int, string) public
+void SetConsoleText(string, string, string, string, string, int) public
+void SetConsoleText(string, string, string, string, string, string) public
+void SetConsoleText(string, int, int, int, int, int, int) public
+void SetConsoleText(string, int, int, int, int, int, string) public
+void SetConsoleText(string, int, int, int, int, string, int) public
+void SetConsoleText(string, int, int, int, int, string, string) public
+void SetConsoleText(string, int, int, int, string, int, int) public
+void SetConsoleText(string, int, int, int, string, int, string) public
+void SetConsoleText(string, int, int, int, string, string, int) public
+void SetConsoleText(string, int, int, int, string, string, string) public
+void SetConsoleText(string, int, int, string, int, int, int) public
+void SetConsoleText(string, int, int, string, int, int, string) public
+void SetConsoleText(string, int, int, string, int, string, int) public
+void SetConsoleText(string, int, int, string, int, string, string) public
+void SetConsoleText(string, int, int, string, string, int, int) public
+void SetConsoleText(string, int, int, string, string, int, string) public
+void SetConsoleText(string, int, int, string, string, string, int) public
+void SetConsoleText(string, int, int, string, string, string, string) public
+void SetConsoleText(string, int, string, int, int, int, int) public
+void SetConsoleText(string, int, string, int, int, int, string) public
+void SetConsoleText(string, int, string, int, int, string, int) public
+void SetConsoleText(string, int, string, int, int, string, string) public
+void SetConsoleText(string, int, string, int, string, int, int) public
+void SetConsoleText(string, int, string, int, string, int, string) public
+void SetConsoleText(string, int, string, int, string, string, int) public
+void SetConsoleText(string, int, string, int, string, string, string) public
+void SetConsoleText(string, int, string, string, int, int, int) public
+void SetConsoleText(string, int, string, string, int, int, string) public
+void SetConsoleText(string, int, string, string, int, string, int) public
+void SetConsoleText(string, int, string, string, int, string, string) public
+void SetConsoleText(string, int, string, string, string, int, int) public
+void SetConsoleText(string, int, string, string, string, int, string) public
+void SetConsoleText(string, int, string, string, string, string, int) public
+void SetConsoleText(string, int, string, string, string, string, string) public
+void SetConsoleText(string, string, int, int, int, int, int) public
+void SetConsoleText(string, string, int, int, int, int, string) public
+void SetConsoleText(string, string, int, int, int, string, int) public
+void SetConsoleText(string, string, int, int, int, string, string) public
+void SetConsoleText(string, string, int, int, string, int, int) public
+void SetConsoleText(string, string, int, int, string, int, string) public
+void SetConsoleText(string, string, int, int, string, string, int) public
+void SetConsoleText(string, string, int, int, string, string, string) public
+void SetConsoleText(string, string, int, string, int, int, int) public
+void SetConsoleText(string, string, int, string, int, int, string) public
+void SetConsoleText(string, string, int, string, int, string, int) public
+void SetConsoleText(string, string, int, string, int, string, string) public
+void SetConsoleText(string, string, int, string, string, int, int) public
+void SetConsoleText(string, string, int, string, string, int, string) public
+void SetConsoleText(string, string, int, string, string, string, int) public
+void SetConsoleText(string, string, int, string, string, string, string) public
+void SetConsoleText(string, string, string, int, int, int, int) public
+void SetConsoleText(string, string, string, int, int, int, string) public
+void SetConsoleText(string, string, string, int, int, string, int) public
+void SetConsoleText(string, string, string, int, int, string, string) public
+void SetConsoleText(string, string, string, int, string, int, int) public
+void SetConsoleText(string, string, string, int, string, int, string) public
+void SetConsoleText(string, string, string, int, string, string, int) public
+void SetConsoleText(string, string, string, int, string, string, string) public
+void SetConsoleText(string, string, string, string, int, int, int) public
+void SetConsoleText(string, string, string, string, int, int, string) public
+void SetConsoleText(string, string, string, string, int, string, int) public
+void SetConsoleText(string, string, string, string, int, string, string) public
+void SetConsoleText(string, string, string, string, string, int, int) public
+void SetConsoleText(string, string, string, string, string, int, string) public
+void SetConsoleText(string, string, string, string, string, string, int) public
+void SetConsoleText(string, string, string, string, string, string, string) public
+unitex CreateDepot(unitex uCurrDepot, string strObjectID, int nX, int nY, int nLz, int nAlpha) public
+<functions_end>
+</pre>
+
+<p><big>Commands</big></p>
+<pre>
+<commands_begin>
+int Initialize() public
+int Uninitialize() public
+int PlayerCommand1(int) public
+int PlayerCommand2(int) public
+int PlayerCommand3(int) public
+int PlayerCommand4(int) public
+int PlayerCommand5(int) public
+<commands_end>
+</pre>
+
+<p><big>Events</big></p>
+<pre>
+<events_begin>
+int SpecialLevelFlags() public
+int AIPlayerFlags() public
+<events_end>
+</pre>
+
+<p><big>Enums</big></p>
+<pre>
+<enums_begin>
+commandStop
+commandLand
+commandMove
+commandMoveEx
+commandMoveAndDefend
+commandTurn
+commandTurnDelayed
+commandAttack
+commandAttackOnPoint
+commandRepair
+commandConvert
+commandCaptureBuilding
+commandSetRepairMode
+commandSetConvertMode
+commandSetCaptureBuildingMode
+commandEnter
+commandSleepMode
+commandCamouflageMode
+commandRecycleUnit
+commandBuildObject
+commandSetLights
+commandSetAttackMode
+commandSetMovementMode
+commandSetTakeEquipmentArtefactMode
+commandSetSmartAttackMode
+commandDropEquipment
+commandMakeCustomAnimation
+commandStopCustomAnimation
+commandMakeChatTalk
+commandSetTalkMode
+commandStartStrongFight
+commandPutHoldTrap
+commandPutHoldTrapOnce
+commandGetHoldTrap
+commandSetUpHoldTrap
+commandSetRPGSkillsLevel
+commandUseObjectFromRPGInventory
+commandDropObjectFromRPGInventory
+commandDropEquipmentToRPGInventory
+commandSoldInventoryInShop
+commandSoldEquipmentInShop
+commandBuyInventoryFromShop
+commandHireRPGUnit
+commandRegenerateHPFromInventory
+commandRegenerateMagicFromInventory
+commandUseNextRPGWeapon
+commandSetAutoSelectRPGWeaponMode
+commandMoveToShopUnit
+commandMoveToUnitToHire
+commandMakeMagicImmortalShield
+commandMakeMagicFreeze
+commandMakeMagicCapturing
+commandMakeMagicStorm
+commandMakeMagicSeeing
+commandMakeMagicConversion
+commandMakeMagicFireRain
+commandMakeMagicRemoveStormFireRain
+commandMakeMagicTeleportation
+commandMakeMagicGhost
+commandMakeMagicWildAnimal
+commandMakeMagicTrap
+commandMakeMagicGetHP
+commandMakeMagicSingleFreeze
+commandMakeMagicBlindAttack
+commandMakeMagicTimedCapturing
+commandMakeMagicOurWildAnimal
+commandMakeMagicOurHoldWildAnimal
+commandMakeMagicOurMagicMirror
+commandMakeMagicRandConversion
+commandMakeMagicAroundDamage
+commandMakeMagicSelfHealing
+commandMakeMagicFireWall
+commandMakeMagicFirst
+commandMakeMagicLast
+commandSetMakeMagicImmortalShieldMode
+commandSetMakeMagicFreezeMode
+commandSetMakeMagicCapturingMode
+commandSetMakeMagicStormMode
+commandSetMakeMagicSeeingMode
+commandSetMakeMagicConversionMode
+commandSetMakeMagicFireRainMode
+commandSetMakeMagicRemoveStormFireRainMode
+commandSetMakeMagicTeleportationMode
+commandSetMakeMagicGhostMode
+commandSetMakeMagicWildAnimalMode
+commandSetMakeMagicTrapMode
+commandSetMakeMagicGetHPMode
+commandSetMakeMagicSingleFreezeMode
+commandSetMakeMagicBlindAttackMode
+commandSetMakeMagicTimedCapturingMode
+commandSetMakeMagicOurWildAnimalMode
+commandSetMakeMagicOurHoldWildAnimalMode
+commandSetMakeMagicOurMagicMirrorMode
+commandSetMakeMagicRandConversionMode
+commandSetMakeMagicAroundDamageMode
+commandSetMakeMagicSelfHealing
+commandSetMakeMagicFireWallMode
+commandUserNoParam0
+commandUserNoParam1
+commandUserNoParam2
+commandUserNoParam3
+commandUserNoParam4
+commandUserNoParam5
+commandUserNoParam6
+commandUserNoParam7
+commandUserNoParam8
+commandUserNoParam9
+commandUserOneParam0
+commandUserOneParam1
+commandUserOneParam2
+commandUserOneParam3
+commandUserOneParam4
+commandUserOneParam5
+commandUserOneParam6
+commandUserOneParam7
+commandUserOneParam8
+commandUserOneParam9
+commandUserObject0
+commandUserObject1
+commandUserObject2
+commandUserObject3
+commandUserObject4
+commandUserObject5
+commandUserObject6
+commandUserObject7
+commandUserObject8
+commandUserObject9
+commandUserPoint0
+commandUserPoint1
+commandUserPoint2
+commandUserPoint3
+commandUserPoint4
+commandUserPoint5
+commandUserPoint6
+commandUserPoint7
+commandUserPoint8
+commandUserPoint9
+commandUserLine0
+commandUserLine1
+commandUserLine2
+commandUserLine3
+commandUserLine4
+commandUserLine5
+commandUserLine6
+commandUserLine7
+commandUserLine8
+commandUserLine9
+commandUserDoubleLine0
+commandUserDoubleLine1
+commandUserDoubleLine2
+commandUserDoubleLine3
+commandUserDoubleLine4
+commandUserDoubleLine5
+commandUserDoubleLine6
+commandUserDoubleLine7
+commandUserDoubleLine8
+commandUserDoubleLine9
+commandUserArea0
+commandUserArea1
+commandUserArea2
+commandUserArea3
+commandUserArea4
+commandUserArea5
+commandUserArea6
+commandUserArea7
+commandUserArea8
+commandUserArea9
+commandAutodestruction
+commandSoldBuilding
+commandStopSoldBuilding
+commandPlayerBuildRoad
+commandPlayerBuildRoad2x2
+commandPlayerBuildWall
+commandPlayerBuildNarrowBridge
+commandPlayerBuildWideBridge
+commandPlayerBuildSingleBridge
+commandMoveToDepot
+commandMoveInventoryToDepot
+commandMoveEquipmentToDepot
+commandMoveDepotToInventory
+showAreaPassives
+showAreaBuildings
+showAreaUnits
+sortUnitsByHPValue
+sortUnitsByHPPercent
+sortUnitsByExperience
+sortUnitsReversed
+aiThinkSpeedBuildUnits
+aiThinkSpeedExecuteOrders
+aiThinkSpeedControlUnits
+aiThinkSpeedControlUnitsEx
+aiThinkSpeedBuildBuildingsEx
+aiThinkSpeedMakeDefense
+aiThinkSpeedMovePlatoonsOutsideBase
+aiThinkSpeedMakeSmallAttack
+aiThinkSpeedMakeBigAttack
+aiThinkSpeedControlConverters
+aiThinkSpeedControlCapturers
+aiThinkSpeedBuildNewBridges
+aiThinkSpeedRebuildLostBridges
+aiThinkSpeedResearchUpdates
+aiEnabled
+aiRejectAlliance
+aiBNSendResult
+aiChooseEnemy
+aiNeutralForAI
+aiAttackAIOnly
+aiBuildRoads
+aiBuildRoadsWide
+aiRebuildLostBuildings
+aiBuildNewBuildings
+aiRebuildLostDefenceBuildings
+aiBuildTowers
+aiBuildTowersEx
+aiBuildNewBridges
+aiRebuildLostBridges
+aiAllowBuildClose
+aiProduceUnits
+aiCaptureStartingPoints
+ai2UsePlatoons
+ai2ControlTowers
+ai2ControlBuildersBuild
+ai2ControlBuildersRepair
+ai2ControlHarvesters
+ai2ControlConverters
+ai2ControlHarvestIncreasers
+ai2ControlCapturers
+ai2ControlBuildIncreasers
+ai2ControlOffense
+ai2ControlDefense
+ai2ControlOffenseMagic
+ai2UseAutoMagic
+ai2DefendBuildings
+ai2DefendUnits
+ai2DefendDestroyedObjects
+ai2SmartHarvesters
+ai2TakeEquipmentArtefacts
+ai2MovePlatoonsOutsideBase
+ai2PlatoonAttackInGroup
+ai2PlatoonEscapeOnStorm
+ai2DefendUnitsInPlatoon
+ai2RandomizedBehaviours
+ai2SetSmartUnitAttackMode
+ai2ResearchUpdatesLevel0
+ai2ResearchUpdatesLevelAll
+<enums_end>
+</pre>
+
+</body>
+</html>
