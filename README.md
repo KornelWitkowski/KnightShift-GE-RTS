@@ -1,8 +1,10 @@
 # Polanie 2 Golden Edition RTS/ Knightshift Golden Edition RTS
 
-**For English scroll down**
---
+### For English scroll down
+
 Repozytorium zawiera kod źródłowy trybu RTS do modyfikacji gry Polanie 2 Golden Edition. W repozytorium znajdują się skrypty misji, AI graczy oraz AI jednostek.
+
+<ins>**Bugi, propozycje kolejnych funkcji oraz potrzebę bardziej szczegółowego wyjaśnienia zgłaszać do @Kornel na discordzie KnightShift DEV.**</ins>
 
 ## Nowości względem wersji podstawowej:
 
@@ -45,14 +47,16 @@ W folderze `_compiler` znajduje się kompilator, który jest wywoływany za pomo
 
 - `_manual` – nagłówki funkcji, które można wykorzystać w skryptach
 - `_compiler` – kompilator, nie należy go modyfikować
-- `aiplayers` – skrypty AI nowych botów: ekspercki, arcymistrzowski i boski. Gracze mają przydzielone w losowy sposób strategie rozwoju. Cześć z AI graczy została przeniesiona do folderu `gametypes` ze względu na to, że w skrypcie misji jest większy dostęp do obiektów w grze unitów i graczy.
-- `campaings` – w folderze znajdują się wyłącznie funkcje pomocnicze, które są wykorzystwane w innych skryptach. Oryginalne skrypty misji kampanii można znaleźć tutaj: https://github.com/InsideKnightShift/Programming/blob/main/Scripts/SkryptyDoPolanV2.rar
+- `aiplayers` – skrypty AI nowych botów: ekspercki, arcymistrzowski i boski. Gracze mają przydzielone w losowy sposób strategie rozwoju. Cześć z AI graczy została przeniesiona do folderu `gametypes` ze względu na to, że w skrypcie misji jest większy dostęp do obiektów w grze unitów i graczy.9
+- `campaings` – w folderze znajdują się wyłącznie funkcje pomocnicze, które są wykorzystwane w innych skryptach. Oryginalne skrypty misji kampanii można znaleźć [tutaj](https://github.com/InsideKnightShift/Programming/blob/main/Scripts/SkryptyDoPolanV2.rar)
 - `gametypes` – skrypty trybów gry
 - `units` – skrypty jednostek
 
 # English
 
 This repository contains the source code for the RTS mode of the latest version of `Knightshift Golden Edition`. The repository includes mission scripts, player AI, and unit AI.
+
+<ins>**Bugs, suggestions for additional features, or the need for more detailed explanations should be reported to @Kornel on the KnightShift DEV Discord.**</ins>
 
 ## New features compared to the base version:
 
@@ -68,6 +72,8 @@ This repository contains the source code for the RTS mode of the latest version 
 
 To begin modifying the game independently, you need basic programming knowledge - familiarity with variables, loops, conditional statements, and functions in any programming language is sufficient. Download the repository code, which can be compiled using the `MakeAll.bat` file. This will create a `Scripts` folder - placing this folder in the game's main directory will overwrite the game files, changing its behavior according to the modifications made in the code.
 
+**Bugs, suggestions for additional features, or the need for more detailed explanations should be reported to @Kornel on the KnightShift DEV Discord.**
+  
 ### Manual
 
 The `_manual` folder contains function headers that can be used in scripts. There is no detailed documentation for these functions, however their names and argument names are quite descriptive. It's not possible to go beyond these functions except for basic C language functionality, and there is no access to their source code. Examples of their usage can be found in this repository. Note: not all functions work correctly, such as the `GetName` function for units and players.
@@ -96,7 +102,7 @@ The `_compiler` folder contains the compiler that is called using the `MakeAll.b
 - `_manual` - function headers that can be used in scripts
 - `_compiler` - compiler, should not be modified
 - `aiplayers` - AI scripts for new bots: expert, master and divine. Players are randomly assigned development strategies. Some of the AI players have been moved to the `gametypes` folder because the mission script has greater access to game objects of units and players.
-- `campaigns` - the folder contains only helper functions that are used in other scripts. Original campaign mission scripts can be found here: https://github.com/InsideKnightShift/Programming/blob/main/Scripts/SkryptyDoPolanV2.rar
+- `campaigns` - the folder contains only helper functions that are used in other scripts. Original campaign mission scripts can be found [here](https://github.com/InsideKnightShift/Programming/blob/main/Scripts/SkryptyDoPolanV2.rar)
 - `gametypes` - game mode scripts
 - `units` - unit scripts
 
