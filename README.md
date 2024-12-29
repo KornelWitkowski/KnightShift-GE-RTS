@@ -1,8 +1,8 @@
 # Polanie 2 Golden Edition RTS/ Knightshift Golden Edition RTS
 
 **For English scroll down**
-
-Repozytorium zawiera kod źródłowy trybu RTS do najnowszej wersji `Polanie 2 Golden Edition`. W repozytorium znajdują się skrypty misji, AI graczy oraz AI jednostek.
+--
+Repozytorium zawiera kod źródłowy trybu RTS do modyfikacji gry Polanie 2 Golden Edition. W repozytorium znajdują się skrypty misji, AI graczy oraz AI jednostek.
 
 ## Nowości względem wersji podstawowej:
 
@@ -16,11 +16,15 @@ Repozytorium zawiera kod źródłowy trybu RTS do najnowszej wersji `Polanie 2 G
 
 ## Jak zacząć modowanie
 
-Aby rozpocząć samodzielne modyfikowanie gry należy posiadać podstawową wiedzę z programowania - wystarczy znajomość zmiennych, pętli, wyrażeń warunkowych i funkcji w dowolnym języku programowania. Należy pobrać kod repozytorium, który można skompilować plikiem `MakeAll.bat`. Utworzy to folder `Scripts` - umieszczenie tego folderu w folderze głównym gry spowoduje nadpisanie plików gry, które zmieni jej działanie zgodnie z wprowadzonymi w kodzie zmianami.
+Aby rozpocząć samodzielne modyfikowanie gry, należy posiadać podstawową wiedzę z programowania – wystarczy znajomość zmiennych, pętli, wyrażeń warunkowych i funkcji w dowolnym języku programowania. Należy pobrać kod repozytorium, który można skompilować plikiem `MakeAll.bat`. Utworzy to folder `Scripts` – umieszczenie tego folderu w folderze głównym gry spowoduje nadpisanie plików gry, które zmienią jej działanie zgodnie z wprowadzonymi w kodzie zmianami.
 
 ### Manual
 
-W folderze `_manual` znajdują się nagłówki funkcji, które można wykorzystać w skryptach. Nie ma możliwości wyjścia ponad te funkcje poza podstawowymi funkcjonalnościami języka C. Nie ma dostępu do kodu źródłowego tych funkcji. Przykłady ich wykorzystania można znaleźć w tym repozytorium. Uwaga: nie wszystkie funkcje działają poprawnie, jak np. funkcja `GetName` dla unitów i playerów.
+W folderze `_manual` znajdują się nagłówki funkcji, które można wykorzystać w skryptach. Nie ma szczegółowej dokumentacji tych funkcji, jednakże ich nazwy oraz nazwy argumentów są dość opisowe. Nie ma możliwości wyjścia ponad te funkcje poza podstawowymi funkcjonalnościami języka C, a także nie ma dostępu do ich kodu źródłowego. Przykłady ich wykorzystania można znaleźć w tym repozytorium. Uwaga: nie wszystkie funkcje działają poprawnie, jak np. funkcja `GetName` dla unitów i playerów.
+
+**Ważna informacja:**
+
+Spora część kodu w repozytorium jest zaimplementowana w dość okrężny sposób ze względu na ograniczony zestaw dostępnych funkcji, a także enkapsulację kodu. Przykładowo: z poziomu skryptów unitów lub skryptów graczy nie można otrzymywać informacji o innych graczach i ich jednostkach. Dlatego ulepszone czary najtrudniejszych graczy AI są zaimplementowane w skryptach misji `gametypes`, zamiast w skryptach graczy `aiplayers`.
 
 ### Pliki `.ec`, `.ech` i `.eco`
 
@@ -37,19 +41,24 @@ W folderze `_compiler` znajduje się kompilator, który jest wywoływany za pomo
   2. Skompilować pliki za pomocą `MakeAll.bat`
   3. W folderze z kodem powinien pojawić się folder `Scripts`, który powinien być przeniesiony do folderu głównego gry. Umieszczenie tego folderu sprawia, że skrypty są nadpisywane najnowszymi zmianami. Można zmodyfikować plik `MakeAll.bat`, aby automatycznie tworzył folder `Scripts` w folderze głównym gry poprzez określenie ścieżki.
 
-### Zadania
+### Struktura repozytorium
 
-W przyszłości zostanie tu umieszczona lista zadań, które mogą służyć jako punkt startowy do modyfikacji gry.
+- `_manual` – nagłówki funkcji, które można wykorzystać w skryptach
+- `_compiler` – kompilator, nie należy go modyfikować
+- `aiplayers` – skrypty AI nowych botów: ekspercki, arcymistrzowski i boski. Gracze mają przydzielone w losowy sposób strategie rozwoju. Cześć z AI graczy została przeniesiona do folderu `gametypes` ze względu na to, że w skrypcie misji jest większy dostęp do obiektów w grze unitów i graczy.
+- `campaings` – w folderze znajdują się wyłącznie funkcje pomocnicze, które są wykorzystwane w innych skryptach. Oryginalne skrypty misji kampanii można znaleźć tutaj: https://github.com/InsideKnightShift/Programming/blob/main/Scripts/SkryptyDoPolanV2.rar
+- `gametypes` – skrypty trybów gry
+- `units` – skrypty jednostek
 
 # English
 
-This repository contains the source code for the RTS mode of the latest version of `Polanie 2 Golden Edition`. The repository includes mission scripts, player AI, and unit AI.
+This repository contains the source code for the RTS mode of the latest version of `Knightshift Golden Edition`. The repository includes mission scripts, player AI, and unit AI.
 
 ## New features compared to the base version:
 
 - new modes: King of the Hill, Economic, Adventure
-- refreshed modes: Village War and Battle, plus several Destroy Enemy Structures variations: 8 sheds, zero upgrades, and more
-- additional, harder bots: Expert, Archmage, and Divine
+- refreshed modes: Destroy Enemy Structure and Battle, plus several Destroy Enemy Structures variations: 8 sheds, zero upgrades, and more
+- additional, harder bots: Expert, Master, and Divine
 - map scripting using editor markers: teleports, gates, experience fields, traps, necromancy, and more
 - improved artifact generation on the map
 - ability to set alliances with computer players
@@ -61,7 +70,11 @@ To begin modifying the game independently, you need basic programming knowledge 
 
 ### Manual
 
-The `_manual` folder contains function headers that can be used in scripts. It's not possible to go beyond these functions except for basic C language functionality. There is no access to the source code of these functions. Examples of their usage can be found in this repository. Note: not all functions work correctly, such as the `GetName` function for units and players.
+The `_manual` folder contains function headers that can be used in scripts. There is no detailed documentation for these functions, however their names and argument names are quite descriptive. It's not possible to go beyond these functions except for basic C language functionality, and there is no access to their source code. Examples of their usage can be found in this repository. Note: not all functions work correctly, such as the `GetName` function for units and players.
+
+**Important note:**
+
+A significant portion of the code in the repository is implemented in a rather roundabout way due to the limited set of available functions and code encapsulation. For example: from unit scripts or player scripts, you cannot receive information about other players and their units. Therefore, improved spells for the hardest AI players are implemented in mission scripts `gametypes`, instead of in player scripts `aiplayers`.
 
 ### `.ec`, `.ech`, and `.eco` files
 
@@ -77,6 +90,16 @@ The `_compiler` folder contains the compiler that is called using the `MakeAll.b
   1. Make changes to the `DestroyEnemyStructures.ec` code
   2. Compile the files using `MakeAll.bat`
   3. A `Scripts` folder should appear in the code folder, which should be moved to the game's main folder. Placing this folder ensures that the scripts are overwritten with the latest changes. You can modify the `MakeAll.bat` file to automatically create the `Scripts` folder in the game's main folder by specifying the path.
+
+### Repository structure
+
+- `_manual` - function headers that can be used in scripts
+- `_compiler` - compiler, should not be modified
+- `aiplayers` - AI scripts for new bots: expert, master and divine. Players are randomly assigned development strategies. Some of the AI players have been moved to the `gametypes` folder because the mission script has greater access to game objects of units and players.
+- `campaigns` - the folder contains only helper functions that are used in other scripts. Original campaign mission scripts can be found here: https://github.com/InsideKnightShift/Programming/blob/main/Scripts/SkryptyDoPolanV2.rar
+- `gametypes` - game mode scripts
+- `units` - unit scripts
+
 
 ### Tasks
 
