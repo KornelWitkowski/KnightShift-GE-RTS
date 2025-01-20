@@ -175,7 +175,7 @@ mission "translateEconomic"
 
         SetTimer(0, 1);
 
-        // Efektywne czary dla najtrudniejszych botów
+        // Efektywne czary dla najtrudniejszych botów i eventy markerów i misji
         SetTimer(3, SECOND);
 
         SetTimer(4, 60*SECOND);

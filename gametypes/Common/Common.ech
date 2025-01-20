@@ -312,7 +312,11 @@ function int CheckIfPlayerWasDestroyed(int bAiChooseNewMainEnemy)
         rPlayer = GetPlayer(i);
         if(rPlayer == null) continue;
 
-        if(!rPlayer.IsAlive()) return true;
+        if(!rPlayer.IsAlive())
+        {
+            bOneHasBeenDestroyed = true;
+            continue;
+        }
     
         iCountBuilding = CountNormalBuildings(rPlayer);
                 
@@ -327,6 +331,7 @@ function int CheckIfPlayerWasDestroyed(int bAiChooseNewMainEnemy)
                 KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
                 rPlayer.SetGoalState(0, goalFailed, true);
 
+                bOneHasBeenDestroyed = true;
                 SetStateDelay(150);
                 state Defeat;
 
@@ -339,6 +344,8 @@ function int CheckIfPlayerWasDestroyed(int bAiChooseNewMainEnemy)
                 {
                     rPlayer.SetScriptData(1, 1); // Defeat
                     rPlayer.SetGoalState(0, goalFailed, true);
+
+                    bOneHasBeenDestroyed = true;
                     SetStateDelay(150);
                     state Defeat;
 

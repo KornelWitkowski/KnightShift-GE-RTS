@@ -79,7 +79,7 @@ mission "translateGameTypeDestroyStructures"
         SetTimer(1, 20*SECOND); // Artefakty
         SetTimer(2, 4*MINUTE);  // Wybór przeciwników przez AI. Przeciwnicy są też wybierani po pokonaniu gracza.
 
-        // Efektywne czary dla najtrudniejszych botów
+        // Efektywne czary dla najtrudniejszych botów i eventy markerów i misji
         SetTimer(3, SECOND);
 
         // Timery od efektów pogodowych
