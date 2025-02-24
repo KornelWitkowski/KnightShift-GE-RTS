@@ -1,0 +1,66 @@
+function int ChooseMinotaurTier(int nWaveNumber)
+{
+    int iRoll;
+
+    iRoll =  RAND(100);
+    
+    if (20 > iRoll) return 0;
+    if (35 > iRoll) return 1;
+    if (50 > iRoll) return 2;
+    if (65 > iRoll) return 3;
+    if (70 > iRoll) return 4;
+    if (85 > iRoll) return 5;
+    if (95 > iRoll) return 6;
+    return 7;
+}
+
+function void SpawnMinotaur(int iWaveNumber, int iMarker)
+{
+    int iTier;
+    player rPlayerEnemy;
+    unitex uUnit;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    iTier = ChooseMinotaurTier(iWaveNumber);
+
+    if(iTier == 0)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "MINOTAUR_WOODCUTTER");
+    } 
+    else if (iTier == 1)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "MINOTAUR");
+    } 
+    else if (iTier == 2)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "MINOTAUR2");
+    }
+    else if (iTier == 3)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "MINOTAUR3");
+    }
+    else if (iTier == 4)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RTS_MAGIC_MINOTAUR_COWISLAND_1");
+    }
+    else if (iTier == 5)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RTS_MAGIC_MINOTAUR_COWISLAND_2");
+    }
+    else if (iTier == 6)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "MINOTAUR_WOODCUTTER");
+    }
+    else if (iTier == 7)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "POLICEMAN");
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "POLICEMANT");
+    }
+
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}

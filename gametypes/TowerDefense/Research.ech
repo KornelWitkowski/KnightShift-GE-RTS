@@ -1,0 +1,328 @@
+function void UpdateArmourResearch(player rPlayer, int iTier)
+{
+    if(iTier == 0)
+    {
+        rPlayer.EnableResearchUpdate("ARMOUR2",  false);
+        rPlayer.EnableResearchUpdate("ARMOUR2",  false);
+        rPlayer.EnableResearchUpdate("ARMOUR2A", false);
+        rPlayer.EnableResearchUpdate("ARMOUR3",  false);
+        rPlayer.EnableResearchUpdate("ARMOUR3A", false);
+        rPlayer.EnableResearchUpdate("ARMOUR4",  false);
+    }
+    else if(iTier == 1)
+    {
+        rPlayer.EnableResearchUpdate("ARMOUR2", true);
+    }
+    else if (iTier == 2)
+    {
+        rPlayer.EnableResearchUpdate("ARMOUR2A", true);
+    }
+    else if (iTier == 3)
+    {
+        rPlayer.EnableResearchUpdate("ARMOUR3", true);
+    }
+    else if (iTier == 4)
+    {
+        rPlayer.EnableResearchUpdate("ARMOUR3A", true);
+    }
+    else if (iTier == 5)
+    {
+        rPlayer.EnableResearchUpdate("ARMOUR4", true);
+    }
+}
+
+function void UpdateHelmetResearch(player rPlayer, int iTier)
+{
+    if(iTier == 0)
+    {
+        rPlayer.EnableResearchUpdate("HELMET1A", false);
+        rPlayer.EnableResearchUpdate("HELMET2",  false);
+        rPlayer.EnableResearchUpdate("HELMET2A", false);
+        rPlayer.EnableResearchUpdate("HELMET3",  false);
+        rPlayer.EnableResearchUpdate("HELMET4",  false);
+    }
+    else if(iTier == 1)
+    {
+        rPlayer.EnableResearchUpdate("HELMET1A", true);
+    }
+    else if (iTier == 2)
+    {
+        rPlayer.EnableResearchUpdate("HELMET2", true);
+    }
+    else if (iTier == 3)
+    {
+        rPlayer.EnableResearchUpdate("HELMET2A", true);
+    }
+    else if (iTier == 4)
+    {
+        rPlayer.EnableResearchUpdate("HELMET3", true);
+    }
+    else if (iTier == 5)
+    {
+        rPlayer.EnableResearchUpdate("HELMET4", true);
+    }
+}
+
+function void UpdateSpearResearch(player rPlayer, int iTier)
+{
+    if(iTier == 0)
+    {
+        rPlayer.EnableResearchUpdate("SPEAR2", false);
+        rPlayer.EnableResearchUpdate("SPEAR3", false);
+        rPlayer.EnableResearchUpdate("SPEAR4", false);
+        rPlayer.EnableResearchUpdate("SPEAR5", false);
+        rPlayer.EnableResearchUpdate("SPEAR6", false);
+    }
+    else if(iTier == 1)
+    {
+        rPlayer.EnableResearchUpdate("SPEAR2", true);
+    }
+    else if (iTier == 2)
+    {
+        rPlayer.EnableResearchUpdate("SPEAR3", true);
+    }
+    else if (iTier == 3)
+    {
+        rPlayer.EnableResearchUpdate("SPEAR4", true);
+    }
+    else if (iTier == 4)
+    {
+        rPlayer.EnableResearchUpdate("SPEAR5", true);
+    }
+    else if (iTier == 5)
+    {
+        rPlayer.EnableResearchUpdate("SPEAR6", true);
+    }
+}
+
+function void UpdateShieldResearch(player rPlayer, int iTier)
+{
+    if(iTier == 0)
+    {
+        rPlayer.EnableResearchUpdate("SHIELD1B", false);
+        rPlayer.EnableResearchUpdate("SHIELD1C", false);
+        rPlayer.EnableResearchUpdate("SHIELD2",  false);
+        rPlayer.EnableResearchUpdate("SHIELD2D", false);
+        rPlayer.EnableResearchUpdate("SHIELD3A", false);
+    }
+    else if(iTier == 1)
+    {
+        rPlayer.EnableResearchUpdate("SHIELD1B", true);
+    }
+    else if (iTier == 2)
+    {
+        rPlayer.EnableResearchUpdate("SHIELD1C"  , true);
+    }
+    else if (iTier == 3)
+    {
+        rPlayer.EnableResearchUpdate("SHIELD2", true);
+    }
+    else if (iTier == 4)
+    {
+        rPlayer.EnableResearchUpdate("SHIELD2D", true);
+    }
+    else if (iTier == 5)
+    {
+        rPlayer.EnableResearchUpdate("SHIELD3A", true);
+    }
+}
+
+
+function void UpdateAxeResearch(player rPlayer, int iTier)
+{
+    if(iTier == 0)
+    {
+        rPlayer.EnableResearchUpdate("AXE2", false);
+        rPlayer.EnableResearchUpdate("AXE3", false);
+        rPlayer.EnableResearchUpdate("AXE4", false);
+        rPlayer.EnableResearchUpdate("AXE5", false);
+        rPlayer.EnableResearchUpdate("AXE6", false);
+    }
+    else if(iTier == 1)
+    {
+        rPlayer.EnableResearchUpdate("AXE2", true);
+    }
+    else if (iTier == 2)
+    {
+        rPlayer.EnableResearchUpdate("AXE3", true);
+    }
+    else if (iTier == 3)
+    {
+        rPlayer.EnableResearchUpdate("AXE4", true);
+    }
+    else if (iTier == 4)
+    {
+        rPlayer.EnableResearchUpdate("AXE5", true);
+    }
+    else if (iTier == 5)
+    {
+        rPlayer.EnableResearchUpdate("AXE6", true);
+    }
+}
+
+
+function void UpdateBowResearch(player rPlayer, int iTier)
+{
+    if(iTier == 0)
+    {
+        rPlayer.EnableResearchUpdate("BOW2", false);
+        rPlayer.EnableResearchUpdate("BOW3", false);
+        rPlayer.EnableResearchUpdate("BOW4", false);
+        rPlayer.EnableResearchUpdate("BOW5", false);
+        rPlayer.EnableResearchUpdate("BOW6", false);
+    }
+    else if(iTier == 1)
+    {
+        rPlayer.EnableResearchUpdate("BOW2", true);
+    }
+    else if (iTier == 2)
+    {
+        rPlayer.EnableResearchUpdate("BOW3", true);
+    }
+    else if (iTier == 3)
+    {
+        rPlayer.EnableResearchUpdate("BOW4", true);
+    }
+    else if (iTier == 4)
+    {
+        rPlayer.EnableResearchUpdate("BOW5", true);
+    }
+    else if (iTier == 5)
+    {
+        rPlayer.EnableResearchUpdate("BOW6", true);
+    }
+}
+
+
+function void UpdateSwordResearch(player rPlayer, int iTier)
+{
+    if(iTier == 0)
+    {
+        rPlayer.EnableResearchUpdate("SWORD1A", false);
+        rPlayer.EnableResearchUpdate("SWORD2",  false);
+        rPlayer.EnableResearchUpdate("SWORD2A", false);
+        rPlayer.EnableResearchUpdate("SWORD3",  false);
+        rPlayer.EnableResearchUpdate("SWORD3A", false);
+    }
+    else if(iTier == 1)
+    {
+        rPlayer.EnableResearchUpdate("SWORD1A", true);
+    }
+    else if (iTier == 2)
+    {
+        rPlayer.EnableResearchUpdate("SWORD2", true);
+    }
+    else if (iTier == 3)
+    {
+        rPlayer.EnableResearchUpdate("SWORD2A", true);
+    }
+    else if (iTier == 4)
+    {
+        rPlayer.EnableResearchUpdate("SWORD3", true);
+    }
+    else if (iTier == 5)
+    {
+        rPlayer.EnableResearchUpdate("SWORD3A", true);
+    }
+}
+
+
+function void UpdateResearch(player rPlayer, int iBow, int iAxe,
+    int iSpear, int iSword, int iShield, int iHelmet, int iArmour)
+{
+    UpdateBowResearch(rPlayer, iBow);
+    UpdateAxeResearch(rPlayer, iAxe);
+    UpdateSpearResearch(rPlayer, iSpear);
+    UpdateSwordResearch(rPlayer, iSword);
+    UpdateShieldResearch(rPlayer, iShield);
+    UpdateHelmetResearch(rPlayer, iHelmet);
+    UpdateArmourResearch(rPlayer, iArmour);
+}
+
+
+
+
+function void UpdateResearchAfterWave(player rPlayer, int nWaveNumber)
+{
+
+    if (nWaveNumber == 1)
+    {
+        UpdateResearch(rPlayer, 0, 0, 0, 0, 0, 0, 0);
+    }
+    else if(nWaveNumber == 2)
+    {
+        UpdateResearch(rPlayer, 1, 1, 0, 0, 0, 0, 0);
+    }
+    else if(nWaveNumber == 3)
+    {
+        UpdateResearch(rPlayer, 1, 1, 0, 0, 1, 0, 0);
+    }
+    else if(nWaveNumber == 4)
+    {
+        UpdateResearch(rPlayer, 1, 1, 1, 1, 1, 0, 0);
+    }
+    else if(nWaveNumber == 5)
+    {
+        UpdateResearch(rPlayer, 2, 2, 1, 1, 1, 0, 0);
+    }
+    else if(nWaveNumber == 6)
+    {
+        UpdateResearch(rPlayer, 2, 2, 1, 1, 2, 0, 0);
+    }
+    else if(nWaveNumber == 7)
+    {
+        UpdateResearch(rPlayer, 2, 2, 2, 2, 2, 0, 0);
+    }
+    else if(nWaveNumber == 8)
+    {
+        UpdateResearch(rPlayer, 3, 3, 2, 2, 2, 0, 0);
+    }
+    else if(nWaveNumber == 9)
+    {
+        UpdateResearch(rPlayer, 3, 3, 2, 2, 2, 0, 0);
+    }
+    else if(nWaveNumber == 10)
+    {
+        UpdateResearch(rPlayer, 3, 3, 2, 2, 2, 0, 0);
+    }
+    else if(nWaveNumber == 11)
+    {
+        UpdateResearch(rPlayer, 3, 3, 2, 2, 2, 0, 0);
+    }
+    else if(nWaveNumber == 12)
+    {
+        UpdateResearch(rPlayer, 3, 3, 2, 2, 2, 1, 1);
+    }
+    else if(nWaveNumber == 13)
+    {
+        UpdateResearch(rPlayer, 3, 3, 2, 2, 2, 1, 1);
+    }
+    else if(nWaveNumber == 14)
+    {
+        UpdateResearch(rPlayer, 3, 3, 2, 2, 2, 2, 2);
+    }
+    else if(nWaveNumber == 15)
+    {
+        UpdateResearch(rPlayer, 4, 4, 2, 2, 2, 2, 2);
+    }
+    else if(nWaveNumber == 16)
+    {
+        UpdateResearch(rPlayer, 4, 4, 2, 2, 3, 2, 2);
+    }
+    else if(nWaveNumber == 17)
+    {
+        UpdateResearch(rPlayer, 4, 4, 3, 3, 3, 2, 2);
+    }
+    else if(nWaveNumber == 18)
+    {
+        UpdateResearch(rPlayer, 4, 4, 3, 3, 3, 3, 3);
+    }
+    else if(nWaveNumber == 19)
+    {
+        UpdateResearch(rPlayer, 4, 4, 3, 3, 4, 3, 3);
+    }
+    else if(nWaveNumber == 20)
+    {
+        UpdateResearch(rPlayer, 4, 4, 4, 4, 4, 3, 3);
+    }
+}

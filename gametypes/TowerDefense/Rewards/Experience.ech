@@ -1,0 +1,23 @@
+
+// unitex uExperience[];
+
+
+// function void CreateExperienceArtefact(int iMarkerArtefact)
+// {
+//     int i, j;
+//     unitex uArtefact;
+
+//     if(!PointExist(iMarkerArtefact))
+//         return;
+    
+
+//     uArtefact = CreateArtefact("ELEMENT4", GetPointX(iMarkerArtefact), GetPointY(iMarkerArtefact),
+//                      GetPointZ(iMarkerArtefact), MASK_PRISONER|iMarkerArtefact);
+
+
+//     uExperience[iMarkerArtefact] = uTalkerSmoke; 
+
+
+
+
+// }

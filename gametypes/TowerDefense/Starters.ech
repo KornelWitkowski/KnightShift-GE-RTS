@@ -1,0 +1,84 @@
+enum comboStarter
+{
+    "translateStarterHero",
+    "translateStarterNecromancer",
+    "translateStarterGiant",
+    "translateStarterMinotaurWoodcutters",
+    "translateStarterSpearmanAndHunter",
+    "translateStarterSpeedyCows",
+    "translateStarterDarkPriest",
+    "translateStarterMilk",
+    "translateStarterMixtures",
+    "translateStarterHut",
+        multi:
+    "translateTowerDefenseStarter"
+}
+
+int iExtraHut;
+
+function void CreateStarters(player rPlayer, int iMarker)
+{
+    if(comboStarter == 0)
+    {
+        rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
+            "HERO_EASY", "HELMET2B", "ARMOUR2B", "SHIELD2H", "SWORD6", null, null, null, null);
+    }
+    else if(comboStarter == 1)
+    {
+        rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
+            "NECROMANCER");
+        SetUnitNecromancer(iMarker);
+    }
+    else if(comboStarter == 2)
+    {
+        rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
+            "GIANT");
+    }
+    else if(comboStarter == 3)
+    {
+        rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
+            "MINOTAUR_WOODCUTTER");
+        rPlayer.CreateUnit(GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), 0, 
+            "MINOTAUR_WOODCUTTER");
+        rPlayer.CreateUnit(GetPointX(iMarker+2), GetPointY(iMarker+2), GetPointZ(iMarker+2), 0, 
+            "MINOTAUR_WOODCUTTER");
+    }
+    else if(comboStarter == 4)
+    {
+        rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
+            "SKELETON_HUNTER2");
+        rPlayer.CreateUnit(GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), 0, 
+            "SKELETON_SPEARMAN2");
+    }
+    else if(comboStarter == 5)
+    {
+            rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
+            "DARKPRIEST");
+
+    }
+    else if(comboStarter == 6)
+    {
+        rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
+            "SPECIALCOW");   
+        rPlayer.CreateUnit(GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), 0, 
+            "SPECIALCOW");    
+    }
+    else if(comboStarter == 7)
+    {
+        CreateArtefact("ART_MILK_GE_200", GetPointX(iMarker+1), GetPointY(iMarker+1), 0, 0);
+        CreateArtefact("ART_MILK_GE_200", GetPointX(iMarker+2), GetPointY(iMarker+2), 0, 0);
+        CreateArtefact("ART_MILK_GE_200", GetPointX(iMarker+3), GetPointY(iMarker+3), 0, 0);
+        CreateArtefact("ART_MILK_GE_200", GetPointX(iMarker+4), GetPointY(iMarker+4), 0, 0);
+    }
+    else if(comboStarter == 8)
+    {
+        CreateArtefact("ART_ADD_DAMAGE_GE_020", GetPointX(4), GetPointY(4), 0, 0);
+        CreateArtefact("ART_ADD_DAMAGE_GE_020", GetPointX(iMarker+2), GetPointY(5), 0, 0);
+        CreateArtefact("ART_ADD_HP_GE_200", GetPointX(iMarker+3), GetPointY(iMarker+3), 0, 0);
+        CreateArtefact("ART_ADD_HP_GE_200", GetPointX(iMarker+4), GetPointY(iMarker+4), 0, 0);
+    }
+    else if(comboStarter == 9)
+    {
+        iExtraHut = 1;
+}
+}

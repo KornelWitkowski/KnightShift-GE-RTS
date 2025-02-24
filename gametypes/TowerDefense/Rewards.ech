@@ -1,0 +1,26 @@
+#include "Rewards\Units.ech"
+#include "Rewards\Supplements.ech"
+#include "Rewards\Equipment.ech"
+
+function void GiveRewards(int iWaveNumber)
+{
+    int i, j;
+
+    for(i=4; i<8; ++i)
+    {
+        j = RAND(3);
+
+        if(j==0)
+        {
+            RewardUnits(iWaveNumber, i);
+        }
+        else if (j==1)
+        {
+            RewardSupplement(iWaveNumber, i);
+        }
+        else
+        {
+             RewardEquipment(iWaveNumber, i);
+        }
+    }
+}

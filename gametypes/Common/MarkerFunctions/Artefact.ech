@@ -20,11 +20,13 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
     {
         iMarker = iArtefactNum & ~MASK_FAST_TELEPORT;
         CreateObjectAtUnit(uUnitOnArtefact, "CAST_TELEPORT");
-        uUnitOnArtefact.SetImmediatePosition(GetPointX(iMarker),
-                                             GetPointY(iMarker),
-                                             GetPointZ(iMarker), 
-                                             uUnitOnArtefact.GetAlphaAngle(),
-                                             true);
+        uUnitOnArtefact.SetImmediatePosition(
+            GetPointX(iMarker),
+            GetPointY(iMarker),
+            GetPointZ(iMarker), 
+            uUnitOnArtefact.GetAlphaAngle(),
+            true
+        );
         CreateObjectAtUnit(uUnitOnArtefact, "CAST_TELEPORT");
     }
     else if((iArtefactNum & ~MASK0) == MASK_CAVE_FALL)
@@ -32,11 +34,13 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         iMarker = iArtefactNum & ~MASK_CAVE_FALL;
 
         CreateObjectAtUnit(uUnitOnArtefact, "EXP_PALISADE");
-        uUnitOnArtefact.SetImmediatePosition(GetPointX(iMarker),
-                                            GetPointY(iMarker),
-                                            1, 
-                                            uUnitOnArtefact.GetAlphaAngle(),
-                                            true);
+        uUnitOnArtefact.SetImmediatePosition(
+            GetPointX(iMarker),
+            GetPointY(iMarker),
+            1, 
+            uUnitOnArtefact.GetAlphaAngle(),
+            true
+        );
         CreateObjectAtUnit(uUnitOnArtefact, "EXP_PALISADE");
 
         // Dodajemy obrażenia od upadku. Im silniejsza zbroja tym większy - ciężki pancerz bardziej boli przy spadku.

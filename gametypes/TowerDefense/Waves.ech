@@ -1,0 +1,82 @@
+#include "Waves\Skeletons.ech"
+#include "Waves\Demons.ech"
+#include "Waves\Giants.ech"
+#include "Waves\NormalHumans.ech"
+#include "Waves\Minotaurs.ech"
+#include "Waves\EliteHumans.ech"
+
+#define SKELETON_WAVE 0
+#define GIANT_WAVE 1
+#define NORMAL_HUMAN_WAVE 2
+#define ELITE_HUMAN_WAVE 3
+#define MINOTAUR_WAVE 4
+#define DEMON_WAVE 5
+
+function int GetUnitNumber(int nWaveType, int nWaveNumber)
+{
+
+    if (nWaveType == SKELETON_WAVE)
+    {
+        return 20 + 6 * nWaveNumber;
+    }
+    else if(nWaveType == GIANT_WAVE)
+    {
+        return 5 + 5 * nWaveNumber;
+    }
+    else if(nWaveType == NORMAL_HUMAN_WAVE)
+    {
+        return 20 + 10 * nWaveNumber;
+    }
+    else if(nWaveType == ELITE_HUMAN_WAVE)
+    {
+        return 5 + 10 * nWaveNumber;
+    }
+    else if (nWaveType == MINOTAUR_WAVE)
+    {
+        return 8 + 8 * nWaveNumber;
+    }
+    else if (nWaveType == DEMON_WAVE)
+    {
+        return 1 + 2 * nWaveNumber;
+    }
+
+    return 0;
+}
+
+function int SpawnUnit(int iWaveType, int iWaveNumber)
+{
+    // markery od 20 do 49 służą do spawnowania unitów 
+    int i;
+    int iMarker;
+    unitex uUnit;
+    player rPlayer, rPlayerEnemy, rPlayerNecromancer;
+
+    iMarker = 20 + RAND(30);
+
+    if(!PointExist(iMarker))
+        return 0;
+
+    uUnit = GetUnitAtMarker(iMarker);
+
+    if(uUnit != null)
+        return 0;
+
+    if(iWaveType == SKELETON_WAVE)
+        SpawnSkeleton(iWaveNumber, iMarker);
+    else if (iWaveType == GIANT_WAVE)
+        SpawnGiant(iWaveNumber, iMarker);
+    else if (iWaveType == NORMAL_HUMAN_WAVE)
+        SpawnNormalHuman(iWaveNumber, iMarker);
+    else if (iWaveType == ELITE_HUMAN_WAVE)
+        SpawnEliteHuman(iWaveNumber, iMarker);
+    else if (iWaveType == MINOTAUR_WAVE)
+        SpawnMinotaur(iWaveNumber, iMarker);
+    else
+        SpawnDemon(iWaveNumber, iMarker);
+
+    uUnit = GetUnitAtMarker(iMarker);
+    // przypisujemy ścieżkę, którą będzie poruszać się jednostka
+    uUnit.SetScriptData(RAND(3));
+    
+    return 1;
+}

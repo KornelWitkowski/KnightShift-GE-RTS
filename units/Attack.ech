@@ -86,12 +86,12 @@ function int InitializeAttack()
     m_bWasMoveCommand = false;
     m_nAllowInvisibleCounter = 0;
     return true;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function int AttackEventOnChangedEquipment()
 {
     return InitializeAttack();
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function void ResetAttackTarget()
 {
@@ -110,7 +110,7 @@ function void ResetAttackTarget()
     m_bLowPriorWall = true;
     m_bWasMoveCommand = false;
     m_nAllowInvisibleCounter = 0;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function void CheckRunMode(int nDist)
 {
@@ -122,7 +122,7 @@ function void CheckRunMode(int nDist)
     {
         SetScriptRunMode(false);
     }
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function void CheckRunMode()
 {
@@ -134,7 +134,7 @@ function void CheckRunMode()
     {
         SetScriptRunMode(false);
     }
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function int SwitchSmartAttackMode(int nModeVal, int nNonModeVal)
 {
@@ -143,7 +143,7 @@ function int SwitchSmartAttackMode(int nModeVal, int nNonModeVal)
         return nModeVal;
     }
     return nNonModeVal;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function int SwitchSmartAttackMode(int nModeSwordVal, int nModeCannonVal, int nNonModeVal)
 {
@@ -159,7 +159,7 @@ function int SwitchSmartAttackMode(int nModeSwordVal, int nModeCannonVal, int nN
         }
     }
     return nNonModeVal;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function void SetAttackTarget(unit uTarget, int bCommandTarget, int bSelfTarget, int bResponseToAttack, int bSetStartAttackPos, int bClosedGateTarget)
 {
@@ -200,21 +200,20 @@ function void SetAttackTarget(unit uTarget, int bCommandTarget, int bSelfTarget,
         m_nStartAttackGx = GetLocationX();
         m_nStartAttackGy = GetLocationY();
         m_nStartAttackLz = GetLocationZ();
-        TRACE4("SetStartAttackPos", m_nStartAttackGx, m_nStartAttackGy, m_nStartAttackLz);
     }
     m_nDistTargetFromStartAttack = uTarget.DistanceTo(m_nStartAttackGx, m_nStartAttackGy);
     SetScriptAttackMode(true);
     CheckRunMode();
     m_bLowPriorWall = true;
     m_bWasMoveCommand = false;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function void StopAttacking()
 {
     CallStopMoving();
     ResetAttackTarget();
     NextCommand(1);
-}//����������������������������������������������������������������������������������������������������|
+}
 
 //funkcja dla lucznika wywolywana na poczatku sprawdzania celu - szukamy takich ktore atakuja take same jak
 //my unity i sa w zasiegu
@@ -228,7 +227,7 @@ function unit FindCannonNeighbourUnitTarget1()
         return uTarget;
     }
     return null;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 //funkcja dla lucznika wywolywana gdy nie znalazl zadnych wrogow w zasiegu
 function unit FindCannonNeighbourUnitTarget2(int nFindFromStartAttackRange)
@@ -255,7 +254,7 @@ function unit FindCannonNeighbourUnitTarget2(int nFindFromStartAttackRange)
     //(funkcja FindNeighbourUnitTarget przy pierwszym i drugim parametrze false (sameUnitID, sameWeaponType) preferuje te o tym samym ID lub weaponType)
     uTarget = FindNeighbourUnitTarget(false, false, false, nRange - 1, nFromGx, nFromGy, nFromLz, nRange);
     return uTarget;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCloseTargets, int nFindFromStartAttackRange)
 {
@@ -268,23 +267,10 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
     int nWeaponType;
     int bIsInBlindAttack;
 
-    TRACE5(GetUnitRef(), "FindAttackTarget", m_bSmartAttackMode, bOnlyCloseTargets, bInHoldPosMode);
     nWeaponType = GetWeaponType();
     bIsInBlindAttack = IsInBlindAttack();
     if (nWeaponType == cannonTypeSword)
     {
-        //ZZZ swordy na razie nie wybieraja wspolnego celu
-        /*
-        if (m_uAttackTarget == null)
-        {
-            //najpierw probujemy wziac cel sasiednich unitow
-            uTarget = FindNeighbourUnitTarget(true, bInHoldPosMode, 3);
-            if ((uTarget != null) && (uTarget.SetEventOnGetAttackersCount() < 4))
-            {
-                return uTarget;
-            }
-        }
-        */
         if (bInHoldPosMode)
         {
             if (bIsInBlindAttack)
@@ -374,13 +360,11 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                 bTargetBuilding = false;
                 bTargetTowerWithUnit = false;
             }
-            TRACE("    ");TRACE(uTarget);TRACE(" ");TRACE(bTargetTowerWithUnit);TRACE(" ");
             if (bInHoldPosMode)
             {
                 nInRange = IsTargetInAttackRange(uTarget);
                 if ((nInRange != inRangeGoodHit) && (nInRange != inRangeBadAngleAlpha))
                 {
-                    TRACE1("->NotInRange in holdPos");
                     continue;
                 }
             }
@@ -388,7 +372,6 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                 (uTarget.SetEventOnGetTarget() == GetUnitRef()))
             {
                 uLastTarget = uTarget;
-                TRACE1("GetTarget==this -> OK");
                 break;
             }
             else
@@ -402,7 +385,6 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                     nLastDist = DistanceTo(uTarget);
                     if (bTargetTowerWithUnit)
                     {
-                        TRACE("LastDist+6");
                         nLastDist = nLastDist + 6;
                     }
                     bLastAnimal = bTargetAnimal;
@@ -421,7 +403,6 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                     {
                         nLastAttackersCnt = 0;
                     }
-                    TRACE3(" -> uLastTarget == null", nLastDist, nLastAttackersCnt);
                 }
                 else if (!bTargetBuilding)
                 {
@@ -429,7 +410,6 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                     nDist = DistanceTo(uTarget);
                     if (bTargetTowerWithUnit)
                     {
-                        TRACE("Dist+6");
                         nDist = nDist + 6;
                     }
                     if (!bTargetTowerWithUnit)
@@ -450,7 +430,6 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                     if (bLastAnimal && !bTargetAnimal && ((nDist - nLastDist) < 8))
                     {
                         bSetTarget = true;
-                        TRACE3(" -> bLastAnimal && !bTargetAnimal", nLastDist, nLastAttackersCnt);
                     }
                     else
                     {
@@ -460,7 +439,6 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                             if ((nDist <= 1) && (nLastDist > 1))
                             {
                                 bSetTarget = true;
-                                TRACE1("  ->(nDist <= 1)=uTarget");
                             }
                             else if ((nDist <= 3) && FindFreePointInTargetNeighbourhood(uTarget) &&
                                      (DistanceTo(GetFoundFreePointInTargetNeighbourhoodX(), GetFoundFreePointInTargetNeighbourhoodY()) <= 1))
@@ -474,12 +452,10 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                                 if (nDist < nLastDist)
                                 {
                                     bSetTarget = true;
-                                    TRACE1("  ->(nDist <= 2)(nDist < nLastDist)=uTarget");
                                 }
                                 else if ((nDist == nLastDist) && (nTargetAttackersCnt > nLastAttackersCnt))
                                 {
                                     bSetTarget = true;
-                                    TRACE1("  ->(nDist <= 2)(nDist == nLastDist)(nTargetAttackers > nLastAttackersCnt)=uTarget");
                                 }
                             }
                             else if ((nDist >= 2) && (nLastDist <= 2))
@@ -503,16 +479,13 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                             {
                                 //rezygnujemy ze sprawdzania innych bo stoja za daleko
                                 //zostaje uLastTarget
-                                TRACE1(" -> ((nDist - nLastDist) > 8) ->break");
                                 break;
                             }
                             //oba to unity lub zwierzeta, porownujemy liczbe atakujacych je jednostek
                             //(z uwzglednieniem odleglosci)
-                            TRACE4(nDist, nTargetAttackersCnt, nLastDist, nLastAttackersCnt);
                             if ((nDist/2 + nTargetAttackersCnt*3) < (nLastDist/2 + nLastAttackersCnt*3))
                             {
                                 bSetTarget = true;
-                                TRACE1("       ->uLastTarget = uTarget");
                             }
                         }
                     }
@@ -537,7 +510,6 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
             uTarget = FindCannonNeighbourUnitTarget1();
             if (uTarget != null)
             {
-                TRACE2(uTarget, "FindCannonNeighbourUnitTarget1");
                 return uTarget;
             }
         }
@@ -571,7 +543,6 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
         StartEnumTargetsArray();
         for (nIndex = 0; nIndex < nCount; ++nIndex)
         {
-            TRACE1("aaa");
             uTarget = GetNextTarget();
             bTargetAnimal = uTarget.IsAnimal();
             if (uTarget.IsBuilding() && !uTarget.HaveUnitOnTower())
@@ -587,7 +558,6 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                 nInRange = IsTargetInAttackRange(uTarget);
                 if ((nInRange == inRangeGoodHit) || (nInRange == inRangeBadAngleAlpha))
                 {
-                    TRACE2(uTarget, "inRange");
                     uLastTarget = uTarget;
                     nLastInRange = nInRange;
                     bLastAnimal = false;
@@ -596,7 +566,6 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                 }
                 else if (!bInHoldPosMode && (!m_bSmartAttackMode || !bOnlyCloseTargets) && ((uLastTarget == null) || ((nLastInRange == notInRange) && (nInRange != notInRange))))
                 {
-                    TRACE2(uTarget, "notInRange");
                     uLastTarget = uTarget;
                     nLastInRange = nInRange;
                     bLastAnimal = false;
@@ -625,14 +594,15 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                     nInRange = IsTargetInAttackRange(uTarget);
                     if ((nInRange == inRangeGoodHit) || (nInRange == inRangeBadAngleAlpha))
                     {
-                        TRACE2(uTarget, "inRange");
                         uLastTarget = uTarget;
                         nLastInRange = nInRange;
                         break;
                     }
-                    else if (!bInHoldPosMode && (!m_bSmartAttackMode || !bOnlyCloseTargets) && ((uLastTarget == null) || ((nLastInRange == notInRange) && (nInRange != notInRange))))
+                    else if (
+                        !bInHoldPosMode &&
+                        (!m_bSmartAttackMode || !bOnlyCloseTargets) &&
+                        ((uLastTarget == null) || ((nLastInRange == notInRange) && (nInRange != notInRange))))
                     {
-                        TRACE2(uTarget, "notInRange");
                         uLastTarget = uTarget;
                         nLastInRange = nInRange;
                     }
@@ -653,7 +623,6 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                     {
                         if ((uLastTarget == null) || (m_bLowPriorWall && uLastTarget.IsBuildingWall() && !uTarget.IsBuildingWall()))
                         {
-                            TRACE2(uTarget, "inRange");
                             uLastTarget = uTarget;
                             nLastInRange = nInRange;
                             if (!m_bLowPriorWall || !uTarget.IsBuildingWall())
@@ -666,7 +635,6 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                              ((uLastTarget == null) || ((nLastInRange == notInRange) && (nInRange != notInRange)) ||
                              (m_bLowPriorWall && uLastTarget.IsBuildingWall() && !uTarget.IsBuildingWall())))
                     {
-                        TRACE2(uTarget, "notInRange");
                         uLastTarget = uTarget;
                         nLastInRange = nInRange;
                     }
@@ -677,12 +645,11 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
         {
             //najpierw probujemy wziac cel sasiednich unitow taki ktory jest w zasiegu
             uLastTarget = FindCannonNeighbourUnitTarget2(nFindFromStartAttackRange);
-            TRACE2(uLastTarget, "FindCannonNeighbourUnitTarget2");
         }
         EndEnumTargetsArray();
     }
     return uLastTarget;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function unit FindCloseEnemyWall()
 {
@@ -693,12 +660,12 @@ function unit FindCloseEnemyWall()
         return uTarget;
     }
     return null;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function unit FindAttackTarget(int bInHoldPosMode)
 {
     return FindAttackTarget(m_nTargetTypes, bInHoldPosMode, true, 0);
-}//����������������������������������������������������������������������������������������������������|
+}
 
 //odsuniecie sie od punktu nFromGx,y,z
 function void MoveAwayFromPoint(int nFromGx, int nFromGy, int nFromLz, unit uTarget)
@@ -763,7 +730,7 @@ function void MoveAwayFromPoint(int nFromGx, int nFromGy, int nFromLz, unit uTar
             CallMoveToPoint(nFromGx, nFromGy - 2, nFromLz);
         }
     }
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function int MoveToAttackTarget(unit uTarget, int bSelfTarget, int nInRange)
 {
@@ -775,7 +742,6 @@ function int MoveToAttackTarget(unit uTarget, int bSelfTarget, int nInRange)
     {
         return false;
     }
-    TRACE1("MTAT");
     if ((nInRange == inRangeGoodHit) || (nInRange == inRangeBadAngleAlpha))
     {
         if (IsMoving() || IsPreparingToMove())
@@ -784,7 +750,7 @@ function int MoveToAttackTarget(unit uTarget, int bSelfTarget, int nInRange)
         }
         return true;
     }
-    else if ((IsInHoldPosMode() /*|| (m_bSmartAttackMode && (GetWeaponType() != cannonTypeSword))*/) && bSelfTarget)
+    else if (IsInHoldPosMode() && bSelfTarget)
     {
         return false;
     }
@@ -806,10 +772,8 @@ function int MoveToAttackTarget(unit uTarget, int bSelfTarget, int nInRange)
     }
     if (nInRange == notInRange)
     {
-        TRACE1("MTAT->notInRange");
         if (bNeighbourPoint && (GetLocationX() == nMoveToX) && (GetLocationY() == nMoveToY) && (GetLocationZ() == nMoveToZ))
         {
-            TRACE1("MTAT->attackTarget");
             //idziemy do punktu po drugiej stronie celu
             CallMoveToPoint(m_nAttackTargetGx - (nMoveToX - m_nAttackTargetGx), m_nAttackTargetGy - (nMoveToY - m_nAttackTargetGy), m_nAttackTargetLz);
         }
@@ -827,7 +791,6 @@ function int MoveToAttackTarget(unit uTarget, int bSelfTarget, int nInRange)
         }
         else
         {
-            TRACE1("MTAT->CallMoveFlyUp");
             CallMoveFlyUp(GetAngleToTarget(uTarget));
         }
         return true;
@@ -864,7 +827,7 @@ function int MoveToAttackTarget(unit uTarget, int bSelfTarget, int nInRange)
         CallMoveToPoint(nMoveToX, nMoveToY, nMoveToZ);
     }
     return true;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function int MoveToAttackTarget(unit uTarget, int bSelfTarget)
 {
@@ -873,7 +836,7 @@ function int MoveToAttackTarget(unit uTarget, int bSelfTarget)
         return false;
     }
     return MoveToAttackTarget(uTarget, bSelfTarget, IsTargetInAttackRange(uTarget));
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function int TryFindNewAttackTarget(int bInTower, int bForceHoldPos, int bOnlyCloseTargets, int bSetStartAttackPos, int bCheckIfCloseToStartAttackPos)
 {
@@ -909,7 +872,6 @@ function int TryFindNewAttackTarget(int bInTower, int bForceHoldPos, int bOnlyCl
     uTarget = FindAttackTarget(m_nTargetTypes, IsInHoldPosMode() | bInTower | bForceHoldPos, bOnlyCloseTargets, nFindFromStartAttackRange);
     if (uTarget != null)
     {
-        TRACE1("TryFindNewAttackTarget->uTarget!=null");
         if (bInTower)
         {
             CallAttackTarget(uTarget, -1);
@@ -917,11 +879,9 @@ function int TryFindNewAttackTarget(int bInTower, int bForceHoldPos, int bOnlyCl
         }
         if (MoveToAttackTarget(uTarget, true))
         {
-            TRACE2(GetUnitRef(), "FoundNewAttackTarget");
             if ((GetWeaponType() == cannonTypeSword) && (uTarget.GetWeaponType() == cannonTypeSword) &&
                 (uTarget.SetEventOnGetTarget() == GetUnitRef()))
             {
-                TRACE2(GetUnitRef(), "    ->bResponseToAttack == true");
                 bResponseToAttack = true;
             }
             SetAttackTarget(uTarget, false, true, bResponseToAttack, bSetStartAttackPos, false);
@@ -929,12 +889,12 @@ function int TryFindNewAttackTarget(int bInTower, int bForceHoldPos, int bOnlyCl
         }
     }
     return false;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function int TryFindNewAttackTarget(int bInTower, int bForceHoldPos)
 {
     return TryFindNewAttackTarget(bInTower, bForceHoldPos, true, true, false);
-}//����������������������������������������������������������������������������������������������������|
+}
 
 //wyslane przez uTarget.SetEventOnSelectedToAttack(GetUnitRef());
 //zwraca false jesli juz z kims walczy (lub do niego idzie) false w przeciwnym przypadku
@@ -952,7 +912,6 @@ function int AttackEventOnSelectedToAttackByUnit(unit uByUnit)
             IsVisible(uByUnit) && (GetLocationZ() == uByUnit.GetLocationZ()) && !IsAlliance(uByUnit) &&
             !CheckHoldPosAfterMove() && MoveToAttackTarget(uByUnit, true))
         {
-            TRACE2(GetUnitRef(), "    ->SetAttackTarget");
             SetAttackTarget(uByUnit, false, true, true, true, false);
             ResetCounterAfterMove();
 #ifdef STORE_STAY_POS
@@ -964,11 +923,10 @@ function int AttackEventOnSelectedToAttackByUnit(unit uByUnit)
         }
     }
     return false;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function int AttackEventOnEndAttackByUnit(unit uByUnit)
 {
-    TRACE2(GetUnitRef(), "OnEndAttackByUnit");
     if (m_bResponseToAttack && (m_uAttackTarget == uByUnit))
     {
         m_bResponseToAttack = false;
@@ -984,12 +942,12 @@ function int AttackEventOnEndAttackByUnit(unit uByUnit)
         }
     }
     return false;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function unit AttackEventOnGetTarget()
 {
     return m_uAttackTarget;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function int MoveToAttackPoint(int nGx, int nGy, int nLz)
 {
@@ -1040,7 +998,6 @@ function int MoveToAttackPoint(int nGx, int nGy, int nLz)
         }
         else
         {
-            TRACE1("MTAP->CallMoveFlyUp");
             CallMoveFlyUp(GetAngleToPoint(nGx, nGy, nLz));
         }
         return true;
@@ -1077,7 +1034,7 @@ function int MoveToAttackPoint(int nGx, int nGy, int nLz)
         CallMoveToPoint(nMoveToX, nMoveToY, nMoveToZ);
     }
     return true;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 function int FindNewNotBuildingTarget(int bInTower)
 {
@@ -1093,11 +1050,9 @@ function int FindNewNotBuildingTarget(int bInTower)
     uNewTarget = FindAttackTarget(findTargetUnit | findTargetArmedAnimal | findTargetUnarmedAnimal, IsInHoldPosMode() | bInTower, true, nFindFromStartAttackRange);
     if ((uNewTarget != null) && MoveToAttackTarget(uNewTarget, true))
     {
-        TRACE2(GetUnitRef(), "FoundNewAttackTarget");
         if ((GetWeaponType() == cannonTypeSword) && (uNewTarget.GetWeaponType() == cannonTypeSword) &&
             (uNewTarget.SetEventOnGetTarget() == GetUnitRef()))
         {
-            TRACE2(GetUnitRef(), "    ->bResponseToAttack == true");
             bResponseToAttack = true;
         }
         if (bInTower)
@@ -1109,7 +1064,7 @@ function int FindNewNotBuildingTarget(int bInTower)
         return true;
     }
     return false;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 //sprawdza czy unit ktorego atakujemy przypadkiem nie wszedl do wiezy, jesli wszedl to sprawdzamy czy mozemy go
 //tam zaatakowac i jesli nie to zwracamy false
@@ -1131,7 +1086,7 @@ function int CheckTargetMoveInsideTower()
         }
     }
     return true;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 ////    States    ////
 
@@ -1147,15 +1102,20 @@ state MovingToAttackTarget
         return MovingToAttackTarget, 5;
     }
 
-    TRACE7(GetUnitRef(), "MovingToAttackTarget ", m_uAttackTarget, ", bRespToAtt ==", m_bResponseToAttack, ", m_bAlly ==", m_bAllyTarget);
 #ifdef AI_SCRIPT
     if (m_nAllowInvisibleCounter > 0)
     {
         --m_nAllowInvisibleCounter;
     }
 #endif
-    if ((m_uAttackTarget == null) || !m_uAttackTarget.IsLive() || (IsAlliance(m_uAttackTarget) && !m_bAllyTarget && !m_uAttackTarget.IsInBlindAttack()) ||
-        (m_bTowerUnitAttackTarget && !m_uAttackTarget.HaveUnitOnTower()) || !CheckTargetMoveInsideTower() || (GetHPDamageOnObject(m_uAttackTarget) == 0) ||
+    if ((m_uAttackTarget == null) ||
+        !m_uAttackTarget.IsLive() ||
+        (IsAlliance(m_uAttackTarget) &&
+        !m_bAllyTarget &&
+        !m_uAttackTarget.IsInBlindAttack()) ||
+        (m_bTowerUnitAttackTarget && !m_uAttackTarget.HaveUnitOnTower()) ||
+        !CheckTargetMoveInsideTower() ||
+        (GetHPDamageOnObject(m_uAttackTarget) == 0) ||
         (m_bSelfAttackTarget && (m_uAttackTarget.GetLocationZ() != GetLocationZ())) ||
 #ifdef AI_SCRIPT
         (IsRPGMode() && (m_nAllowInvisibleCounter == 0) && !IsVisible(m_uAttackTarget) && !m_uAttackTarget.IsPassive())
@@ -1164,7 +1124,6 @@ state MovingToAttackTarget
 #endif AI_SCRIPT
         )
     {
-        TRACE1("    M1");
         uNewTarget = m_uAttackTarget.GetVisibleFakeObject();
         if (uNewTarget != null)
         {
@@ -1183,7 +1142,6 @@ state MovingToAttackTarget
             //jesli odleglosc do celu (komendy) byla wieksza niz zasieg widzenia to idziemy w jego kierunku
             if (m_bAttackingCommandTarget && !m_bAttackedTarget && (m_uAttackTarget != null) && (DistanceTo(m_uAttackTarget) >= GetSightRange()))
             {
-                TRACE1("MovingToAttackTarget -> Target killed -> moving to target");
                 m_nMoveToGx = m_uAttackTarget.GetLocationX();
                 m_nMoveToGy = m_uAttackTarget.GetLocationY();
                 m_nMoveToLz = m_uAttackTarget.GetLocationZ();
@@ -1200,43 +1158,45 @@ state MovingToAttackTarget
     nInRange = IsTargetInAttackRange(m_uAttackTarget);
     if ((nInRange == inRangeGoodHit) || (nInRange == inRangeBadAngleAlpha))
     {
-        TRACE1("    M2");
         if (IsMoving() || IsPreparingToMove())
         {
             CallStopMoving();
         }
-        TRACE2(GetUnitRef(), "    ->TurningToAttackTarget");
         return TurningToAttackTarget, 0;
     }
     else if (nInRange == inRangeFlyUp)
     {
         if (IsMoving() && !IsFlyingUp())
         {
-            TRACE1("MovingToAttackTarget->CallStopMoving");
             CallStopMoving();
         }
         else
         {
-            TRACE1("MovingToAttackTarget->CallMoveFlyUp");
             CallMoveFlyUp(GetAngleToTarget(m_uAttackTarget));
         }
         return MovingToAttackTarget, 5;
     }
-    else if ((IsInHoldPosMode() /*|| (m_bSmartAttackMode && (GetWeaponType() != cannonTypeSword))*/) && m_bSelfAttackTarget)
+    else if (IsInHoldPosMode() && m_bSelfAttackTarget)
     {
-        TRACE1("    M3");
         //target not exist
         STOPATTACKING_RETURNSTATE();
     }
     bWaiting = IsWaitingBeforeClosedGate();
     bMoving = IsMoving();
     if (!bMoving || bWaiting ||
-        (m_nAttackTargetGx != m_uAttackTarget.GetLocationX()) || (m_nAttackTargetGy != m_uAttackTarget.GetLocationY()) || (m_nAttackTargetLz != m_uAttackTarget.GetLocationZ()))
+        (m_nAttackTargetGx != m_uAttackTarget.GetLocationX()) ||
+        (m_nAttackTargetGy != m_uAttackTarget.GetLocationY()) ||
+        (m_nAttackTargetLz != m_uAttackTarget.GetLocationZ()))
     {
         if (bWaiting)
         {
             uNewTarget = GetWaitingBeforeClosedGate();
-            if ((uNewTarget != null) && (IsEnemy(uNewTarget) || IsLastEnemyTowerOrGate(uNewTarget)) && GetHPDamageOnObject(uNewTarget) && (uNewTarget != m_uAttackTarget))
+            if ((uNewTarget != null) &&
+                (IsEnemy(uNewTarget) ||
+                IsLastEnemyTowerOrGate(uNewTarget)) &&
+                GetHPDamageOnObject(uNewTarget) &&
+                (uNewTarget != m_uAttackTarget)
+            )
             {
                 if (MoveToAttackTarget(uNewTarget, m_bSelfAttackTarget))
                 {
@@ -1282,7 +1242,6 @@ state MovingToAttackTarget
     }
     if (m_bSelfAttackTarget ON_AI_SCRIPT(&& !IsRPGMode()))
     {
-        TRACE5("DistToStartAttack", m_nStartAttackGx, m_nStartAttackGy, DistanceTo(m_nStartAttackGx, m_nStartAttackGy), GetSightRange());
         nDist = m_uAttackTarget.DistanceTo(m_nStartAttackGx, m_nStartAttackGy);
         if (nDist > (m_nDistTargetFromStartAttack + 1))
         {
@@ -1298,11 +1257,10 @@ state MovingToAttackTarget
             STOPATTACKING_RETURNSTATE();
         }
     }
-    TRACE1("    M4");
     nDist = DistanceTo(m_uAttackTarget);
     //jesli atakujemy budynek to szukamy innego celu - nie budynku
     if (m_bSelfAttackTarget && !m_bClosedGateTarget &&
-        ((m_uAttackTarget.IsBuilding() /*&& !m_bTowerUnitAttackTarget*/) || m_uAttackTarget.IsPassive()))
+        ((m_uAttackTarget.IsBuilding() || m_uAttackTarget.IsPassive())))
     {
         FindNewNotBuildingTarget(false);
         nDist = DistanceTo(m_uAttackTarget);
@@ -1327,13 +1285,10 @@ state MovingToAttackTarget
             if (bCheckNewTarget && !m_bClosedGateTarget)
             {
                 uNewTarget = FindAttackTarget(IsInHoldPosMode());
-                TRACE3("MovingToAttackTarget->FindAttackTarget", m_uAttackTarget, uNewTarget);
                 if ((uNewTarget != null) && (uNewTarget != m_uAttackTarget))
                 {
-                    TRACE1("MovingToAttackTarget->FindAttackTarget OK");
                     if (MoveToAttackTarget(uNewTarget, m_bSelfAttackTarget))
                     {
-                        TRACE1("MovingToAttackTarget->FindAttackTarget OK2");
                         if (m_bAttackingCommandTarget)
                         {
                             //musimy wywolac NextCommand bo inaczej dla tego obiektu pokazywalo by dwa cele
@@ -1360,12 +1315,11 @@ state MovingToAttackTarget
     if (m_bResponseToAttack && (nDist < 5))
     {
         CallStopMoving();
-        TRACE2(GetUnitRef(), "    ->WaitingForAttackedTarget");
         return WaitingForAttackedTarget, 0;
     }
     m_uAttackTarget.SetCustomEvent(2, 0, 0, 0, 0, GetUnitRef());//informujemy go ze do niego idziemy
     return MovingToAttackTarget, MIN(nDist*2, 20);
-}//����������������������������������������������������������������������������������������������������|
+}
 
 state WaitingForAttackedTarget
 {
@@ -1378,7 +1332,6 @@ state WaitingForAttackedTarget
         return WaitingForAttackedTarget, 5;
     }
 
-    TRACE2(GetUnitRef(), "WaitingForAttackedTarget");
     if (!m_bResponseToAttack)
     {
         return MovingToAttackTarget, 0;
@@ -1422,7 +1375,6 @@ state WaitingForAttackedTarget
         {
             CallStopMoving();
         }
-        TRACE2(GetUnitRef(), "    ->TurningToAttackTarget");
         return TurningToAttackTarget, 0;
     }
     else if (nInRange == inRangeFlyUp)
@@ -1437,7 +1389,7 @@ state WaitingForAttackedTarget
         }
         return WaitingForAttackedTarget, 5;
     }
-    else if ((IsInHoldPosMode() /*|| (m_bSmartAttackMode && (GetWeaponType() != cannonTypeSword))*/) && m_bSelfAttackTarget)
+    else if (IsInHoldPosMode() && m_bSelfAttackTarget)
     {
         //target not exist
         STOPATTACKING_RETURNSTATE();
@@ -1445,12 +1397,10 @@ state WaitingForAttackedTarget
     nDist = DistanceTo(m_uAttackTarget);
     if (nDist > 5)
     {
-        TRACE2(GetUnitRef(), "    ->MovingToAttackTarget");
         return MovingToAttackTarget, 0;
     }
     if (m_uAttackTarget.IsWaitingBeforeClosedGate())
     {
-        TRACE2(GetUnitRef(), "m_uAttackTarget.IsWaitingBeforeClosedGate() ->MovingToAttackTarget");
         return MovingToAttackTarget, 0;
     }
     ASSERT(GetWeaponType() == cannonTypeSword);
@@ -1459,7 +1409,7 @@ state WaitingForAttackedTarget
         CallTurnToAngle(GetAngleToTargetEx(m_uAttackTarget));
     }
     return WaitingForAttackedTarget, MIN(nDist*2, 20);
-}//����������������������������������������������������������������������������������������������������|
+}
 
 state TurningToAttackTarget
 {
@@ -1496,7 +1446,6 @@ state TurningToAttackTarget
     nInRange = IsTargetInAttackRange(m_uAttackTarget);
     if ((nInRange != inRangeGoodHit) && (nInRange != inRangeBadAngleAlpha))
     {
-        TRACE5("DistToStartAttackOnTurn", m_nStartAttackGx, m_nStartAttackGy, DistanceTo(m_nStartAttackGx, m_nStartAttackGy), GetSightRange());
         nDist = m_uAttackTarget.DistanceTo(m_nStartAttackGx, m_nStartAttackGy);
         if (nDist > (m_nDistTargetFromStartAttack + 1))
         {
@@ -1513,7 +1462,6 @@ state TurningToAttackTarget
         }
         else
         {
-            TRACE2(GetUnitRef(), "Turning->MovingToAttackTarget");
             MoveToAttackTarget(m_uAttackTarget, m_bSelfAttackTarget);
             CheckRunMode();
             return MovingToAttackTarget, 0;
@@ -1534,7 +1482,6 @@ state TurningToAttackTarget
         if (ABS(nRelativeAngle) < nAngleDiff)
         {
             CallAttackTarget(m_uAttackTarget, -1);
-            TRACE2(GetUnitRef(), "->AttackingTarget");
             return AttackingTarget,20;
         }
         else
@@ -1551,7 +1498,7 @@ state TurningToAttackTarget
         }
     }
     return TurningToAttackTarget, 0;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 state AttackingTarget
 {
@@ -1565,7 +1512,6 @@ state AttackingTarget
     {
         if ((m_uAttackTarget != null) && ((IsAlliance(m_uAttackTarget) && !m_bAllyTarget && !m_uAttackTarget.IsInBlindAttack()) || (GetHPDamageOnObject(m_uAttackTarget) == 0)))
         {
-            TRACE2(GetUnitRef(), "end AttackingTarget");
             CallStopMoving();
             m_bAttackedTarget = true;
             return MovingToAttackTarget, 0;
@@ -1573,7 +1519,7 @@ state AttackingTarget
         //jesli atakujemy budynek to szukamy celu ktory nie jest budynkiem i jesli go znajdziemy 
         //to zaczynamy go atakowac
         if (m_bSelfAttackTarget && !m_bClosedGateTarget &&
-            ((m_uAttackTarget.IsBuilding() /*&& !m_bTowerUnitAttackTarget*/) || m_uAttackTarget.IsPassive()))
+            (m_uAttackTarget.IsBuilding() || m_uAttackTarget.IsPassive()))
         {
             if (FindNewNotBuildingTarget(false))
             {
@@ -1585,11 +1531,10 @@ state AttackingTarget
     }
     else
     {
-        TRACE2(GetUnitRef(), "end AttackingTarget");
         m_bAttackedTarget = true;
         return MovingToAttackTarget, 0;
     }
-}//����������������������������������������������������������������������������������������������������|
+}
 
 state MovingToAttackPoint
 {
@@ -1602,7 +1547,6 @@ state MovingToAttackPoint
         return MovingToAttackPoint, 5;
     }
 
-    TRACE("MovingToAttackPoint");
     nInRange = IsPointInAttackRange(m_nAttackTargetGx, m_nAttackTargetGy, m_nAttackTargetLz);
     if ((nInRange == inRangeGoodHit) || (nInRange == inRangeBadAngleAlpha))
     {
@@ -1610,20 +1554,15 @@ state MovingToAttackPoint
         {
             CallStopMoving();
         }
-        TRACE1(" - inRange -> TurningToAttackPoint");
         return TurningToAttackPoint, 0;
     }
     if (!IsMoving())
     {
-        TRACE1(" - !IsMoving() -> MoveToAttackPoint");
         MoveToAttackPoint(m_nAttackTargetGx, m_nAttackTargetGy, m_nAttackTargetLz);
     }
-    else
-    {
-        TRACE1(" - IsMoving()");
-    }
+
     return MovingToAttackPoint;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 state TurningToAttackPoint
 {
@@ -1636,12 +1575,10 @@ state TurningToAttackPoint
         return TurningToAttackPoint, 5;
     }
 
-    TRACE1("TurningToAttackPoint");
 
     nInRange = IsPointInAttackRange(m_nAttackTargetGx, m_nAttackTargetGy, m_nAttackTargetLz);
     if ((nInRange != inRangeGoodHit) && (nInRange != inRangeBadAngleAlpha))
     {
-        TRACE1("    -> notInRange - MovingToAttackPoint");
         MoveToAttackPoint(m_nAttackTargetGx, m_nAttackTargetGy, m_nAttackTargetLz);
         return MovingToAttackPoint, 0;
     }
@@ -1658,18 +1595,16 @@ state TurningToAttackPoint
             {
                 nCount = -1;
             }
-            TRACE1("    -> CallAttackPoint");
             CallAttackPoint(m_nAttackTargetGx, m_nAttackTargetGy, m_nAttackTargetLz, nCount);
             return AttackingPoint;
         }
         else
         {
-            TRACE1("    -> CallTurnToAngle");
             CallTurnToAngle(GetAngleToPoint(m_nAttackTargetGx, m_nAttackTargetGy, m_nAttackTargetLz));
         }
     }
     return TurningToAttackPoint, 5;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 state AttackingPoint
 {
@@ -1681,7 +1616,7 @@ state AttackingPoint
     {
         STOPATTACKING_RETURNSTATE();
     }
-}//����������������������������������������������������������������������������������������������������|
+}
 
 ////    Events    ////
 
@@ -1692,7 +1627,6 @@ event OnEndAttackTarget(unit uPrevTarget)
     int nInRange, nCurrState;
     int bResponseToAttack;
 
-    TRACE2(GetUnitRef(), "event OnEndAttackTarget");
     if (GetWeaponType() == cannonTypeSword)
     {
         uTarget = FindAttackTarget(m_nTargetTypes, true, true, 0);
@@ -1712,7 +1646,6 @@ event OnEndAttackTarget(unit uPrevTarget)
             }
             if (state == nCurrState)
             {
-                TRACE3(GetUnitRef(), "    ->SetAttackTarget", uTarget);
                 SetAttackTarget(uTarget, false, m_bSelfAttackTarget, bResponseToAttack, false, false);
             }
             //else state zmieniony w NextCommand
@@ -1727,7 +1660,6 @@ event OnEndAttackTarget(unit uPrevTarget)
             uTarget = FindCannonNeighbourUnitTarget1();
             if (uTarget != null)
             {
-                TRACE2(uTarget, "->FindCannonNeighbourUnitTarget1");
                 nCurrState = state;
                 if (m_bAttackingCommandTarget)
                 {
@@ -1788,13 +1720,13 @@ event OnEndAttackTarget(unit uPrevTarget)
         EndEnumTargetsArray();
     }
     return null;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 //unit uUnit idzie do nas
 event Custom2(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
 {
     return AttackEventOnSelectedToAttackByUnit(uUnit);
-}//����������������������������������������������������������������������������������������������������|
+}
 
 ////    Commands    ////
 
@@ -1840,30 +1772,13 @@ command Attack(unit uTarget) button TRL_ATTACK description TRL_ATTACK item ITEM_
         }
     }
     return true;
-}//����������������������������������������������������������������������������������������������������|
-
-/*
-//komenda nie wystawiana na zewnatrz
-command AttackOnPoint(int nX, int nY, int nZ) button TRL_ATTACK hidden
-{
-    EXIT_COMMAND_IN_SLEEP_MODE();
-    CHECK_STOP_CURR_ACTION();
-    ResetAttackTarget();
-    m_nAttackTargetGx = nX;
-    m_nAttackTargetGy = nY;
-    m_nAttackTargetLz = nZ;
-    TRACE5(GetUnitRef(), "command AttackOnPoint", nX, nY, nZ);
-    MoveToAttackPoint(nX, nY, nZ);
-    state MovingToAttackPoint;
-    return true;
-}//����������������������������������������������������������������������������������������������������|
-*/
+}
 
 command SetSmartAttackMode(int nMode) hidden
 {
     m_bSmartAttackMode = nMode;
     NextCommand(1);
     return true;
-}//����������������������������������������������������������������������������������������������������|
+}
 
 #endif ATTACK_ECH

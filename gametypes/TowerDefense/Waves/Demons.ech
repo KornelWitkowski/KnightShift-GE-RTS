@@ -1,0 +1,53 @@
+function int ChooseDemonTier(int nWaveNumber)
+{
+    int iRoll;
+
+    iRoll =  GaussianDistribution(20) + 2 * nWaveNumber;
+    
+    if (25 > iRoll) return 0;
+    if (50 > iRoll) return 1;
+    if (75 > iRoll) return 2;
+    return 3;
+}
+
+function void SpawnDemon(int iWaveNumber, int iMarker)
+{
+    int iTier, iRand;
+    player rPlayerEnemy;
+    unitex uUnit;
+
+    iRand = RAND(3);
+
+    rPlayerEnemy = GetPlayer(11);
+
+    iTier = ChooseSkeletonTier(iWaveNumber);
+
+    if(iTier == 0)
+    {
+        if(iRand < 2)
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER1");
+        else
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER1S");
+    } 
+    else if (iTier == 1)
+    {
+        if(iRand < 2)
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER2");
+        else
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER2S");
+    } 
+    else if (iTier == 2)
+    {
+        if(iRand < 2)
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER3");
+        else
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER3S");
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "GATEKEEPER3");
+    }
+    
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}

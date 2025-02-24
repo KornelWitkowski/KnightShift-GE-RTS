@@ -1,0 +1,65 @@
+function int ChooseSupplementTier(int iWaveNumber)
+{
+    int iRoll;
+
+    iRoll =  GaussianDistribution(30) + 2 * iWaveNumber;
+    
+    if (20 > iRoll) return 0;
+    if (40 > iRoll) return 1;
+    if (60 > iRoll) return 2;
+    if (80 > iRoll) return 3;
+    if (100 > iRoll) return 4;
+    return 5;
+}
+
+function void CreateHPSupplementReward(int iWaveNumber, int iMarker) 
+{
+    int iTier;
+    iTier = ChooseSupplementTier(iWaveNumber);
+    
+    if (iTier == 0)
+        CreateObjectAtMarker(iMarker, "ART_ADD_HP_GE_050");
+    else if (iTier == 1)
+        CreateObjectAtMarker(iMarker, "ART_ADD_HP_GE_100");
+    else if (iTier == 2)
+        CreateObjectAtMarker(iMarker, "ART_ADD_HP_GE_200");
+    else if (iTier == 3)
+        CreateObjectAtMarker(iMarker, "ART_ADD_HP_GE_300");
+    else if (iTier == 4)
+        CreateObjectAtMarker(iMarker, "ART_ADD_HP_GE_400");
+    else
+        CreateObjectAtMarker(iMarker, "ART_ADD_HP_GE_500");
+}
+
+
+function void CreateDamageSupplementReward(int iWaveNumber, int iMarker) {
+    int iTier;
+    iTier = ChooseSupplementTier(iWaveNumber);
+    
+    if (iTier == 0)
+        CreateObjectAtMarker(iMarker, "ART_ADD_DAMAGE_GE_005");
+    else if (iTier == 1)
+        CreateObjectAtMarker(iMarker, "ART_ADD_DAMAGE_GE_010");
+    else if (iTier == 2)
+        CreateObjectAtMarker(iMarker, "ART_ADD_DAMAGE_GE_020");
+    else if (iTier == 3)
+        CreateObjectAtMarker(iMarker, "ART_ADD_DAMAGE_GE_040");
+    else if (iTier == 4)
+        CreateObjectAtMarker(iMarker, "ART_ADD_DAMAGE_GE_080");
+    else
+        CreateObjectAtMarker(iMarker, "ART_ADD_DAMAGE_GE_100");
+}
+
+function void RewardSupplement(int iWaveNumber, int iMarker)
+{
+    int i;
+
+    i = RAND(100);
+
+    if (i < 20)
+        CreateObjectAtMarker(iMarker, "ART_MILK_GE_400");
+    else if (i < 60)
+        CreateDamageSupplementReward(iWaveNumber, iMarker);
+    else
+        CreateHPSupplementReward(iWaveNumber, iMarker);
+}

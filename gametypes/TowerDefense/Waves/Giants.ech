@@ -1,0 +1,42 @@
+function int ChooseGiantTier(int nWaveNumber)
+{
+    int iRoll;
+
+    iRoll =  GaussianDistribution(20) + 2 * nWaveNumber;
+    
+    if (25 > iRoll) return 0;
+    if (50 > iRoll) return 1;
+    if (75 > iRoll) return 2;
+    return 3;
+}
+
+function void SpawnGiant(int iWaveNumber, int iMarker)
+{
+    int iTier;
+    player rPlayerEnemy;
+    unitex uUnit;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    iTier = ChooseSkeletonTier(iWaveNumber);
+
+    if(iTier == 0)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_GIANT3");
+    } 
+    else if (iTier == 1)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_GIANT2");
+    } 
+    else if (iTier == 2)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_GIANT1");
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_GIANT4");
+    }
+    
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}

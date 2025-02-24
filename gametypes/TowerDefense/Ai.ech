@@ -1,0 +1,88 @@
+function  int AttackClosestTower(unitex uUnit, player rPlayerEnemy)
+{
+    int j;
+    int iDistance, iMinDistance, iNumberOfEnemyUnits;
+    unitex uUnitEnemy, uEnemyClosestTower;
+
+    iMinDistance = 1000;
+    uEnemyClosestTower == null;
+    iNumberOfEnemyUnits = rPlayerEnemy.GetNumberOfUnits();
+
+
+    for(j=0; j<iNumberOfEnemyUnits; ++j)
+    {
+        uUnitEnemy = rPlayerEnemy.GetUnit(j);
+        if(!uUnitEnemy.IsInTower())
+            continue;
+        // Dodajemy szum, aby zwiększyć liczbę możliwych targetowanych wież.
+        iDistance = uUnit.DistanceTo(
+            uUnitEnemy.GetLocationX() - 2 + RAND(5),
+            uUnitEnemy.GetLocationY() - 2 + RAND(5));
+
+        if(iDistance < iMinDistance)
+        {
+            iMinDistance = iDistance;
+            uEnemyClosestTower = uUnitEnemy;
+        }
+        
+    }
+
+    if(uEnemyClosestTower != null)
+    {   
+        uUnit.CommandAttack(uEnemyClosestTower);
+        return 1;
+    }
+    return 0;
+}
+
+function int AttackWall(unitex uUnit)
+{
+    int i, j, iX, iY, iZ;
+    int iNumberOfWalls;
+    unitex uWall;
+
+    iX = uUnit.GetLocationX();
+    iY = uUnit.GetLocationY();
+
+    for(i=-1; i<=1; i=i+1)
+    {
+        for(j=-1; j<=1; j=j+1)
+        {
+            uWall = GetUnit(iX, iY);
+            if(uWall.IsBuildingWall())
+                return 1;
+        }
+    }
+    return 0;
+}
+
+function void AttackPlayer(player rPlayerEnemy)
+{
+    int i, iX, iY, iZ;
+    int iNumberOfUnits, iDistance; 
+    unitex uUnit;
+    player rPlayer;
+    rPlayer = GetPlayer(0);
+
+
+    iNumberOfUnits = rPlayerEnemy.GetNumberOfUnits();
+
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        uUnit = rPlayerEnemy.GetUnit(i);
+        iX = GetPointX(60);
+        iY = GetPointY(60);
+        iZ = GetPointZ(60);
+
+        iDistance = uUnit.DistanceTo(iX, iY);
+        SetConsoleText("iDistance: <%0> <%1> <%2> <%3> ", iDistance, iX, iY, iZ);
+
+        if(iDistance > 10)
+        {
+            if(IsShooter(uUnit))
+                AttackClosestTower(uUnit, rPlayer);
+            else
+                uUnit.CommandMove(iX, iY, iZ); 
+        }          
+    }
+}

@@ -1,0 +1,168 @@
+function int ChooseSkeletonTier(int nWaveNumber)
+{
+    int iRoll;
+
+    iRoll =  GaussianDistribution(20) + 2 * nWaveNumber;
+    
+    if (25 > iRoll) return 0;
+    if (50 > iRoll) return 1;
+    if (75 > iRoll) return 2;
+    return 3;
+}
+
+
+function void SpawnSkeletonWarrior(int nWaveNumber, int iMarker)
+{
+    int iTier;
+    player rPlayerEnemy;
+    unitex uUnit;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    iTier = ChooseSkeletonTier(nWaveNumber);
+
+    if(iTier == 0)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON1");
+    } 
+    else if (iTier == 1)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON2");
+    } 
+    else if (iTier == 2)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON3");
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON4");
+    }
+    
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}
+
+function void SpawnSkeletonHunter(int nWaveNumber, int iMarker)
+{
+    int iTier;
+    player rPlayerEnemy;
+    unitex uUnit;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    iTier = ChooseSkeletonTier(nWaveNumber);
+
+    if (iTier == 0)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_HUNTER");
+    } 
+    else if (iTier == 1)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_HUNTER2");
+    } 
+    else if (iTier == 2)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_HUNTER3");
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_HUNTER4");
+    }
+    
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}
+
+function void SpawnSkeletonSpearman(int nWaveNumber, int iMarker)
+{
+    int iTier;
+    player rPlayerEnemy;
+    unitex uUnit;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    iTier = ChooseSkeletonTier(nWaveNumber);
+    
+    if (iTier == 0)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_SPEARMAN");
+    } 
+    else if (iTier == 1)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_SPEARMAN2");
+    } 
+    else if (iTier == 2)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_SPEARMAN3");
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_SPEARMAN4");
+    }
+    
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}
+
+function void SpawnSkeletonNecromancer(int nWaveNumber, int iMarker)
+{
+    int iTier;
+    player rPlayerEnemy;
+    unitex uUnit;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    iTier = ChooseSkeletonTier(nWaveNumber);
+    
+    if (iTier == 0)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "NECROMANCER");
+    } 
+    else if (iTier == 1)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "NECROMANCER");
+        uUnit.AddDamage(2, 50);
+        uUnit.AddHP(500);
+    } 
+    else if (iTier == 2)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "NECROMANCER");
+        uUnit.AddDamage(2, 100);
+        uUnit.AddHP(1000);
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "NECROMANCER");
+        uUnit.AddDamage(2, 200);
+        uUnit.AddHP(2000);
+    }
+
+    SetUnitNecromancer(iMarker);
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}
+
+function void SpawnSkeleton(int nWaveNumber, int iMarker)
+{
+    int roll;
+    player rPlayerEnemy;
+
+    roll = RAND(100);
+
+    if (roll < 5)
+    {
+        SpawnSkeletonNecromancer(nWaveNumber, iMarker);
+    } 
+    else if (roll < 25)
+    {
+        SpawnSkeletonSpearman(nWaveNumber, iMarker);
+    } 
+    else if (roll < 50)
+    {
+        SpawnSkeletonHunter(nWaveNumber, iMarker);
+    }
+    else
+    {
+        SpawnSkeletonWarrior(nWaveNumber, iMarker);
+    }
+}
