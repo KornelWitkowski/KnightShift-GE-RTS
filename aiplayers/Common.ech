@@ -129,6 +129,42 @@ function void EnterSleepMode()
     }
 }
 
+function void GoBackWhenLowHP()
+{
+    int i, iX, iY;
+    int iNumberOfUnits;
+    unitex uUnit;
+    iNumberOfUnits = GetNumberOfUnits();
+
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        
+        uUnit = GetUnit(i);	
+
+        if(uUnit.IsInSleepMode())
+            continue;
+
+        if( uUnit.GetHP() < 15*uUnit.GetMaxHP()/100)
+        {
+            iX = GetStartingPointX();
+            iY = GetStartingPointY();
+
+            if(uUnit.DistanceTo(iX, iY) < 15)
+            {
+                uUnit.CommandSleepMode(1);
+                continue;
+            }
+
+            if(RAND(2) == 0)
+                continue;
+
+            iX = iX - 7 + RAND(14);
+            iY = iY - 7 + RAND(14);
+            uUnit.CommandMove(iX, iY, 0);
+        }		
+    }
+}
+
 
 function void UpdateMagicResearch(int iTier)
 {

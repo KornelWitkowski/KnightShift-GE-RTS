@@ -1,0 +1,46 @@
+
+function unitex SpawnTitanBoss(int nWaveNumber, int iMarker)
+{
+    int iX, iY, iZ, iAngle;
+    unitex uUnit;
+    
+    if(nWaveNumber <= 10)
+    {
+        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "RTS_ATLAS_1");
+        uUnit.AddHP(-3500);
+    }
+    else if(nWaveNumber <= 20)
+    {
+        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "RTS_ATLAS_2");
+        uUnit.AddHP(-2000);
+    }
+    else if(nWaveNumber <= 30)
+    {
+        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "RTS_ATLAS_3");
+        uUnit.AddHP(-500);
+    }
+    else
+    {
+        uUnit = rPlayer10.CreateUnit(
+            GetPointX(iMarker),
+            GetPointY(iMarker),
+            GetPointZ(iMarker),
+            64,
+            "RTS_ATLAS_2",
+            null,
+            null,
+            null,
+            "RPG_AXE69",
+            null,
+            null,
+            null,
+            null
+        );
+    }
+
+    GiveCaptureConvertResistance(uUnit);
+    SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER);
+    CreateObjectAtUnit(uUnit, "HIT_GHOST");
+
+    return uUnit;
+}

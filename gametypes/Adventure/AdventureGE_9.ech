@@ -146,7 +146,7 @@ function void CheckUnitDestroyedAdventureGE9(unitex uUnit)
             {   
                 SetGoalState(0, goalFailed, 1);
 
-                rPlayer.SetScriptData(1, 1);
+                rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
 
                 SetStateDelay(150);
                 state Defeat;
@@ -164,7 +164,7 @@ function void CheckUnitDestroyedAdventureGE9(unitex uUnit)
             {   
                 SetGoalState(1, goalFailed, 1);
 
-                rPlayer.SetScriptData(1, 1);
+                rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
 
                 SetStateDelay(150);
                 state Defeat;

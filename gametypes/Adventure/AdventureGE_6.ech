@@ -153,7 +153,7 @@ state KillingUninvitedGuestsAdventureGE6
             {
                 SetGoalState(0, goalFailed, 1);
 
-                rPlayer.SetScriptData(1, 1);
+                rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
 
                 return Defeat, 150;
             }

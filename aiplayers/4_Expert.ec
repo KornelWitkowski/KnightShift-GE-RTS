@@ -1,3 +1,4 @@
+#define AI_GOLDEN_EDITION
 #define AIEXPERT_EC
 
 #include "Translates.ech"
@@ -46,7 +47,7 @@ player "translateAIPlayerEkspert"
         EnableAIFeatures(aiBuildRoads |
                         aiBuildNewBuildings |
                         aiRebuildLostDefenceBuildings | 
-                       // aiBuildTowersEx |
+                        aiBuildTowersEx |
                         aiBuildNewBridges | 
                         aiRebuildLostBridges |
                         aiAllowBuildClose |
@@ -74,7 +75,7 @@ player "translateAIPlayerEkspert"
                         ai2PlatoonAttackInGroup | 
                         ai2PlatoonEscapeOnStorm | 
                         ai2DefendUnitsInPlatoon | 
-                        // ai2RandomizedBehaviours | 
+                        ai2RandomizedBehaviours | 
                         ai2SetSmartUnitAttackMode | 
                         ai2ResearchUpdatesLevelAll, true);
 
@@ -98,7 +99,7 @@ player "translateAIPlayerEkspert"
         SetUnitsInPlatoon(30);
         SetPlatoonsProportions(2, 1); //offensive/defensive
 
-        SetUnitsBuildTimePercent(70);
+        SetUnitsBuildTimePercent(85);
         SetMinHarvesters(9);
         SetMinBuilders(6);   
  
@@ -144,10 +145,10 @@ player "translateAIPlayerEkspert"
 
     state State1
     {
-        ControlMilk(3+RAND(5+1), 100000);
         if(bUseSeeing != 0)
             UseSeeing(5);
         EnterSleepMode();
+        GoBackWhenLowHP();
 
         if ((GetMissionTime() > 7*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
@@ -160,10 +161,10 @@ player "translateAIPlayerEkspert"
 
     state State2
     {
-        ControlMilk(5+RAND(5+1), 100000);
         if(bUseSeeing != 0)
             UseSeeing(5);
         EnterSleepMode();
+        GoBackWhenLowHP();
 
         if ((GetMissionTime() > 14*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
@@ -176,10 +177,10 @@ player "translateAIPlayerEkspert"
 
     state State3
     {
-        ControlMilk(7+RAND(5+1), 100000);
         if(bUseSeeing != 0)
             UseSeeing(5);
         EnterSleepMode();
+        GoBackWhenLowHP();
 
         if ((GetMissionTime() > 21*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
@@ -193,11 +194,11 @@ player "translateAIPlayerEkspert"
 
     state State4
     {
-        ControlMilk(10+RAND(10+1), 100000);
 
         if(bUseSeeing != 0)
             UseSeeing(5);
         EnterSleepMode();
+        GoBackWhenLowHP();
 
         if ((GetMissionTime() > 28*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
@@ -210,11 +211,10 @@ player "translateAIPlayerEkspert"
 
     state State5
     {
-        ControlMilk(20+RAND(15+1), 100000);
-
         if(bUseSeeing != 0)
             UseSeeing(5);
         EnterSleepMode();
+        GoBackWhenLowHP();
 
         SetStrategy(6, iStartegy); 
 

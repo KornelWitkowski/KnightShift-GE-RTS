@@ -7,7 +7,7 @@ function void SpawnNormalHuman(int nWaveNumber, int iMarker)
 
     rPlayerEnemy = GetPlayer(11);
 
-    roll = RAND(100);
+    roll = RandXor(100);
 
     if (roll < 40)
     {
@@ -28,11 +28,13 @@ function void SpawnNormalHuman(int nWaveNumber, int iMarker)
     else
     {
 
-        roll = RAND(100);
+        roll = RandXor(100);
         
-        if(roll < 40)
+        if(roll < 35)
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIESTESS");
-        else if(roll < 80)
+        else if(roll < 70)
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIEST");
+        else if(roll < 85)
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SORCERER");
         else
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "WITCH");

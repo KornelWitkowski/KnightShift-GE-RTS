@@ -1,0 +1,15 @@
+
+
+function void SpawnBomber(int iWaveNumber, int iMarker)
+{
+    int iRoll;
+    unitex uUnit;
+
+    uUnit = CreateUnitAtMarker(rPlayer9, iMarker, "SPECIALCOW");
+    uUnit.SetExperienceLevel(6);
+
+    SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, BOMBER_MARKER);
+    uUnit.EnableCapture(false);
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}

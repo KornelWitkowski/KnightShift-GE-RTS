@@ -4,40 +4,197 @@
 #include "Waves\NormalHumans.ech"
 #include "Waves\Minotaurs.ech"
 #include "Waves\EliteHumans.ech"
+#include "Waves\Beasts.ech"
+#include "Waves\Mages.ech"
+#include "Waves\Bandits.ech"
+#include "Waves\Dragons.ech"
+#include "Waves\Bombers.ech"
 
-#define SKELETON_WAVE 0
-#define GIANT_WAVE 1
-#define NORMAL_HUMAN_WAVE 2
-#define ELITE_HUMAN_WAVE 3
-#define MINOTAUR_WAVE 4
-#define DEMON_WAVE 5
-
-function int GetUnitNumber(int nWaveType, int nWaveNumber)
+function int ModifyUnitNumber(int iUnitNumber)
 {
+    return ((10 + iDifficulty - 2) * iUnitNumber) / 10;
+}
 
-    if (nWaveType == SKELETON_WAVE)
+function int GetUnitNumber(int iWaveType, int iWaveNumber)
+{
+    int i, iSum, iWaveMultiplier;
+
+    iSum = 0;
+    iWaveMultiplier = iWaveNumber - 1;
+
+    if (iWaveType == SKELETON_WAVE)
     {
-        return 20 + 6 * nWaveNumber;
+        iSum = 20;
+
+        for(i = 1; i < iWaveNumber; i = i + 1)
+        {
+            if(i < 10)
+                iSum = iSum + 8;
+            else if(i < 20)
+                iSum = iSum + 6;
+            else if(i < 30)
+                iSum = iSum + 4;
+            else if(i < 40)
+                iSum = iSum + 2;
+        }
+        iSum = ModifyUnitNumber(iSum);
+        return iSum;
     }
-    else if(nWaveType == GIANT_WAVE)
+    else if(iWaveType == GIANT_WAVE)
     {
-        return 5 + 5 * nWaveNumber;
+        iSum = 8;
+        for(i = 1; i < iWaveNumber; i = i + 1)
+        {
+            if(i < 10)
+                iSum = iSum + 7;
+            else if(i < 20)
+                iSum = iSum + 5;
+            else if(i < 30)
+                iSum = iSum + 3;
+            else if(i < 40)
+                iSum = iSum + 1;
+        }
+        iSum = ModifyUnitNumber(iSum);
+        return iSum;
     }
-    else if(nWaveType == NORMAL_HUMAN_WAVE)
+    else if(iWaveType == NORMAL_HUMAN_WAVE)
     {
-        return 20 + 10 * nWaveNumber;
+        iSum = 20;
+        for(i = 1; i < iWaveNumber; i = i + 1)
+        {
+            if(i < 10)
+                iSum = iSum + 6;
+            else if(i < 20)
+                iSum = iSum + 5;
+            else if(i < 30)
+                iSum = iSum + 4;
+            else if(i < 40)
+                iSum = iSum + 3;
+        }
+        iSum = ModifyUnitNumber(iSum);
+        return iSum;
     }
-    else if(nWaveType == ELITE_HUMAN_WAVE)
+    else if(iWaveType == ELITE_HUMAN_WAVE)
     {
-        return 5 + 10 * nWaveNumber;
+        iSum = 5;
+        for(i = 1; i < iWaveNumber; i = i + 1)
+        {
+            if(i < 10)
+                iSum = iSum + 5;
+            else if(i < 20)
+                iSum = iSum + 4;
+            else if(i < 30)
+                iSum = iSum + 3;
+            else if(i < 40)
+                iSum = iSum + 3;
+        }
+        iSum = ModifyUnitNumber(iSum);
+        return iSum;
     }
-    else if (nWaveType == MINOTAUR_WAVE)
+    else if (iWaveType == MINOTAUR_WAVE)
     {
-        return 8 + 8 * nWaveNumber;
+        iSum = 8;
+        for(i = 1; i < iWaveNumber; i = i + 1)
+        {
+            if(i < 10)
+                iSum = iSum + 8;
+            else if(i < 20)
+                iSum = iSum + 6;
+            else if(i < 30)
+                iSum = iSum + 4;
+            else if(i < 40)
+                iSum = iSum + 3;
+        }
+        iSum = ModifyUnitNumber(iSum);
+        return iSum;
     }
-    else if (nWaveType == DEMON_WAVE)
+    else if (iWaveType == DEMON_WAVE)
     {
-        return 1 + 2 * nWaveNumber;
+        iSum = 1;
+        for(i = 1; i < iWaveNumber; i = i + 1)
+        {
+            if(i < 10)
+                iSum = iSum + 1;
+            else if(i < 20)
+                iSum = iSum + 1;
+            else if(i < 30)
+            {
+                iSum = iSum + i % 2;
+            }
+            else if(i < 40)
+            {
+                iSum = iSum + i % 2;
+            }
+        }
+        return iSum;
+    }
+    else if (iWaveType == BEAST_WAVE)
+    {
+        iSum = 12;
+        for(i = 1; i < iWaveNumber; i = i + 1)
+        {
+            if(i < 10)
+                iSum = iSum + 7;
+            else if(i < 20)
+                iSum = iSum + 5;
+            else if(i < 30)
+                iSum = iSum + 3;
+            else if(i < 40)
+                iSum = iSum + 1;
+        }
+        iSum = ModifyUnitNumber(iSum);
+        return iSum;
+    }
+    else if (iWaveType == MAGE_WAVE)
+    {
+        iSum = 10;
+        for(i = 1; i < iWaveNumber; i = i + 1)
+        {
+            if(i < 10)
+                iSum = iSum + 4;
+            else if(i < 20)
+                iSum = iSum + 3;
+            else if(i < 30)
+                iSum = iSum + 2;
+            else if(i < 40)
+                iSum = iSum + 1;
+        }
+        iSum = ModifyUnitNumber(iSum);
+        return iSum;
+    }
+    else if (iWaveType == BANDIT_WAVE)
+    {
+        iSum = 8;
+        for(i = 1; i < iWaveNumber; i = i + 1)
+        {
+            if(i < 10)
+                iSum = iSum + 5;
+            else if(i < 20)
+                iSum = iSum + 4;
+            else if(i < 30)
+                iSum = iSum + 3;
+            else if(i < 40)
+                iSum = iSum + 2;
+        }
+        iSum = ModifyUnitNumber(iSum);
+        return iSum;
+    }
+    else if (iWaveType == DRAGON_WAVE)
+    {
+        iSum = 20;
+        for(i = 1; i < iWaveNumber; i = i + 1)
+        {
+            if(i < 10)
+                iSum = iSum + 1;
+            else if(i < 20)
+                iSum = iSum + 1;
+            else if(i < 30)
+                iSum = iSum + 1;
+            else if(i < 40)
+                iSum = iSum + 1;
+        }
+        iSum = ModifyUnitNumber(iSum);
+        return iSum;
     }
 
     return 0;
@@ -46,20 +203,42 @@ function int GetUnitNumber(int nWaveType, int nWaveNumber)
 function int SpawnUnit(int iWaveType, int iWaveNumber)
 {
     // markery od 20 do 49 służą do spawnowania unitów 
-    int i;
+    int i, iSize;
+    int iX, iY, iZ;
     int iMarker;
     unitex uUnit;
-    player rPlayer, rPlayerEnemy, rPlayerNecromancer;
+    player rPlayerHuman;
 
-    iMarker = 20 + RAND(30);
+    // szukamy przez próbkowanie dostępnego markera na którym nie ma jednostki
+    for(i = 0; i < 20; i = i + 1)
+    {
+        if(iWaveType < 6)
+        {
+            iSize = LAST_SPAWN_MARKER - FIRST_SPAWN_MARKER + 1;
+            iMarker = FIRST_SPAWN_MARKER + RandXor(iSize);
+        }
+        else
+        {
+            // markery bliżej graczy
+            iSize = LAST_SPAWN_MARKER_CLOSE - FIRST_SPAWN_MARKER_CLOSE + 1;
+            iMarker = FIRST_SPAWN_MARKER_CLOSE + RandXor(iSize);
+        }
+
+        if(!PointExist(iMarker))
+            continue;
+
+        uUnit = GetUnitAtMarker(iMarker);
+
+        if(uUnit == null)
+            break;
+    }
 
     if(!PointExist(iMarker))
         return 0;
 
-    uUnit = GetUnitAtMarker(iMarker);
-
     if(uUnit != null)
         return 0;
+
 
     if(iWaveType == SKELETON_WAVE)
         SpawnSkeleton(iWaveNumber, iMarker);
@@ -71,12 +250,108 @@ function int SpawnUnit(int iWaveType, int iWaveNumber)
         SpawnEliteHuman(iWaveNumber, iMarker);
     else if (iWaveType == MINOTAUR_WAVE)
         SpawnMinotaur(iWaveNumber, iMarker);
-    else
+    else if (iWaveType == DEMON_WAVE)
         SpawnDemon(iWaveNumber, iMarker);
+    else if (iWaveType == BEAST_WAVE)
+        SpawnBeast(iWaveNumber, iMarker);
+    else if (iWaveType == MAGE_WAVE)
+        SpawnMage(iWaveNumber, iMarker);
+    else if (iWaveType == BANDIT_WAVE)
+        SpawnBandit(iWaveNumber, iMarker);
+    else if (iWaveType == DRAGON_WAVE)
+    {
+        i = GetUnitNumber(iWaveType, iWaveNumber);
+        SpawnDragon(iWaveNumber, iMarker, i);
+    }
+        
 
-    uUnit = GetUnitAtMarker(iMarker);
+
     // przypisujemy ścieżkę, którą będzie poruszać się jednostka
-    uUnit.SetScriptData(RAND(3));
-    
+    i = RandXor(100);
+    uUnit = GetUnitAtMarker(iMarker);
+
+    if(iWaveType < 6)
+    {
+        if(i < 25)
+        {
+            uUnit.SetScriptData(FIRST_MARKER_TO_REACH_LEFT);
+            iX = uUnit.GetLocationX();
+            iY = uUnit.GetLocationY();
+            iZ = uUnit.GetLocationZ();
+        }
+        else if(i < 75)
+        {
+            uUnit.SetScriptData(FIRST_MARKER_TO_REACH_CENTER);
+            iX = uUnit.GetLocationX();
+            iY = uUnit.GetLocationY();
+            iZ = uUnit.GetLocationZ();
+        }
+        else
+        {
+            uUnit.SetScriptData(FIRST_MARKER_TO_REACH_RIGHT);
+            iX = uUnit.GetLocationX();
+            iY = uUnit.GetLocationY();
+            iZ = uUnit.GetLocationZ();
+        }
+
+        uUnit.CommandMove(iX - 2 + RandXor(5), iY - 2 + RandXor(5), iZ); 
+    }
+    else
+    {
+        uUnit.SetScriptData(FIRST_MARKER_TO_REACH_CENTER + 1);
+        rPlayerHuman = GetRandomHumanPlayer();
+        AttackClosestUnit(uUnit, rPlayerHuman, false);
+    }
+
+
     return 1;
 }
+
+function int GetBomberNumber(int iWaveType, int iWaveNumber)
+{
+    int i, iRand;
+    iRand = RandXor(3);
+
+    if(iRand != 0)
+        return 0;
+
+    i = 1 + iWaveNumber / 8 ;
+
+    return 5 * i;
+}
+
+function int SpawnBomberUnit(int iWaveType, int iWaveNumber)
+{
+    // markery od 20 do 49 służą do spawnowania unitów 
+    int i;
+    int iMarker;
+    unitex uUnit;
+    int iSize;
+
+    iSize = LAST_SPAWN_MARKER - FIRST_SPAWN_MARKER + 1;
+    iMarker = FIRST_SPAWN_MARKER + RandXor(iSize);
+
+    if(!PointExist(iMarker))
+        return 0;
+
+    uUnit = GetUnitAtMarker(iMarker);
+
+    if(uUnit != null)
+        return 0;
+
+    SpawnBomber(iWaveNumber, iMarker);
+
+    // przypisujemy ścieżkę, którą będzie poruszać się jednostka
+    i = RandXor(100);
+    uUnit = GetUnitAtMarker(iMarker);
+
+    if(i < 25)
+        SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_LEFT);
+    else if(i < 75)
+        SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER);
+    else
+        SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_RIGHT);
+
+    return 1;
+}
+

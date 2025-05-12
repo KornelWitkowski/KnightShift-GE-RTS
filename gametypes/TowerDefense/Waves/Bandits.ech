@@ -1,0 +1,140 @@
+function void SpawnBandit(int nWaveNumber, int iMarker)
+{
+    int iRoll;
+    int iSubRoll;
+    player rPlayerEnemy;
+    unitex uUnit;
+    int iDifficultyModifier;
+    iDifficultyModifier = (iDifficulty - 2) * 5;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    iRoll = RandXor(100);
+    iSubRoll = RandXor(100);
+
+    if (iRoll < 20)
+    {
+        // Footman variants
+        if (iSubRoll < 33)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_FOOTMAN");
+        }
+        else if (iSubRoll < 66)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_FOOTMAN2");
+        }
+        else
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_FOOTMAN3");
+        }
+    } 
+    else if (iRoll < 40)
+    {
+        // Hunter variants
+        if (iSubRoll < 33)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_HUNTER");
+        }
+        else if (iSubRoll < 66)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_HUNTER2");
+        }
+        else
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_HUNTER3");
+        }
+    } 
+    else if (iRoll < 60)
+    {
+        // Spearman variants
+        if (iSubRoll < 33)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_SPEARMAN");
+        }
+        else if (iSubRoll < 66)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_SPEARMAN2");
+        }
+        else
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_SPEARMAN3");
+        }
+    }
+    else if (iRoll < 80)
+    {
+        // Basic bandits and woodcutter
+        if (iSubRoll < 25)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT");
+        }
+        else if (iSubRoll < 50)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDITM");
+        }
+        else if (iSubRoll < 75)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDITT");
+        }
+        else
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_WOODCUTTER");
+        }
+    }
+    else if (iRoll < 90)
+    {
+        if (iSubRoll < 50)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_RINGLEADER");
+        }
+        else
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_RINGLEADERM");
+        }
+    }
+    else if (iRoll < 95)
+    {
+
+        iSubRoll = GaussianDistribution(30)  + (3 * nWaveNumber / 2);
+        iSubRoll = iSubRoll + iDifficultyModifier;
+
+        if (iSubRoll < 50)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_OLDWITCH2");
+        }
+        else if (iSubRoll < 75)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_OLDWITCH3");
+        }
+        else if (iSubRoll < 90)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_DARKPRIEST2");
+        }
+        else
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_DARKPRIEST3");
+        }
+    }
+    else
+    {
+        iSubRoll = GaussianDistribution(30) + (3 * nWaveNumber / 2);
+        iSubRoll = iSubRoll + iDifficultyModifier;
+
+        if (iSubRoll < 50)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIEST");
+        }
+        else if (iSubRoll < 75)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_DARKSORCERER2");
+        }
+        else
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_DARKSORCERER3");
+        }
+    }
+
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}
+
+

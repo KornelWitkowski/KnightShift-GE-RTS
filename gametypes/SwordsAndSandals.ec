@@ -1,5 +1,6 @@
 mission "translateSwordsandsandals"
 {
+    #include "Common\Consts.ech"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
@@ -80,7 +81,7 @@ mission "translateSwordsandsandals"
             RegisterGoal(0, "translateSwordsAndSandalsGoal");
             EnableGoal(0, true, true);
 
-            rPlayer.SetScriptData(0, 0);
+            rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
 
             // Budynki - GE
             

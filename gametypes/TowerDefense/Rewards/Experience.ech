@@ -1,23 +1,24 @@
 
-// unitex uExperience[];
 
+function unitex RewardExperience(int iWaveNumber, int iMarker)
+{
+    int i, iType;
+    unitex uItem;
 
-// function void CreateExperienceArtefact(int iMarkerArtefact)
-// {
-//     int i, j;
-//     unitex uArtefact;
+    i = RandXorNoExtraEntropy(100) + 2 * iWaveNumber;
 
-//     if(!PointExist(iMarkerArtefact))
-//         return;
-    
+    if(i < 50)
+        iType = 0;
+    else if(i < 75)
+        iType = 1;
+    else
+        iType = 2;
 
-//     uArtefact = CreateArtefact("ELEMENT4", GetPointX(iMarkerArtefact), GetPointY(iMarkerArtefact),
-//                      GetPointZ(iMarkerArtefact), MASK_PRISONER|iMarkerArtefact);
+    i = RandXorNoExtraEntropy(100);
+    if(i < 8)
+        uItem = CreateResistanceArtefact(iMarker, 0);
+    else
+        uItem = CreateExperienceArtefact(iMarker, 0, iType);
 
-
-//     uExperience[iMarkerArtefact] = uTalkerSmoke; 
-
-
-
-
-// }
+    return uItem;
+}

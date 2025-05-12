@@ -35,8 +35,8 @@ event Timer3()
         if(rPlayer == null)
             continue;
 
-        // ScriptData(10)==1 jest ustawione dla botów z moda
-        if((rPlayer.GetScriptData(10)==1) && rPlayer.IsAI())
+
+        if((rPlayer.GetScriptData(IS_GOLDEN_EDITION_AI) == 1) && rPlayer.IsAI())
         {
             UseMagic(rPlayer);
         }
@@ -86,8 +86,7 @@ event UnitDestroyed(unitex uUnitKilled)
 
         if((rPlayerAttacker.IsAI()) && (rPlayerAttacker.GetIFFNumber() != 14))
         {
-            // Funkcja tylko dla nowych botów. Mają one ustawione ScriptData(10) == 1 w swoich skryptach
-            if(rPlayerAttacker.GetScriptData(10)==1)
+            if(rPlayerAttacker.GetScriptData(IS_GOLDEN_EDITION_AI) == 1)
                 uTower.ChangePlayer(rPlayerAttacker);
         }
     }
@@ -96,178 +95,10 @@ event UnitDestroyed(unitex uUnitKilled)
     MakeMissionUnitDestroyedEvents(uUnitKilled);
 }
 
-function void RemoveBows(int iX, int iY, int iZ, int bTier5)
-{ 
-        RemoveArtefact(iX, iY, iZ, "ART_BOW2");
-        RemoveArtefact(iX, iY, iZ, "ART_BOW3");
-        RemoveArtefact(iX, iY, iZ, "ART_BOW4");
-        RemoveArtefact(iX, iY, iZ, "ART_BOW5");
-
-        if(bTier5)
-            RemoveArtefact(iX, iY, iZ, "ART_BOW6");
-}
-
-function void RemoveAxes(int iX, int iY, int iZ, int bTier5)
-{ 
-        RemoveArtefact(iX, iY, iZ, "ART_AXE2");
-        RemoveArtefact(iX, iY, iZ, "ART_AXE3");
-        RemoveArtefact(iX, iY, iZ, "ART_AXE4");
-        RemoveArtefact(iX, iY, iZ, "ART_AXE5");
-
-        if(bTier5)
-            RemoveArtefact(iX, iY, iZ, "ART_AXE6");
-}
-
-function void RemoveSpearmanEquipment(int iX, int iY, int iZ, int bTier5)
-{ 
-        RemoveArtefact(iX, iY, iZ, "ART_HELMET2");
-        RemoveArtefact(iX, iY, iZ, "ART_HELMET2A");
-        RemoveArtefact(iX, iY, iZ, "ART_HELMET3");
-
-        RemoveArtefact(iX, iY, iZ, "ART_SPEAR2");
-        RemoveArtefact(iX, iY, iZ, "ART_SPEAR3");
-        RemoveArtefact(iX, iY, iZ, "ART_SPEAR4");
-        RemoveArtefact(iX, iY, iZ, "ART_SPEAR5");
-
-        RemoveArtefact(iX, iY, iZ, "ART_SHIELD1B");
-        RemoveArtefact(iX, iY, iZ, "ART_SHIELD1C");
-        RemoveArtefact(iX, iY, iZ, "ART_SHIELD2");
-        RemoveArtefact(iX, iY, iZ, "ART_SHIELD2D");
-
-        if(bTier5)
-        {
-            RemoveArtefact(iX, iY, iZ, "ART_SPEAR6");
-            RemoveArtefact(iX, iY, iZ, "ART_HELMET4");
-            RemoveArtefact(iX, iY, iZ, "ART_SHIELD3A");
-        }
-}
-
-function void RemoveFootmanEquipment(int iX, int iY, int iZ, int bTier5)
-{ 
-    RemoveArtefact(iX, iY, iZ, "ART_AXE2");
-    RemoveArtefact(iX, iY, iZ, "ART_AXE3");
-    RemoveArtefact(iX, iY, iZ, "ART_AXE4");
-    RemoveArtefact(iX, iY, iZ, "ART_AXE5");
-
-    RemoveArtefact(iX, iY, iZ, "ART_SHIELD1B");
-    RemoveArtefact(iX, iY, iZ, "ART_SHIELD1C");
-    RemoveArtefact(iX, iY, iZ, "ART_SHIELD2");
-    RemoveArtefact(iX, iY, iZ, "ART_SHIELD2D");
-
-    RemoveArtefact(iX, iY, iZ, "ART_ARMOUR2");
-    RemoveArtefact(iX, iY, iZ, "ART_ARMOUR2A");
-    RemoveArtefact(iX, iY, iZ, "ART_ARMOUR3");
-    RemoveArtefact(iX, iY, iZ, "ART_ARMOUR3A");
-
-    RemoveArtefact(iX, iY, iZ, "ART_HELMET1A");
-    RemoveArtefact(iX, iY, iZ, "ART_HELMET2");
-    RemoveArtefact(iX, iY, iZ, "ART_HELMET2A");
-    RemoveArtefact(iX, iY, iZ, "ART_HELMET3");
-
-    RemoveArtefact(iX, iY, iZ, "ART_SWORD1A");
-    RemoveArtefact(iX, iY, iZ, "ART_SWORD2");
-    RemoveArtefact(iX, iY, iZ, "ART_SWORD2A");
-    RemoveArtefact(iX, iY, iZ, "ART_SWORD3");
-
-    if(bTier5)
-    {
-        RemoveArtefact(iX, iY, iZ, "ART_AXE6");
-        RemoveArtefact(iX, iY, iZ, "ART_SHIELD3A");
-        RemoveArtefact(iX, iY, iZ, "ART_ARMOUR4");
-        RemoveArtefact(iX, iY, iZ, "ART_HELMET4");
-        RemoveArtefact(iX, iY, iZ, "ART_SWORD3A");
-    }
-}
 
 event UnitCreated(unitex uUnit)
 {
-    /*
-        Funkcja służy do downgrade'owania ekwipunku przejętych przez czarodziejke postaci, aby ograniczyć
-        liczbę śmieci-artefaktów na mapie
-    */
-    int iX, iY, iZ;
-    int bTier5;
-
-    iX = uUnit.GetLocationX();
-    iY = uUnit.GetLocationY();
-    iZ = uUnit.GetLocationZ();
-
-    bTier5 = false;
-
-    // Magicznego ekwipunku nie usuwamy
-    if(uUnit.GetMaxMagic() > 0)
-        return;
-
-    // Jeśli postać jest zamieniona w krowę, to nie jest przejęta, więc nie usuwamy ekwipunku
-    if(uUnit.IsAnimal())
-        return;
-
-    // event UnitCreated jest wywołany też na początku gry przy tworzeniu jednostek. Omijamy ten moment
-    if(GetMissionTime() < 100)
-        return;
-
-    
-    if(uUnit.IsCamouflageModeUnit())
-    {
-        // Łucznik
-        uUnit.CommandDropEquipment(0);
-        RemoveBows(iX, iY, iZ, bTier5);
-        RemoveBows(iX, iY - 1, iZ, bTier5);
-        RemoveBows(iX, iY + 1, iZ, bTier5);
-        RemoveBows(iX-1, iY, iZ, bTier5);
-        RemoveBows(iX-1, iY - 1, iZ, bTier5);
-        RemoveBows(iX-1, iY + 1, iZ, bTier5);
-        RemoveBows(iX+1, iY, iZ, bTier5);
-        RemoveBows(iX+1, iY - 1, iZ, bTier5);
-        RemoveBows(iX+1, iY + 1, iZ, bTier5);
-    }
-    else if(uUnit.IsBuilder())
-    {
-        // Drwal
-        uUnit.CommandDropEquipment(0);
-        RemoveAxes(iX, iY, iZ, bTier5);
-        RemoveAxes(iX, iY - 1, iZ, bTier5);
-        RemoveAxes(iX, iY + 1, iZ, bTier5);
-        RemoveAxes(iX-1, iY, iZ, bTier5);
-        RemoveAxes(iX-1, iY - 1, iZ, bTier5);
-        RemoveAxes(iX-1, iY + 1, iZ, bTier5);
-        RemoveAxes(iX+1, iY, iZ, bTier5);
-        RemoveAxes(iX+1, iY - 1, iZ, bTier5);
-        RemoveAxes(iX+1, iY + 1, iZ, bTier5);
-    }
-    else if(uUnit.GetWeaponType()==3)
-    {
-        //Włócznik
-        uUnit.CommandDropEquipment(0);
-        uUnit.CommandDropEquipment(1);
-        uUnit.CommandDropEquipment(2);
-        RemoveSpearmanEquipment(iX, iY, iZ, bTier5);
-        RemoveSpearmanEquipment(iX, iY - 1, iZ, bTier5);
-        RemoveSpearmanEquipment(iX, iY + 1, iZ, bTier5);
-        RemoveSpearmanEquipment(iX-1, iY, iZ, bTier5);
-        RemoveSpearmanEquipment(iX-1, iY - 1, iZ, bTier5);
-        RemoveSpearmanEquipment(iX-1, iY + 1, iZ, bTier5);
-        RemoveSpearmanEquipment(iX+1, iY, iZ, bTier5);
-        RemoveSpearmanEquipment(iX+1, iY - 1, iZ, bTier5);
-        RemoveSpearmanEquipment(iX+1, iY + 1, iZ, bTier5);
-    }
-    else
-    {
-        // Woj i pozostałe jednostki
-        uUnit.CommandDropEquipment(0);
-        uUnit.CommandDropEquipment(1);
-        uUnit.CommandDropEquipment(2);
-        uUnit.CommandDropEquipment(3);
-        RemoveFootmanEquipment(iX, iY, iZ, bTier5);
-        RemoveFootmanEquipment(iX, iY - 1, iZ, bTier5);
-        RemoveFootmanEquipment(iX, iY + 1, iZ, bTier5);
-        RemoveFootmanEquipment(iX-1, iY, iZ, bTier5);
-        RemoveFootmanEquipment(iX-1, iY - 1, iZ, bTier5);
-        RemoveFootmanEquipment(iX-1, iY + 1, iZ, bTier5);
-        RemoveFootmanEquipment(iX+1, iY, iZ, bTier5);
-        RemoveFootmanEquipment(iX+1, iY - 1, iZ, bTier5);
-        RemoveFootmanEquipment(iX+1, iY + 1, iZ, bTier5);
-    }
+   RemoveCapturedUnitArtefacts(uUnit); 
 }
 
 event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefact)

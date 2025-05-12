@@ -1,0 +1,38 @@
+#define NECROMANCER_BOSS 0
+#define SKELETON_BOSS 1
+#define MULTIPLYING_SKELETON_BOSS 2
+#define DEMON_BOSS 3
+#define TITAN_BOSS 4
+
+#include "Bossess/Necromancer.ech"
+#include "Bossess/Titan.ech"
+#include "Bossess/SkeletonTeam.ech"
+#include "Bossess/Demon.ech"
+#include "Bossess/MultiplyingSkeleton.ech"
+
+#include "BossMinions.ech"
+
+
+function unitex SpawnBoss(int iBossWaveType, int iWaveNumber, int iMarker)
+{
+    unitex uUnit, uSmoke;
+
+    if(iBossWaveType == NECROMANCER_BOSS)
+        uUnit = SpawnNecromancerBoss(iWaveNumber, iMarker);
+    else if(iBossWaveType == SKELETON_BOSS)
+        uUnit = SpawnSpecialSkeleton(iWaveNumber, iMarker);
+    else if(iBossWaveType == MULTIPLYING_SKELETON_BOSS)
+        uUnit = SpawnMultiplicationSkeleton(iWaveNumber, iMarker);
+    else if(iBossWaveType == DEMON_BOSS)
+        uUnit = SpawnDemonBoss(iWaveNumber, iMarker);
+    else if(iBossWaveType == TITAN_BOSS)
+        uUnit = SpawnTitanBoss(iWaveNumber, iMarker);
+
+
+    uSmoke = CreateObjectAtUnit(uUnit, "FIRE_FIREPLACE");
+    uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+
+    return uUnit;
+}
+
+

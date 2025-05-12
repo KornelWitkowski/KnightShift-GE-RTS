@@ -20,7 +20,7 @@ state Victory
         if (rPlayer == null || !rPlayer.IsAlive())
             continue;
 
-        if (rPlayer.GetScriptData(1) == 1)
+        if (rPlayer.GetScriptData(PLAYER_STATUS) == STATUS_DEFEAT)
         {
             rPlayer.Defeat();
         }
@@ -45,7 +45,7 @@ state Defeat
         if (rPlayer == null || !rPlayer.IsAlive())
             continue;
 
-        if(rPlayer.GetScriptData(1)==1) 
+        if(rPlayer.GetScriptData(PLAYER_STATUS) == STATUS_DEFEAT) 
             rPlayer.Defeat();
     }
 

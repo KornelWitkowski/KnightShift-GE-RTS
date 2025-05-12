@@ -1,5 +1,6 @@
 mission "translateGameTypeEightSheds"
 {
+    #include "Common\Consts.ech"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
@@ -51,7 +52,7 @@ mission "translateGameTypeEightSheds"
                 CheckMilkPool(8);        
             }
 
-            rPlayer.SetScriptData(0, 0);
+            rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
 
             rPlayer.SetMaxCountLimitForObject("COWSHED", 8);
             rPlayer.SetMaxCountLimitForObject("COURT", 1);

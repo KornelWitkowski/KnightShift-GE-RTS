@@ -9,7 +9,7 @@ mission "translateZGarniec"
 
 unitex uHero1, uHero2;
 
-
+#include "Common\Consts.ech"
 #include "Common\States.ech"
 #include "Common\Common.ech"
 #include "Common\MarkerFunctions.ech"
@@ -146,7 +146,7 @@ event Artefact(int iArtefactNum,  unitex uUnitOnArtefact, player rPlayerOnArtefa
             rPlayer = GetPlayer(i);
             if(rPlayer != null) 
             {     
-                rPlayer.SetScriptData(0, 0);
+                rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
                 rPlayer.SetMaxMoney(100);
                 
                 rPlayer.SetMoney(100);
@@ -251,13 +251,13 @@ event Artefact(int iArtefactNum,  unitex uUnitOnArtefact, player rPlayerOnArtefa
 
                     iCountBuilding = rPlayer.GetNumberOfBuildings();
 
-                    if(iCountBuilding) rPlayer.SetScriptData(0,1);
+                    if(iCountBuilding) rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITH_BUILDINGS);
                         
                     if (iCountBuilding==0)
                     {
-                        if(rPlayer.GetScriptData(0)==1)
+                        if(rPlayer.GetScriptData(PLAYER_STAGE) == STAGE_WITHOUT_BUILDINGS)
                         {
-                            rPlayer.SetScriptData(1,1); // Defeat
+                            rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
                             KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
 
                             SetStateDelay(150);
@@ -267,7 +267,7 @@ event Artefact(int iArtefactNum,  unitex uUnitOnArtefact, player rPlayerOnArtefa
                         {
                             if(rPlayer.GetNumberOfUnits()==0)
                             {
-                                rPlayer.SetScriptData(1,1); // Defeat
+                                rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
 
                                 SetStateDelay(150);
                                 state Defeat;

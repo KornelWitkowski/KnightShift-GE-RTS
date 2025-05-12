@@ -1,0 +1,59 @@
+
+
+function int GetNumberOfDragons(int iWaveNumber)
+{
+    int i, iNumberOfDragons, iNumberOfUnits;
+    unitex uUnit;
+
+
+    iNumberOfDragons = 0;
+
+    for(i = 0; i < iWaveNumber; i = i + 1)
+    {
+        uUnit = rPlayer12.GetUnit(i);
+        if(uUnit.GetMaxHP() >= 2000)
+            iNumberOfDragons = iNumberOfDragons + 1;
+    }
+
+    return iNumberOfDragons;
+}
+
+function void SpawnDragon(int iWaveNumber, int iMarker, int iTotalNumberOfUnits)
+{
+    int iRand, iNumberOfDragonsToSpawn;
+    player rPlayerEnemy;
+    unitex uUnit;
+    int iNumberOfDragons;
+
+    iRand = RandXor(10);
+
+    iNumberOfDragonsToSpawn = iTotalNumberOfUnits / 14;
+    iNumberOfDragons = GetNumberOfDragons(iWaveNumber);
+
+
+
+    if(iNumberOfDragons < iNumberOfDragonsToSpawn)
+    {
+        iRand = RandXor(3);
+        if(iRand == 0)
+            uUnit = CreateUnitAtMarker(rPlayer12, iMarker, "DRAGON_YELLOW");
+        else if (iRand == 1)
+            uUnit = CreateUnitAtMarker(rPlayer12, iMarker, "DRAGON_BLUE");
+        else
+            uUnit = CreateUnitAtMarker(rPlayer12, iMarker, "DRAGON_GREEN");
+    } 
+    else
+    {
+        iRand = RandXor(3);
+        if(iRand == 0)
+            uUnit = CreateUnitAtMarker(rPlayer12, iMarker, "DWARF_FOOTMAN_1");
+        else if (iRand == 1)
+            uUnit = CreateUnitAtMarker(rPlayer12, iMarker, "DWARF_WOODCUTTER_1");
+        else
+            uUnit = CreateUnitAtMarker(rPlayer12, iMarker, "DWARF_WOODCUTTER_2");
+    } 
+
+    
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}

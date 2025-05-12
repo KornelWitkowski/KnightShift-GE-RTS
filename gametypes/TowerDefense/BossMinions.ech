@@ -1,0 +1,207 @@
+function int GetNecromancerBossMinionsRate(int iWaveNumber)
+{
+    return 0;
+}
+
+
+function void SpawnNecromancerBossMinions(int iMarker, player rPlayerEnemy)
+{
+
+    
+}
+
+
+function int GetSkeletonBossMinionsRate(int iWaveNumber)
+{
+    return 5 + 2 * (iWaveNumber / 10);
+}
+
+
+function void SpawnSkeletonBossMinions(int iMarker, player rPlayerEnemy)
+{
+    int iRoll;
+    unitex uUnit;
+    iRoll = RandXor(4);
+
+
+    if(iRoll == 0)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_WOODCUTTER");
+    }
+    else if(iRoll == 1)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_HUNTER");
+    }
+    else if(iRoll == 2)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_SPEARMAN");
+    }
+    else if(iRoll == 3)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON");
+    }
+}
+
+function int GetMultiplyingSkeletonBossMinionsRate(int iWaveNumber)
+{
+    return 0;
+}
+
+function void SpawnMultpliningSkeletonBossMinions(int iMarker, player rPlayerEnemy)
+{
+
+}
+
+
+function int GetTitanBossMinionsRate(int iWaveNumber)
+{
+    return 4 + (iWaveNumber / 10);
+}
+
+
+function void SpawnTitanBossMinions(int iMarker, player rPlayerEnemy)
+{
+    int iRoll;
+    unitex uUnit;
+    iRoll = RandXor(8);
+
+
+    if(iRoll == 0)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_KNIGHTGHOST2");
+    }
+    else if(iRoll == 2)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIESTESS");
+    }
+    else if(iRoll == 3)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "ENLIGHTENED_RINGLEADER");
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_KNIGHTGHOST");
+    }
+}
+
+
+function int GetDemonBossMinionsRate(int iWaveNumber)
+{
+    return 3 + iWaveNumber / 10;
+}
+
+function void SpawnDemonBossMinions(int iMarker, player rPlayerEnemy)
+{
+    unitex uUnit;
+    int iRoll, iSubRoll;
+    iRoll = RandXor(6);
+
+    if(iRoll == 0)
+    {
+        iSubRoll = RandXor(2);
+        if(iSubRoll == 0)
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER1");
+        else
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER1S");
+    }
+    else if(iRoll == 1)
+    {
+        uUnit = CreateUnitAtMarker(rPlayer9, iMarker, "SPECIALCOW");
+        uUnit.SetExperienceLevel(6);
+        SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, BOMBER_MARKER);
+        uUnit.EnableCapture(false);
+
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "MINOTAUR_WOODCUTTER");
+    }
+}
+
+
+
+function int SpawnBossMinionUnit(int iBossWaveType, int iWaveNumber, player rPlayerHuman)
+{
+    int i, iSize;
+    int iMarker;
+    int iRate, iRand;
+    unitex uUnit;
+    player rPlayerEnemy;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    // szukamy przez próbkowanie dostępnego markera na którym nie ma jednostki
+    for(i = 0; i < 20; i = i + 1)
+    {
+
+        iSize = LAST_SPAWN_MARKER_CLOSE - FIRST_SPAWN_MARKER_CLOSE + 1;
+        iMarker = FIRST_SPAWN_MARKER_CLOSE + RandXor(iSize);
+
+        if(!PointExist(iMarker))
+            continue;
+
+        uUnit = GetUnitAtMarker(iMarker);
+
+        if(uUnit == null)
+            break;
+    }
+
+    if(!PointExist(iMarker))
+        return 0;
+
+    if(uUnit != null)
+        return 0;
+
+    
+    iRand = RandXor(100);
+
+    if(iBossWaveType == NECROMANCER_BOSS)
+    {
+        iRate = GetNecromancerBossMinionsRate(iWaveNumber);
+        if(iRand < iRate)
+        {
+            SpawnNecromancerBossMinions(iMarker, rPlayerEnemy);
+        }
+    }
+    else if (iBossWaveType == SKELETON_BOSS)
+    {
+        iRate = GetSkeletonBossMinionsRate(iWaveNumber);
+        if(iRand < iRate)
+        {
+            SpawnSkeletonBossMinions(iMarker, rPlayerEnemy);
+        }
+    }
+    else if (iBossWaveType == MULTIPLYING_SKELETON_BOSS)
+    {
+        iRate = GetMultiplyingSkeletonBossMinionsRate(iWaveNumber);
+        if(iRand < iRate)
+        {
+            SpawnMultpliningSkeletonBossMinions(iMarker, rPlayerEnemy);
+        }
+    }
+    else if (iBossWaveType == DEMON_BOSS)
+    {
+        iRate = GetDemonBossMinionsRate(iWaveNumber);
+        if(iRand < iRate)
+        {
+            SpawnDemonBossMinions(iMarker, rPlayerEnemy);
+        }
+    }
+    else if (iBossWaveType == TITAN_BOSS)
+    {
+        iRate = GetTitanBossMinionsRate(iWaveNumber);
+        if(iRand < iRate)
+        {
+            SpawnTitanBossMinions(iMarker, rPlayerEnemy);
+        }
+    }
+
+
+    uUnit = GetUnitAtMarker(iMarker);
+    SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER+1);
+    CreateObjectAtUnit(uUnit, "HIT_TELEPORT");
+
+    AttackClosestUnit(uUnit, rPlayerHuman, false);
+
+    return 1;
+}

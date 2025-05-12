@@ -1,84 +1,169 @@
 enum comboStarter
 {
-    "translateStarterHero",
-    "translateStarterNecromancer",
-    "translateStarterGiant",
-    "translateStarterMinotaurWoodcutters",
-    "translateStarterSpearmanAndHunter",
-    "translateStarterSpeedyCows",
-    "translateStarterDarkPriest",
-    "translateStarterMilk",
-    "translateStarterMixtures",
-    "translateStarterHut",
+    "translateTowerDefenseStarterHero",
+    "translateTowerDefenseStarterMieszko",
+    "translateTowerDefenseStarterGiant",
+    "translateTowerDefenseStarterWoodcutters",
+    "translateTowerDefenseStarterSpearmanAndHunter",
+    "translateTowerDefenseStarterSpeedyCows",
+    "translateTowerDefenseStarterMages",
+    "translateTowerDefenseStarterMixtures",
+    "translateTowerDefenseStarterHut",
         multi:
     "translateTowerDefenseStarter"
 }
 
 int iExtraHut;
 
-function void CreateStarters(player rPlayer, int iMarker)
+function void CreateStarters()
 {
+    int iMarker;
+    player rPlayer, rPlayerHuman;
+    unitex uUnit1, uUnit2, uUnit3, uUnit4;
+    int i;
+
+    rPlayer = GetPlayer(13);
+
+    iMarker = FIRST_REWARD_MARKER;
+
     if(comboStarter == 0)
     {
-        rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
+        uUnit1 = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
             "HERO_EASY", "HELMET2B", "ARMOUR2B", "SHIELD2H", "SWORD6", null, null, null, null);
+        CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
     }
     else if(comboStarter == 1)
     {
-        rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
-            "NECROMANCER");
-        SetUnitNecromancer(iMarker);
+        uUnit1 = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
+            "MIESZKO_EASY", "HELMET4", "ARMOUR3", "SHIELD3", "SWORD3", null, null, null, null);
+        CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
     }
     else if(comboStarter == 2)
     {
-        rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
-            "GIANT");
+        uUnit1 = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
+            "GIANTSPECIAL");
+        CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
+        uUnit1.AddHP(-1000);
     }
     else if(comboStarter == 3)
     {
-        rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
-            "MINOTAUR_WOODCUTTER");
-        rPlayer.CreateUnit(GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), 0, 
-            "MINOTAUR_WOODCUTTER");
-        rPlayer.CreateUnit(GetPointX(iMarker+2), GetPointY(iMarker+2), GetPointZ(iMarker+2), 0, 
-            "MINOTAUR_WOODCUTTER");
+        uUnit1 = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
+            "MERCWOODCUTTER", null, null, null, "AXE6", null, null, null, null);
+        CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
+        uUnit1.AddDamage(1, 20);
+        uUnit1.AddHP(400);
+        GiveCaptureConvertResistance(uUnit1);
+        uUnit2 = rPlayer.CreateUnit(GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), GetPointAlpha(iMarker+1), 
+            "MERCWOODCUTTER", null, null, null, "AXE6", null, null, null, null);
+        CreateObjectAtMarker(iMarker+1, "HIT_TELEPORT");
+        uUnit2.AddDamage(1, 20);
+        uUnit2.AddHP(400);
+        GiveCaptureConvertResistance(uUnit2);
+        uUnit3 = rPlayer.CreateUnit(GetPointX(iMarker+2), GetPointY(iMarker+2), GetPointZ(iMarker+2), GetPointAlpha(iMarker+2), 
+            "MERCWOODCUTTER", null, null, null, "AXE6", null, null, null, null);
+        CreateObjectAtMarker(iMarker+2, "HIT_TELEPORT");
+        uUnit3.AddDamage(1, 20);
+        uUnit3.AddHP(400);
+        GiveCaptureConvertResistance(uUnit3);
+        uUnit4 = rPlayer.CreateUnit(GetPointX(iMarker+3), GetPointY(iMarker+3), GetPointZ(iMarker+3), GetPointAlpha(iMarker+3), 
+            "MERCWOODCUTTER", null, null, null, "AXE6", null, null, null, null);
+        CreateObjectAtMarker(iMarker+3, "HIT_TELEPORT");
+        uUnit4.AddDamage(1, 20);
+        uUnit4.AddHP(400);
+        GiveCaptureConvertResistance(uUnit4);
+            
     }
     else if(comboStarter == 4)
     {
-        rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
-            "SKELETON_HUNTER2");
-        rPlayer.CreateUnit(GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), 0, 
-            "SKELETON_SPEARMAN2");
+        uUnit1 = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
+            "MERCHUNTER", null, null, null, "BOW4", null, null, null, null);
+        CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
+        uUnit1.AddDamage(0, 20);
+        uUnit1.AddHP(400);
+        GiveCaptureConvertResistance(uUnit1);
+        uUnit2 = rPlayer.CreateUnit(GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), GetPointAlpha(iMarker+1), 
+            "MERCSPEARMAN", null, null, "SHIELD3B", "SPEAR4", null, null, null, null);
+        CreateObjectAtMarker(iMarker+1, "HIT_TELEPORT");
+        uUnit2.AddDamage(0, 20);
+        uUnit2.AddHP(400);
+        GiveCaptureConvertResistance(uUnit2);
     }
     else if(comboStarter == 5)
     {
-            rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
-            "DARKPRIEST");
-
+        uUnit1 = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
+            "SPECIALCOW");   
+        CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
+        uUnit2 = rPlayer.CreateUnit(GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), GetPointAlpha(iMarker+1), 
+            "SPECIALCOW");   
+        CreateObjectAtMarker(iMarker+1, "HIT_TELEPORT");
+        uUnit1.CommandSetTalkMode(true, true, false);
+        uUnit1.CommandStop();
+        uUnit2.CommandSetTalkMode(true, true, false);
+        uUnit2.CommandStop();
     }
     else if(comboStarter == 6)
     {
-        rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), 0, 
-            "SPECIALCOW");   
-        rPlayer.CreateUnit(GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), 0, 
-            "SPECIALCOW");    
+        uUnit1 = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
+            "NMAG");
+        CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
+        GiveCaptureConvertResistance(uUnit1);
+        uUnit1.AddHP(200);
+        uUnit2 = rPlayer.CreateUnit(GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), GetPointAlpha(iMarker+1), 
+            "NCZARODZIEJKA");
+        CreateObjectAtMarker(iMarker+1, "HIT_TELEPORT");
+        GiveCaptureConvertResistance(uUnit2);
+        uUnit2.AddDamage(2, 30);
+        uUnit2.AddHP(200);
     }
     else if(comboStarter == 7)
     {
-        CreateArtefact("ART_MILK_GE_200", GetPointX(iMarker+1), GetPointY(iMarker+1), 0, 0);
-        CreateArtefact("ART_MILK_GE_200", GetPointX(iMarker+2), GetPointY(iMarker+2), 0, 0);
-        CreateArtefact("ART_MILK_GE_200", GetPointX(iMarker+3), GetPointY(iMarker+3), 0, 0);
-        CreateArtefact("ART_MILK_GE_200", GetPointX(iMarker+4), GetPointY(iMarker+4), 0, 0);
+        CreateObjectAtMarker(MILK_MARKER, "ART_MILK_GE_400");    
+        CreateExperienceArtefact(iMarker, 0, 2);
+        CreateArtefact("ART_ADD_DAMAGE_GE_060", GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), GetPointAlpha(iMarker+1));
+        CreateArtefact("ART_ADD_DAMAGE_GE_060", GetPointX(iMarker+2), GetPointY(iMarker+2), GetPointZ(iMarker+2), GetPointAlpha(iMarker+2));
+        CreateArtefact("ART_ADD_HP_GE_800", GetPointX(iMarker+3), GetPointY(iMarker+3), GetPointZ(iMarker+3), GetPointAlpha(iMarker+3));
+        CreateResistanceArtefact(iMarker+4, 0);
+
+        CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
+        CreateObjectAtMarker(iMarker+1, "HIT_TELEPORT");
+        CreateObjectAtMarker(iMarker+2, "HIT_TELEPORT");
+        CreateObjectAtMarker(iMarker+3, "HIT_TELEPORT");
+        CreateObjectAtMarker(iMarker+4, "HIT_TELEPORT");
     }
     else if(comboStarter == 8)
     {
-        CreateArtefact("ART_ADD_DAMAGE_GE_020", GetPointX(4), GetPointY(4), 0, 0);
-        CreateArtefact("ART_ADD_DAMAGE_GE_020", GetPointX(iMarker+2), GetPointY(5), 0, 0);
-        CreateArtefact("ART_ADD_HP_GE_200", GetPointX(iMarker+3), GetPointY(iMarker+3), 0, 0);
-        CreateArtefact("ART_ADD_HP_GE_200", GetPointX(iMarker+4), GetPointY(iMarker+4), 0, 0);
-    }
-    else if(comboStarter == 9)
-    {
         iExtraHut = 1;
-}
+        for(i=0; i<3; i=i+1)
+        {
+            rPlayer = GetPlayer(i);
+            if(rPlayer!=null) 
+            {
+                rPlayer.CreateBuilding(GetPointX(i), GetPointY(i), 0, GetPointAlpha(i), "HUT");
+            }
+            CreateObjectAtMarker(i, "HIT_TELEPORT3x3");
+        }
+    }
+
+    if(uUnit1 != null)
+    {
+        MarkAsPrisoner(uUnit1, iMarker);
+        uUnit1.CommandSetMovementMode(modeHoldPos); 
+    }
+    if(uUnit2 != null)
+    {
+        MarkAsPrisoner(uUnit2, iMarker + 1);
+        uUnit2.CommandSetMovementMode(modeHoldPos);
+    }
+    if(uUnit3 != null)  
+    {
+        MarkAsPrisoner(uUnit3, iMarker + 2);
+        uUnit3.CommandSetMovementMode(modeHoldPos);
+    }
+    if(uUnit4 != null)
+    {
+        MarkAsPrisoner(uUnit4, iMarker + 3);
+        uUnit4.CommandSetMovementMode(modeHoldPos);
+    }
+
+
 }

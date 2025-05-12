@@ -1,0 +1,148 @@
+function void SetWaveType()
+{
+
+    int i, iBossWaveNumber;
+
+    if(iCurrentWaveNumber > 0 && iCurrentWaveNumber % 10 == 0)
+    {
+        bIsBossWave = true;
+        iBossWaveNumber = iCurrentWaveNumber / 10;
+        i = iBossWaveNumber - 1;
+        iBossWaveType = iBossWaveTypes[i];
+        return;
+    }
+    else
+    {
+        bIsBossWave = false;
+    }
+
+    if(iCurrentWaveNumber <= 13)
+        iWaveType = RandXor(9);
+    else // smoki później
+        iWaveType = RandXor(10);
+    iWaveType = 9;
+}
+
+function int GetBreakLength(int iWaveNumber)
+{
+    int iBreakLength;
+    int iExtraTimeAfterBoss;
+
+    iExtraTimeAfterBoss = 0;
+
+    if((iWaveNumber > 10) && (iWaveNumber % 10 == 1))
+    {
+        iExtraTimeAfterBoss = 2 * MINUTE;
+    }
+
+    iBreakLength = BREAK_TIME_MINUTES * MINUTE; 
+    iBreakLength = iBreakLength + 15 * SECOND * (iWaveNumber / 5) ;
+    iBreakLength = iBreakLength - 20 * SECOND * (iDifficulty - 2);
+    iBreakLength = iBreakLength + iExtraTimeAfterBoss;
+
+    return iBreakLength; 
+}
+
+function int GetWaveLength(int iWaveNumber)
+{
+    int iWaveLength;
+
+    iWaveLength = WAVE_TIME_MINUTES * MINUTE;
+    iWaveLength = iWaveLength + 15 * SECOND * (iWaveNumber % 5);
+
+    return iWaveLength;
+}
+
+
+function void EndBreakTime()
+{
+    int iCurrentTime;
+    int iBreakLength;
+    iCurrentTime = GetMissionTime();
+    iBreakLength = GetBreakLength(iCurrentWaveNumber);
+    iBreakTimeStart = iCurrentTime - iBreakLength;
+}
+
+function void EndWaveTime()
+{
+    int iCurrentTime;
+    int iWaveLength;
+    iCurrentTime = GetMissionTime();
+    iWaveLength = GetWaveLength(iCurrentWaveNumber);
+    iWaveTimeStart = iCurrentTime - iWaveLength;
+}
+
+function int IsTimeToBreak()
+{
+    int iCurrentTime;
+    int iWaveLength;
+    iCurrentTime = GetMissionTime();
+    iWaveLength = GetWaveLength(iCurrentWaveNumber);
+
+    if ((iCurrentTime - iWaveTimeStart) > iWaveLength)
+        return true;
+
+    return false;
+}
+
+function int IsTimeToNextWave()
+{
+    int iCurrentTime;
+    int iBreakLength;
+    iCurrentTime = GetMissionTime();
+
+    iBreakLength = GetBreakLength(iCurrentWaveNumber);
+
+    if(iWaveType < 6)
+    {
+        if ((iCurrentTime - iBreakTimeStart) > iBreakLength)
+            return true;
+    }
+    else
+    { 
+        if ((iCurrentTime - iBreakTimeStart) > (iBreakLength + 30 * SECOND))
+            return true;
+    }
+
+    return false;
+}
+
+
+function void UpdatedPlayersAfterWave()
+{
+    player rPlayer;
+    int i;
+
+    for(i=0; i<3; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        if(rPlayer == null || !rPlayer.IsAlive())
+            continue;
+
+        UpdateResearchAfterWave(rPlayer, iCurrentWaveNumber);
+        UpdateBuildingsAfterWave(rPlayer, iCurrentWaveNumber);
+    }
+}
+
+function void EndCurrentWave()
+{
+    bWaveActive = false;
+    iBreakTimeStart = GetMissionTime();
+    iCurrentWaveNumber = iCurrentWaveNumber + 1;
+    SetWaveType();
+    UpdateAiResearch(iCurrentWaveNumber);
+
+    GiveRewards(iCurrentWaveNumber);
+    UpdatedPlayersAfterWave();
+}
+
+
+function int GetEnemyUnitNumber()
+{
+    return rPlayer12.GetNumberOfUnits() + rPlayer11.GetNumberOfUnits() + rPlayer10.GetNumberOfUnits();
+}
+
+function int GetBossUnitNumber()
+{
+    return rPlayer10.GetNumberOfUnits();
+}

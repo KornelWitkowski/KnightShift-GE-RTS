@@ -1,26 +1,120 @@
+unitex uRewards[];
+int iRewardSeed;
+
 #include "Rewards\Units.ech"
 #include "Rewards\Supplements.ech"
 #include "Rewards\Equipment.ech"
+#include "Rewards\Experience.ech"
+
+function void InitRewards()
+{
+    int i, iSize;
+    iSize = LAST_REWARD_MARKER - FIRST_REWARD_MARKER + 1;
+    uRewards.Create(iSize);
+    for(i=0; i<iSize; ++i)
+    {
+        uRewards[i] = null;
+    }
+}
+
+function void CleanupRewards()
+{
+    int i, k, iX, iY, iZ;
+    unitex uUnit;
+
+    for(i=FIRST_REWARD_MARKER; i<=LAST_REWARD_MARKER; ++i)
+    {
+
+        k = i - FIRST_REWARD_MARKER;
+        uUnit = uRewards[k];
+
+        RemoveArtefact(GetPointX(i), GetPointY(i), GetPointZ(i));
+        
+        if(uUnit == null)
+            continue;
+
+        iX = uUnit.GetLocationX();
+        iY = uUnit.GetLocationY();
+        iZ = uUnit.GetLocationZ();
+
+        if(GetPointX(i) != iX)
+            continue;
+
+        if(GetPointY(i) != iY)
+            continue;
+
+        if(GetPointZ(i) != iZ)
+            continue;
+
+        uUnit.RemoveUnit();
+        uRewards[k] = null;
+    }
+}
+
+
+function void GiveMilkReward()
+{
+    if(iDifficulty == 0)
+    {
+        RemoveArtefact(GetPointX(MILK_MARKER), GetPointY(MILK_MARKER), GetPointZ(MILK_MARKER));
+        CreateObjectAtMarker(MILK_MARKER, "ART_MILK_GE_400");
+    }
+    else if(iDifficulty == 1)
+    {
+        RemoveArtefact(GetPointX(MILK_MARKER), GetPointY(MILK_MARKER), GetPointZ(MILK_MARKER));
+        CreateObjectAtMarker(MILK_MARKER, "ART_MILK_GE_300");
+    }
+    else if(iDifficulty == 2)
+    {
+        RemoveArtefact(GetPointX(MILK_MARKER), GetPointY(MILK_MARKER), GetPointZ(MILK_MARKER));
+        CreateObjectAtMarker(MILK_MARKER, "ART_MILK_GE_200");
+    }
+    else if(iDifficulty == 3)
+    {
+        RemoveArtefact(GetPointX(MILK_MARKER), GetPointY(MILK_MARKER), GetPointZ(MILK_MARKER));
+        CreateObjectAtMarker(MILK_MARKER, "ART_MILK_GE_100");
+    }
+}
+
 
 function void GiveRewards(int iWaveNumber)
 {
-    int i, j;
+    int i, j, k;
+    unitex uReward;
 
-    for(i=4; i<8; ++i)
+    CleanupRewards();
+
+    GiveMilkReward();
+
+    // Ustawiamy seed na początku losowania aby uniknąć exploita z wczytywaniem
+    InitXorShiftRNGNoExtraEntropy(iRewardSeed);
+
+    for(i=FIRST_REWARD_MARKER; i<=LAST_REWARD_MARKER; ++i)
     {
-        j = RAND(3);
+        j = RandXor(5);
 
         if(j==0)
         {
-            RewardUnits(iWaveNumber, i);
+            uReward = RewardUnits(iWaveNumber, i);
         }
         else if (j==1)
         {
-            RewardSupplement(iWaveNumber, i);
+            uReward = RewardSupplement(iWaveNumber, i);
+        }
+        else if (j==2)
+        {
+            uReward = RewardExperience(iWaveNumber, i);
         }
         else
         {
-             RewardEquipment(iWaveNumber, i);
+            uReward = RewardEquipment(iWaveNumber, i);
         }
+
+
+        k = i - FIRST_REWARD_MARKER;
+        uRewards[k] = uReward;
     }
+
+    // Na koniec wybieramy nowy seed: następny reward będzie losowy, ale nie będzie dało się go zmienić wczytaniem
+    iRewardSeed = RandXor(1000000);
 }

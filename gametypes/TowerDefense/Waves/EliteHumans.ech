@@ -1,12 +1,18 @@
 function void SpawnEliteHuman(int nWaveNumber, int iMarker)
 {
     int roll;
+    int iDifficultyModifier;
     player rPlayerEnemy;
     unitex uUnit;
+    int iExperienceLevel;
 
-    rPlayerEnemy = GetPlayer(9);
+    rPlayerEnemy = GetPlayer(12);
 
-    roll = RAND(100);
+    iExperienceLevel = nWaveNumber / 10;
+    iDifficultyModifier = MIN((iDifficulty - 2), 0);
+    iExperienceLevel = iExperienceLevel + iDifficultyModifier;
+
+    roll = RandXor(100);
 
     if (roll < 40)
     {
@@ -27,7 +33,7 @@ function void SpawnEliteHuman(int nWaveNumber, int iMarker)
     else
     {
 
-        roll = RAND(100);
+        roll = RandXor(100);
         
         if(roll < 40)
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIESTESS");
@@ -37,7 +43,8 @@ function void SpawnEliteHuman(int nWaveNumber, int iMarker)
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "WITCH");
     }
 
-
+    uUnit.SetExperienceLevel(iExperienceLevel);
+    uUnit.EnableCapture(false);
     CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
     return;
 }

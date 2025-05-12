@@ -1,5 +1,6 @@
 mission "translateGameTypeBattle"
 {
+    #include "Common\Consts.ech"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
@@ -52,7 +53,7 @@ mission "translateGameTypeBattle"
             // Skrócenie czasu produkcji jednostek
             rPlayer.SetUnitsBuildTimePercent(20);
             rPlayer.SetCalcMinMoneyInUnitsCounts(true);
-            rPlayer.SetScriptData(0, 0);              
+            rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);              
                             
             if(GetPointX(i))
             {
@@ -250,8 +251,7 @@ mission "translateGameTypeBattle"
             if(rPlayer == null)
                 continue;
 
-            // ScriptData(10)==1 jest ustawione dla botów z moda
-            if((rPlayer.GetScriptData(10)==1) && rPlayer.IsAI())
+            if((rPlayer.GetScriptData(IS_GOLDEN_EDITION_AI) == 1) && rPlayer.IsAI())
             {
                 UseMagic(rPlayer);
             }

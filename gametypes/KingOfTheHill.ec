@@ -6,6 +6,7 @@ mission "translateKingOfTheHill"
         MAX_TOWER_NUMBER = 20;
     }
 
+    #include "Common\Consts.ech"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
@@ -145,8 +146,16 @@ mission "translateKingOfTheHill"
         ShowInterfaceBlackBorders(true, 15, 15, 0xFF000000, 0xFF000000, 0, 0);
         rPlayer.ShowInterface(false);
         rPlayer.LookAt(GetPointX(MARKER_FIRST_TOWER), GetPointY(MARKER_FIRST_TOWER), 3, 32, 20, 0);
-        rPlayer.DelayedLookAt(GetPointX(MARKER_FIRST_TOWER)+3,
-                              GetPointY(MARKER_FIRST_TOWER)+3, 8, 32+128, 20, 0, 300, true);
+        rPlayer.DelayedLookAt(
+            GetPointX(MARKER_FIRST_TOWER)+3,
+            GetPointY(MARKER_FIRST_TOWER)+3,
+            8, 
+            32+128, 
+            20, 
+            0, 
+            300, 
+            true
+        );
         
 
         for(i=0; i<8; i=i+1)
@@ -223,7 +232,7 @@ mission "translateKingOfTheHill"
                 rPlayer.SetMoney(100);    
             }
 
-            rPlayer.SetScriptData(0, 0);
+            rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
 
             rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
             rPlayer.SetMaxCountLimitForObject("COURT", 1);
@@ -379,7 +388,7 @@ mission "translateKingOfTheHill"
                             }
                             else
                             {
-                                rPlayer2.SetScriptData(1, 1);
+                                rPlayer2.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
                                 KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
                                 KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
                                 rPlayer2.SetGoalState(0, goalFailed, true);

@@ -1,9 +1,29 @@
-function void UpdateBuildings(player rPlayer, int iCowshed, int iHut, int iBarracks,
- int iTemple, int iShrine, int iCourt)
+function void UpdateBuildings(
+    player rPlayer,
+    int iCowshed,
+    int iHut,
+    int iBarracks,
+    int iTemple, 
+    int iShrine, 
+    int iCourt
+)
 {
+    int iHutWithExtra, iBarracksWithExtra;
+    int iExtraBarracks;
+
+    iExtraBarracks = 0;
+    if(iDifficulty < 1)
+    {
+        iExtraBarracks = 1;
+    }
+
+
+    iHutWithExtra = iHut + iExtraHut;
+    iBarracksWithExtra = iBarracks + iExtraBarracks;
+
     rPlayer.SetMaxCountLimitForObject("COWSHED", iCowshed);
-    rPlayer.SetMaxCountLimitForObject("HUT",  iHut);
-    rPlayer.SetMaxCountLimitForObject("BARRACKS", iBarracks);
+    rPlayer.SetMaxCountLimitForObject("HUT",  iHutWithExtra);
+    rPlayer.SetMaxCountLimitForObject("BARRACKS", iBarracksWithExtra);
     rPlayer.SetMaxCountLimitForObject("TEMPLE", iTemple);
     rPlayer.SetMaxCountLimitForObject("SHRINE", iShrine);
     rPlayer.SetMaxCountLimitForObject("COURT", iCourt);
@@ -13,82 +33,192 @@ function void UpdateBuildingsAfterWave(player rPlayer, int nWaveNumber)
 {
     if (nWaveNumber == 1)
     {
-        UpdateBuildings(rPlayer, 2, 2 + iExtraHut, 1, 0, 0, 0);
+        UpdateBuildings(rPlayer, 2, 2, 1, 0, 0, 0);
     }
     else if(nWaveNumber == 2)
     {
-        UpdateBuildings(rPlayer, 2, 2 + iExtraHut, 1, 0, 0, 0);
+        UpdateBuildings(rPlayer, 2, 2, 1, 0, 0, 0);
     }
     else if(nWaveNumber == 3)
     {
-        UpdateBuildings(rPlayer, 2, 3 + iExtraHut, 1, 0, 0, 0);
+        UpdateBuildings(rPlayer, 2, 3, 1, 0, 0, 0);
     }
     else if(nWaveNumber == 4)
     {
-        UpdateBuildings(rPlayer, 2, 3 + iExtraHut, 2, 0, 0, 0);
+        UpdateBuildings(rPlayer, 2, 3, 2, 0, 0, 0);
     }
     else if(nWaveNumber == 5)
     {
-        UpdateBuildings(rPlayer, 3, 3 + iExtraHut, 2, 0, 0, 0);
+        UpdateBuildings(rPlayer, 3, 3, 2, 0, 0, 0);
     }
     else if(nWaveNumber == 6)
     {
-        UpdateBuildings(rPlayer, 3, 3 + iExtraHut, 2, 1, 0, 0);
+        UpdateBuildings(rPlayer, 3, 3, 2, 1, 0, 0);
     }
     else if(nWaveNumber == 7)
     {
-        UpdateBuildings(rPlayer, 3, 4 + iExtraHut, 2, 1, 0, 0);
+        UpdateBuildings(rPlayer, 3, 4, 2, 1, 0, 0);
     }
     else if(nWaveNumber == 8)
     {
-        UpdateBuildings(rPlayer, 3, 4 + iExtraHut, 3, 1, 0, 0);
+        UpdateBuildings(rPlayer, 3, 4, 3, 1, 0, 0);
     }
     else if(nWaveNumber == 9)
     {
-        UpdateBuildings(rPlayer, 3, 4 + iExtraHut, 3, 1, 0, 0);
+        UpdateBuildings(rPlayer, 3, 4, 3, 1, 0, 0);
     }
     else if(nWaveNumber == 10)
     {
-        UpdateBuildings(rPlayer, 4, 4 + iExtraHut, 3, 1, 0, 0);
+        UpdateBuildings(rPlayer, 4, 4, 3, 1, 0, 0);
     }
     else if(nWaveNumber == 11)
     {
-        UpdateBuildings(rPlayer, 4, 4 + iExtraHut, 3, 1, 0, 1);
+        UpdateBuildings(rPlayer, 4, 4, 3, 1, 0, 1);
     }
     else if(nWaveNumber == 12)
     {
-        UpdateBuildings(rPlayer, 4, 4 + iExtraHut, 3, 1, 1, 1);
+        UpdateBuildings(rPlayer, 4, 4, 3, 1, 1, 1);
     }
     else if(nWaveNumber == 13)
     {
-        UpdateBuildings(rPlayer, 4, 4 + iExtraHut, 3, 2, 1, 1);
+        UpdateBuildings(rPlayer, 4, 4, 3, 1, 1, 1);
     }
     else if(nWaveNumber == 14)
     {
-        UpdateBuildings(rPlayer, 4, 4 + iExtraHut, 3, 2, 2, 1);
+        UpdateBuildings(rPlayer, 4, 4, 3, 2, 1, 1);
     }
     else if(nWaveNumber == 15)
     {
-        UpdateBuildings(rPlayer, 4, 5 + iExtraHut, 3, 2, 2, 1);
+        UpdateBuildings(rPlayer, 4, 4, 4, 1, 1, 1);
     }
     else if(nWaveNumber == 16)
     {
-        UpdateBuildings(rPlayer, 4, 5 + iExtraHut, 4, 2, 2, 1);
+        UpdateBuildings(rPlayer, 4, 4, 4, 1, 1, 1);
     }
     else if(nWaveNumber == 17)
     {
-        UpdateBuildings(rPlayer, 4, 5 + iExtraHut, 4, 2, 2, 1);
+        UpdateBuildings(rPlayer, 4, 4, 4, 2, 1, 1);
     }
     else if(nWaveNumber == 18)
     {
-        UpdateBuildings(rPlayer, 4, 6 + iExtraHut, 4, 2, 2, 1);
+        UpdateBuildings(rPlayer, 4, 4, 4, 2, 1, 1);
     }
     else if(nWaveNumber == 19)
     {
-        UpdateBuildings(rPlayer, 4, 6 + iExtraHut, 5, 2, 2, 1);
+        UpdateBuildings(rPlayer, 4, 4, 4, 2, 2, 1);
     }
     else if(nWaveNumber == 20)
     {
-        UpdateBuildings(rPlayer, 4, 6 + iExtraHut, 5, 2, 2, 2);
+        UpdateBuildings(rPlayer, 4, 5, 4, 2, 2, 1);
     }
+    else if(nWaveNumber == 21)
+    {
+        UpdateBuildings(rPlayer, 4, 5, 4, 2, 2, 2);
+    }
+    else if(nWaveNumber == 22)
+    {
+        UpdateBuildings(rPlayer, 4, 5, 4, 2, 2, 2);
+    }
+    else if(nWaveNumber == 23)
+    {
+        UpdateBuildings(rPlayer, 4, 6, 4, 2, 2, 2);
+    }
+    else if(nWaveNumber == 24)
+    {
+        UpdateBuildings(rPlayer, 4, 6, 4, 2, 2, 2);
+    }
+    else if(nWaveNumber == 25)
+    {
+        UpdateBuildings(rPlayer, 4, 6, 4, 3, 2, 2);
+    }
+    else if(nWaveNumber == 26)
+    {
+        UpdateBuildings(rPlayer, 5, 6, 4, 3, 2, 2);
+    }
+    else if(nWaveNumber == 27)
+    {
+        UpdateBuildings(rPlayer, 5, 6, 4, 3, 2, 2);
+    }
+    else if(nWaveNumber == 28)
+    {
+        UpdateBuildings(rPlayer, 5, 6, 4, 3, 3, 2);
+    }
+    else if(nWaveNumber == 29)
+    {
+        UpdateBuildings(rPlayer, 5, 6, 4, 3, 3, 2);
+    }
+    else if(nWaveNumber == 30)
+    {
+        UpdateBuildings(rPlayer, 5, 7, 4, 3, 3, 2);
+    }
+    else if(nWaveNumber == 31)
+    {
+        UpdateBuildings(rPlayer, 5, 7, 5, 3, 3, 2);
+    }
+    else if(nWaveNumber == 32)
+    {
+        UpdateBuildings(rPlayer, 5, 7, 5, 3, 3, 2);
+    }
+    else if(nWaveNumber == 33)
+    {
+        UpdateBuildings(rPlayer, 5, 7, 6, 3, 3, 2);
+    }
+    else if(nWaveNumber == 34)
+    {
+        UpdateBuildings(rPlayer, 5, 7, 6, 3, 4, 2);
+    }
+    else if(nWaveNumber == 35)
+    {
+        UpdateBuildings(rPlayer, 5, 7, 6, 3, 4, 3);
+    }
+    else if(nWaveNumber == 36)
+    {
+        UpdateBuildings(rPlayer, 5, 7, 6, 3, 4, 3);
+    }
+    else if(nWaveNumber == 37)
+    {
+        UpdateBuildings(rPlayer, 6, 7, 6, 3, 4, 3);
+    }
+    else if(nWaveNumber == 38)
+    {
+        UpdateBuildings(rPlayer, 6, 7, 6, 3, 4, 3);
+    }
+    else if(nWaveNumber == 39)
+    {
+        UpdateBuildings(rPlayer, 6, 7, 6, 4, 4, 3);
+    }
+    else if(nWaveNumber == 40)
+    {
+        UpdateBuildings(rPlayer, 6, 7, 6, 4, 4, 3);
+    }
+    else if(nWaveNumber == 41)
+    {
+        UpdateBuildings(rPlayer, 6, 7, 7, 4, 4, 3);
+    }
+    else if(nWaveNumber == 42)
+    {
+        UpdateBuildings(rPlayer, 6, 7, 7, 4, 4, 3);
+    }
+    else if(nWaveNumber == 43)
+    {
+        UpdateBuildings(rPlayer, 6, 7, 7, 4, 5, 3);
+    }
+    else if(nWaveNumber == 44)
+    {
+        UpdateBuildings(rPlayer, 6, 8, 7, 4, 5, 3);
+    }
+    else if(nWaveNumber == 45)
+    {
+        UpdateBuildings(rPlayer, 6, 8, 8, 4, 5, 3);
+    }
+    else if(nWaveNumber == 46)
+    {
+        UpdateBuildings(rPlayer, 6, 8, 8, 4, 5, 4);
+    }
+    else 
+    {
+        UpdateBuildings(rPlayer, 6, 8, 8, 4, 5, 4);
+    }
+    
+    
 }

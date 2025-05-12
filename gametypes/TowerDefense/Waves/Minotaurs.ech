@@ -1,8 +1,11 @@
 function int ChooseMinotaurTier(int nWaveNumber)
 {
     int iRoll;
+    int iDifficultyModifier;
+    iDifficultyModifier = (iDifficulty - 2) * 5;
 
-    iRoll =  RAND(100);
+    iRoll =  GaussianDistribution(30) + (3 * nWaveNumber / 2);
+    iRoll = iRoll + iDifficultyModifier;
     
     if (20 > iRoll) return 0;
     if (35 > iRoll) return 1;

@@ -9,7 +9,7 @@ function void InitializePlayerAdventureGE3()
         rPlayer = GetPlayer(i);
         if(rPlayer != null) 
         {     
-            rPlayer.SetScriptData(0, 0);
+            rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
 
             rPlayer.SetMaxMoney(100);
             rPlayer.SetMoney(100);
@@ -28,7 +28,6 @@ function void InitializePlayerAdventureGE3()
                     rPlayer2.CreateUnit(GetPointX(3), GetPointY(3), 0, -64, "COW");
                     rPlayer2.CreateBuilding(GetPointX(4), GetPointY(4), 0, -64, "COWSHED");
 
-                    rPlayer2.SetScriptData(0, 0);
                     rPlayer2.EnableAI(true);
                     rPlayer2.LoadScript("2_Medium");
                     rPlayer2.SetMainEnemyIFFNum(rPlayer.GetIFFNumber());
@@ -54,7 +53,7 @@ function void InitializePlayerAdventureGE3()
                     rPlayer2.CreateUnit(GetPointX(13), GetPointY(13), 0, 64, "COW");
                     rPlayer2.CreateBuilding(GetPointX(14), GetPointY(14), 0, -64, "COWSHED");
 
-                    rPlayer2.SetScriptData(0, 0);
+                    rPlayer2.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
                     rPlayer2.EnableAI(true);
                     rPlayer2.LoadScript("2_Medium");
                     rPlayer2.SetMainEnemyIFFNum(rPlayer.GetIFFNumber());
@@ -80,7 +79,7 @@ function void InitializePlayerAdventureGE3()
                     rPlayer2.CreateUnit(GetPointX(23), GetPointY(23), 0, 0, "COW");
                     rPlayer2.CreateBuilding(GetPointX(24), GetPointY(24), 0, 128, "COWSHED");
 
-                    rPlayer2.SetScriptData(0, 0);
+                    rPlayer2.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
                     rPlayer2.EnableAI(true);
                     rPlayer2.LoadScript("2_Medium");
                     rPlayer2.SetMainEnemyIFFNum(rPlayer.GetIFFNumber());
@@ -166,13 +165,13 @@ event Timer5()
 
                 iCountBuilding = rPlayer.GetNumberOfBuildings();
 
-                if(iCountBuilding) rPlayer.SetScriptData(0, 1);
+                if(iCountBuilding) rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITH_BUILDINGS);
                     
-                if (iCountBuilding==0)
+                if (iCountBuilding == 0)
                 {
-                    if((rPlayer.GetScriptData(0)==1) && (rPlayer.GetScriptData(1)!=1))
+                    if((rPlayer.GetScriptData(PLAYER_STAGE) == STAGE_WITHOUT_BUILDINGS) && (rPlayer.GetScriptData(PLAYER_STATUS) != STATUS_DEFEAT))
                     {
-                        rPlayer.SetScriptData(1, 1); // Defeat
+                        rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
                         KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
 
                         if((rPlayer.GetIFFNumber()==8) && rPlayer.IsAI())
@@ -190,9 +189,9 @@ event Timer5()
                     }
                     else
                     {
-                        if((rPlayer.GetNumberOfUnits()==0) && (rPlayer.GetScriptData(1)!=1))
+                        if((rPlayer.GetNumberOfUnits()==0) && (rPlayer.GetScriptData(PLAYER_STATUS) != STATUS_DEFEAT))
                         {
-                            rPlayer.SetScriptData(1, 1); // Defeat
+                            rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
 
                             if((rPlayer.GetIFFNumber()==8) && rPlayer.IsAI())
                                 SetGoalState(0, goalAchieved, 1);

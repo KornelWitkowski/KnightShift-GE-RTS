@@ -1728,6 +1728,26 @@ event Custom2(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
     return AttackEventOnSelectedToAttackByUnit(uUnit);
 }
 
+
+// GOLDEN EDITION CUSTOM EVENT
+event Custom3(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
+{
+    int bIsAttacking;
+    if (uUnit != null)
+    {
+        bIsAttacking = uUnit.SetCustomEvent(3, 0, 0, 0, 0, null);
+        return true;
+        return bIsAttacking;
+    }
+
+    if (IsAttacking())
+        return true;
+
+    return false;
+}
+
+
+
 ////    Commands    ////
 
 command Attack(unit uTarget) button TRL_ATTACK description TRL_ATTACK item ITEM_ATTACK priority PRIOR_ATTACK hotkey

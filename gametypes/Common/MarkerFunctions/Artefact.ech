@@ -57,9 +57,9 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         }
 
     }
-    else if((iArtefactNum & ~MASK0) == MASK_TRAP_LIGHTNING)
+    else if((iArtefactNum & ~MASK0) == MASK_TRAP_LIGHTING)
     {
-        iMarker = iArtefactNum & ~MASK_TRAP_LIGHTNING;
+        iMarker = iArtefactNum & ~MASK_TRAP_LIGHTING;
         if(uUnitOnArtefact.GetIFFNumber() != 13)
             Lighting(GetPointX(iMarker), GetPointY(iMarker), 5);
 
@@ -133,7 +133,9 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
 
         //m_nAnimNum, m_bAnimLooped, m_bResetAnim, m_nTimeSec
         uUnit.CommandMakeCustomAnimation(2, true, true , 2, 0, 0); 
-        CreateObjectAtUnit(uUnit, "EXP_EXPERIENCE1");
+        CreateObjectAtUnit(uUnit, "TREE_REVIVE");
+
+        uUnit.CommandSetMovementMode(modeMove);
 
         uSmoke = uSmokes[j]; 
         uSmoke.RemoveUnit();
@@ -231,13 +233,35 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         PlayWave("Special\\Wilhelm.wav");
         uUnitOnArtefact.RemoveUnit();    
     }
+    else if ((iArtefactNum & ~MASK0) == MASK_EXPERIENCE)
+    {
+        iMarker = iArtefactNum & ~MASK_EXPERIENCE;
+
+        #ifdef TOWER_DEFENSE
+            GrantExperience(uUnitOnArtefact, iMarker, 0);
+        #else
+            GrantExperience(uUnitOnArtefact, iMarker, MARKER_FIRST_EXPERIENCE);
+        #endif
+
+        return true; 
+    }
+    else if ((iArtefactNum & ~MASK0) == MASK_RESISTANCE_ITEM)
+    {
+        iMarker = iArtefactNum & ~MASK_RESISTANCE_ITEM;
+        #ifdef TOWER_DEFENSE
+            GrantResistance(uUnitOnArtefact, iMarker, 0);
+        #else
+            GrantResistance(uUnitOnArtefact, iMarker, MARKER_FIRST_RESISTANCE);
+        #endif
+        return true;
+    }
     else if ((iArtefactNum & ~MASK0) == MASK_STEP_ON_TO_WIN)
     {
 
         RemoveWorldMapSign(
-                        uUnitOnArtefact.GetLocationX(),
-                        uUnitOnArtefact.GetLocationY(),
-                        uUnitOnArtefact.GetLocationZ()
+            uUnitOnArtefact.GetLocationX(),
+            uUnitOnArtefact.GetLocationY(),
+            uUnitOnArtefact.GetLocationZ()
         );
 
         for(j=0; j<8; j=j+1)
@@ -253,7 +277,7 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
             }
             else
             {
-                rPlayer.SetScriptData(1, 1);
+                rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
                 rPlayer.SetGoalState(STEP_TO_WIN_GOAL, goalFailed, true);
             }
         }

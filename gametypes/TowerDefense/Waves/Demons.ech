@@ -1,13 +1,18 @@
 function int ChooseDemonTier(int nWaveNumber)
 {
-    int iRoll;
+    int iRoll, iDifficultyModifier;
 
-    iRoll =  GaussianDistribution(20) + 2 * nWaveNumber;
-    
-    if (25 > iRoll) return 0;
-    if (50 > iRoll) return 1;
-    if (75 > iRoll) return 2;
-    return 3;
+    iDifficultyModifier = (iDifficulty - 2) * 5;
+
+    iRoll =  GaussianDistribution(20) + (3 * nWaveNumber / 2);
+    iRoll = iRoll + iDifficultyModifier;
+
+    if (35 > iRoll) return 0;
+    if (60 > iRoll) return 1;
+    if (85 > iRoll) return 2;
+    if (110 > iRoll) return 3;
+    if (135 > iRoll) return 4;
+    return 5;
 }
 
 function void SpawnDemon(int iWaveNumber, int iMarker)
@@ -16,11 +21,11 @@ function void SpawnDemon(int iWaveNumber, int iMarker)
     player rPlayerEnemy;
     unitex uUnit;
 
-    iRand = RAND(3);
+    iRand = RandXor(3);
 
     rPlayerEnemy = GetPlayer(11);
 
-    iTier = ChooseSkeletonTier(iWaveNumber);
+    iTier = ChooseDemonTier(iWaveNumber);
 
     if(iTier == 0)
     {
@@ -43,9 +48,23 @@ function void SpawnDemon(int iWaveNumber, int iMarker)
         else
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER3S");
     }
-    else
+    else if (iTier == 3)
+    {
+        if(iRand < 2)
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER4");
+        else
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER4S");
+    }
+    else if (iTier == 4)
     {
         uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "GATEKEEPER3");
+    }
+    else
+    {
+        if(iRand < 2)
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER5");
+        else
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_ARENAMONSTER5S");
     }
     
     CreateObjectAtUnit(uUnit, "CAST_TELEPORT");

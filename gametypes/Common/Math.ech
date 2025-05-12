@@ -1,3 +1,7 @@
+int iXorState;
+
+int iXorStateNoExtraEntropy;
+
 function int MIN(int nVal1, int nVal2)
 {
     if (nVal1 < nVal2)
@@ -40,6 +44,90 @@ function int Power(int iBase, int iExponent)
 }
 
 
+function int BitwiseXor(int iVal1, int iVal2)
+{
+    int iTemp, iTemp2, iTemp3;
+
+    iTemp = (iVal1 & (~iVal2));
+    iTemp2 = ((~iVal1) & iVal2);
+    iTemp3 = (iTemp | iTemp2);
+    return iTemp3;
+}
+
+function void InitXorShiftRNG(int iSeed)
+{
+    int iTemp;
+    iTemp = Rand(10000) + 1;
+    iXorState = BitwiseXor(iTemp, iSeed);
+    if (iXorState == 0) iXorState = 12345;
+}
+
+function void InitXorShiftRNGNoExtraEntropy(int iSeed)
+{
+    int iTemp;
+    iTemp = Rand(10000) + 1;
+    iXorStateNoExtraEntropy = BitwiseXor(iTemp, iSeed);
+    if (iXorStateNoExtraEntropy == 0) iXorStateNoExtraEntropy = 12345;
+}
+
+
+function int RandXor(int iMax)
+{
+    /*
+        Funkcja służy do generowania losowych liczb z zakresu 0 do iMax.
+        Wykorzystuje algorytm XORShift do generowania liczb losowych.
+        Wbudowany generator Rand jest niewiarygodny, ponieważ wykazuje się skośnością.
+    */
+    int iTime;
+    int iTemp;
+    int iSeed;
+    if (iXorState == 0) {
+        iSeed = GetMissionTime();
+        InitXorShiftRNG(iSeed);
+    }
+    
+    if (Rand(100) < 5) {
+        iTime = GetMissionTime();
+        iXorState = BitwiseXor(iXorState, iTime);
+    }
+    
+    iTemp = iXorState << 13;
+    iXorState = BitwiseXor(iXorState, iTemp);
+    iTemp = iXorState >> 17;
+    iXorState = BitwiseXor(iXorState, iTemp);
+    iTemp = iXorState << 5;
+    iXorState = BitwiseXor(iXorState, iTemp);
+    
+    if (iXorState < 0) iXorState = -iXorState;
+    return iXorState % iMax;
+}
+
+function int RandXorNoExtraEntropy(int iMax)
+{
+    /*
+        Funkcja służy do generowania losowych liczb z zakresu 0 do iMax.
+        Wykorzystuje algorytm XORShift do generowania liczb losowych.
+        Wbudowany generator Rand jest niewiarygodny, ponieważ wykazuje się skośnością.
+    */
+    int iTemp;
+    int iSeed;
+    if (iXorStateNoExtraEntropy == 0) {
+        iSeed = GetMissionTime();
+        InitXorShiftRNGNoExtraEntropy(iSeed);
+    }
+    
+    
+    iTemp = iXorState << 13;
+    iXorState = BitwiseXor(iXorState, iTemp);
+    iTemp = iXorState >> 17;
+    iXorState = BitwiseXor(iXorState, iTemp);
+    iTemp = iXorState << 5;
+    iXorState = BitwiseXor(iXorState, iTemp);
+    
+    if (iXorState < 0) iXorState = -iXorState;
+    return iXorState % iMax;
+}
+
 function int GaussianDistribution(int iStd)
 {
     /*
@@ -53,10 +141,31 @@ function int GaussianDistribution(int iStd)
     iX = 10*iStd/3 ;
     iRandNum = 0;
 
-    iRandNum = iRandNum + Rand(2*iX+1) - iX;
-    iRandNum = iRandNum + Rand(2*iX+1) - iX;
-    iRandNum = iRandNum + Rand(2*iX+1) - iX;
-    iRandNum = iRandNum + Rand(2*iX+1) - iX;
+    iRandNum = iRandNum + RandXor(2*iX+1) - iX;
+    iRandNum = iRandNum + RandXor(2*iX+1) - iX;
+    iRandNum = iRandNum + RandXor(2*iX+1) - iX;
+    iRandNum = iRandNum + RandXor(2*iX+1) - iX;
+
+    return iRandNum/4;
+}
+
+function int GaussianDistributionNoExtraEntropy(int iStd)
+{
+    /*
+        Funkcja służy jako przybliżenie rozkładu gaussa dla liczb całkowitych.
+        Wykorzystuje Centralne Twierdzenie Graniczne.
+
+        iStd - odchylenie standardowe
+    */
+    int iX;
+    int iRandNum;
+    iX = 10*iStd/3 ;
+    iRandNum = 0;
+
+    iRandNum = iRandNum + RandXorNoExtraEntropy(2*iX+1) - iX;
+    iRandNum = iRandNum + RandXorNoExtraEntropy(2*iX+1) - iX;
+    iRandNum = iRandNum + RandXorNoExtraEntropy(2*iX+1) - iX;
+    iRandNum = iRandNum + RandXorNoExtraEntropy(2*iX+1) - iX;
 
     return iRandNum/4;
 }

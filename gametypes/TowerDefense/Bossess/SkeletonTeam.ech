@@ -1,0 +1,120 @@
+function void HandleExtraEffect(unitex uUnit)
+{
+    GiveCaptureConvertResistance(uUnit);
+    SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER);
+    CreateObjectAtUnit(uUnit, "HIT_GHOST");
+}
+
+function unitex SpawnSpecialSkeleton(int nWaveNumber, int iMarker)
+{
+    int iX, iY, iZ, iAngle;
+    unitex uUnit, uUnitBoss;
+    player rPlayerEnemy, rPlayerBoss;
+
+    iX = GetPointX(iMarker);
+    iY = GetPointY(iMarker);
+    iZ = GetPointZ(iMarker);
+    iAngle = GetPointAlpha(iMarker);
+    
+    rPlayerBoss = GetPlayer(10);
+    rPlayerEnemy = GetPlayer(11);
+
+    if(nWaveNumber <= 10)
+    {
+        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON7M");
+        uUnitBoss.AddHP(1000);
+        HandleExtraEffect(uUnitBoss);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX, iY-1, iZ, iAngle, "RPG_SKELETONT3");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX, iY+1, iZ, iAngle, "RPG_SKELETONT3");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX+1, iY-1, iZ, iAngle, "RPG_SKELETON_HUNTER3");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX+1, iY+1, iZ, iAngle, "RPG_SKELETON_HUNTER3");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX-1, iY-1, iZ, iAngle, "RPG_SKELETON_SPEARMAN3");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX-1, iY+1, iZ, iAngle, "RPG_SKELETON_SPEARMAN3");
+        HandleExtraEffect(uUnit);
+    }
+    else if(nWaveNumber <= 20)
+    {
+        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON7M");
+        uUnitBoss.AddHP(2000);
+        HandleExtraEffect(uUnitBoss);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX, iY-1, iZ, iAngle, "RPG_SKELETONT3");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX, iY+1, iZ, iAngle, "RPG_SKELETONT3");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX+1, iY-1, iZ, iAngle, "RPG_SKELETON_HUNTER3");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX+1, iY+1, iZ, iAngle, "RPG_SKELETON_HUNTER3");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX-1, iY-1, iZ, iAngle, "RPG_SKELETON_SPEARMAN3");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX-1, iY+1, iZ, iAngle, "RPG_SKELETON_SPEARMAN3");
+        HandleExtraEffect(uUnit);
+    }
+    else if(nWaveNumber <= 30)
+    {
+        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON8M");
+        uUnitBoss.AddHP(3000);
+        HandleExtraEffect(uUnitBoss);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX, iY-1, iZ, iAngle, "RPG_SKELETONT4");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX, iY+1, iZ, iAngle, "RPG_SKELETONT4");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX+1, iY-1, iZ, iAngle, "RPG_SKELETON_HUNTER3M");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX+1, iY+1, iZ, iAngle, "RPG_SKELETON_HUNTER3M");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX-1, iY-1, iZ, iAngle, "RPG_SKELETON_SPEARMAN3M");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX-1, iY+1, iZ, iAngle, "RPG_SKELETON_SPEARMAN3M");
+        HandleExtraEffect(uUnit);
+    }
+    else if(nWaveNumber <= 40)
+    {
+        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON8M");
+        uUnitBoss.AddHP(4000);
+        HandleExtraEffect(uUnitBoss);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX, iY-1, iZ, iAngle, "RPG_SKELETONT4");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX, iY+1, iZ, iAngle, "RPG_SKELETONT4");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX+1, iY-1, iZ, iAngle, "RPG_SKELETON_HUNTER3M");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX+1, iY+1, iZ, iAngle, "RPG_SKELETON_HUNTER3M");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX-1, iY-1, iZ, iAngle, "RPG_SKELETON_SPEARMAN3M");
+        HandleExtraEffect(uUnit);
+
+        uUnit = rPlayerEnemy.CreateUnit(iX-1, iY+1, iZ, iAngle, "RPG_SKELETON_SPEARMAN3M");
+        HandleExtraEffect(uUnit);
+    }
+
+    return uUnitBoss;
+}

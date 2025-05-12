@@ -1,0 +1,17 @@
+consts
+{
+    SECOND = 20;
+    MINUTE = 1200;
+
+
+    PLAYER_STAGE = 0;
+    STAGE_WITHOUT_BUILDINGS = 0;
+    STAGE_WITH_BUILDINGS = 1;
+
+    PLAYER_STATUS = 1;
+    STATUS_ALIVE = 0;
+    STATUS_DEFEAT = 1;
+
+    IS_GOLDEN_EDITION_AI = 0;
+
+}

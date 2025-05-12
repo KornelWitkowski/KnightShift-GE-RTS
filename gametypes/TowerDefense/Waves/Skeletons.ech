@@ -1,8 +1,12 @@
 function int ChooseSkeletonTier(int nWaveNumber)
 {
     int iRoll;
+    int iDifficultyModifier;
 
-    iRoll =  GaussianDistribution(20) + 2 * nWaveNumber;
+    iDifficultyModifier = (iDifficulty - 2) * 5;
+
+    iRoll =  GaussianDistribution(20) + (3 * nWaveNumber / 2);
+    iRoll = iRoll + iDifficultyModifier;
     
     if (25 > iRoll) return 0;
     if (50 > iRoll) return 1;
@@ -144,20 +148,20 @@ function void SpawnSkeletonNecromancer(int nWaveNumber, int iMarker)
 
 function void SpawnSkeleton(int nWaveNumber, int iMarker)
 {
-    int roll;
+    int iRoll;
     player rPlayerEnemy;
 
-    roll = RAND(100);
+    iRoll = RandXor(100);
 
-    if (roll < 5)
+    if (iRoll < 5)
     {
         SpawnSkeletonNecromancer(nWaveNumber, iMarker);
     } 
-    else if (roll < 25)
+    else if (iRoll < 25)
     {
         SpawnSkeletonSpearman(nWaveNumber, iMarker);
     } 
-    else if (roll < 50)
+    else if (iRoll < 50)
     {
         SpawnSkeletonHunter(nWaveNumber, iMarker);
     }

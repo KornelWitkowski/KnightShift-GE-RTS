@@ -1,0 +1,19 @@
+function void SpawnMage(int nWaveNumber, int iMarker)
+{
+    int roll;
+    player rPlayerEnemy;
+    unitex uUnit;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    roll = RandXor(2);
+    
+    if(roll == 0)
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIESTESS");
+    else
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIEST");
+
+
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}

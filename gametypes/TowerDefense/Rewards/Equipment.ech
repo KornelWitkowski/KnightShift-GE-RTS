@@ -1,7 +1,7 @@
 function int ChooseEquipmentTier(int iWaveNumber)
 {
     int iRoll;
-    iRoll =  GaussianDistribution(20) + 2 * iWaveNumber;
+    iRoll =  GaussianDistributionNoExtraEntropy(20) + 2 * iWaveNumber;
     
     if (20 > iRoll) return 0;
     if (40 > iRoll) return 1;
@@ -10,310 +10,495 @@ function int ChooseEquipmentTier(int iWaveNumber)
     return 4;
 }
 
-function void CreateBowReward(int iWaveNumber, int iMarker)
+function unitex CreateBowReward(int iWaveNumber, int iMarker)
 {
-    int iX, iY;
+    int iX, iY, iZ;
     int iRand, iTier;
+    unitex uBow;
 
     iX = GetPointX(iMarker);
     iY = GetPointY(iMarker);
-    iRand = RAND(5);
+    iZ = GetPointZ(iMarker);
+    iRand = RandXorNoExtraEntropy(5);
 
     iTier = ChooseEquipmentTier(iWaveNumber);
 
     if (iTier == 0)
     {
         if(iRand==0)
-            CreateArtefact("ART_BOW5", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_BOW5", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_BOW40", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW40", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_BOW41", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW41", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_BOW49", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW49", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_BOW58", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW58", iX, iY, iZ, 0);
     }
     else if (iTier == 1)
     {
         if(iRand==0)
-            CreateArtefact("ART_BOW6", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_BOW6", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_BOW36", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW36", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_BOW46", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW46", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_BOW68", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW68", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_BOW69", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW69", iX, iY, iZ, 0);
     }
     else if (iTier == 2)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_BOW64", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW64", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_BOW76", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW76", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_BOW83", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW83", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_BOW84", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW84", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_BOW81", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW81", iX, iY, iZ, 0);
     }
     else if (iTier == 3)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_BOW74", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW74", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_BOW85", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW85", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_BOW86", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW86", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_BOW87", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW87", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_BOW89", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW89", iX, iY, iZ, 0);
     }
     else if (iTier == 4)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_BOW99", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW99", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_BOW92", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW92", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_BOW90", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW90", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_BOW95", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW95", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_BOW98", iX, iY, 0, 0);
+            uBow = CreateArtefact("ART_RPG_BOW98", iX, iY, iZ, 0);
     }    
+
+    return uBow;
 }
 
-function void CreateSpearReward(int iWaveNumber, int iMarker)
+function unitex CreateSpearReward(int iWaveNumber, int iMarker)
 {
-    int iX, iY;
+    int iX, iY, iZ;
     int iRand, iTier;
+    unitex uSpear;
 
     iX = GetPointX(iMarker);
     iY = GetPointY(iMarker);
-    iRand = RAND(6);
+    iZ = GetPointZ(iMarker);
+    iRand = RandXorNoExtraEntropy(6);
 
     iTier = ChooseEquipmentTier(iWaveNumber);
 
     if (iTier == 0)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_SPEAR41", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR41", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_SPEAR30", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR30", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR32", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_SPEAR24", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR24", iX, iY, iZ, 0);
         else if(iRand==4) 
-            CreateArtefact("ART_RPG_SPEAR36", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR36", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_SPEAR33", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR33", iX, iY, iZ, 0);
     }
     else if (iTier == 1)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_SPEAR45", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR45", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_SPEAR26", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR26", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_SPEAR61", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR61", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_SPEAR40", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR40", iX, iY, iZ, 0);
         else if(iRand==4) 
-            CreateArtefact("ART_RPG_SPEAR34", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR34", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_SPEAR42", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR42", iX, iY, iZ, 0);
     }
     else if (iTier == 2)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_SPEAR50", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR50", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_SPEAR55", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR55", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_SPEAR81", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR81", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_SPEAR36", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR36", iX, iY, iZ, 0);
         else if(iRand==4) 
-            CreateArtefact("ART_RPG_SPEAR52", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR52", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_SPEAR44", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR44", iX, iY, iZ, 0);
     }
     else if (iTier == 3)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_SPEAR62", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR62", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_SPEAR54", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR54", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_SPEAR53", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR53", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_SPEAR46", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR46", iX, iY, iZ, 0);
         else if(iRand==4) 
-            CreateArtefact("ART_RPG_SPEAR56", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR56", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_SPEAR63", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR63", iX, iY, iZ, 0);
     }
     else if (iTier == 4)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_SPEAR82", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR82", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_SPEAR76", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR76", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_SPEAR72", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR72", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_SPEAR66", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR66", iX, iY, iZ, 0);
         else if(iRand==4) 
-            CreateArtefact("ART_RPG_SPEAR64", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR64", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_SPEAR88", iX, iY, 0, 0);
+            uSpear = CreateArtefact("ART_RPG_SPEAR88", iX, iY, iZ, 0);
     }    
+
+    return uSpear;
 }
 
-function void CreateSwordReward(int iWaveNumber, int iMarker)
+function unitex CreateSwordReward(int iWaveNumber, int iMarker)
 {
-    int iX, iY;
+    int iX, iY, iZ;
     int iRand, iTier;
+    unitex uSword;
 
     iX = GetPointX(iMarker);
     iY = GetPointY(iMarker);
-    iRand = RAND(6);
+    iZ = GetPointZ(iMarker);
+    iRand = RandXorNoExtraEntropy(5);
 
     iTier = ChooseEquipmentTier(iWaveNumber);
 
     if (iTier == 0)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_SPEAR41", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD21", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_SPEAR30", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD22", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD25", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_SPEAR24", iX, iY, 0, 0);
-        else if(iRand==4) 
-            CreateArtefact("ART_RPG_SPEAR36", iX, iY, 0, 0);
-        else if(iRand==5) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
-        else if(iRand==6) 
-            CreateArtefact("ART_RPG_SPEAR24", iX, iY, 0, 0);
-        else if(iRand==7) 
-            CreateArtefact("ART_RPG_SPEAR36", iX, iY, 0, 0);
-        else if(iRand==8) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD20", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_SPEAR33", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD27", iX, iY, iZ, 0);
     }
     else if (iTier == 1)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_SPEAR41", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD32", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_SPEAR30", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD34", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD35", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_SPEAR24", iX, iY, 0, 0);
-        else if(iRand==4) 
-            CreateArtefact("ART_RPG_SPEAR36", iX, iY, 0, 0);
-        else if(iRand==5) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
-        else if(iRand==6) 
-            CreateArtefact("ART_RPG_SPEAR24", iX, iY, 0, 0);
-        else if(iRand==7) 
-            CreateArtefact("ART_RPG_SPEAR36", iX, iY, 0, 0);
-        else if(iRand==8) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD30", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_SPEAR33", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD31", iX, iY, iZ, 0);
     }
     else if (iTier == 2)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_SPEAR41", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD39", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_SPEAR30", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD40", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD41", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_SPEAR24", iX, iY, 0, 0);
-        else if(iRand==4) 
-            CreateArtefact("ART_RPG_SPEAR36", iX, iY, 0, 0);
-        else if(iRand==5) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
-        else if(iRand==6) 
-            CreateArtefact("ART_RPG_SPEAR24", iX, iY, 0, 0);
-        else if(iRand==7) 
-            CreateArtefact("ART_RPG_SPEAR36", iX, iY, 0, 0);
-        else if(iRand==8) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD37", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_SPEAR33", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD38", iX, iY, iZ, 0);
     }
     else if (iTier == 3)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_SPEAR41", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD42", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_SPEAR30", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD44", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD45", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_SPEAR24", iX, iY, 0, 0);
-        else if(iRand==4) 
-            CreateArtefact("ART_RPG_SPEAR36", iX, iY, 0, 0);
-        else if(iRand==5) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
-        else if(iRand==6) 
-            CreateArtefact("ART_RPG_SPEAR24", iX, iY, 0, 0);
-        else if(iRand==7) 
-            CreateArtefact("ART_RPG_SPEAR36", iX, iY, 0, 0);
-        else if(iRand==8) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD53", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_SPEAR33", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD56", iX, iY, iZ, 0);
     }
     else if (iTier == 4)
     {
         if(iRand==0)
-            CreateArtefact("ART_RPG_SPEAR41", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD50", iX, iY, iZ, 0);
         else if(iRand==1) 
-            CreateArtefact("ART_RPG_SPEAR30", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD54", iX, iY, iZ, 0);
         else if(iRand==2) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD60", iX, iY, iZ, 0);
         else if(iRand==3) 
-            CreateArtefact("ART_RPG_SPEAR24", iX, iY, 0, 0);
-        else if(iRand==4) 
-            CreateArtefact("ART_RPG_SPEAR36", iX, iY, 0, 0);
-        else if(iRand==5) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
-        else if(iRand==6) 
-            CreateArtefact("ART_RPG_SPEAR24", iX, iY, 0, 0);
-        else if(iRand==7) 
-            CreateArtefact("ART_RPG_SPEAR36", iX, iY, 0, 0);
-        else if(iRand==8) 
-            CreateArtefact("ART_RPG_SPEAR3", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD48", iX, iY, iZ, 0);
         else 
-            CreateArtefact("ART_RPG_SPEAR33", iX, iY, 0, 0);
+            uSword = CreateArtefact("ART_RPG_SWORD51", iX, iY, iZ, 0);
     }
+
+    return uSword;
 }
 
-function void RewardEquipment(int iWaveNumber, int iMarker)
+function unitex CreateAxeReward(int iWaveNumber, int iMarker)
 {
-    int iRand;
+    int iX, iY, iZ;
+    int iRand, iTier;
+    unitex uAxe;
 
-    iRand = RAND(3);
+    iX = GetPointX(iMarker);
+    iY = GetPointY(iMarker);
+    iZ = GetPointZ(iMarker);
+    iRand = RandXorNoExtraEntropy(4);
+
+    iTier = ChooseEquipmentTier(iWaveNumber);
+
+    if (iTier == 0)
+    {
+        if(iRand==0)
+            uAxe = CreateArtefact("ART_AXE6", iX, iY, iZ, 0);
+        else if(iRand==1) 
+            uAxe = CreateArtefact("ART_RPG_AXE25", iX, iY, iZ, 0);
+        else if(iRand==2) 
+            uAxe = CreateArtefact("ART_RPG_AXE28", iX, iY, iZ, 0);
+        else
+            uAxe = CreateArtefact("ART_RPG_AXE24", iX, iY, iZ, 0);
+    }
+    else if (iTier == 1)
+    {
+        if(iRand==0)
+            uAxe = CreateArtefact("ART_RPG_AXE21", iX, iY, iZ, 0);
+        else if(iRand==1) 
+            uAxe = CreateArtefact("ART_RPG_AXE22", iX, iY, iZ, 0);
+        else if(iRand==2) 
+            uAxe = CreateArtefact("ART_RPG_AXE27", iX, iY, iZ, 0);
+        else
+            uAxe = CreateArtefact("ART_RPG_AXE38", iX, iY, iZ, 0);
+    }
+    else if (iTier == 2)
+    {
+        if(iRand==0)
+            uAxe = CreateArtefact("ART_RPG_AXE20", iX, iY, iZ, 0);
+        else if(iRand==1) 
+            uAxe = CreateArtefact("ART_RPG_AXE23", iX, iY, iZ, 0);
+        else if(iRand==2) 
+            uAxe = CreateArtefact("ART_RPG_AXE32", iX, iY, iZ, 0);
+        else
+            uAxe = CreateArtefact("ART_RPG_AXE26", iX, iY, iZ, 0);
+    }
+    else if (iTier == 3)
+    {
+        if(iRand==0)
+            uAxe = CreateArtefact("ART_RPG_AXE33", iX, iY, iZ, 0);
+        else if(iRand==1) 
+            uAxe = CreateArtefact("ART_RPG_AXE34", iX, iY, iZ, 0);
+        else if(iRand==2) 
+            uAxe = CreateArtefact("ART_RPG_AXE37", iX, iY, iZ, 0);
+        else
+            uAxe = CreateArtefact("ART_RPG_AXE36", iX, iY, iZ, 0);
+    }
+    else if (iTier == 4)
+    {
+        if(iRand==0)
+            uAxe = CreateArtefact("ART_RPG_AXE39", iX, iY, iZ, 0);
+        else if(iRand==1) 
+            uAxe = CreateArtefact("ART_RPG_AXE40", iX, iY, iZ, 0);
+        else if(iRand==2) 
+            uAxe = CreateArtefact("ART_RPG_AXE43", iX, iY, iZ, 0);
+        else
+            uAxe = CreateArtefact("ART_RPG_AXE42", iX, iY, iZ, 0);
+    }
+
+    return uAxe;
+}
+
+function unitex CreateArmorReward(int iWaveNumber, int iMarker)
+{
+    int iX, iY, iZ;
+    int iRand, iArmorType, iTier;
+    unitex uArmor;
+
+    iX = GetPointX(iMarker);
+    iY = GetPointY(iMarker);
+    iZ = GetPointZ(iMarker);
+    // Po 15 fali nie generujemy itemów, które można researchować
+    if(iWaveNumber <= 15)
+    {
+        iTier = RandXorNoExtraEntropy(3);
+    }
+    else
+    {
+        iTier = 1 + RandXorNoExtraEntropy(2);
+    }
+    
+    //  0=Shield, 1=Armor, 2=Helmet
+    iArmorType = RandXorNoExtraEntropy(3);
+    
+    if (iArmorType == 0)
+    {
+        if (iTier == 0)
+        {
+            iRand = RandXorNoExtraEntropy(4);
+            if (iRand == 0)
+                uArmor = CreateArtefact("ART_SHIELD2A", iX, iY, iZ, 0);
+            else if (iRand == 1)
+                uArmor = CreateArtefact("ART_SHIELD2B", iX, iY, iZ, 0);
+            else if (iRand == 2)
+                uArmor = CreateArtefact("ART_SHIELD2C", iX, iY, iZ, 0);
+            else
+                uArmor = CreateArtefact("ART_SHIELD2D", iX, iY, iZ, 0);
+        }
+        else if (iTier == 1)
+        {
+            iRand = RandXorNoExtraEntropy(4);
+            if (iRand == 0)
+                uArmor = CreateArtefact("ART_SHIELD2H", iX, iY, iZ, 0);
+            else if (iRand == 1)
+                uArmor = CreateArtefact("ART_SHIELD3", iX, iY, iZ, 0);
+            else if (iRand == 2)
+                uArmor = CreateArtefact("ART_SHIELD3A", iX, iY, iZ, 0);
+            else
+                uArmor = CreateArtefact("ART_SHIELD3B", iX, iY, iZ, 0);
+        }
+        else
+        {
+            iRand = RandXorNoExtraEntropy(3);
+            if (iRand == 0)
+                uArmor = CreateArtefact("ART_SHIELD4", iX, iY, iZ, 0);
+            else if (iRand == 1)
+                uArmor = CreateArtefact("ART_SHIELD4A", iX, iY, iZ, 0);
+            else
+                uArmor = CreateArtefact("ART_SHIELD4B", iX, iY, iZ, 0);
+        }
+    }
+    else if (iArmorType == 1)  // Armor
+    {
+        if (iTier == 0)
+        {
+            iRand = RandXorNoExtraEntropy(3);
+            if (iRand == 0)
+                uArmor = CreateArtefact("ART_ARMOUR2B", iX, iY, iZ, 0);
+            else if (iRand == 1)
+                uArmor = CreateArtefact("ART_ARMOUR3", iX, iY, iZ, 0);
+            else
+                uArmor = CreateArtefact("ART_ARMOUR3A", iX, iY, iZ, 0);
+        }
+        else
+        {
+            iRand = RandXorNoExtraEntropy(2);
+            if (iRand == 0)
+                uArmor = CreateArtefact("ART_ARMOUR4", iX, iY, iZ, 0);
+            else
+                uArmor = CreateArtefact("ART_ARMOUR4A", iX, iY, iZ, 0);
+
+        }
+    }
+    else  // Helmets
+    {
+        if (iTier == 0)
+        {
+            iRand = RandXorNoExtraEntropy(2);
+            if (iRand == 0)
+                uArmor = CreateArtefact("ART_HELMET2A", iX, iY, iZ, 0);
+            else
+                uArmor = CreateArtefact("ART_HELMET3", iX, iY, iZ, 0);
+        }
+        else
+        {
+            iRand = RandXorNoExtraEntropy(3);
+            if (iRand == 0)
+                uArmor = CreateArtefact("ART_HELMET3A", iX, iY, iZ, 0);
+            else if (iRand == 1)
+                uArmor = CreateArtefact("ART_HELMET4", iX, iY, iZ, 0);
+            else
+                uArmor = CreateArtefact("ART_HELMET4A", iX, iY, iZ, 0);
+        }
+    }
+    
+    return uArmor;
+}
+
+function unitex CreateMagicItemReward(int iWaveNumber, int iMarker)
+{
+    int iX, iY, iZ;
+    int iRand, iTier;
+    unitex uMagicItem;
+
+    iX = GetPointX(iMarker);
+    iY = GetPointY(iMarker);
+    iZ = GetPointZ(iMarker);
+    iRand = RandXorNoExtraEntropy(9);
 
     if(iRand == 0)
-        CreateBowReward(iWaveNumber, iMarker);
+        uMagicItem = CreateArtefact("ART_AMULET_SHIELD1", iX, iY, iZ, 0);
     else if(iRand == 1)
-        CreateSwordReward(iWaveNumber, iMarker);
+        uMagicItem = CreateArtefact("ART_AMULET_SHIELD2", iX, iY, iZ, 0);
+    else if(iRand == 2)
+        uMagicItem = CreateArtefact("ART_AMULET_SHIELD3", iX, iY, iZ, 0);
+    else if(iRand == 3)
+        uMagicItem = CreateArtefact("ART_AMULET_MAXMAGIC1", iX, iY, iZ, 0);
+    else if(iRand == 4)
+        uMagicItem = CreateArtefact("ART_AMULET_MAXMAGIC2", iX, iY, iZ, 0);
+    else if(iRand == 5)
+        uMagicItem = CreateArtefact("ART_AMULET_MAXMAGIC3", iX, iY, iZ, 0);
+    else if(iRand == 6)
+        uMagicItem = CreateArtefact("ART_AMULET_REGMAGIC1", iX, iY, iZ, 0);
+    else if(iRand == 7)
+        uMagicItem = CreateArtefact("ART_AMULET_REGMAGIC2", iX, iY, iZ, 0);
     else
-        CreateSpearReward(iWaveNumber, iMarker);
+        uMagicItem = CreateArtefact("ART_AMULET_REGMAGIC3", iX, iY, iZ, 0);
+
+    return uMagicItem;
+}
+
+function unitex RewardEquipment(int iWaveNumber, int iMarker)
+{
+    int iRand;
+    unitex uEquipment;
+
+    iRand = RandXorNoExtraEntropy(5);
+
+    if(iWaveNumber >= 10)
+        iRand = RandXorNoExtraEntropy(6);
+
+    if(iRand == 0)
+        uEquipment = CreateBowReward(iWaveNumber, iMarker);
+    else if(iRand == 1)
+        uEquipment = CreateSwordReward(iWaveNumber, iMarker);
+    else if(iRand == 2)
+        uEquipment = CreateSpearReward(iWaveNumber, iMarker);
+    else if(iRand == 3)
+        uEquipment = CreateAxeReward(iWaveNumber, iMarker);
+    else if(iRand == 4)
+        uEquipment = CreateArmorReward(iWaveNumber, iMarker);
+    else // dopiero od 10 fali
+        uEquipment = CreateMagicItemReward(iWaveNumber, iMarker);
+
+    return uEquipment;
 }

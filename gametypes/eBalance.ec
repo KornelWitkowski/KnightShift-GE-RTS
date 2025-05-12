@@ -1,5 +1,6 @@
 mission "translateBalance"
 {
+    #include "Common\Consts.ech"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
@@ -45,7 +46,7 @@ mission "translateBalance"
                 rPlayer.SetMoney(100);        
             }
 
-            rPlayer.SetScriptData(0, 0);
+            rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
 
             RegisterGoal(0, "translateBalanceGoal");
             EnableGoal(0, true, true);

@@ -6,7 +6,7 @@ function unitex CreateTier1Unit(int iMarker)
 
     rPlayer = GetPlayer(13);
 
-    iRoll = RAND(6);
+    iRoll = RandXorNoExtraEntropy(6);
 
     if (iRoll == 0) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MERCHUNTER");
@@ -34,7 +34,7 @@ function unitex CreateTier2Unit(int iMarker)
 
     rPlayer = GetPlayer(13);
 
-    iRoll = RAND(7);
+    iRoll = RandXorNoExtraEntropy(7);
 
     if (iRoll == 0) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MINOTAUR");
@@ -64,7 +64,7 @@ function unitex CreateTier3Unit(int iMarker)
 
     rPlayer = GetPlayer(13);
 
-    iRoll = RAND(7);
+    iRoll = RandXorNoExtraEntropy(7);
 
     if (iRoll == 0) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MINOTAUR2");
@@ -94,7 +94,7 @@ function unitex CreateTier4Unit(int iMarker)
 
     rPlayer = GetPlayer(13);
 
-    iRoll = RAND(7);
+    iRoll = RandXorNoExtraEntropy(7);
 
     if (iRoll == 0) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NCZARODZIEJKA");
@@ -103,9 +103,11 @@ function unitex CreateTier4Unit(int iMarker)
     } else if (iRoll == 2) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NMAG");
     } else if (iRoll == 3) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "IGOR3");
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "IGOR2");
     } else if (iRoll == 4) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SPECIALCOW");
+        uUnit.CommandSetTalkMode(true, true, false);
+        uUnit.CommandStop();
     } else if (iRoll == 5) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RINGLEADER");
     } else if (iRoll == 6) {
@@ -124,7 +126,7 @@ function unitex CreateTier5Unit(int iMarker)
 
     rPlayer = GetPlayer(13);
 
-    iRoll = RAND(6);
+    iRoll = RandXorNoExtraEntropy(6);
 
     if (iRoll == 0) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "IGOR3");
@@ -138,6 +140,42 @@ function unitex CreateTier5Unit(int iMarker)
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "GIANTSPECIAL");
     } else if (iRoll == 5) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NRYCERZ");
+    }
+
+    return uUnit;
+}
+
+
+function unitex CreateTier6Unit(int iMarker)
+{
+    player rPlayer;
+    unitex uUnit;
+    int iRoll;
+
+    rPlayer = GetPlayer(13);
+
+    iRoll = RandXorNoExtraEntropy(5);
+
+    if (iRoll == 0) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MIESZKO");
+        uUnit.AddHP(1500);
+        uUnit.AddDamage(2, 55);
+    } else if (iRoll == 1) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "PRINCESS");
+        uUnit.AddHP(1500);
+        uUnit.AddDamage(2, 100);
+    } else if (iRoll == 2) {
+        uUnit = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
+            "HERO_EASY", "HELMET2B", "ARMOUR2B", "SHIELD2H", "SWORD6", null, null, null, null);
+        uUnit.AddHP(1500);
+        uUnit.AddDamage(2, 110);
+    } else if (iRoll == 3) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "DRAGON_RED");
+    } else if (iRoll == 4) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "KOSCIEJ");
+        uUnit.AddHP(1000);
+        uUnit.AddDamage(2, 70);
+        SetUnitNecromancer(iMarker);
     }
 
     return uUnit;
@@ -162,18 +200,23 @@ function void MarkAsPrisoner(unitex uPrisoner, int iMarker)
         for(j=-1; j <= 1; ++j)
         {
             if(i==0 && j==0) continue;
-            CreateArtefact("ARTIFACT_INVISIBLE", uPrisoner.GetLocationX()+i, uPrisoner.GetLocationY()+j,
-                            uPrisoner.GetLocationZ(), MASK_PRISONER|iMarker);
+            CreateArtefact(
+                "ARTIFACT_INVISIBLE",
+                uPrisoner.GetLocationX()+i,
+                uPrisoner.GetLocationY()+j,
+                uPrisoner.GetLocationZ(),
+                MASK_PRISONER|iMarker
+            );
         }
     }
 }
 
-function void RewardUnits(int iWaveNumber, int iMarker)
+function unitex RewardUnits(int iWaveNumber, int iMarker)
 {
     int iRoll;
     unitex uRewardUnit;
 
-    iRoll =  GaussianDistribution(40) + 2 * iWaveNumber;
+    iRoll =  GaussianDistributionNoExtraEntropy(20) + (3 * iWaveNumber / 2);
 
     // Reward unit based on thresholds
     if (iRoll < 20) {
@@ -184,12 +227,15 @@ function void RewardUnits(int iWaveNumber, int iMarker)
         uRewardUnit = CreateTier3Unit(iMarker);
     } else if (iRoll < 80) {
         uRewardUnit = CreateTier4Unit(iMarker);
-    } else {
+    } else if (iRoll < 100) {
         uRewardUnit = CreateTier5Unit(iMarker);
+    } else {
+        uRewardUnit = CreateTier6Unit(iMarker);
     }
 
     MarkAsPrisoner(uRewardUnit, iMarker);
+    uRewardUnit.CommandSetMovementMode(modeHoldPos);
     CreateObjectAtUnit(uRewardUnit, "CAST_TELEPORT");
 
-    return;
+    return uRewardUnit;
 }

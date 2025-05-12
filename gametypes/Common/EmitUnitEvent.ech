@@ -1,0 +1,4 @@
+function int IsUnitAttacking(unitex uUnit)
+{
+    return uUnit.SetCustomEvent(3, 0, 0, 0, 0, null);
+}
