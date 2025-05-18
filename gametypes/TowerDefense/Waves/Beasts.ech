@@ -82,6 +82,7 @@ function void SpawnWerewolves(int iWaveNumber, int iMarker)
     }
 
     CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    uUnit.EnableCapture(false);
     return;
 }
 
@@ -108,7 +109,10 @@ function void SpawnAmazone(int iWaveNumber, int iMarker)
         uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_AMAZONE");
     }
 
+    AddTinyAntiMieszkoDamage(uUnit);
+
     CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    uUnit.EnableCapture(false);
     return;
 }
 

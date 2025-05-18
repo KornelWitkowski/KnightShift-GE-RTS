@@ -97,13 +97,13 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
         for(i = 1; i < iWaveNumber; i = i + 1)
         {
             if(i < 10)
-                iSum = iSum + 8;
+                iSum = iSum + 7;
             else if(i < 20)
-                iSum = iSum + 6;
+                iSum = iSum + 5;
             else if(i < 30)
-                iSum = iSum + 4;
+                iSum = iSum + 2;
             else if(i < 40)
-                iSum = iSum + 3;
+                iSum = iSum + 1;
         }
         iSum = ModifyUnitNumber(iSum);
         return iSum;
@@ -134,13 +134,15 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
         for(i = 1; i < iWaveNumber; i = i + 1)
         {
             if(i < 10)
-                iSum = iSum + 7;
+                iSum = iSum + 6;
             else if(i < 20)
-                iSum = iSum + 5;
-            else if(i < 30)
                 iSum = iSum + 3;
+            else if(i < 30)
+                iSum = iSum + 2;
             else if(i < 40)
                 iSum = iSum + 1;
+            else if(i < 50)
+                iSum = iSum + i % 2;
         }
         iSum = ModifyUnitNumber(iSum);
         return iSum;
@@ -168,13 +170,15 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
         for(i = 1; i < iWaveNumber; i = i + 1)
         {
             if(i < 10)
-                iSum = iSum + 5;
-            else if(i < 20)
                 iSum = iSum + 4;
-            else if(i < 30)
+            else if(i < 20)
                 iSum = iSum + 3;
-            else if(i < 40)
+            else if(i < 30)
                 iSum = iSum + 2;
+            else if(i < 40)
+                iSum = iSum + 1;
+            else if(i < 50)
+                iSum = iSum + i % 2;
         }
         iSum = ModifyUnitNumber(iSum);
         return iSum;
@@ -269,26 +273,27 @@ function int SpawnUnit(int iWaveType, int iWaveNumber)
     // przypisujemy ścieżkę, którą będzie poruszać się jednostka
     i = RandXor(100);
     uUnit = GetUnitAtMarker(iMarker);
+    AddTinyAntiMieszkoDamage(uUnit);
 
     if(iWaveType < 6)
     {
         if(i < 25)
         {
-            uUnit.SetScriptData(FIRST_MARKER_TO_REACH_LEFT);
+            SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_LEFT);
             iX = uUnit.GetLocationX();
             iY = uUnit.GetLocationY();
             iZ = uUnit.GetLocationZ();
         }
         else if(i < 75)
         {
-            uUnit.SetScriptData(FIRST_MARKER_TO_REACH_CENTER);
+            SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER);
             iX = uUnit.GetLocationX();
             iY = uUnit.GetLocationY();
             iZ = uUnit.GetLocationZ();
         }
         else
         {
-            uUnit.SetScriptData(FIRST_MARKER_TO_REACH_RIGHT);
+            SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_RIGHT);
             iX = uUnit.GetLocationX();
             iY = uUnit.GetLocationY();
             iZ = uUnit.GetLocationZ();
@@ -298,7 +303,7 @@ function int SpawnUnit(int iWaveType, int iWaveNumber)
     }
     else
     {
-        uUnit.SetScriptData(FIRST_MARKER_TO_REACH_CENTER + 1);
+        SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER + 2);
         rPlayerHuman = GetRandomHumanPlayer();
         AttackClosestUnit(uUnit, rPlayerHuman, false);
     }

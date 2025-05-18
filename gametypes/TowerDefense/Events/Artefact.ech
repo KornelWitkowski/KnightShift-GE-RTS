@@ -96,17 +96,16 @@ function void MakePerunRage()
         rPlayer = GetPlayer(i);
         iNumberOfUnits = rPlayer.GetNumberOfUnits();
 
-        iRand = RandXor(1000);
-        if(iRand < 850)
-            continue;
-        
-
         for(j=0; j<iNumberOfUnits; j=j+1)
         {
             uUnit = rPlayer.GetUnit(j);
             if(uUnit.GetLocationZ() == 1)
                 continue;
 
+            iRand = RandXor(1000);
+            if(iRand < 850)
+                continue;
+        
             Lighting(uUnit.GetLocationX(), uUnit.GetLocationY(), 100);
         }
     }
@@ -250,7 +249,7 @@ event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefac
     {
         if(!bWaveActive)
         {
-            iBreakTimeStart = iBreakTimeStart + 5*MINUTE;
+            iBreakTimeStart = iBreakTimeStart + 10*MINUTE;
             CreateArtefactAtUnit("SWITCH_1_2", uUnitOnArtefact, 0);
             return true;
         }
@@ -267,5 +266,6 @@ event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefac
         return false;
     }
 
-    return MarkerFunctionsEventArtefact(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
+    i = MarkerFunctionsEventArtefact(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
+    return i;
 }

@@ -20,6 +20,8 @@
 #define MAIN_BOSS_QUEEN_MARKER 2 << 8
 #define MAIN_BOSS_NECROMANCER_MARKER 3 << 8
 #define MAIN_BOSS_DEMON_MARKER 4 << 8
+#define SORCERESS_MARKER 5 << 8
+#define MAGE_MARKER 6 << 8
 
 #define SKELETON_WAVE 0
 #define GIANT_WAVE 1
@@ -46,15 +48,14 @@
 #define FIRST_REWARD_MARKER 6
 #define LAST_REWARD_MARKER 10
 
+#define CUTSCENE_PRIEST_MARKER 11
+
 /*
     Pomysły: 
      - koniec fali dzień, fala noc SetTime(0); - noc SetTime(100) - dzień
 
     TODO:
-        - dopracować mapę i powiązać mapę z trybem
         - ai - wilkołaki się nie ruszają czasem
-        - ai pod bramą powinno atakować bramę
-        - mirko w smoczej zbroi jak reward
 
         ekstra:
         - statystyki na koniec gry
@@ -62,37 +63,9 @@
         - dodatkowe animacje bossów
         - imiona jednostek - dla pierwszych wygranych
 
-        cutscenka:
-
-        <zbliżenie na kapłana mirogosta>
-        Witaj! Nazywam się Mirogost. Znajdujemy się w ruinach starożytnej twierdzy Czerwień. 
-        
-        <powoli w strone portali>
-        Wezwałem Cię ponieważ państwu Polan grozi śmiertelne zagrożenie.
-
-        <Morowład wychodzi z portalu>
-        Plugawy nekromanta Morowład wykonał rytuał ___ i otworzył bramy przez które czarcie moce mogą dostać się do naszego świata.
-
-        <wychodzą królowe-czarodziejki z portalu>
-        Musimy stawić mu opór nim zbierze zbyt wielkie siły i cała nadzieja będzie stracona.
-
-        <zbliżenie na guziki>
-        W podziemiach twierdzy znajdują się starożytne mechanizmy, które mogą pomóc Ci w Twojej misji zapoznaj się z ich inskrypcjami.
-
-        <zbliżenie na miejsce na itemy>
-        Zbuduj osadę i przygotuj obronę, a ja udam się po pomoc - w miarę moich sił przysyłać do Ciebie jednostki i zaopatrzenie.
-
-        To nie będzie łatwa walka. Swarożyc z Tobą.
-        <teleportuje się>
-
-        <pojawiają się bonusy startowe na zbliżeniu>
-
-        <widok na wioskę i pojawiają się drwalowie i krowy>
-
-        <start>
-
 
         inne osoby:
+        - dopracować mapę i powiązać mapę z trybem
         - korekta językowa
         - czerwona i zielona krowa
         - item do expa
@@ -100,6 +73,9 @@
         - aury dla bossów
         - 5 tier
             - 2 niewidzialne itemy
+
+    Bugi:
+        - drobny lag przy prisonerach
 
     Inne tryby:
         - ai atakuje palisadki
@@ -112,6 +88,8 @@
 
 mission "translateTowerDefense"
 {
+
+
 
     consts
     {
@@ -129,7 +107,7 @@ mission "translateTowerDefense"
     #include "Common\Alliance.ech"
     #include "Common\StartingUnits.ech"
 
-    player rPlayer8, rPlayer9, rPlayer10, rPlayer11, rPlayer12, rPlayer14;
+    player rPlayer8, rPlayer9, rPlayer10, rPlayer11, rPlayer12, rPlayer13, rPlayer14;
     int bIsWin;
     int bIsBossWave, bIsFinalWave;
     int iBossWaveType;
@@ -164,7 +142,7 @@ mission "translateTowerDefense"
     #include "TowerDefense\Control.ech"
     #include "TowerDefense\DisplayText.ech"
     #include "TowerDefense\Events.ech"
-    
+
 
     enum comboDifficulty
     {    
@@ -197,6 +175,7 @@ mission "translateTowerDefense"
         rPlayer10 = GetPlayer(10);
         rPlayer11 = GetPlayer(11);
         rPlayer12 = GetPlayer(12);
+        rPlayer13 = GetPlayer(13);
 
         SetAlly(rPlayer8, rPlayer9);
         SetAlly(rPlayer8, rPlayer10);
@@ -330,6 +309,7 @@ mission "translateTowerDefense"
         {
             uUnit = GetUnitAtMarker(BOSS_MARKER+i);
             uUnit.CommandSetMovementMode(modeHoldPos);
+            AddBigAntiMieszkoDamage(uUnit);
             SetUnitImmortal(BOSS_MARKER+i);
             SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER);
         }
@@ -337,14 +317,24 @@ mission "translateTowerDefense"
 
     }
 
+
+
     state Initialize
     {
         player rPlayer;
         int i, j;
+        unitex uUnit;
+
+        int iXTranslateFront;
+        int iYTranslateFront;
+        int iXTranslateRight;
+        int iYTranslateRight;
+
+        int iAlpha;
         
         iExtraHut = 0;
 
-        iCurrentWaveNumber = 21;
+        iCurrentWaveNumber = 1;
         bWaveActive = false;
         bIsFinalWave = false;
 
@@ -386,8 +376,50 @@ mission "translateTowerDefense"
                 CheckMilkPool(8);
                 rPlayer.SetMoney(100);
                 rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
+                ShowAreaAtMarker(rPlayer.GetIFF(), i, 20);
                 rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
                 SetGoal(rPlayer);
+                
+
+                iAlpha = GetPointAlpha(i);
+                iXTranslateFront = GetXInFront(iAlpha);
+                iYTranslateFront = GetYInFront(iAlpha);
+                iXTranslateRight = GetXToRight(iAlpha);
+                iYTranslateRight = GetYToRight(iAlpha);
+
+                uUnit = rPlayer.CreateUnit(
+                    GetPointX(i) + 7 * iXTranslateFront, 
+                    GetPointY(i) + 7 * iYTranslateFront, 
+                    GetPointZ(i), 
+                    GetPointAlpha(i), 
+                    "WOODCUTTER"
+                );
+                CreateObjectAtUnit(uUnit, "HIT_TELEPORT");
+                uUnit = rPlayer.CreateUnit(
+                    GetPointX(i) + 7 * iXTranslateFront + 1 * iXTranslateRight, 
+                    GetPointY(i) + 7 * iYTranslateFront + 1 * iYTranslateRight, 
+                    GetPointZ(i), 
+                    GetPointAlpha(i), 
+                    "WOODCUTTER"
+                );
+                CreateObjectAtUnit(uUnit, "HIT_TELEPORT");
+                uUnit = rPlayer.CreateUnit(
+                    GetPointX(i) + 6 * iXTranslateFront, 
+                    GetPointY(i) + 6 * iYTranslateFront, 
+                    GetPointZ(i), 
+                    GetPointAlpha(i), 
+                    "COW"
+                );
+                CreateObjectAtUnit(uUnit, "HIT_TELEPORT");
+                uUnit = rPlayer.CreateUnit(
+                    GetPointX(i) + 6 * iXTranslateFront + 1 * iXTranslateRight, 
+                    GetPointY(i) + 6 * iYTranslateFront + 1 * iYTranslateRight, 
+                    GetPointZ(i), 
+                    GetPointAlpha(i), 
+                    "COW"
+                );
+                CreateObjectAtUnit(uUnit, "HIT_TELEPORT");
+
             }
         }
 
@@ -396,17 +428,6 @@ mission "translateTowerDefense"
         AddWorldMapSign(GetPointX(CONTROL_BUTTONS_MARKER), GetPointY(CONTROL_BUTTONS_MARKER), 0, 2, 1200);
         CreateStarters();
 
-        if(iExtraHut == 1)
-        {
-            for(i=0; i<3; i=i+1)
-            {
-                rPlayer = GetPlayer(i);
-                if(rPlayer!=null) 
-                {
-                    rPlayer.CreateBuilding(GetPointX(i), GetPointY(i), 0, GetPointAlpha(i), "HUT");
-                }
-            }
-        }
 
         UpdatedPlayersAfterWave();
 

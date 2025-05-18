@@ -32,6 +32,7 @@ function unitex SpawnBoss(int iBossWaveType, int iWaveNumber, int iMarker)
     uSmoke = CreateObjectAtUnit(uUnit, "FIRE_FIREPLACE");
     uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
 
+    AddBigAntiMieszkoDamage(uUnit);
     return uUnit;
 }
 

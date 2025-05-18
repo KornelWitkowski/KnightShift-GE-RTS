@@ -16,9 +16,9 @@ function unitex RewardExperience(int iWaveNumber, int iMarker)
 
     i = RandXorNoExtraEntropy(100);
     if(i < 8)
-        uItem = CreateResistanceArtefact(iMarker, 0);
+        uItem = CreateResistanceArtefact(iMarker, FIRST_REWARD_MARKER);
     else
-        uItem = CreateExperienceArtefact(iMarker, 0, iType);
+        uItem = CreateExperienceArtefact(iMarker, FIRST_REWARD_MARKER, iType);
 
     return uItem;
 }

@@ -66,6 +66,9 @@ function void RemoveMirkoItems(int iX, int iY, int iZ)
         {
             RemoveArtefact(iX + i, iY + j, iZ, "ART_SWORD6");
             RemoveArtefact(iX + i, iY + j, iZ, "ART_HELMET2B");
+            RemoveArtefact(iX + i, iY + j, iZ, "ART_ARMOUR5");
+            RemoveArtefact(iX + i, iY + j, iZ, "ART_SHIELD5");
+            RemoveArtefact(iX + i, iY + j, iZ, "ART_HELMET5");
         }
     }
     
@@ -95,10 +98,11 @@ event UnitDestroyed(unitex uUnitKilled)
 
     if( iMaskedScriptData == MAIN_BOSS_DEMON_MARKER)
     {
-        SetStateDelay(200);
+        SetStateDelay(400);
         KillRemainingEnemyUnits();
         SetGoalState(0, goalAchieved, 1);
         bIsWin = true;
+        bWaveActive = false;
         state Victory;
     }
     else if(iMaskedScriptData == MAIN_BOSS_NECROMANCER_MARKER)

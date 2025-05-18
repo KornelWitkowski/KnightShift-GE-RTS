@@ -113,6 +113,8 @@ function void SpawnBandit(int nWaveNumber, int iMarker)
         {
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_DARKPRIEST3");
         }
+
+        AddTinyAntiMieszkoDamage(uUnit);
     }
     else
     {
@@ -122,6 +124,7 @@ function void SpawnBandit(int nWaveNumber, int iMarker)
         if (iSubRoll < 50)
         {
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIEST");
+            SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, MAGE_MARKER);
         }
         else if (iSubRoll < 75)
         {
@@ -131,6 +134,8 @@ function void SpawnBandit(int nWaveNumber, int iMarker)
         {
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_DARKSORCERER3");
         }
+
+        AddTinyAntiMieszkoDamage(uUnit);
     }
 
     CreateObjectAtUnit(uUnit, "CAST_TELEPORT");

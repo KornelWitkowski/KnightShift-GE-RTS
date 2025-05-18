@@ -142,6 +142,7 @@ function void SpawnSkeletonNecromancer(int nWaveNumber, int iMarker)
     }
 
     SetUnitNecromancer(iMarker);
+    AddTinyAntiMieszkoDamage(uUnit);
     CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
     return;
 }

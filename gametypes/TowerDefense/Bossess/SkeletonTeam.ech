@@ -22,7 +22,7 @@ function unitex SpawnSpecialSkeleton(int nWaveNumber, int iMarker)
     if(nWaveNumber <= 10)
     {
         uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON7M");
-        uUnitBoss.AddHP(1000);
+        uUnitBoss.AddHP(3000);
         HandleExtraEffect(uUnitBoss);
 
         uUnit = rPlayerEnemy.CreateUnit(iX, iY-1, iZ, iAngle, "RPG_SKELETONT3");
@@ -46,7 +46,7 @@ function unitex SpawnSpecialSkeleton(int nWaveNumber, int iMarker)
     else if(nWaveNumber <= 20)
     {
         uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON7M");
-        uUnitBoss.AddHP(2000);
+        uUnitBoss.AddHP(5000);
         HandleExtraEffect(uUnitBoss);
 
         uUnit = rPlayerEnemy.CreateUnit(iX, iY-1, iZ, iAngle, "RPG_SKELETONT3");
@@ -70,7 +70,7 @@ function unitex SpawnSpecialSkeleton(int nWaveNumber, int iMarker)
     else if(nWaveNumber <= 30)
     {
         uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON8M");
-        uUnitBoss.AddHP(3000);
+        uUnitBoss.AddHP(7000);
         HandleExtraEffect(uUnitBoss);
 
         uUnit = rPlayerEnemy.CreateUnit(iX, iY-1, iZ, iAngle, "RPG_SKELETONT4");
@@ -94,7 +94,7 @@ function unitex SpawnSpecialSkeleton(int nWaveNumber, int iMarker)
     else if(nWaveNumber <= 40)
     {
         uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON8M");
-        uUnitBoss.AddHP(4000);
+        uUnitBoss.AddHP(10000);
         HandleExtraEffect(uUnitBoss);
 
         uUnit = rPlayerEnemy.CreateUnit(iX, iY-1, iZ, iAngle, "RPG_SKELETONT4");

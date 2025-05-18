@@ -65,5 +65,6 @@ function void SpawnMinotaur(int iWaveNumber, int iMarker)
     }
 
     CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    uUnit.EnableCapture(false);
     return;
 }

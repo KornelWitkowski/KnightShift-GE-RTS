@@ -5,6 +5,8 @@ int iRewardSeed;
 #include "Rewards\Supplements.ech"
 #include "Rewards\Equipment.ech"
 #include "Rewards\Experience.ech"
+#include "Rewards\ResearchPrisoners.ech"
+
 
 function void InitRewards()
 {
@@ -29,6 +31,14 @@ function void CleanupRewards()
         uUnit = uRewards[k];
 
         RemoveArtefact(GetPointX(i), GetPointY(i), GetPointZ(i));
+        RemoveArtefact(GetPointX(i), GetPointY(i)+1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i), GetPointY(i)-1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)+1, GetPointY(i), GetPointZ(i));
+        RemoveArtefact(GetPointX(i)+1, GetPointY(i)+1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)+1, GetPointY(i)-1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)-1, GetPointY(i), GetPointZ(i));
+        RemoveArtefact(GetPointX(i)-1, GetPointY(i)+1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)-1, GetPointY(i)-1, GetPointZ(i));
         
         if(uUnit == null)
             continue;
@@ -77,21 +87,32 @@ function void GiveMilkReward()
 }
 
 
+function void UpdatePrisonerPlayerResearch(int iWaveNumber)
+{
+    AddResearchAfterWave(rPlayer13, iWaveNumber-1);
+}
+
 function void GiveRewards(int iWaveNumber)
 {
     int i, j, k;
     unitex uReward;
 
+    UpdatePrisonerPlayerResearch(iWaveNumber);
     CleanupRewards();
-
     GiveMilkReward();
 
     // Ustawiamy seed na początku losowania aby uniknąć exploita z wczytywaniem
     InitXorShiftRNGNoExtraEntropy(iRewardSeed);
 
+    i = RandXorNoExtraEntropy(5);
+    j = RandXorNoExtraEntropy(5);
+    k = RandXorNoExtraEntropy(5);
+
+    CreateObjectAtMarker(FIRST_REWARD_MARKER, "PENTAGRAM_BIG");
+
     for(i=FIRST_REWARD_MARKER; i<=LAST_REWARD_MARKER; ++i)
     {
-        j = RandXor(5);
+        j = RandXorNoExtraEntropy(5);
 
         if(j==0)
         {

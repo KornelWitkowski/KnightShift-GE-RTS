@@ -1,22 +1,24 @@
 function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefact)
 {
-    int i, j, n;
+    int i, j, n, iMaskedArtefact;
     int iArmour1, iArmour2;
     int iMarker;
     unitex uUnit, uSmoke;
     player rPlayer;
 
-    if((iArtefactNum & ~MASK0) == MASK_OPEN_GATE)
+    iMaskedArtefact = iArtefactNum & ~MASK0;
+
+    if(iMaskedArtefact == MASK_OPEN_GATE)
     {
         iMarker = iArtefactNum & ~MASK_OPEN_GATE;
         OPEN_GATE(iMarker);
     }
-    else if((iArtefactNum & ~MASK0) == MASK_CLOSE_GATE)
+    else if(iMaskedArtefact == MASK_CLOSE_GATE)
     {
         iMarker = iArtefactNum & ~MASK_CLOSE_GATE;
         CLOSE_GATE(iMarker);
     }
-    else if((iArtefactNum & ~MASK0) == MASK_FAST_TELEPORT)
+    else if(iMaskedArtefact == MASK_FAST_TELEPORT)
     {
         iMarker = iArtefactNum & ~MASK_FAST_TELEPORT;
         CreateObjectAtUnit(uUnitOnArtefact, "CAST_TELEPORT");
@@ -29,7 +31,7 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         );
         CreateObjectAtUnit(uUnitOnArtefact, "CAST_TELEPORT");
     }
-    else if((iArtefactNum & ~MASK0) == MASK_CAVE_FALL)
+    else if(iMaskedArtefact == MASK_CAVE_FALL)
     {
         iMarker = iArtefactNum & ~MASK_CAVE_FALL;
 
@@ -57,14 +59,14 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         }
 
     }
-    else if((iArtefactNum & ~MASK0) == MASK_TRAP_LIGHTING)
+    else if(iMaskedArtefact == MASK_TRAP_LIGHTING)
     {
         iMarker = iArtefactNum & ~MASK_TRAP_LIGHTING;
         if(uUnitOnArtefact.GetIFFNumber() != 13)
             Lighting(GetPointX(iMarker), GetPointY(iMarker), 5);
 
     }
-    else if((iArtefactNum & ~MASK0) == MASK_TRAP_ON_STEP_GHOST)
+    else if(iMaskedArtefact == MASK_TRAP_ON_STEP_GHOST)
     {
         iMarker = iArtefactNum & ~MASK_TRAP_ON_STEP_GHOST;
         if(uUnitOnArtefact.GetIFFNumber() == 14)
@@ -80,7 +82,7 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         CreateObjectAtUnit(uUnit, "CAST_WOLF");
         return true;
     }
-    else if((iArtefactNum & ~MASK0) == MASK_TRAP_ON_STEP_MINOTAUR)
+    else if(iMaskedArtefact == MASK_TRAP_ON_STEP_MINOTAUR)
     {
         iMarker = iArtefactNum & ~MASK_TRAP_ON_STEP_MINOTAUR;
         if(uUnitOnArtefact.GetIFFNumber() == 14)
@@ -96,7 +98,7 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         CreateObjectAtUnit(uUnit, "CAST_WOLF");
         return true;
     }
-    else if((iArtefactNum & ~MASK0) == MASK_TRAP_CAPTURE_FIELD)
+    else if(iMaskedArtefact == MASK_TRAP_CAPTURE_FIELD)
     {
         iMarker = iArtefactNum & ~MASK_TRAP_CAPTURE_FIELD;
         if(uUnitOnArtefact.GetIFFNumber() == 14)
@@ -107,7 +109,7 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         CreateObjectAtUnit(uUnitOnArtefact, "CAST_CAPTURE");
         return true;
     }
-    else if((iArtefactNum & ~MASK0) == MASK_PRISONER)
+    else if(iMaskedArtefact == MASK_PRISONER)
     {
         iMarker = iArtefactNum & ~MASK_PRISONER;
 
@@ -125,7 +127,7 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
             return false;
         }
 
-        j = iMarker-iMarkerFirstPrisoners;
+        j = iMarker - iMarkerFirstPrisoners;
 
         if(j < 0) j = iMarker; // Operacja jest wykonywana dla unitów w trybie Tower Defense, które są oznaczone niższymi markerami
 
@@ -142,7 +144,7 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
 
         return true;
     }
-    else if((iArtefactNum & ~MASK0) == MASK_EXP_LVL_FIELD)
+    else if(iMaskedArtefact == MASK_EXP_LVL_FIELD)
     {
         /* 
             Poniższy kod jest bardzo trudny do zrozumienia bez znajomości operacji na bitach. 
@@ -181,7 +183,7 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         CreateObjectAtUnit(uUnitOnArtefact, "EXP_EXPERIENCE1");
         uUnitOnArtefact.SetExperienceLevel(i + 1);
     }
-    else if((iArtefactNum & ~MASK0) == MASK_CONV_RESISTANCE)
+    else if(iMaskedArtefact == MASK_CONV_RESISTANCE)
     {
         /*
           Dodajemy odporność na zamianę w krowę i przejęcie jednostkom odwiedzającym pole
@@ -228,34 +230,34 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         uUnitOnArtefact.EnableConversionByMagic(false);
         uUnitOnArtefact.EnableConversionByPlace(false);
     }
-    else if ((iArtefactNum & ~MASK0) == MASK_TRAP_REMOVE_UNIT)
+    else if (iMaskedArtefact == MASK_TRAP_REMOVE_UNIT)
     {
         PlayWave("Special\\Wilhelm.wav");
         uUnitOnArtefact.RemoveUnit();    
     }
-    else if ((iArtefactNum & ~MASK0) == MASK_EXPERIENCE)
+    else if (iMaskedArtefact == MASK_EXPERIENCE)
     {
         iMarker = iArtefactNum & ~MASK_EXPERIENCE;
 
-        #ifdef TOWER_DEFENSE
-            GrantExperience(uUnitOnArtefact, iMarker, 0);
+        #ifdef FIRST_REWARD_MARKER
+            GrantExperience(uUnitOnArtefact, iMarker, FIRST_REWARD_MARKER);
         #else
             GrantExperience(uUnitOnArtefact, iMarker, MARKER_FIRST_EXPERIENCE);
         #endif
 
         return true; 
     }
-    else if ((iArtefactNum & ~MASK0) == MASK_RESISTANCE_ITEM)
+    else if (iMaskedArtefact == MASK_RESISTANCE_ITEM)
     {
         iMarker = iArtefactNum & ~MASK_RESISTANCE_ITEM;
-        #ifdef TOWER_DEFENSE
-            GrantResistance(uUnitOnArtefact, iMarker, 0);
+        #ifdef FIRST_REWARD_MARKER 
+            GrantResistance(uUnitOnArtefact, iMarker, FIRST_REWARD_MARKER);
         #else
             GrantResistance(uUnitOnArtefact, iMarker, MARKER_FIRST_RESISTANCE);
         #endif
         return true;
     }
-    else if ((iArtefactNum & ~MASK0) == MASK_STEP_ON_TO_WIN)
+    else if (iMaskedArtefact == MASK_STEP_ON_TO_WIN)
     {
 
         RemoveWorldMapSign(

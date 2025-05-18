@@ -84,8 +84,6 @@ function void HandleBossWaveProgress()
     int bIsTimeToBreak;
     int iEnemyBossUnitNumber;
 
-    SetConsoleText("current hp: <%0>, max hp: <%1>", uBoss.GetHP(), uBoss.GetMaxHP());
-
     iEnemyBossUnitNumber = GetBossUnitNumber();
     rPlayerHuman = GetRandomHumanPlayer();
     SpawnBossMinionUnit(iBossWaveType, iCurrentWaveNumber, rPlayerHuman);
@@ -277,12 +275,6 @@ event Timer1()
 event Timer2()
 {
     int iBossUnitNumber;
-
-    if(bIsWin)
-    {
-        DisplayFinalWaveInProgress();
-        return;
-    }
 
     if(bWaveActive && (iNumberOfUnitsToSpawn > 0 || iNumberOfBombersToSpawn > 0))
     {

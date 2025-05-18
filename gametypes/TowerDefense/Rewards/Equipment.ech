@@ -482,20 +482,20 @@ function unitex RewardEquipment(int iWaveNumber, int iMarker)
     int iRand;
     unitex uEquipment;
 
-    iRand = RandXorNoExtraEntropy(5);
+    iRand = RandXorNoExtraEntropy(50);
 
     if(iWaveNumber >= 10)
-        iRand = RandXorNoExtraEntropy(6);
+        iRand = RandXorNoExtraEntropy(54);
 
-    if(iRand == 0)
+    if(iRand < 10)
         uEquipment = CreateBowReward(iWaveNumber, iMarker);
-    else if(iRand == 1)
+    else if(iRand < 20)
         uEquipment = CreateSwordReward(iWaveNumber, iMarker);
-    else if(iRand == 2)
+    else if(iRand < 30)
         uEquipment = CreateSpearReward(iWaveNumber, iMarker);
-    else if(iRand == 3)
+    else if(iRand < 40)
         uEquipment = CreateAxeReward(iWaveNumber, iMarker);
-    else if(iRand == 4)
+    else if(iRand < 50)
         uEquipment = CreateArmorReward(iWaveNumber, iMarker);
     else // dopiero od 10 fali
         uEquipment = CreateMagicItemReward(iWaveNumber, iMarker);

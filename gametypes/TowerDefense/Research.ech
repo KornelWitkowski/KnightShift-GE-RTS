@@ -1,3 +1,5 @@
+
+
 function void UpdateArmourResearch(player rPlayer, int iTier)
 {
     if(iTier == 0)
@@ -665,26 +667,26 @@ function void UpdateResearchAfterWave(player rPlayer, int nWaveNumber)
     else if(nWaveNumber == 17)
     {
         UpdateResearch(rPlayer, 3, 3, 2, 2, 1, 1, 1);
-        UpdateShrineResearch(rPlayer, 2);
-        UpdateTempleResearch(rPlayer, 1);
+        UpdateShrineResearch(rPlayer, 1);
+        UpdateTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 18)
     {
         UpdateResearch(rPlayer, 3, 3, 2, 2, 2, 1, 1);
-        UpdateShrineResearch(rPlayer, 2);
-        UpdateTempleResearch(rPlayer, 1);
+        UpdateShrineResearch(rPlayer, 1);
+        UpdateTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 19)
     {
         UpdateResearch(rPlayer, 3, 3, 2, 2, 2, 1, 2);
-        UpdateShrineResearch(rPlayer, 2);
-        UpdateTempleResearch(rPlayer, 1);
+        UpdateShrineResearch(rPlayer, 1);
+        UpdateTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 20)
     {
         UpdateResearch(rPlayer, 3, 3, 2, 2, 2, 2, 2);
-        UpdateShrineResearch(rPlayer, 2);
-        UpdateTempleResearch(rPlayer, 1);
+        UpdateShrineResearch(rPlayer, 1);
+        UpdateTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 21)
     {

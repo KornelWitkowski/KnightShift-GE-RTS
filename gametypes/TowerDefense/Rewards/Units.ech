@@ -166,9 +166,7 @@ function unitex CreateTier6Unit(int iMarker)
         uUnit.AddDamage(2, 100);
     } else if (iRoll == 2) {
         uUnit = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
-            "HERO_EASY", "HELMET2B", "ARMOUR2B", "SHIELD2H", "SWORD6", null, null, null, null);
-        uUnit.AddHP(1500);
-        uUnit.AddDamage(2, 110);
+            "HERO_EASY", "HELMET5", "ARMOUR5", "SHIELD5", "SWORD6", null, null, null, null);
     } else if (iRoll == 3) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "DRAGON_RED");
     } else if (iRoll == 4) {

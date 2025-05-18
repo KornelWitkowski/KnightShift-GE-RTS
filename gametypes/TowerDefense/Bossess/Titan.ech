@@ -7,17 +7,16 @@ function unitex SpawnTitanBoss(int nWaveNumber, int iMarker)
     if(nWaveNumber <= 10)
     {
         uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "RTS_ATLAS_1");
-        uUnit.AddHP(-3500);
+        uUnit.AddHP(-2000);
     }
     else if(nWaveNumber <= 20)
     {
-        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "RTS_ATLAS_2");
-        uUnit.AddHP(-2000);
+        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "RTS_ATLAS_1");
+        uUnit.AddHP(-1000);
     }
     else if(nWaveNumber <= 30)
     {
-        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "RTS_ATLAS_3");
-        uUnit.AddHP(-500);
+        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "RTS_ATLAS_1");
     }
     else
     {

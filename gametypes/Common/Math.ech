@@ -64,9 +64,7 @@ function void InitXorShiftRNG(int iSeed)
 
 function void InitXorShiftRNGNoExtraEntropy(int iSeed)
 {
-    int iTemp;
-    iTemp = Rand(10000) + 1;
-    iXorStateNoExtraEntropy = BitwiseXor(iTemp, iSeed);
+    iXorStateNoExtraEntropy = BitwiseXor(54321, iSeed);
     if (iXorStateNoExtraEntropy == 0) iXorStateNoExtraEntropy = 12345;
 }
 
@@ -117,15 +115,15 @@ function int RandXorNoExtraEntropy(int iMax)
     }
     
     
-    iTemp = iXorState << 13;
-    iXorState = BitwiseXor(iXorState, iTemp);
-    iTemp = iXorState >> 17;
-    iXorState = BitwiseXor(iXorState, iTemp);
-    iTemp = iXorState << 5;
-    iXorState = BitwiseXor(iXorState, iTemp);
+    iTemp = iXorStateNoExtraEntropy << 13;
+    iXorStateNoExtraEntropy = BitwiseXor(iXorStateNoExtraEntropy, iTemp);
+    iTemp = iXorStateNoExtraEntropy >> 17;
+    iXorStateNoExtraEntropy = BitwiseXor(iXorStateNoExtraEntropy, iTemp);
+    iTemp = iXorStateNoExtraEntropy << 5;
+    iXorStateNoExtraEntropy = BitwiseXor(iXorStateNoExtraEntropy, iTemp);
     
-    if (iXorState < 0) iXorState = -iXorState;
-    return iXorState % iMax;
+    if (iXorStateNoExtraEntropy < 0) iXorStateNoExtraEntropy = -iXorStateNoExtraEntropy;
+    return iXorStateNoExtraEntropy % iMax;
 }
 
 function int GaussianDistribution(int iStd)

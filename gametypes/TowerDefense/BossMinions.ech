@@ -73,6 +73,7 @@ function void SpawnTitanBossMinions(int iMarker, player rPlayerEnemy)
     else if(iRoll == 2)
     {
         uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIESTESS");
+        AddTinyAntiMieszkoDamage(uUnit);
     }
     else if(iRoll == 3)
     {
@@ -198,9 +199,8 @@ function int SpawnBossMinionUnit(int iBossWaveType, int iWaveNumber, player rPla
 
 
     uUnit = GetUnitAtMarker(iMarker);
-    SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER+1);
+    SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER+2);
     CreateObjectAtUnit(uUnit, "HIT_TELEPORT");
-
     AttackClosestUnit(uUnit, rPlayerHuman, false);
 
     return 1;

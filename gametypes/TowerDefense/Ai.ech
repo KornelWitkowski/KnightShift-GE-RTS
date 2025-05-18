@@ -317,6 +317,7 @@ function int UseMagic(unitex uUnit, player rPlayerDefender)
 {
     int i, j;
     int iX, iY;
+    int iScriptData;
     int iMinDistance, iDistance;
     int iRandNum;
 
@@ -324,9 +325,10 @@ function int UseMagic(unitex uUnit, player rPlayerDefender)
     int bBombardBase;
     unitex uUnitDefender, uDefenderClosestTower, uDefenderClosest;
 
+    iScriptData = GetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK);
     iNumberOfDefenderUnits = rPlayerDefender.GetNumberOfUnits();
 
-    if(uUnit.GetMaxMagic() < 200 || uUnit.IsFlyable())
+    if(iScriptData != SORCERESS_MARKER && iScriptData != MAGE_MARKER)
         return false;
 
     // Deszcz ognia
@@ -558,7 +560,7 @@ function int AttackBuilding(unitex uUnit, int bIncludePassive)
 function void AttackPlayer(player rPlayerEnemy, player rPlayerDefender)
 {
     int i, iX, iY, iZ;
-    int iNumberOfUnits, iDistance;
+    int iNumberOfUnits, iDistance, iDistanceTower;
     int bStartAttackBuilding;
     int bExecutingAnyCommand, bIsShooter;
     int bAttackBuilding;
@@ -608,6 +610,15 @@ function void AttackPlayer(player rPlayerEnemy, player rPlayerDefender)
 
         // jeśli przeciwnik jest bardzo blisko opieramy się na standardowych skryptach unitów
         // jeśli stoi bezpośrednio pod palisadą bezruchu to ją atakujemy
+        if(iDistance < 20)
+        {   if(RandXor(2) != 0)
+            {
+                bMagicUsed = UseMagic(uUnit, rPlayerDefender);
+                if(bMagicUsed)
+                    continue;
+            }
+        }
+       
         if(iDistance < 8)
         {
             AttackBuilding(uUnit, false);
@@ -622,24 +633,20 @@ function void AttackPlayer(player rPlayerEnemy, player rPlayerDefender)
 
         bIsShooter = IsShooter(uUnit);
 
-
-        if(iDistance < 20)
-        {
-            if(RAND(2)==0)
-            {
-                bMagicUsed = UseMagic(uUnit, rPlayerDefender);
-                if(bMagicUsed)
-                    continue;
-            }
-        }
-
         if(bIsShooter)
         {
+            iDistanceTower = FindDistanceToClosestUnit(uUnit, rPlayerDefender, true);   
+            
+
             if(iDistance < 23)
             {
-                bIsAttacking = AttackClosestUnit(uUnit, rPlayerDefender, true);
-                if (bIsAttacking)
-                    continue;
+                if (iDistanceTower - iDistance < 8)
+                {
+                    bIsAttacking = AttackClosestUnit(uUnit, rPlayerDefender, true);
+                    if (bIsAttacking)
+                        continue;
+                }
+
                 bIsAttacking = AttackClosestUnit(uUnit, rPlayerDefender, false);
                 if (bIsAttacking)
                     continue;

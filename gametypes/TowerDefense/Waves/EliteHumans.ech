@@ -36,11 +36,21 @@ function void SpawnEliteHuman(int nWaveNumber, int iMarker)
         roll = RandXor(100);
         
         if(roll < 40)
+        {
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIESTESS");
+            SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, SORCERESS_MARKER);
+        }
         else if(roll < 80)
+        {
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SORCERER");
+            SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, MAGE_MARKER);
+        }
         else
+        {
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "WITCH");
+        }
+
+        AddTinyAntiMieszkoDamage(uUnit);
     }
 
     uUnit.SetExperienceLevel(iExperienceLevel);

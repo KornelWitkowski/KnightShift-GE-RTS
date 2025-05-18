@@ -20,7 +20,6 @@ function void SetWaveType()
         iWaveType = RandXor(9);
     else // smoki później
         iWaveType = RandXor(10);
-    iWaveType = 9;
 }
 
 function int GetBreakLength(int iWaveNumber)
@@ -93,7 +92,12 @@ function int IsTimeToNextWave()
 
     iBreakLength = GetBreakLength(iCurrentWaveNumber);
 
-    if(iWaveType < 6)
+    if(iCurrentWaveNumber % 10 == 0)
+    {
+        if ((iCurrentTime - iBreakTimeStart) > (iBreakLength + 20 * SECOND))
+            return true;
+    }
+    else if(iWaveType < 6)
     {
         if ((iCurrentTime - iBreakTimeStart) > iBreakLength)
             return true;
@@ -139,7 +143,13 @@ function void EndCurrentWave()
 
 function int GetEnemyUnitNumber()
 {
-    return rPlayer12.GetNumberOfUnits() + rPlayer11.GetNumberOfUnits() + rPlayer10.GetNumberOfUnits();
+    int iTotal;
+
+    iTotal = rPlayer12.GetNumberOfUnits() - rPlayer12.GetNumberOfUnits("COW");
+    iTotal = iTotal + rPlayer11.GetNumberOfUnits() - rPlayer11.GetNumberOfUnits("COW");
+    iTotal = iTotal + rPlayer9.GetNumberOfUnits() - rPlayer9.GetNumberOfUnits("COW");
+
+    return iTotal;
 }
 
 function int GetBossUnitNumber()

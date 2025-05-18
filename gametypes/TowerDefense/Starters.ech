@@ -21,6 +21,7 @@ function void CreateStarters()
     player rPlayer, rPlayerHuman;
     unitex uUnit1, uUnit2, uUnit3, uUnit4;
     int i;
+    int iX, iY, iAlpha;
 
     rPlayer = GetPlayer(13);
 
@@ -35,7 +36,7 @@ function void CreateStarters()
     else if(comboStarter == 1)
     {
         uUnit1 = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
-            "MIESZKO_EASY", "HELMET4", "ARMOUR3", "SHIELD3", "SWORD3", null, null, null, null);
+            "MIESZKO_EASY", "HELMET3", "ARMOUR3", "SHIELD3", "SWORD3", null, null, null, null);
         CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
     }
     else if(comboStarter == 2)
@@ -43,7 +44,6 @@ function void CreateStarters()
         uUnit1 = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
             "GIANTSPECIAL");
         CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
-        uUnit1.AddHP(-1000);
     }
     else if(comboStarter == 3)
     {
@@ -118,11 +118,11 @@ function void CreateStarters()
     else if(comboStarter == 7)
     {
         CreateObjectAtMarker(MILK_MARKER, "ART_MILK_GE_400");    
-        CreateExperienceArtefact(iMarker, 0, 2);
+        CreateExperienceArtefact(iMarker, FIRST_REWARD_MARKER, 2);
         CreateArtefact("ART_ADD_DAMAGE_GE_060", GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), GetPointAlpha(iMarker+1));
         CreateArtefact("ART_ADD_DAMAGE_GE_060", GetPointX(iMarker+2), GetPointY(iMarker+2), GetPointZ(iMarker+2), GetPointAlpha(iMarker+2));
         CreateArtefact("ART_ADD_HP_GE_800", GetPointX(iMarker+3), GetPointY(iMarker+3), GetPointZ(iMarker+3), GetPointAlpha(iMarker+3));
-        CreateResistanceArtefact(iMarker+4, 0);
+        CreateResistanceArtefact(iMarker+4, FIRST_REWARD_MARKER);
 
         CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
         CreateObjectAtMarker(iMarker+1, "HIT_TELEPORT");
@@ -138,9 +138,15 @@ function void CreateStarters()
             rPlayer = GetPlayer(i);
             if(rPlayer!=null) 
             {
+                iAlpha = GetPointAlpha(i);
                 rPlayer.CreateBuilding(GetPointX(i), GetPointY(i), 0, GetPointAlpha(i), "HUT");
+
+                iX = GetPointX(i) +  GetXInFront(iAlpha) + GetXToRight(iAlpha);
+                iY = GetPointY(i) +  GetYInFront(iAlpha) + GetYToRight(iAlpha);
+                CreateObject(iX, iY, 0, 0, "HIT_TELEPORT3x3");
+
             }
-            CreateObjectAtMarker(i, "HIT_TELEPORT3x3");
+            
         }
     }
 
@@ -165,5 +171,6 @@ function void CreateStarters()
         uUnit4.CommandSetMovementMode(modeHoldPos);
     }
 
+    CreateObjectAtMarker(iMarker, "PENTAGRAM_BIG");
 
 }

@@ -31,13 +31,25 @@ function void SpawnNormalHuman(int nWaveNumber, int iMarker)
         roll = RandXor(100);
         
         if(roll < 35)
+        {
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIESTESS");
+            SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, SORCERESS_MARKER);
+        }
         else if(roll < 70)
+        {
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIEST");
+        }
         else if(roll < 85)
+        {
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SORCERER");
+            SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, MAGE_MARKER);
+        }
         else
+        {
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "WITCH");
+        }
+
+        AddTinyAntiMieszkoDamage(uUnit);
     }
 
     CreateObjectAtUnit(uUnit, "CAST_TELEPORT");

@@ -84,5 +84,6 @@ function void SpawnGiant(int iWaveNumber, int iMarker)
     }
 
     CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    uUnit.EnableCapture(false);
     return;
 }

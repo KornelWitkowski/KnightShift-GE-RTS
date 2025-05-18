@@ -29,7 +29,7 @@ function void CheckIfPlayerIsDestroyed()
     
         iCountBuilding = CountNormalBuildings(rPlayer);
         iNumberOfUnits = rPlayer.GetNumberOfUnits();
-        iTotalNumberOfUnits = iTotalNumberOfUnits + iNumberOfUnits;
+        iTotalNumberOfUnits = iCountBuilding + iNumberOfUnits;
 
         if(iTotalNumberOfUnits == 0)
         {
@@ -42,3 +42,20 @@ function void CheckIfPlayerIsDestroyed()
     }
 }
 
+function void AddTinyAntiMieszkoDamage(unitex uUnit)
+{
+    /*
+        Mieszko może mieć odporność na magie 100%
+        lekka kompensacja aby AI nie wariowało
+    */
+    uUnit.AddDamage(0, 10);
+}
+
+function void AddBigAntiMieszkoDamage(unitex uUnit)
+{
+    /*
+        Mieszko może mieć odporność na magie 100%
+        lekka kompensacja aby AI nie wariowało
+    */
+    uUnit.AddDamage(0, 60);
+}
