@@ -22,21 +22,21 @@ function unitex CreateExperienceArtefact(
     if(iType == 0){
         uExperienceItem = CreateObjectAtMarker(
             iMarkerExperience,
-            "ART_RPG_ADD_MAGIC_DAMAGE1"
+            "TD_EXP_ITEM1"
         );
         iExperienceToAdd = 20;
     }
     else if(iType == 1){
         uExperienceItem = CreateObjectAtMarker(
             iMarkerExperience,
-            "ART_RPG_ADD_MAGIC_DAMAGE2"
+            "TD_EXP_ITEM2"
         );
         iExperienceToAdd = 50;
     }
     else if(iType == 2){
         uExperienceItem = CreateObjectAtMarker(
             iMarkerExperience,
-            "ART_RPG_ADD_MAGIC_DAMAGE3"
+            "TD_EXP_ITEM3"
         );
         iExperienceToAdd = 100;
     }

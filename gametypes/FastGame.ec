@@ -22,7 +22,7 @@ mission "translateFastgame"
 
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
-
+        TurnOffTier5Items();
         // Czary dla gracza 14, czyli od czarnego od potworków na mapie
         EnablePlayer14Spells();
         // Nieskończony milk pool dla gracza 14 i 15 dzięki czemu krowy tego gracza będą się pasły w nieskończoność

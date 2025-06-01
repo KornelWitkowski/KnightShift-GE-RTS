@@ -59,6 +59,24 @@ function void CleanupRewards()
         uUnit.RemoveUnit();
         uRewards[k] = null;
     }
+
+    for(i=FIRST_REWARD_MARKER; i<=LAST_REWARD_MARKER; ++i)
+    {
+        uUnit = GetUnitAtMarker(i);
+        if(uUnit == null)
+            continue;
+
+        uUnit.RemoveUnit();
+        RemoveArtefact(GetPointX(i), GetPointY(i), GetPointZ(i));
+        RemoveArtefact(GetPointX(i), GetPointY(i)+1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i), GetPointY(i)-1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)+1, GetPointY(i), GetPointZ(i));
+        RemoveArtefact(GetPointX(i)+1, GetPointY(i)+1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)+1, GetPointY(i)-1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)-1, GetPointY(i), GetPointZ(i));
+        RemoveArtefact(GetPointX(i)-1, GetPointY(i)+1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)-1, GetPointY(i)-1, GetPointZ(i));
+    }
 }
 
 

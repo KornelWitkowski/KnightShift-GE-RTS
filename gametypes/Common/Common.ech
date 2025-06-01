@@ -315,17 +315,32 @@ function int CheckIfPlayerWasDestroyed(int bAiChooseNewMainEnemy)
         }
     
         iCountBuilding = CountNormalBuildings(rPlayer);
-                
+
         if(iCountBuilding && (rPlayer.GetScriptData(PLAYER_STAGE) == STAGE_WITHOUT_BUILDINGS)) 
             rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITH_BUILDINGS);
-                    
-        if (iCountBuilding==0)
+
+        if (iCountBuilding != 0)
+            continue;
+                            
+        if(rPlayer.GetScriptData(PLAYER_STAGE) == STAGE_WITH_BUILDINGS)
         {
-            if(rPlayer.GetScriptData(PLAYER_STATUS) == STATUS_DEFEAT)
+            rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
+            KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
+            KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
+            rPlayer.SetGoalState(0, goalFailed, true);
+
+            bOneHasBeenDestroyed = true;
+            SetStateDelay(150);
+            state Defeat;
+
+            if(bAiChooseNewMainEnemy)
+                AiChooseEnemy();
+        }
+        else
+        {
+            if(rPlayer.GetNumberOfUnits()==0)
             {
                 rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
-                KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
-                KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
                 rPlayer.SetGoalState(0, goalFailed, true);
 
                 bOneHasBeenDestroyed = true;
@@ -334,21 +349,6 @@ function int CheckIfPlayerWasDestroyed(int bAiChooseNewMainEnemy)
 
                 if(bAiChooseNewMainEnemy)
                     AiChooseEnemy();
-            }
-            else
-            {
-                if(rPlayer.GetNumberOfUnits()==0)
-                {
-                    rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
-                    rPlayer.SetGoalState(0, goalFailed, true);
-
-                    bOneHasBeenDestroyed = true;
-                    SetStateDelay(150);
-                    state Defeat;
-
-                    if(bAiChooseNewMainEnemy)
-                        AiChooseEnemy();
-                }
             }
         }
     }
@@ -709,4 +709,31 @@ function int GetXToRight(int iAlpha)
 function int GetYToRight(int iAlpha)
 {
     return GetYInFront((iAlpha + 64) % 256);
+}
+
+
+function void TurnOffTier5Items()
+{
+   player rPlayer;
+   int i;
+
+   for(i=0; i<12; i=i+1)
+   {
+        rPlayer = GetPlayer(i);
+        
+        if(rPlayer != null)
+        {
+             rPlayer.EnableResearchUpdate("AXE6", false);
+             rPlayer.EnableResearchUpdate("BOW6", false);
+             rPlayer.EnableResearchUpdate("SPEAR6", false);
+             rPlayer.EnableResearchUpdate("SHIELD3A", false);
+             rPlayer.EnableResearchUpdate("HELMET4",  false);
+             rPlayer.EnableResearchUpdate("ARMOUR4",  false);
+             rPlayer.EnableResearchUpdate("SWORD3A", false);
+
+            rPlayer.EnableResearchUpdate("AMULET_SHIELD_TIER5_ITEM", false);
+            rPlayer.EnableResearchUpdate("AMULET_REGMAGIC_TIER5_ITEM", false);
+        }
+   }
+    
 }

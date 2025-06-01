@@ -28,65 +28,65 @@ function unitex CreateBowReward(int iWaveNumber, int iMarker)
         if(iRand==0)
             uBow = CreateArtefact("ART_BOW5", iX, iY, iZ, 0);
         else if(iRand==1) 
-            uBow = CreateArtefact("ART_RPG_BOW40", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_BOW6", iX, iY, iZ, 0);
         else if(iRand==2) 
-            uBow = CreateArtefact("ART_RPG_BOW41", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW62", iX, iY, iZ, 0);
         else if(iRand==3) 
-            uBow = CreateArtefact("ART_RPG_BOW49", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW34", iX, iY, iZ, 0);
         else 
-            uBow = CreateArtefact("ART_RPG_BOW58", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW84", iX, iY, iZ, 0);
     }
     else if (iTier == 1)
     {
         if(iRand==0)
-            uBow = CreateArtefact("ART_BOW6", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW64", iX, iY, iZ, 0);
         else if(iRand==1) 
-            uBow = CreateArtefact("ART_RPG_BOW36", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW66", iX, iY, iZ, 0);
         else if(iRand==2) 
-            uBow = CreateArtefact("ART_RPG_BOW46", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW80", iX, iY, iZ, 0);
         else if(iRand==3) 
-            uBow = CreateArtefact("ART_RPG_BOW68", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW85", iX, iY, iZ, 0);
         else 
-            uBow = CreateArtefact("ART_RPG_BOW69", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW88", iX, iY, iZ, 0);
     }
     else if (iTier == 2)
     {
         if(iRand==0)
-            uBow = CreateArtefact("ART_RPG_BOW64", iX, iY, iZ, 0);
-        else if(iRand==1) 
-            uBow = CreateArtefact("ART_RPG_BOW76", iX, iY, iZ, 0);
-        else if(iRand==2) 
             uBow = CreateArtefact("ART_RPG_BOW83", iX, iY, iZ, 0);
+        else if(iRand==1) 
+            uBow = CreateArtefact("ART_RPG_BOW82", iX, iY, iZ, 0);
+        else if(iRand==2) 
+            uBow = CreateArtefact("ART_RPG_BOW89", iX, iY, iZ, 0);
         else if(iRand==3) 
-            uBow = CreateArtefact("ART_RPG_BOW84", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW74", iX, iY, iZ, 0);
         else 
             uBow = CreateArtefact("ART_RPG_BOW81", iX, iY, iZ, 0);
     }
     else if (iTier == 3)
     {
         if(iRand==0)
-            uBow = CreateArtefact("ART_RPG_BOW74", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW95", iX, iY, iZ, 0);
         else if(iRand==1) 
-            uBow = CreateArtefact("ART_RPG_BOW85", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW94", iX, iY, iZ, 0);
         else if(iRand==2) 
-            uBow = CreateArtefact("ART_RPG_BOW86", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW91", iX, iY, iZ, 0);
         else if(iRand==3) 
-            uBow = CreateArtefact("ART_RPG_BOW87", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW95", iX, iY, iZ, 0);
         else 
-            uBow = CreateArtefact("ART_RPG_BOW89", iX, iY, iZ, 0);
+            uBow = CreateArtefact("ART_RPG_BOW86", iX, iY, iZ, 0);
     }
     else if (iTier == 4)
     {
         if(iRand==0)
-            uBow = CreateArtefact("ART_RPG_BOW99", iX, iY, iZ, 0);
-        else if(iRand==1) 
-            uBow = CreateArtefact("ART_RPG_BOW92", iX, iY, iZ, 0);
-        else if(iRand==2) 
             uBow = CreateArtefact("ART_RPG_BOW90", iX, iY, iZ, 0);
-        else if(iRand==3) 
-            uBow = CreateArtefact("ART_RPG_BOW95", iX, iY, iZ, 0);
-        else 
+        else if(iRand==1) 
             uBow = CreateArtefact("ART_RPG_BOW98", iX, iY, iZ, 0);
+        else if(iRand==2) 
+            uBow = CreateArtefact("ART_RPG_BOW99", iX, iY, iZ, 0);
+        else if(iRand==3) 
+            uBow = CreateArtefact("ART_RPG_BOW92", iX, iY, iZ, 0);
+        else 
+            uBow = CreateArtefact("ART_RPG_BOW96", iX, iY, iZ, 0);
     }    
 
     return uBow;

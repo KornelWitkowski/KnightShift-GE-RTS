@@ -23,6 +23,7 @@ mission "translateGameTypeDestroyStructures"
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
         
+        TurnOffTier5Items();
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
 

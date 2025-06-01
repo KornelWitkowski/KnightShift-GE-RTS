@@ -17,11 +17,12 @@
 #define PATH_MASK 127
 #define TOWER_DEFENSE_SPECIAL_MASK 127 << 8
 #define BOMBER_MARKER 1 << 8
-#define MAIN_BOSS_QUEEN_MARKER 2 << 8
-#define MAIN_BOSS_NECROMANCER_MARKER 3 << 8
-#define MAIN_BOSS_DEMON_MARKER 4 << 8
-#define SORCERESS_MARKER 5 << 8
-#define MAGE_MARKER 6 << 8
+#define BOMBER_POISON_MARKER 2 << 8
+#define MAIN_BOSS_QUEEN_MARKER 3 << 8
+#define MAIN_BOSS_NECROMANCER_MARKER 4 << 8
+#define MAIN_BOSS_DEMON_MARKER 5 << 8
+#define SORCERESS_MARKER 6 << 8
+#define MAGE_MARKER 7 << 8
 
 #define SKELETON_WAVE 0
 #define GIANT_WAVE 1
@@ -48,7 +49,8 @@
 #define FIRST_REWARD_MARKER 6
 #define LAST_REWARD_MARKER 10
 
-#define CUTSCENE_PRIEST_MARKER 11
+#define REWARD_INFO_MARKER 11
+#define CUTSCENE_PRIEST_MARKER 12
 
 /*
     Pomysły: 
@@ -63,13 +65,8 @@
         - dodatkowe animacje bossów
         - imiona jednostek - dla pierwszych wygranych
 
-
         inne osoby:
-        - dopracować mapę i powiązać mapę z trybem
         - korekta językowa
-        - czerwona i zielona krowa
-        - item do expa
-        - item do odporności na zamianę w krowę
         - aury dla bossów
         - 5 tier
             - 2 niewidzialne itemy
@@ -88,8 +85,6 @@
 
 mission "translateTowerDefense"
 {
-
-
 
     consts
     {
@@ -122,6 +117,7 @@ mission "translateTowerDefense"
 
     int iDifficulty;
 
+    #include "TowerDefense\SpecialPrize.ech"
     #include "TowerDefense\Helpers.ech"
     #include "TowerDefense\Research.ech"
     #include "TowerDefense\Rewards.ech"
@@ -157,7 +153,6 @@ mission "translateTowerDefense"
 
     enum comboWaveNumber
     {
-        "10",
         "20",
         "30",
         "40",
@@ -176,12 +171,12 @@ mission "translateTowerDefense"
         rPlayer11 = GetPlayer(11);
         rPlayer12 = GetPlayer(12);
         rPlayer13 = GetPlayer(13);
+        rPlayer14 = GetPlayer(14);
 
         SetAlly(rPlayer8, rPlayer9);
         SetAlly(rPlayer8, rPlayer10);
         SetAlly(rPlayer8, rPlayer11);
         SetAlly(rPlayer8, rPlayer12);
-
 
         SetAlly(rPlayer9, rPlayer10);
         SetAlly(rPlayer9, rPlayer11);
@@ -192,7 +187,7 @@ mission "translateTowerDefense"
 
         SetAlly(rPlayer11, rPlayer12);
 
-        rPlayer14 = GetPlayer(14);
+        
         SetEnemies(rPlayer8, rPlayer14);
         SetEnemies(rPlayer9, rPlayer14);
         SetEnemies(rPlayer10, rPlayer14);
@@ -241,9 +236,14 @@ mission "translateTowerDefense"
 
     }
 
+    function void InitCreateRewardInfo()
+    {
+        CreateObjectAtMarker(REWARD_INFO_MARKER, "TOWERDEFENSE_INFO5");
+    }
+
     function void SetTotalWaveNumber()
     {
-        iTotalWaveNumber = 10 * (comboWaveNumber + 1);
+        iTotalWaveNumber = 10 * (comboWaveNumber + 2);
     }
 
     function void SetDifficulty()
@@ -262,6 +262,7 @@ mission "translateTowerDefense"
     function void InitFinalBoss()
     {
         int i;
+        unitex uSmoke;
 
         if(iTotalWaveNumber <= 10)
         {
@@ -312,12 +313,21 @@ mission "translateTowerDefense"
             AddBigAntiMieszkoDamage(uUnit);
             SetUnitImmortal(BOSS_MARKER+i);
             SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER);
+
+            if(i != 0)
+            {
+                uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT1");
+                uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+                uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT2");
+                uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+            }
+            else
+            {
+                uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_GE_PORTAL_EFFECT_M1");
+                uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+            }
         }
-
-
     }
-
-
 
     state Initialize
     {
@@ -335,6 +345,7 @@ mission "translateTowerDefense"
         iExtraHut = 0;
 
         iCurrentWaveNumber = 1;
+
         bWaveActive = false;
         bIsFinalWave = false;
 
@@ -343,7 +354,7 @@ mission "translateTowerDefense"
         iBreakTimeStart = GetMissionTime() + 7 * MINUTE;
         iBreakTimeStart = iBreakTimeStart - 40 * SECOND * (comboDifficulty - 2);
 
-        InitXorShiftRNG(iBreakTimeStart + comboWaveNumber + comboWaveNumber + comboStarter);
+        InitXorShiftRNG(iBreakTimeStart + comboWaveNumber + comboStarter + comboDifficulty);
         iRewardSeed = RandXor(1000000);
 
         InitAiPlayers();
@@ -356,6 +367,7 @@ mission "translateTowerDefense"
         SetWaveType();
         
         InitRewards();
+        InitCreateRewardInfo();
 
         CreatePortalArtifact();
         CreateNextWaveTrigger();
@@ -453,8 +465,7 @@ mission "translateTowerDefense"
 
     event SpecialLevelFlags()
     {
-	    // return 8;
-       return 0x01;
+	    return 32;
     }
 
     event AIPlayerFlags()
@@ -464,6 +475,11 @@ mission "translateTowerDefense"
 
     event RemoveUnits()
     {
+        CleanUpArtefacts(0);
+        CleanUpArtefacts(0);
+        CleanUpArtefacts(1);
+        CleanUpArtefacts(1);
+        return true;
         return false;
     }
 

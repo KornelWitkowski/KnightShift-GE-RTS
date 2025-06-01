@@ -170,7 +170,7 @@ function void CleanUpArtefacts(int bTunnel)
             if(bShouldContinue)
                 continue;
 
-            for(k=FIRST_REWARD_MARKER; k<LAST_REWARD_MARKER; ++k)
+            for(k=FIRST_REWARD_MARKER; k<REWARD_INFO_MARKER; ++k)
             {
                 if(!PointExist(k))
                     continue;
@@ -207,6 +207,7 @@ event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefac
         if(!bWaveActive)
         {
             EndBreakTime();
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
         }
         return false;
     }
@@ -215,6 +216,7 @@ event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefac
         if(bWaveActive)
         {
             EndWaveTime();
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
         }
         return false;
     }
@@ -227,6 +229,7 @@ event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefac
             CleanUpArtefacts(0);
             CleanUpArtefacts(0);
             iLastCleanupTime = GetMissionTime();
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
         }
         else if(iLastCleanupTimeTunnel == 0 || (GetMissionTime() - iLastCleanupTimeTunnel) > 10*SECOND)
         {
@@ -242,6 +245,7 @@ event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefac
         {
             iPerunRageStartTime = GetMissionTime();
             CreateArtefactAtUnit("SWITCH_1_2", uUnitOnArtefact, 0);
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
         }
         return true;
     }
@@ -251,6 +255,7 @@ event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefac
         {
             iBreakTimeStart = iBreakTimeStart + 10*MINUTE;
             CreateArtefactAtUnit("SWITCH_1_2", uUnitOnArtefact, 0);
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
             return true;
         }
         return false;

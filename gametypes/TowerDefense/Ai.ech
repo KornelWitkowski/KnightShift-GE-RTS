@@ -186,7 +186,7 @@ function unitex GetBorderingBuilding(unitex uUnit, int bIncludePassive)
     {
         for(j=-1; j<=1; j=j+1)
         {
-            if(i==j) continue;
+            if(i==0 && j==0) continue;
             uUnitTarget = GetUnit(iX+i, iY+j);
 
             if( uUnitTarget == null)
@@ -234,7 +234,7 @@ function unitex GetBorderingEnemy(unitex uUnit)
     {
         for(j=-1; j<=1; j=j+1)
         {
-            if(i==j) continue;
+            if(i==0 && j==0) continue;
             uEnemyUnit = GetUnit(iX+i, iY+j);
             if(uEnemyUnit.IsInTower())
                 continue;
@@ -274,23 +274,26 @@ function int IsNextToEnemy(unitex uUnit)
 
     rPlayer = GetPlayer(uUnit.GetIFFNumber());
 
-    if(uUnit.IsWaitingBeforeClosedGate())
-        return true;
-
     for(i=-1; i<=1; i=i+1)
     {
         for(j=-1; j<=1; j=j+1)
         {
-            if(i==j) continue;
+            if(i==0 && j==0) continue;
             uEnemyUnit = GetUnit(iX+i, iY+j);
 
+            if(uEnemyUnit == null)
+                continue;
+
             if(uEnemyUnit.IsInTower())
-                return true;
+                continue;
 
             if(uEnemyUnit.IsFlyable())
                 continue;
 
             if(uEnemyUnit.IsBuilding())
+                continue;
+
+            if(uEnemyUnit.IsPassive())
                 continue;
 
             rPlayerEnemy = GetPlayer(uEnemyUnit.GetIFFNumber());
@@ -308,6 +311,9 @@ function int IsBomber(unitex uUnit)
     iScriptData = GetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK);
 
     if(iScriptData == BOMBER_MARKER)
+        return true;
+
+    if(iScriptData == BOMBER_POISON_MARKER)
         return true;
 
     return false;
@@ -500,9 +506,11 @@ function void CheckBombers(player rPlayerEnemy)
 {
     int i;
     int iNumberOfUnits;
+    int iScriptData;
     unitex uUnit;
 
     iNumberOfUnits = rPlayerEnemy.GetNumberOfUnits();
+    iScriptData = GetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK);
 
     for(i=0; i<iNumberOfUnits; i=i+1)
     {
@@ -511,7 +519,13 @@ function void CheckBombers(player rPlayerEnemy)
         if(!IsBomber(uUnit))
             continue;
 
-        if(!IsNextToBuilding(uUnit, false))
+        if(!IsNextToEnemy(uUnit))
+            continue;
+
+        if(!IsNextToBuilding(uUnit, false) && (iScriptData == BOMBER_MARKER))
+            continue;
+
+        if(!IsNextToEnemy(uUnit) && (iScriptData == BOMBER_POISON_MARKER))
             continue;
 
         uUnit.KillUnit();

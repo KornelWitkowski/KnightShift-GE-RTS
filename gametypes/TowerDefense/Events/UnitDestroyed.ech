@@ -6,6 +6,32 @@ function void KillRemainingEnemyUnits()
     KillArea(rPlayer12.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
 }
 
+function void PutAuraOnUnit(unitex uUnit, int iAura)
+{
+    int i;
+    unitex uAura;
+
+    if(iAura == SKELETON_MULTIPLICATION_TIER_3){
+        uAura = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT1");
+        uAura.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+        uAura = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT2");
+        uAura.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+        uAura = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT3");
+        uAura.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+    }
+    else if(iAura == SKELETON_MULTIPLICATION_TIER_2){
+        uAura = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT1");
+        uAura.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+        uAura = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT2");
+        uAura.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+    }
+    else if(iAura == SKELETON_MULTIPLICATION_TIER_1){
+        uAura = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT1");
+        uAura.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+    }
+
+}
+
 function void MultiplicateSkeleton(unitex uUnitKilled, string strUnit, int iUnitsNumber, int iScriptData)
 {
 
@@ -31,9 +57,8 @@ function void MultiplicateSkeleton(unitex uUnitKilled, string strUnit, int iUnit
     iPathScriptData = GetUnitMaskedScriptData(uUnitKilled, PATH_MASK);
     SetUnitMaskedScriptData(uUnit1, PATH_MASK, iPathScriptData);
     SetUnitMaskedScriptData(uUnit1, MASK_SCRIPT_DATA_TRAP, iScriptData);
-    uSmoke = CreateObjectAtUnit(uUnit1, "FIRE_FIREPLACE");
-    uSmoke.SetSmokeObject(uUnit1.GetUnitRef(), true, true, true, true);
-    
+    PutAuraOnUnit(uUnit1, iScriptData);
+
     for(j=0; j<25; ++j)
     {
         if(iUnitsCounter >= iUnitsNumber)
@@ -44,13 +69,13 @@ function void MultiplicateSkeleton(unitex uUnitKilled, string strUnit, int iUnit
         if(uUnit1 == null)
             continue;
 
+        PutAuraOnUnit(uUnit1, iScriptData);
+
         ++ iUnitsCounter;
         CreateObjectAtUnit(uUnit1, "HIT_TELEPORT");
 
         GiveCaptureConvertResistance(uUnit1);
         SetUnitMaskedScriptData(uUnit1, MASK_SCRIPT_DATA_TRAP, iScriptData);
-        uSmoke = CreateObjectAtUnit(uUnit1, "FIRE_FIREPLACE");
-        uSmoke.SetSmokeObject(uUnit1.GetUnitRef(), true, true, true, true);
     }     
 
 }
@@ -78,7 +103,7 @@ function void RemoveMirkoItems(int iX, int iY, int iZ)
 event UnitDestroyed(unitex uUnitKilled)
 {
     unitex uUnit;
-    int iBossUnitNumber;
+    int iBossUnitNumber, uSmoke;
     int iMaskedScriptData;
     int iUnitsNumber;
     int iPlayerIFF;
@@ -98,6 +123,7 @@ event UnitDestroyed(unitex uUnitKilled)
 
     if( iMaskedScriptData == MAIN_BOSS_DEMON_MARKER)
     {
+        GenerateSpecialPrize(iCurrentWaveNumber, iDifficulty);
         SetStateDelay(400);
         KillRemainingEnemyUnits();
         SetGoalState(0, goalAchieved, 1);
@@ -116,7 +142,7 @@ event UnitDestroyed(unitex uUnitKilled)
                 uUnitKilled.GetAlphaAngle(),
                 "MONSTERQUEEN"
             );
-            uUnit.AddHP(-8000);
+            uUnit.AddHP(-12000);
         }
         else if(iTotalWaveNumber <= 20)
         {
@@ -127,7 +153,7 @@ event UnitDestroyed(unitex uUnitKilled)
                 uUnitKilled.GetAlphaAngle(),
                 "MONSTERQUEEN"
             );
-            uUnit.AddHP(-4000);
+            uUnit.AddHP(-8000);
         }
         else if(iTotalWaveNumber <= 30)
         {
@@ -138,7 +164,7 @@ event UnitDestroyed(unitex uUnitKilled)
                 uUnitKilled.GetAlphaAngle(),
                 "MONSTERQUEEN2"
             );
-            uUnit.AddHP(-10000);
+            uUnit.AddHP(-16000);
         }
         else if(iTotalWaveNumber <= 40)
         {
@@ -149,6 +175,7 @@ event UnitDestroyed(unitex uUnitKilled)
                 uUnitKilled.GetAlphaAngle(),
                 "MONSTERQUEEN3"
             );
+            uUnit.AddHP(-2000);
         }
         else
         {
@@ -215,12 +242,14 @@ event UnitDestroyed(unitex uUnitKilled)
 
         if(iBossUnitNumber == 0)
         {
+            GenerateSpecialPrize(iCurrentWaveNumber, iDifficulty);
             KillRemainingEnemyUnits();
             EndCurrentWave();
         }
     }
     else if (uUnitKilled == uBoss)
     {
+        GenerateSpecialPrize(iCurrentWaveNumber, iDifficulty);
         KillRemainingEnemyUnits();
         EndCurrentWave();
     }

@@ -21,7 +21,7 @@ function unitex CreateResistanceArtefact(
 
     uResistanceItem = CreateObjectAtMarker(
         iMarkerResistance,
-        "GALEON"
+        "TD_COW_ITEM"
     );
 
 

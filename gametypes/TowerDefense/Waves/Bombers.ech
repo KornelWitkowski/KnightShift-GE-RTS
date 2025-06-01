@@ -5,10 +5,20 @@ function void SpawnBomber(int iWaveNumber, int iMarker)
     int iRoll;
     unitex uUnit;
 
-    uUnit = CreateUnitAtMarker(rPlayer9, iMarker, "SPECIALCOW");
-    uUnit.SetExperienceLevel(6);
 
-    SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, BOMBER_MARKER);
+    if((iWaveType == SKELETON_WAVE) && (RandXor(3) == 0))
+    {
+        uUnit = CreateUnitAtMarker(rPlayer9, iMarker, "TD_COW_POISON");
+        uUnit.SetScriptData(SCRIPT_DATA_TRAP_POISON);
+        SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, BOMBER_POISON_MARKER);
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayer9, iMarker, "TD_COW_EXPLODE");
+        SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, BOMBER_MARKER);
+    }
+    
+    uUnit.SetExperienceLevel(6);    
     uUnit.EnableCapture(false);
     CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
     return;

@@ -18,19 +18,43 @@ function unitex SpawnBoss(int iBossWaveType, int iWaveNumber, int iMarker)
     unitex uUnit, uSmoke;
 
     if(iBossWaveType == NECROMANCER_BOSS)
+    {
         uUnit = SpawnNecromancerBoss(iWaveNumber, iMarker);
+        uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT2");
+        uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+    }
     else if(iBossWaveType == SKELETON_BOSS)
+    {
         uUnit = SpawnSpecialSkeleton(iWaveNumber, iMarker);
+        uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT2");
+        uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+    }
     else if(iBossWaveType == MULTIPLYING_SKELETON_BOSS)
+    {
         uUnit = SpawnMultiplicationSkeleton(iWaveNumber, iMarker);
+
+        uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_GE_PORTAL_EFFECT_M1");
+        uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+    }
     else if(iBossWaveType == DEMON_BOSS)
+    {
         uUnit = SpawnDemonBoss(iWaveNumber, iMarker);
+        uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT1");
+        uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+        uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT2");
+        uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+        uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT3");
+        uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+    }
     else if(iBossWaveType == TITAN_BOSS)
+    {
         uUnit = SpawnTitanBoss(iWaveNumber, iMarker);
+        uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT3");
+        uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+    }
 
 
-    uSmoke = CreateObjectAtUnit(uUnit, "FIRE_FIREPLACE");
-    uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+
 
     AddBigAntiMieszkoDamage(uUnit);
     return uUnit;

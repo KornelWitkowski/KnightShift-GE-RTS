@@ -27,11 +27,11 @@ function void CreateRandomArtefact(int x, int y, int bMagicArtefacts)
     // Losujemy artefakty w zależności od trybu. Dla trybu 'Miecze i Sandały' pomijamy magiczne artefakty.
     if(bMagicArtefacts)
     {
-        nRandNum = RAND(33);
+        nRandNum = RandXor(33);
     }
     else
     {
-        nRandNum = RAND(24);
+        nRandNum = RandXor(24);
     }
 
     CreateArtefactIfNumberMatches(x, y, "ART_HELMET3",           0, nRandNum);
@@ -75,7 +75,7 @@ function void CreateRandomSupplement(int x, int y)
 // Losuje jaki wspomagacz pojawi się na mapie
 {
     int nRandNum;
-    nRandNum = RAND(10);
+    nRandNum = RandXor(10);
 
     CreateArtefactIfNumberMatches(x, y, "ART_ADD_HP_GE_050",      0, nRandNum);
     CreateArtefactIfNumberMatches(x, y, "ART_ADD_HP_GE_100",      1, nRandNum);
@@ -112,7 +112,7 @@ function void CreatePrize(int comboArtifacts, int bMagicArtefacts)
     if(comboArtifacts==0)
         return;
     
-    nRandNum = RAND(8);
+    nRandNum = RandXor(8);
 
     x = 0;
     y = 0;

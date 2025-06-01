@@ -114,6 +114,7 @@ mission "translateKingOfTheHill"
         int i, iX, iY;
         int iShortestDistance, iDistance;
         unitex uTower, uClosestTower;
+        unitex uUnitOnTower;
 
         iShortestDistance = 10000;
 
@@ -134,7 +135,11 @@ mission "translateKingOfTheHill"
         }
 
         if(iShortestDistance < 10000)
-            uUnit.CommandAttack(uClosestTower);
+        {
+            uUnitOnTower = uClosestTower.GetUnitOnTower();
+            uUnit.CommandAttack(uUnitOnTower);
+        }
+            
     }
 
     function void ShowEndingScreen(player rPlayer)
@@ -181,6 +186,8 @@ mission "translateKingOfTheHill"
 
         SetMoneyPerResource100x(60);
         SetResourceGrowSpeed(300);
+
+        TurnOffTier5Items();
 
         // Wyliczenie pozycji wież
         RegisterTowers();
