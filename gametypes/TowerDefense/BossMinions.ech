@@ -13,7 +13,7 @@ function void SpawnNecromancerBossMinions(int iMarker, player rPlayerEnemy)
 
 function int GetSkeletonBossMinionsRate(int iWaveNumber)
 {
-    return 7 + 2 * (iWaveNumber / 10);
+    return 7 + 3 * (iWaveNumber / 10);
 }
 
 
@@ -28,13 +28,17 @@ function void SpawnSkeletonBossMinions(int iMarker, player rPlayerEnemy)
     {
         uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_WOODCUTTER");
     }
-    else if(iRoll < 30)
+    else if(iRoll < 35)
     {
         uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_HUNTER");
     }
-    else if(iRoll < 55)
+    else if(iRoll < 60)
     {
         uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SKELETON_SPEARMAN");
+    }
+    else if(iRoll < 70)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_SKELETONT1");
     }
     else if(iRoll < 95)
     {

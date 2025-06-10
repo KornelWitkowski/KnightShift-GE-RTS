@@ -295,33 +295,7 @@ event OnHit(unit uByUnit)
         state StartMoving;
     }
 #endif AI_SCRIPT
-    if (IsInCamouflageMode() && (uByUnit != null))
-    {
-        if (!IsInHoldPosMode() && (TALKMODE == 0))
-        {
-            //uciekamy
-            nRange = 5;
-            nPosX = GetLocationX();
-            nPosY = GetLocationY();
-            nDistX = nPosX - uByUnit.GetLocationX();
-            nDistY = nPosY - uByUnit.GetLocationY();
-            nDist = DistanceTo(uByUnit);
-            if (nDist > 0)
-            {
-                nDistX = nRange*nDistX/nDist;
-                nDistY = nRange*nDistY/nDist;
-            }
-            MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
-            state StartMoving;
-        }
-        return true;
-    }
-    if ((TALKMODE == 0) && TryMakeImmortalShieldMagic(false))
-    {
-        ResetAttackTarget();
-        state MovingToMagicTarget;
-        return true;
-    }
+
 
     // Ucieczka dla kapłanów AI
 #ifdef AI_SCRIPT
@@ -355,6 +329,36 @@ event OnHit(unit uByUnit)
         }
     }
 #endif AI_SCRIPT
+
+    if (IsInCamouflageMode() && (uByUnit != null))
+    {
+        if (!IsInHoldPosMode() && (TALKMODE == 0))
+        {
+            //uciekamy
+            nRange = 5;
+            nPosX = GetLocationX();
+            nPosY = GetLocationY();
+            nDistX = nPosX - uByUnit.GetLocationX();
+            nDistY = nPosY - uByUnit.GetLocationY();
+            nDist = DistanceTo(uByUnit);
+            if (nDist > 0)
+            {
+                nDistX = nRange*nDistX/nDist;
+                nDistY = nRange*nDistY/nDist;
+            }
+            MoveToPoint(nPosX + nDistX, nPosY + nDistY, GetLocationZ());
+            state StartMoving;
+        }
+        return true;
+    }
+    if ((TALKMODE == 0) && TryMakeImmortalShieldMagic(false))
+    {
+        ResetAttackTarget();
+        state MovingToMagicTarget;
+        return true;
+    }
+
+
     
 
     //jesli jestesmy w trakcie walki i ten ktorego bijemy nas nie bije to stopujemy walke

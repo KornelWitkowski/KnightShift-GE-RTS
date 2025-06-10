@@ -95,7 +95,11 @@ function void RemoveCapturedUnitArtefacts(unitex uUnit)
     iY = uUnit.GetLocationY();
     iZ = uUnit.GetLocationZ();
 
-    bTier5 = false;
+    #ifdef TIER_5_GAME_TYPE
+        bTier5 = true;
+    #else
+        bTier5 = false;
+    #endif
 
     // Magicznego ekwipunku nie usuwamy
     if(uUnit.GetMaxMagic() > 0)

@@ -31,15 +31,15 @@ player "translateAIPlayerMaster"
     {
         int iRandNum;
 
-        if ( GetIFFNumber() == 0 )      SetName("translateAINameExpert0");
-        else if ( GetIFFNumber() == 1 ) SetName("translateAINameExpert1");
-        else if ( GetIFFNumber() == 2 ) SetName("translateAINameExpert2");
-        else if ( GetIFFNumber() == 3 ) SetName("translateAINameExpert3");
-        else if ( GetIFFNumber() == 4 ) SetName("translateAINameExpert4");
-        else if ( GetIFFNumber() == 5 ) SetName("translateAINameExpert5");
-        else if ( GetIFFNumber() == 6 ) SetName("translateAINameExpert6");
-        else if ( GetIFFNumber() == 7 ) SetName("translateAINameExpert7");
-        else                            SetName("translateAIPlayerExpert");
+        if ( GetIFFNumber() == 0 )      SetName("translateAINameMaster0");
+        else if ( GetIFFNumber() == 1 ) SetName("translateAINameMaster1");
+        else if ( GetIFFNumber() == 2 ) SetName("translateAINameMaster2");
+        else if ( GetIFFNumber() == 3 ) SetName("translateAINameMaster3");
+        else if ( GetIFFNumber() == 4 ) SetName("translateAINameMaster4");
+        else if ( GetIFFNumber() == 5 ) SetName("translateAINameMaster5");
+        else if ( GetIFFNumber() == 6 ) SetName("translateAINameMaster6");
+        else if ( GetIFFNumber() == 7 ) SetName("translateAINameMaster7");
+        else                            SetName("translateAIPlayerMaster");
 
         ResetAIFeatures();
         ResetAIFeatures2();

@@ -32,7 +32,7 @@ event Timer3()
     {
         rPlayer = GetPlayer(i);
 
-        if(rPlayer == null)
+        if(rPlayer == null || !rPlayer.IsAlive())
             continue;
 
 
@@ -42,6 +42,7 @@ event Timer3()
         }
     }
 
+    MoveBackExtraPlayersUnits();
     MakeMarkerPeriodicEvents();
     MakeMissionPeriodicEvents();
 }

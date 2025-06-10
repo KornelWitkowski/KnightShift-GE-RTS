@@ -5,7 +5,7 @@ function int ChooseBeastTier(int nWaveNumber)
 
     iDifficultyModifier = (iDifficulty - 2) * 5;
     
-    iRoll =  GaussianDistribution(30) + (3 * nWaveNumber / 2);
+    iRoll =  GaussianDistribution(40) + (3 * nWaveNumber / 2);
     iRoll = iRoll + iDifficultyModifier;
     
     if (20 > iRoll) return 0;

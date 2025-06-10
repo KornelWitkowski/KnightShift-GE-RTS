@@ -103,7 +103,6 @@ function void DisplayText(int iCurrentWaveNumber, int iBreakTimeStart, int iEnem
     }
     else if(iDisplayTimeToNextWave > 30)
     {
-    
         DisplayBreakTime(iCurrentWaveNumber, iDisplayTimeToNextWave);
     }
     else if(iDisplayTimeToNextWave > 0)

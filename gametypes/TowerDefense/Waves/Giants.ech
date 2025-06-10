@@ -5,7 +5,7 @@ function int ChooseGiantTier(int nWaveNumber)
     iDifficultyModifier = (iDifficulty - 2) * 5;
 
 
-    iRoll =  GaussianDistribution(20) + (3 * nWaveNumber / 2);
+    iRoll =  GaussianDistribution(40) + 8 * nWaveNumber / 5;
     iRoll = iRoll + iDifficultyModifier;
     
     if (20 > iRoll) return 0;
@@ -35,12 +35,12 @@ function void SpawnGiant(int iWaveNumber, int iMarker)
     if(iTier == 0)
     {
         uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_SPIDER2");
-        uUnit.AddDamage(1, 10);
+        uUnit.AddDamage(1, 20);
     } 
     else if (iTier == 1)
     {
         uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_POISON_SPIDER2");
-        uUnit.AddDamage(1, 10);
+        uUnit.AddDamage(1, 20);
     } 
     else if (iTier == 2)
     {
@@ -53,22 +53,26 @@ function void SpawnGiant(int iWaveNumber, int iMarker)
     else if (iTier == 4)
     {
         uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_FIRE_SPIDER");
+        uUnit.AddDamage(1, 20);
     }
     else if (iTier == 5)
     {
-        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "GIANT1");
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "GIANT");
     }
     else if (iTier == 6)
     {
         uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_WHITE_SPIDER");
+        uUnit.AddDamage(1, 20);
     }
     else if (iTier == 7)
     {
         uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_FROST_SPIDER");
+        uUnit.AddDamage(1, 20);
     }
     else if (iTier == 8)
     {
         uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_PURPLE_SPIDER");
+        uUnit.AddDamage(1, 20);
     }
     else if (iTier == 9)
     {

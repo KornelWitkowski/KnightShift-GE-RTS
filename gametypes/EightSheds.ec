@@ -1,3 +1,5 @@
+#define TIER_5_GAME_TYPE
+
 mission "translateGameTypeEightSheds"
 {
     #include "Common\Consts.ech"

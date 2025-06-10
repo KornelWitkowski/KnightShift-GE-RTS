@@ -26,6 +26,8 @@ function void CleanupRewards()
 
     for(i=FIRST_REWARD_MARKER; i<=LAST_REWARD_MARKER; ++i)
     {
+        if(!PointExist(i))
+            continue;
 
         k = i - FIRST_REWARD_MARKER;
         uUnit = uRewards[k];
@@ -82,6 +84,9 @@ function void CleanupRewards()
 
 function void GiveMilkReward()
 {
+    if(!PointExists(MILK_MARKER))
+        return;
+
     if(iDifficulty == 0)
     {
         RemoveArtefact(GetPointX(MILK_MARKER), GetPointY(MILK_MARKER), GetPointZ(MILK_MARKER));
@@ -130,6 +135,9 @@ function void GiveRewards(int iWaveNumber)
 
     for(i=FIRST_REWARD_MARKER; i<=LAST_REWARD_MARKER; ++i)
     {
+        if(!PointExists(i))
+            continue;
+
         j = RandXorNoExtraEntropy(5);
 
         if(j==0)

@@ -27,7 +27,7 @@ function void SpawnDragon(int iWaveNumber, int iMarker, int iTotalNumberOfUnits)
 
     iRand = RandXor(10);
 
-    iNumberOfDragonsToSpawn = iTotalNumberOfUnits / 14 + 1;
+    iNumberOfDragonsToSpawn = iTotalNumberOfUnits / 17 + 1;
     iNumberOfDragons = GetNumberOfDragons(iWaveNumber);
 
 

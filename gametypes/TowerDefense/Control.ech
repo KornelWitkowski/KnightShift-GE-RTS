@@ -31,11 +31,11 @@ function int GetBreakLength(int iWaveNumber)
 
     if((iWaveNumber > 10) && (iWaveNumber % 10 == 1))
     {
-        iExtraTimeAfterBoss = 2 * MINUTE;
+        iExtraTimeAfterBoss = 4 * MINUTE;
     }
 
     iBreakLength = BREAK_TIME_MINUTES * MINUTE; 
-    iBreakLength = iBreakLength + 15 * SECOND * (iWaveNumber / 5) ;
+    iBreakLength = iBreakLength + 5 * SECOND * iWaveNumber;
     iBreakLength = iBreakLength - 20 * SECOND * (iDifficulty - 2);
     iBreakLength = iBreakLength + iExtraTimeAfterBoss;
 
@@ -47,7 +47,7 @@ function int GetWaveLength(int iWaveNumber)
     int iWaveLength;
 
     iWaveLength = WAVE_TIME_MINUTES * MINUTE;
-    iWaveLength = iWaveLength + 15 * SECOND * (iWaveNumber % 5);
+    iWaveLength = iWaveLength + 3 * SECOND * iWaveNumber;
 
     return iWaveLength;
 }
@@ -138,6 +138,7 @@ function void EndCurrentWave()
 
     GiveRewards(iCurrentWaveNumber);
     UpdatedPlayersAfterWave();
+    PlayTrack("Music\\victory.tws");
 }
 
 

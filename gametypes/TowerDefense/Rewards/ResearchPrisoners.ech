@@ -265,6 +265,93 @@ function void AddSwordResearch(player rPlayer, int iTier)
 }
 
 
+
+function void AddTempleResearch(player rPlayer, int iTier)
+{
+    if(iTier == 0)
+    {
+    }
+    else if(iTier == 1)
+    {
+        rPlayer.ResearchUpdate("AUTOSPELL_PRIEST2");
+        rPlayer.ResearchUpdate("AUTOSPELL_WITCH2");
+
+    }
+    else if(iTier == 2)
+    {
+        rPlayer.ResearchUpdate("AUTOSPELL_PRIEST2");
+        rPlayer.ResearchUpdate("AUTOSPELL_WITCH2");
+        rPlayer.ResearchUpdate("AUTOSPELL_PRIEST3");
+        rPlayer.ResearchUpdate("AUTOSPELL_WITCH3");
+
+    }
+    else if(iTier == 3)
+    {
+        rPlayer.ResearchUpdate("AUTOSPELL_PRIEST2");
+        rPlayer.ResearchUpdate("AUTOSPELL_WITCH2");
+        rPlayer.ResearchUpdate("AUTOSPELL_PRIEST3");
+        rPlayer.ResearchUpdate("AUTOSPELL_WITCH3");
+        rPlayer.ResearchUpdate("AUTOSPELL_PRIEST4");
+        rPlayer.ResearchUpdate("AUTOSPELL_WITCH4");
+    }
+    else if(iTier == 4)
+    {
+        rPlayer.ResearchUpdate("AUTOSPELL_PRIEST2");
+        rPlayer.ResearchUpdate("AUTOSPELL_WITCH2");
+        rPlayer.ResearchUpdate("AUTOSPELL_PRIEST3");
+        rPlayer.ResearchUpdate("AUTOSPELL_WITCH3");
+        rPlayer.ResearchUpdate("AUTOSPELL_PRIEST4");
+        rPlayer.ResearchUpdate("AUTOSPELL_WITCH4");
+        rPlayer.ResearchUpdate("AUTOSPELL_PRIEST5");
+        rPlayer.ResearchUpdate("AUTOSPELL_WITCH5");
+
+    }
+}
+
+function void AddShrineResearch(player rPlayer, int iTier)
+{
+    if(iTier == 0)
+    {
+
+    }
+    else if(iTier == 1)
+    {
+        rPlayer.ResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS2");
+        rPlayer.ResearchUpdate("AUTOSPELL_FIREBALL2");
+
+    }
+    else if(iTier == 2)
+    {
+        rPlayer.ResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS2");
+        rPlayer.ResearchUpdate("AUTOSPELL_FIREBALL2");
+        rPlayer.ResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS3");
+        rPlayer.ResearchUpdate("AUTOSPELL_FIREBALL3");
+
+    }
+    else if(iTier == 3)
+    {
+        rPlayer.ResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS2");
+        rPlayer.ResearchUpdate("AUTOSPELL_FIREBALL2");
+        rPlayer.ResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS3");
+        rPlayer.ResearchUpdate("AUTOSPELL_FIREBALL3");
+        rPlayer.ResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS4");
+        rPlayer.ResearchUpdate("AUTOSPELL_FIREBALL4");
+
+    }
+    else if(iTier == 4)
+    {
+        rPlayer.ResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS2");
+        rPlayer.ResearchUpdate("AUTOSPELL_FIREBALL2");
+        rPlayer.ResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS3");
+        rPlayer.ResearchUpdate("AUTOSPELL_FIREBALL3");
+        rPlayer.ResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS4");
+        rPlayer.ResearchUpdate("AUTOSPELL_FIREBALL4");
+        rPlayer.ResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS5");
+        rPlayer.ResearchUpdate("AUTOSPELL_FIREBALL5");
+    }
+}
+
+
 function void AddResearch(
     player rPlayer,
     int iBow,
@@ -319,173 +406,259 @@ function void AddResearchAfterWave(player rPlayer, int nWaveNumber)
     if (nWaveNumber == 1)
     {
         AddResearch(rPlayer, 0, 0, 0, 0, 0, 0, 0);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 0);
     }
     else if(nWaveNumber == 2)
     {
         AddResearch(rPlayer, 1, 0, 0, 0, 0, 0, 0);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 0);
     }
     else if(nWaveNumber == 3)
     {
         AddResearch(rPlayer, 1, 1, 0, 0, 0, 0, 0);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 0);
     }
     else if(nWaveNumber == 4)
     {
         AddResearch(rPlayer, 1, 1, 1, 0, 0, 0, 0);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 0);
     }
     else if(nWaveNumber == 5)
     {
         AddResearch(rPlayer, 1, 1, 1, 1, 0, 0, 0);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 0);
     }
     else if(nWaveNumber == 6)
     {
         AddResearch(rPlayer, 1, 1, 1, 1, 1, 0, 0);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 0);
     }
     else if(nWaveNumber == 7)
     {
         AddResearch(rPlayer, 2, 1, 1, 1, 1, 0, 0);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 0);
     }
     else if(nWaveNumber == 8)
     {
         AddResearch(rPlayer, 2, 1, 1, 1, 1, 0, 0);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 0);
     }
     else if(nWaveNumber == 9)
     {
         AddResearch(rPlayer, 2, 2, 1, 1, 1, 0, 0);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 0);
     }
     else if(nWaveNumber == 10)
     {
         AddResearch(rPlayer, 2, 2, 2, 1, 1, 0, 0);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 1);
     }
     else if(nWaveNumber == 11)
     {
         AddResearch(rPlayer, 2, 2, 2, 2, 1, 0, 0);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 1);
     }
     else if(nWaveNumber == 12)
     {
         AddResearch(rPlayer, 2, 2, 2, 2, 1, 0, 1);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 1);
     }
     else if(nWaveNumber == 13)
     {
         AddResearch(rPlayer, 2, 2, 2, 2, 1, 1, 1);
+        AddShrineResearch(rPlayer, 0);
+        AddTempleResearch(rPlayer, 1);
     }
     else if(nWaveNumber == 14)
     {
         AddResearch(rPlayer, 2, 2, 2, 2, 1, 1, 1);
+        AddShrineResearch(rPlayer, 1);
+        AddTempleResearch(rPlayer, 1);
     }
     else if(nWaveNumber == 15)
     {
         AddResearch(rPlayer, 3, 2, 2, 2, 1, 1, 1);
+        AddShrineResearch(rPlayer, 1);
+        AddTempleResearch(rPlayer, 1);
     }
     else if(nWaveNumber == 16)
     {
         AddResearch(rPlayer, 3, 3, 2, 2, 1, 1, 1);
+        AddShrineResearch(rPlayer, 1);
+        AddTempleResearch(rPlayer, 1);
     }
     else if(nWaveNumber == 17)
     {
         AddResearch(rPlayer, 3, 3, 2, 2, 1, 1, 1);
+        AddShrineResearch(rPlayer, 1);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 18)
     {
         AddResearch(rPlayer, 3, 3, 2, 2, 2, 1, 1);
+        AddShrineResearch(rPlayer, 1);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 19)
     {
         AddResearch(rPlayer, 3, 3, 2, 2, 2, 1, 2);
+        AddShrineResearch(rPlayer, 1);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 20)
     {
         AddResearch(rPlayer, 3, 3, 2, 2, 2, 2, 2);
+        AddShrineResearch(rPlayer, 1);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 21)
     {
         AddResearch(rPlayer, 3, 3, 2, 2, 2, 2, 2);
+        AddShrineResearch(rPlayer, 2);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 22)
     {
         AddResearch(rPlayer, 3, 3, 3, 2, 2, 2, 2);
+        AddShrineResearch(rPlayer, 2);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 23)
     {
         AddResearch(rPlayer, 3, 3, 3, 3, 2, 2, 2);
+        AddShrineResearch(rPlayer, 2);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 24)
     {
         AddResearch(rPlayer, 3, 3, 3, 3, 3, 2, 2);
+        AddShrineResearch(rPlayer, 2);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 25)
     {
         AddResearch(rPlayer, 4, 3, 3, 3, 3, 2, 2);
+        AddShrineResearch(rPlayer, 2);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 26)
     {
         AddResearch(rPlayer, 4, 4, 3, 3, 3, 2, 2);
+        AddShrineResearch(rPlayer, 2);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 27)
     {
         AddResearch(rPlayer, 4, 4, 3, 3, 3, 3, 2);
+        AddShrineResearch(rPlayer, 2);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 28)
     {
         AddResearch(rPlayer, 4, 4, 3, 3, 3, 3, 3);
+        AddShrineResearch(rPlayer, 2);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 29)
     {
         AddResearch(rPlayer, 4, 4, 3, 3, 3, 3, 3);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 30)
     {
         AddResearch(rPlayer, 4, 4, 4, 4, 3, 3, 3);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 31)
     {
         AddResearch(rPlayer, 4, 4, 4, 4, 4, 3, 3);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 2);
     }
     else if(nWaveNumber == 32)
     {
         AddResearch(rPlayer, 4, 4, 4, 4, 4, 3, 3);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 3);
     }
     else if(nWaveNumber == 33)
     {
         AddResearch(rPlayer, 4, 4, 4, 4, 4, 4, 3);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 3);
     }
     else if(nWaveNumber == 34)
     {
         AddResearch(rPlayer, 4, 4, 4, 4, 4, 4, 4);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 3);
     }
     else if(nWaveNumber == 35)
     {
         AddResearch(rPlayer, 5, 4, 4, 4, 4, 4, 4);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 3);
     }
     else if(nWaveNumber == 36)
     {
         AddResearch(rPlayer, 5, 5, 4, 4, 4, 4, 4);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 3);
     }
     else if(nWaveNumber == 37)
     {
         AddResearch(rPlayer, 5, 5, 5, 4, 4, 4, 4);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 3);
     }
     else if(nWaveNumber == 38)
     {
         AddResearch(rPlayer, 5, 5, 5, 5, 4, 4, 4);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 3);
     }
     else if(nWaveNumber == 39)
     {
         AddResearch(rPlayer, 5, 5, 5, 5, 5, 4, 4);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 3);
     }
     else if(nWaveNumber == 40)
     {
         AddResearch(rPlayer, 5, 5, 5, 5, 5, 5, 4);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 3);
     }
     else if(nWaveNumber == 41)
     {
         AddResearch(rPlayer, 5, 5, 5, 5, 5, 5, 5);
+        AddShrineResearch(rPlayer, 3);
+        AddTempleResearch(rPlayer, 3);
     }
     else if(nWaveNumber == 42)
     {
         AddResearch(rPlayer, 5, 5, 5, 5, 5, 5, 5);
+        AddShrineResearch(rPlayer, 4);
+        AddTempleResearch(rPlayer, 3);
     }
     else
     {
         AddResearch(rPlayer, 5, 5, 5, 5, 5, 5, 5);
+        AddShrineResearch(rPlayer, 4);
+        AddTempleResearch(rPlayer, 4);
     }
 }

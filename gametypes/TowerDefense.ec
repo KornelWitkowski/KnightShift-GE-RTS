@@ -1,4 +1,5 @@
 #define TOWER_DEFENSE
+#define TIER_5_GAME_TYPE
 
 #define NEXT_WAVE_TRIGGER_MARKER 90
 #define REMOVE_ARTEFACTS_TRIGGER_MARKER 91
@@ -7,9 +8,6 @@
 #define BREAK_TRIGGER_MARKER 94
 
 #define BOSS_MARKER 50
-
-#define MAIN_BOSS_QUEEN 
-
 
 #define FIRST_MARKER_TO_REACH_CENTER 60
 #define FIRST_MARKER_TO_REACH_LEFT 70
@@ -53,32 +51,30 @@
 #define CUTSCENE_PRIEST_MARKER 12
 
 /*
-    Pomysły: 
-     - koniec fali dzień, fala noc SetTime(0); - noc SetTime(100) - dzień
+    Na teraz: 
+        - upewnić się, że są wyłączone unity na mapie TD
+        - imiona dla ai
+        - korekta językowa
 
-    TODO:
-        - ai - wilkołaki się nie ruszają czasem
 
-        ekstra:
+    Backlog:
+        Tower defense:
         - statystyki na koniec gry
         - briefing - cutscenka na początku
-        - dodatkowe animacje bossów
-        - imiona jednostek - dla pierwszych wygranych
+        - itemy dedykowane do RTSa (bez precyzji, z większą szybkością)
+        - dopasować wybuch trującej krowy
+        - bardziej dopasowane EXP dla artefaktów do doświadczenia
+        - Animacje prisonerów
+        - imiona dla jednostek TD
+        - Informacja o końcu fali (muzyka, komunikat, itd)
+        - Dla fal z bliskich markerów, krowy powinny pojawiać się szybciej
 
-        inne osoby:
-        - korekta językowa
-        - aury dla bossów
-        - 5 tier
-            - 2 niewidzialne itemy
+        Inne tryby:
+        - ai atakujące palisadki
 
     Bugi:
         - drobny lag przy prisonerach
-
-    Inne tryby:
-        - ai atakuje palisadki
-        - imiona dla nowego ai
-
-
+        - lag na koniec fali
 
 
 */
@@ -298,7 +294,7 @@ mission "translateTowerDefense"
         }
         else if(iTotalWaveNumber <= 50)
         {
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER, "RPG_EGYPT_NECRO4");
+            CreateUnitAtMarker(rPlayer8, BOSS_MARKER, "RPG_EGYPT_NECRO3");
             CreateUnitAtMarker(rPlayer8, BOSS_MARKER+1, "QUEENCLONE4");
             CreateUnitAtMarker(rPlayer8, BOSS_MARKER+2, "QUEENCLONE4");
             CreateUnitAtMarker(rPlayer8, BOSS_MARKER+3, "QUEENCLONE4");
@@ -344,7 +340,7 @@ mission "translateTowerDefense"
         
         iExtraHut = 0;
 
-        iCurrentWaveNumber = 1;
+        iCurrentWaveNumber = 39;
 
         bWaveActive = false;
         bIsFinalWave = false;
@@ -436,10 +432,12 @@ mission "translateTowerDefense"
         }
 
 
-        AddWorldMapSign(GetPointX(REWARDS_MARKER), GetPointY(REWARDS_MARKER), 0, 0, 1200);
-        AddWorldMapSign(GetPointX(CONTROL_BUTTONS_MARKER), GetPointY(CONTROL_BUTTONS_MARKER), 0, 2, 1200);
-        CreateStarters();
+        if(PointExists(REWARDS_MARKER))
+            AddWorldMapSign(GetPointX(REWARDS_MARKER), GetPointY(REWARDS_MARKER), 0, 0, 1200);
+        if(PointExists(CONTROL_BUTTONS_MARKER))
+            AddWorldMapSign(GetPointX(CONTROL_BUTTONS_MARKER), GetPointY(CONTROL_BUTTONS_MARKER), 0, 2, 1200);
 
+        CreateStarters();
 
         UpdatedPlayersAfterWave();
 
@@ -480,7 +478,6 @@ mission "translateTowerDefense"
         CleanUpArtefacts(1);
         CleanUpArtefacts(1);
         return true;
-        return false;
     }
 
     event SetupInterface()

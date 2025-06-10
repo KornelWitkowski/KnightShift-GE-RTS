@@ -5,6 +5,7 @@
 
 #include "ArtefactsCleanup.ech"
 #include "EmitUnitEvent.ech"
+#include "Ai.ech"
 
 function void ImproveHPRegeneration(unitex uUnit, int iHPExtraSpeed)
 {
@@ -610,21 +611,6 @@ function void UseMagic(player rPlayer)
 }
 
 
-function int IsShooter(unitex uUnit)
-{
-    /* 
-        uUnit.GetWeaponType = 3 odpowiada strzelcom: łucznik, włócznik, mag, wiedźma, kapłan. 
-        Czarodziejka (i inne jednostki z piorunami) to uUnit.GetWeaponType = 6.
-    */
-
-    if(uUnit.GetWeaponType() == 3)
-        return true;
-    else if(uUnit.GetWeaponType() == 6)
-        return true;
-
-    return false;
-}
-
 function int IsInUnbreakableTower(unitex uUnit)
 {
     unit uTower;
@@ -736,4 +722,12 @@ function void TurnOffTier5Items()
         }
    }
     
+}
+
+function int PointExists(int i)
+{
+    if(PointExist(i))
+        return true;
+
+    return false;
 }

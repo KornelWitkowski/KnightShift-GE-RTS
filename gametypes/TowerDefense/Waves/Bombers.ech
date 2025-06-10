@@ -6,10 +6,14 @@ function void SpawnBomber(int iWaveNumber, int iMarker)
     unitex uUnit;
 
 
-    if((iWaveType == SKELETON_WAVE) && (RandXor(3) == 0))
+    if((iWaveType == SKELETON_WAVE) && (RandXor(5) == 0))
     {
         uUnit = CreateUnitAtMarker(rPlayer9, iMarker, "TD_COW_POISON");
-        uUnit.SetScriptData(SCRIPT_DATA_TRAP_POISON);
+        SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, BOMBER_POISON_MARKER);
+    }
+    else if((iWaveType == DEMON_WAVE) && (RandXor(5) == 0))
+    {
+        uUnit = CreateUnitAtMarker(rPlayer9, iMarker, "TD_COW_POISON");
         SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, BOMBER_POISON_MARKER);
     }
     else

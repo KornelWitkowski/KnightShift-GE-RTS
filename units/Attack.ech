@@ -1728,24 +1728,24 @@ event Custom2(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
     return AttackEventOnSelectedToAttackByUnit(uUnit);
 }
 
-
 // GOLDEN EDITION CUSTOM EVENT
 event Custom3(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
 {
-    int bIsAttacking;
-    if (uUnit != null)
-    {
-        bIsAttacking = uUnit.SetCustomEvent(3, 0, 0, 0, 0, null);
-        return true;
-        return bIsAttacking;
+    int iDistance;
+    int iDistanceToStay;
+    if(nParam1 == 1){
+        iDistance = DistanceTo(m_uAttackTarget);
+
+        iDistanceToStay = DistanceTo(m_nStayGx, m_nStayGy);
+        if(nParam2 == 1 && ((iDistance > 15) || (iDistanceToStay > 25)))
+        {
+            ResetAttackTarget();
+            CallMoveToPointAlpha(m_nStayGx, m_nStayGy, m_nStayLz, m_nStayAlpha);
+        }
+        return iDistance;
     }
-
-    if (IsAttacking())
-        return true;
-
-    return false;
+    return IsAttacking();
 }
-
 
 
 ////    Commands    ////
@@ -1800,5 +1800,7 @@ command SetSmartAttackMode(int nMode) hidden
     NextCommand(1);
     return true;
 }
+
+
 
 #endif ATTACK_ECH

@@ -23,14 +23,17 @@ function void CreatePortalArtifact()
 
 function void CreateNextWaveTrigger()
 {
+    if(PointExist(NEXT_WAVE_TRIGGER_MARKER))
+    {
+        CreateArtefact(
+            "SWITCH_1_1",
+            GetPointX(NEXT_WAVE_TRIGGER_MARKER),
+            GetPointY(NEXT_WAVE_TRIGGER_MARKER),
+            GetPointZ(NEXT_WAVE_TRIGGER_MARKER),
+            NEXT_WAVE_TRIGGER_MARKER
+        );
+    }
 
-    CreateArtefact(
-        "SWITCH_1_1",
-        GetPointX(NEXT_WAVE_TRIGGER_MARKER),
-        GetPointY(NEXT_WAVE_TRIGGER_MARKER),
-        GetPointZ(NEXT_WAVE_TRIGGER_MARKER),
-        NEXT_WAVE_TRIGGER_MARKER
-    );
 
     if(PointExist(BREAK_TRIGGER_MARKER))
     {
@@ -46,6 +49,9 @@ function void CreateNextWaveTrigger()
 
 function void CreateRemoveArtefactsTrigger()
 {
+    if(!PointExist(REMOVE_ARTEFACTS_TRIGGER_MARKER))
+        return;
+
     CreateArtefact(
         "SWITCH_1_1",
         GetPointX(REMOVE_ARTEFACTS_TRIGGER_MARKER),
@@ -58,6 +64,9 @@ function void CreateRemoveArtefactsTrigger()
 
 function void CreatePerunRageTrigger()
 {
+    if(!PointExist(PERUN_RAGE_TRIGGER_MARKER))
+        return;
+
     CreateArtefact(
         "SWITCH_1_1",
         GetPointX(PERUN_RAGE_TRIGGER_MARKER),
@@ -69,6 +78,9 @@ function void CreatePerunRageTrigger()
 
 function void CreateExtraBreakTimeTrigger()
 {
+    if(!PointExist(EXTRA_BREAK_TIME_TRIGGER_MARKER))
+        return;
+
     CreateArtefact(
         "SWITCH_1_1",
         GetPointX(EXTRA_BREAK_TIME_TRIGGER_MARKER),
@@ -123,12 +135,12 @@ function void CleanUpArtefacts(int bTunnel)
     iRight = GetRight() - 16;
     iBottom = GetBottom() - 16;
 
-    for(i=iLeft; i<=iRight; ++i)
+    for(i=iTop; i<=iBottom; ++i)
     {
-        for(j=iTop; j<=iBottom; ++j)
+        for(j=iLeft; j<=iRight; ++j)
         {
             bShouldContinue = false;
-            for(k=FIRST_SPAWN_MARKER; k<LAST_SPAWN_MARKER_CLOSE; ++k)
+            for(k=FIRST_SPAWN_MARKER; k<=LAST_SPAWN_MARKER_CLOSE; ++k)
             {
                 if(!PointExist(k))
                     continue;
@@ -149,7 +161,7 @@ function void CleanUpArtefacts(int bTunnel)
             if(bShouldContinue)
                 continue;
 
-            for(k=NEXT_WAVE_TRIGGER_MARKER; k<BREAK_TRIGGER_MARKER; ++k)
+            for(k=NEXT_WAVE_TRIGGER_MARKER; k<=BREAK_TRIGGER_MARKER; ++k)
             {
                 if(!PointExist(k))
                     continue;
@@ -170,7 +182,7 @@ function void CleanUpArtefacts(int bTunnel)
             if(bShouldContinue)
                 continue;
 
-            for(k=FIRST_REWARD_MARKER; k<REWARD_INFO_MARKER; ++k)
+            for(k=FIRST_REWARD_MARKER; k<=REWARD_INFO_MARKER; ++k)
             {
                 if(!PointExist(k))
                     continue;
@@ -178,10 +190,10 @@ function void CleanUpArtefacts(int bTunnel)
                 if(GetPointZ(k) != bTunnel)
                     continue;
 
-                if((GetPointX(k) - i) > 1)
+                if(ABS(GetPointX(k) - i) > 1)
                     continue;
 
-                if((GetPointY(k) - j) > 1)
+                if(ABS(GetPointY(k) - j) > 1)
                     continue;
 
                 bShouldContinue = true;

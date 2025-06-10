@@ -16,9 +16,13 @@ function void GenerateSpecialPrize(player rPlayer, int iWaveNumber, int iDifficu
 
     iCode = iDifficulty * 100 + iWaveNumber;
 
+
     iSalt = RandXor(255);
     iLW = iDifficulty * 100 + iWaveNumber;
     iCode = (iLW * SECRET_A + iSalt * 97 + SECRET_B) % SECRET_MOD + 100000;
+
+    if(iWaveNumber == iTotalWaveNumber)
+        iSalt = iSalt + 256;
 
     SetStringBuffTranslate(2, "translateTowerDefenseSpecialPrize");
     SetStringBuff(3, GetStringBuff(2), iWaveNumber, iCode, iSalt);

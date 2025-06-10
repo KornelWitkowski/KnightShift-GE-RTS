@@ -114,11 +114,11 @@ function unitex CreateSpearReward(int iWaveNumber, int iMarker)
         else if(iRand==2) 
             uSpear = CreateArtefact("ART_RPG_SPEAR32", iX, iY, iZ, 0);
         else if(iRand==3) 
-            uSpear = CreateArtefact("ART_RPG_SPEAR24", iX, iY, iZ, 0);
+            uSpear = CreateArtefact("ART_SPEAR6", iX, iY, iZ, 0);
         else if(iRand==4) 
             uSpear = CreateArtefact("ART_RPG_SPEAR36", iX, iY, iZ, 0);
         else 
-            uSpear = CreateArtefact("ART_RPG_SPEAR33", iX, iY, iZ, 0);
+            uSpear = CreateArtefact("ART_SPEAR5", iX, iY, iZ, 0);
     }
     else if (iTier == 1)
     {
@@ -347,14 +347,18 @@ function unitex CreateArmorReward(int iWaveNumber, int iMarker)
     iX = GetPointX(iMarker);
     iY = GetPointY(iMarker);
     iZ = GetPointZ(iMarker);
-    // Po 15 fali nie generujemy itemów, które można researchować
+    // Korekta do researchu
     if(iWaveNumber <= 15)
     {
         iTier = RandXorNoExtraEntropy(3);
     }
-    else
+    else if (iWaveNumber <= 30)
     {
         iTier = 1 + RandXorNoExtraEntropy(2);
+    }
+    else
+    {
+        iTier = 3;
     }
     
     //  0=Shield, 1=Armor, 2=Helmet
@@ -409,14 +413,13 @@ function unitex CreateArmorReward(int iWaveNumber, int iMarker)
             else
                 uArmor = CreateArtefact("ART_ARMOUR3A", iX, iY, iZ, 0);
         }
+        else if (iTier == 1)
+        {
+            uArmor = CreateArtefact("ART_ARMOUR4", iX, iY, iZ, 0);
+        }
         else
         {
-            iRand = RandXorNoExtraEntropy(2);
-            if (iRand == 0)
-                uArmor = CreateArtefact("ART_ARMOUR4", iX, iY, iZ, 0);
-            else
-                uArmor = CreateArtefact("ART_ARMOUR4A", iX, iY, iZ, 0);
-
+            uArmor = CreateArtefact("ART_ARMOUR4A", iX, iY, iZ, 0);;
         }
     }
     else  // Helmets
@@ -429,15 +432,17 @@ function unitex CreateArmorReward(int iWaveNumber, int iMarker)
             else
                 uArmor = CreateArtefact("ART_HELMET3", iX, iY, iZ, 0);
         }
-        else
+        else if (iTier == 1)
         {
-            iRand = RandXorNoExtraEntropy(3);
+            iRand = RandXorNoExtraEntropy(2);
             if (iRand == 0)
                 uArmor = CreateArtefact("ART_HELMET3A", iX, iY, iZ, 0);
-            else if (iRand == 1)
-                uArmor = CreateArtefact("ART_HELMET4", iX, iY, iZ, 0);
             else
-                uArmor = CreateArtefact("ART_HELMET4A", iX, iY, iZ, 0);
+                uArmor = CreateArtefact("ART_HELMET4", iX, iY, iZ, 0);
+        }
+        else
+        {
+            uArmor = CreateArtefact("ART_HELMET4A", iX, iY, iZ, 0);
         }
     }
     

@@ -12,9 +12,14 @@ function int GetMultiplicationValue(int nWaveNumber)
     else if(nWaveNumber <= 30)
         return 5;
     else if(nWaveNumber <= 40)
-        return 6;
+    {
+        if(RandXor(100) < 50)
+            return 5;
+        else
+            return 6;
+    }
 
-    return 7;
+    return 6;
 }
 
 
@@ -27,12 +32,20 @@ function unitex SpawnMultiplicationSkeleton(int nWaveNumber, int iMarker)
     iY = GetPointY(iMarker);
     iZ = GetPointZ(iMarker);
     iAngle = GetPointAlpha(iMarker);
-
+		
     if(nWaveNumber <= 10)
+    {
+        uUnit = rPlayer10.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON5M");
+    }
+    else if(nWaveNumber <= 20)
+    {
+        uUnit = rPlayer10.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON6M");
+    }
+    else if(nWaveNumber <= 30)
     {
         uUnit = rPlayer10.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON7M");
     }
-    else if(nWaveNumber <= 20)
+    else if(nWaveNumber <= 40)
     {
         uUnit = rPlayer10.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON8M");
     }

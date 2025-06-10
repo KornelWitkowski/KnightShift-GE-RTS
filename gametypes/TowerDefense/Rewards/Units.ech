@@ -8,10 +8,12 @@ function unitex CreateTier1Unit(int iMarker)
 
     iRoll = RandXorNoExtraEntropy(6);
 
+
     if (iRoll == 0) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MERCHUNTER");
     } else if (iRoll == 1) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MERCSPEARMAN");
+        uUnit.AddHP(120);
     } else if (iRoll == 2) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MERCWOODCUTTER");
     } else if (iRoll == 3) {
@@ -34,21 +36,20 @@ function unitex CreateTier2Unit(int iMarker)
 
     rPlayer = GetPlayer(13);
 
-    iRoll = RandXorNoExtraEntropy(7);
+    iRoll = RandXorNoExtraEntropy(6);
 
     if (iRoll == 0) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MINOTAUR");
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "AMAZONE");
     } else if (iRoll == 1) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "GIANT3");
-    } else if (iRoll == 2) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "DARKPRIEST");
-    } else if (iRoll == 3) {
+    } else if (iRoll == 2) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_W_GET");
+    } else if (iRoll == 3) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_BANDITT");
     } else if (iRoll == 4) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_F_RECRUIT");
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_BANDIT_SPEARMAN");
+        uUnit.AddHP(200);
     } else if (iRoll == 5) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_S_MERC");
-    } else if (iRoll == 6) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_B4NDITM");
     }
 
@@ -64,23 +65,26 @@ function unitex CreateTier3Unit(int iMarker)
 
     rPlayer = GetPlayer(13);
 
-    iRoll = RandXorNoExtraEntropy(7);
+    iRoll = RandXorNoExtraEntropy(6);
 
     if (iRoll == 0) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MINOTAUR2");
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_AMAZONE");
     } else if (iRoll == 1) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "GIANT2");
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_BANDIT_SPEARMAN2");
+        uUnit.AddHP(100);
     } else if (iRoll == 2) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "AMAZONE");
-    } else if (iRoll == 3) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_S_COM");
-    } else if (iRoll == 4) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_F_MERC");
-    } else if (iRoll == 5) {
+        uUnit.AddHP(200);
+    } else if (iRoll == 3) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NKAPLAN");
-    } else if (iRoll == 6) {
+    } else if (iRoll == 4) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_FORESTS");
-    }
+        uUnit.AddHP(100);
+    } else if (iRoll == 5) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "OLDWITCH");
+        uUnit.AddHP(800);
+        uUnit.AddDamage(2, 140);
+    } 
 
     return uUnit;
 }
@@ -94,24 +98,30 @@ function unitex CreateTier4Unit(int iMarker)
 
     rPlayer = GetPlayer(13);
 
-    iRoll = RandXorNoExtraEntropy(7);
+    iRoll = RandXorNoExtraEntropy(6);
+
 
     if (iRoll == 0) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NCZARODZIEJKA");
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_AMAZONE2");
     } else if (iRoll == 1) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "GIANT3");
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NCZARODZIEJKA");
+        uUnit.AddHP(100);
+        uUnit.AddDamage(2, 40);
     } else if (iRoll == 2) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NMAG");
+        uUnit.AddHP(100);
     } else if (iRoll == 3) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "IGOR2");
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NPC_FOOTMAN");
+        uUnit.AddHP(600);
+        uUnit.AddDamage(1, 50);
     } else if (iRoll == 4) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SPECIALCOW");
         uUnit.CommandSetTalkMode(true, true, false);
         uUnit.CommandStop();
     } else if (iRoll == 5) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RINGLEADER");
-    } else if (iRoll == 6) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_HRABIA");
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NPC_HUNTER");
+        uUnit.AddHP(300);
+        uUnit.AddDamage(1, 20);
     }
     
     return uUnit;
@@ -129,11 +139,13 @@ function unitex CreateTier5Unit(int iMarker)
     iRoll = RandXorNoExtraEntropy(6);
 
     if (iRoll == 0) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "IGOR3");
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_AMAZONE3");
     } else if (iRoll == 1) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "GIANT3");
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NPC_KNIGHT");
+        uUnit.AddHP(800);
+        uUnit.AddDamage(1, 40);
     } else if (iRoll == 2) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RTS_MAGIC_MINOTAUR_COWISLAND_2");
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RINGLEADER");
     } else if (iRoll == 3) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_GRAF");
     } else if (iRoll == 4) {
@@ -154,26 +166,30 @@ function unitex CreateTier6Unit(int iMarker)
 
     rPlayer = GetPlayer(13);
 
-    iRoll = RandXorNoExtraEntropy(5);
+    iRoll = RandXorNoExtraEntropy(6);
 
     if (iRoll == 0) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "PRINCESS");
+        uUnit.AddHP(1600);
+        uUnit.AddDamage(2, 130);
+    } else if (iRoll == 1) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MIESZKO");
         uUnit.AddHP(1500);
         uUnit.AddDamage(2, 55);
-    } else if (iRoll == 1) {
-        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "PRINCESS");
-        uUnit.AddHP(1500);
-        uUnit.AddDamage(2, 100);
     } else if (iRoll == 2) {
         uUnit = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
             "HERO_EASY", "HELMET5", "ARMOUR5", "SHIELD5", "SWORD6", null, null, null, null);
+        uUnit.AddHP(200);
+        uUnit.AddDamage(2, 15);
     } else if (iRoll == 3) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "DRAGON_RED");
     } else if (iRoll == 4) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "KOSCIEJ");
         uUnit.AddHP(1000);
-        uUnit.AddDamage(2, 70);
+        uUnit.AddDamage(2, 100);
         SetUnitNecromancer(iMarker);
+    } else if (iRoll == 5) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "FATHER");
     }
 
     return uUnit;
@@ -214,7 +230,7 @@ function unitex RewardUnits(int iWaveNumber, int iMarker)
     int iRoll;
     unitex uRewardUnit;
 
-    iRoll =  GaussianDistributionNoExtraEntropy(20) + (3 * iWaveNumber / 2);
+    iRoll =  GaussianDistributionNoExtraEntropy(30) + 3 * iWaveNumber / 2;
 
     // Reward unit based on thresholds
     if (iRoll < 20) {
@@ -233,7 +249,11 @@ function unitex RewardUnits(int iWaveNumber, int iMarker)
 
     MarkAsPrisoner(uRewardUnit, iMarker);
     uRewardUnit.CommandSetMovementMode(modeHoldPos);
+    uRewardUnit.EnableCapture(false);
+    uRewardUnit.EnableConversionByMagic(false);
+    uRewardUnit.EnableConversionByPlace(false);
     CreateObjectAtUnit(uRewardUnit, "CAST_TELEPORT");
 
     return uRewardUnit;
 }
+

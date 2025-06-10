@@ -12,19 +12,19 @@ function unitex SpawnDemonBoss(int nWaveNumber, int iMarker)
     }
     else if(nWaveNumber <= 20)
     {
-        uUnit.AddHP(-17500);
+        uUnit.AddHP(-15500);
     }
     else if(nWaveNumber <= 30)
     {
-        uUnit.AddHP(-15000);
+        uUnit.AddHP(-13000);
     }
     else if(nWaveNumber <= 40)
     {
-        uUnit.AddHP(-14000);
+        uUnit.AddHP(-9000);
     }
     else
     {
-        uUnit.AddHP(-12000);
+        uUnit.AddHP(-9000);
     }
 
     GiveCaptureConvertResistance(uUnit);

@@ -36,6 +36,8 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
                 iSum = iSum + 4;
             else if(i < 40)
                 iSum = iSum + 2;
+            else
+                iSum = iSum + 1;
         }
         iSum = ModifyUnitNumber(iSum);
         return iSum;
@@ -52,6 +54,8 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
             else if(i < 30)
                 iSum = iSum + 3;
             else if(i < 40)
+                iSum = iSum + 2;
+            else
                 iSum = iSum + 1;
         }
         iSum = ModifyUnitNumber(iSum);
@@ -67,9 +71,11 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
             else if(i < 20)
                 iSum = iSum + 5;
             else if(i < 30)
-                iSum = iSum + 4;
+                iSum = iSum + 5;
             else if(i < 40)
-                iSum = iSum + 3;
+                iSum = iSum + 4;
+            else
+                iSum = iSum + 2;
         }
         iSum = ModifyUnitNumber(iSum);
         return iSum;
@@ -80,13 +86,15 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
         for(i = 1; i < iWaveNumber; i = i + 1)
         {
             if(i < 10)
-                iSum = iSum + 5;
-            else if(i < 20)
                 iSum = iSum + 4;
+            else if(i < 20)
+                iSum = iSum + 3;
             else if(i < 30)
                 iSum = iSum + 3;
             else if(i < 40)
-                iSum = iSum + 3;
+                iSum = iSum + 2 + i % 2;
+            else
+                iSum = iSum + 2;
         }
         iSum = ModifyUnitNumber(iSum);
         return iSum;
@@ -104,6 +112,8 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
                 iSum = iSum + 2;
             else if(i < 40)
                 iSum = iSum + 1;
+            else
+                iSum = iSum + i % 2;
         }
         iSum = ModifyUnitNumber(iSum);
         return iSum;
@@ -125,7 +135,10 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
             {
                 iSum = iSum + i % 2;
             }
+            else
+                iSum = iSum + i % 2;
         }
+        iSum = ModifyUnitNumber(iSum);
         return iSum;
     }
     else if (iWaveType == BEAST_WAVE)
@@ -160,6 +173,8 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
                 iSum = iSum + 2;
             else if(i < 40)
                 iSum = iSum + 1;
+            else
+                iSum = iSum + i % 2;
         }
         iSum = ModifyUnitNumber(iSum);
         return iSum;
@@ -189,12 +204,14 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
         for(i = 1; i < iWaveNumber; i = i + 1)
         {
             if(i < 10)
-                iSum = iSum + 1;
+                iSum = iSum + 2;
             else if(i < 20)
-                iSum = iSum + 1;
+                iSum = iSum + 2;
             else if(i < 30)
-                iSum = iSum + 1;
+                iSum = iSum + 2;
             else if(i < 40)
+                iSum = iSum + 1;
+            else
                 iSum = iSum + 1;
         }
         iSum = ModifyUnitNumber(iSum);
@@ -318,6 +335,9 @@ function int GetBomberNumber(int iWaveType, int iWaveNumber)
     iRand = RandXor(3);
 
     if(iRand != 0)
+        return 0;
+
+    if(iWaveType == MAGE_WAVE)
         return 0;
 
     i = 1 + iWaveNumber / 8 ;

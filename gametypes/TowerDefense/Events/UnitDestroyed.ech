@@ -109,6 +109,7 @@ event UnitDestroyed(unitex uUnitKilled)
     int iPlayerIFF;
     int iX, iY, iZ, iAlpha;
     player rPlayer;
+    int k;
 
     iMaskedScriptData = GetUnitMaskedScriptData(uUnitKilled, TOWER_DEFENSE_SPECIAL_MASK);
 
@@ -129,6 +130,7 @@ event UnitDestroyed(unitex uUnitKilled)
         SetGoalState(0, goalAchieved, 1);
         bIsWin = true;
         bWaveActive = false;
+        PlayTrack("Music\\RPGvictory.tws");
         state Victory;
     }
     else if(iMaskedScriptData == MAIN_BOSS_NECROMANCER_MARKER)
@@ -283,6 +285,25 @@ event UnitDestroyed(unitex uUnitKilled)
     }
     else
     {
+
+        // edge case - wskrzeszanie usuwanych unitów na rewardsach
+        for(k=FIRST_REWARD_MARKER; k<REWARD_INFO_MARKER; ++k)
+        {
+            if(!PointExist(k))
+                continue;
+
+            if(GetPointZ(k) != iZ)
+                continue;
+
+            if((GetPointX(k) - iX) > 1)
+                continue;
+
+            if((GetPointY(k) - iY) > 1)
+                continue;
+
+            return;
+        }
+
         CheckMarkeredUnitDestroyedEvents(uUnitKilled);
     } 
 }

@@ -4,7 +4,7 @@ function int ChooseDemonTier(int nWaveNumber)
 
     iDifficultyModifier = (iDifficulty - 2) * 5;
 
-    iRoll =  GaussianDistribution(20) + (3 * nWaveNumber / 2);
+    iRoll =  GaussianDistribution(40) + 8 * nWaveNumber / 5;
     iRoll = iRoll + iDifficultyModifier;
 
     if (35 > iRoll) return 0;

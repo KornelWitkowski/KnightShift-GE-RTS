@@ -1,4 +1,44 @@
+
 function int IsUnitAttacking(unitex uUnit)
 {
     return uUnit.SetCustomEvent(3, 0, 0, 0, 0, null);
+}
+
+function int GetDistanceToAttackTarget(unitex uUnit)
+{
+    return uUnit.SetCustomEvent(3, 1, 0, 0, 0, null);
+}
+
+function int MoveBackIfFarFromAttackTarget(unitex uUnit)
+{
+    return uUnit.SetCustomEvent(3, 1, 1, 0, 0, null);
+}
+
+
+function void MoveBackExtraPlayersUnits()
+{
+    int i, j;
+    int iNumberOfUnits;
+
+    player rPlayer;
+    unitex uUnit;
+    for(i=8; i<15; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        if(rPlayer==null || !rPlayer.IsAlive())
+            continue;
+
+        if(RandXor(3) != 0)
+            continue;
+
+        iNumberOfUnits = rPlayer.GetNumberOfUnits();
+        for(j=0; j<iNumberOfUnits; j=j+1)
+        {
+                uUnit = rPlayer.GetUnit(j);
+                if(uUnit==null)
+                    continue;
+
+            MoveBackIfFarFromAttackTarget(uUnit);
+        }
+    }
 }

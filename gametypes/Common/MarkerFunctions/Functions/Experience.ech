@@ -22,7 +22,7 @@ function unitex CreateExperienceArtefact(
     if(iType == 0){
         uExperienceItem = CreateObjectAtMarker(
             iMarkerExperience,
-            "TD_EXP_ITEM1"
+            "TD_EXP_ITEM"
         );
         iExperienceToAdd = 20;
     }

@@ -152,6 +152,7 @@ function void CreateUnitNearBoss(unitex uBoss, string strUnit)
         SetUnitMaskedScriptData(uUnit1, PATH_MASK, iPathScriptData);    
         if(uUnit1 != null)
         {
+            GiveCaptureConvertResistance(uUnit1);
             return;
         }
     }
@@ -212,6 +213,7 @@ function void PrepareForNormalWave()
         iNumberOfUnitsToSpawn = 0;
         iNumberOfBombersToSpawn = 0;
     }
+
 }
 
 function void StartNextWave()

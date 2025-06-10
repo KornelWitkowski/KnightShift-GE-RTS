@@ -879,14 +879,14 @@ function void GiveResearch(player rPlayer, int iTierItem, int iTierMagicItem, in
     }
     else if(iTierItem == 5)
     {
-        // rPlayer.ResearchUpdate("AXE6");
-        // rPlayer.ResearchUpdate("BOW6");
-        // rPlayer.ResearchUpdate("SPEAR6");
+        rPlayer.ResearchUpdate("AXE6");
+        rPlayer.ResearchUpdate("BOW6");
+        rPlayer.ResearchUpdate("SPEAR6");
 
-        // rPlayer.ResearchUpdate("ARMOUR4");
-        // rPlayer.ResearchUpdate("SHIELD3A");
-        // rPlayer.ResearchUpdate("HELMET4");
-        // rPlayer.ResearchUpdate("SWORD3A");
+        rPlayer.ResearchUpdate("ARMOUR4");
+        rPlayer.ResearchUpdate("SHIELD3A");
+        rPlayer.ResearchUpdate("HELMET4");
+        rPlayer.ResearchUpdate("SWORD3A");
     }
 
 

@@ -38,11 +38,11 @@ function void SpawnNormalHuman(int nWaveNumber, int iMarker)
         else if(roll < 70)
         {
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIEST");
+            SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, MAGE_MARKER);
         }
         else if(roll < 85)
         {
             uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SORCERER");
-            SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, MAGE_MARKER);
         }
         else
         {

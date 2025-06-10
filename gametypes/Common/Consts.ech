@@ -12,6 +12,6 @@ consts
     STATUS_ALIVE = 0;
     STATUS_DEFEAT = 1;
 
-    IS_GOLDEN_EDITION_AI = 0;
+    IS_GOLDEN_EDITION_AI = 10;
 
 }
