@@ -15,6 +15,7 @@ player "translateAIPlayerGrandMaster"
     state State3;
     state State4;
     state State5;
+    state StateCows;
 
     int iRandNum;
     int iStartegy;
@@ -108,7 +109,27 @@ player "translateAIPlayerGrandMaster"
         // Wykorzystywane do zajmowania wież
         SetScriptData(10, 1);
 
-        return StateSetStrategy, 25;
+        return StateCows, 25;
+    }
+
+    state StateCows
+    {
+        int iMaxCowNumber;
+        int iNumberOfCows;
+
+        iMaxCowNumber = GetMaxCowNumber();
+        iNumberOfCows = GetNumberOfUnits(U_COW);
+
+        if(iNumberOfCows < iMaxCowNumber)
+        {
+            SetUnitProdCount(U_COW, 1);
+        }
+        else
+        {
+            return StateSetStrategy, 50;
+        }
+
+        return StateCows, 50;
     }
 
     state StateSetStrategy

@@ -15,6 +15,7 @@ player "translateAIPlayerEkspert"
     state State3;
     state State4;
     state State5;
+    state StateCows;
 
     int iRandNum;
     int iStartegy;
@@ -44,7 +45,8 @@ player "translateAIPlayerEkspert"
         ResetAIFeatures();
         ResetAIFeatures2();
 
-        EnableAIFeatures(aiBuildRoads |
+        EnableAIFeatures(
+                        aiBuildRoads |
                         aiBuildNewBuildings |
                         aiRebuildLostDefenceBuildings | 
                         aiBuildTowersEx |
@@ -79,6 +81,7 @@ player "translateAIPlayerEkspert"
                         ai2SetSmartUnitAttackMode | 
                         ai2ResearchUpdatesLevelAll, true);
 
+
         SetThinkSpeed(aiThinkSpeedBuildUnits, 5);
         SetThinkSpeed(aiThinkSpeedExecuteOrders, 60);
         SetThinkSpeed(aiThinkSpeedControlUnits, 100);
@@ -101,7 +104,7 @@ player "translateAIPlayerEkspert"
 
         SetUnitsBuildTimePercent(85);
         SetMinHarvesters(9);
-        SetMinBuilders(6);   
+        SetMinBuilders(2);   
  
         bUseSeeing = RAND(2);
 
@@ -109,39 +112,40 @@ player "translateAIPlayerEkspert"
         // Wykorzystywane do zajmowania wież
         SetScriptData(10, 1);
 
-        return StateSetStrategy, 25;
+        return StateCows, 25;
+    }
+
+
+    state StateCows
+    {
+        int iMaxCowNumber;
+        int iNumberOfCows;
+
+        iMaxCowNumber = GetMaxCowNumber();
+        iNumberOfCows = GetNumberOfUnits(U_COW);
+
+        if(iNumberOfCows < iMaxCowNumber)
+        {
+            SetUnitProdCount(U_COW, 1);
+        }
+        else
+        {
+            return StateSetStrategy, 50;
+        }
+
+        return StateCows, 50;
     }
 
     state StateSetStrategy
     {
-        iRandNum = RAND(100);
 
-        if(iRandNum < 60)
-        {
-            // Strategia standard - 60% szans
-            iStartegy = 0;
-        }
-        else if(iRandNum < 80)
-        {
-            // Strategia włócznicy - 20% szans
-            iStartegy = 1;
-        }
-        else
-        {
-            // Strategia drwale - 20% szans
-            iStartegy = 2;
-        }
-
-        // W trybie fastgame używamy tylko strategie standard
-        if(GetMaxCountLimitForObject("SHRINE")==1)
-        {
-            EnableAIFeatures2(ai2ControlTowers, false);
-            iStartegy = 0;
-        }
+        iStartegy = 0;
+   
         SetStrategy(1, iStartegy); 
 
         return State1, 25;
     }
+
 
     state State1
     {
@@ -150,7 +154,7 @@ player "translateAIPlayerEkspert"
         EnterSleepMode();
         GoBackWhenLowHP();
 
-        if ((GetMissionTime() > 7*MINUTE) || IsReachedLimitForAllProdCountUnits())
+        if ((GetMissionTime() > 10*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
             SetStrategy(2, iStartegy);
             return State2, 50;
@@ -166,7 +170,7 @@ player "translateAIPlayerEkspert"
         EnterSleepMode();
         GoBackWhenLowHP();
 
-        if ((GetMissionTime() > 14*MINUTE) || IsReachedLimitForAllProdCountUnits())
+        if ((GetMissionTime() > 16*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
             SetStrategy(3, iStartegy);   
             return State3, 50;

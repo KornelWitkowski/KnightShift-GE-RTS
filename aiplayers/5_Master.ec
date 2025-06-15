@@ -15,6 +15,7 @@ player "translateAIPlayerMaster"
     state State3;
     state State4;
     state State5;
+    state StateCows;
 
     int iRandNum;
     int iStartegy;
@@ -44,7 +45,8 @@ player "translateAIPlayerMaster"
         ResetAIFeatures();
         ResetAIFeatures2();
 
-        EnableAIFeatures(aiBuildRoads |
+        EnableAIFeatures(
+                        aiBuildRoads |
                         aiBuildNewBuildings |
                         aiRebuildLostDefenceBuildings | 
                        // aiBuildTowersEx |
@@ -79,6 +81,7 @@ player "translateAIPlayerMaster"
                         ai2SetSmartUnitAttackMode | 
                         ai2ResearchUpdatesLevelAll, true);
 
+
         SetThinkSpeed(aiThinkSpeedBuildUnits, 5);
         SetThinkSpeed(aiThinkSpeedExecuteOrders, 60);
         SetThinkSpeed(aiThinkSpeedControlUnits, 100);
@@ -109,8 +112,28 @@ player "translateAIPlayerMaster"
         // Wykorzystywane do zajmowania wież
         SetScriptData(10, 1);
 
-        return StateSetStrategy, 25;
+        return StateCows, 25;
     }
+
+    state StateCows
+    {
+        int iMaxCowNumber;
+        int iNumberOfCows;
+
+        iMaxCowNumber = GetMaxCowNumber();
+        iNumberOfCows = GetNumberOfUnits(U_COW);
+
+        if(iNumberOfCows < iMaxCowNumber)
+        {
+            SetUnitProdCount(U_COW, 1);
+        }
+        else
+        {
+            return StateSetStrategy, 50;
+        }
+
+        return StateCows, 50;
+    }    
 
     state StateSetStrategy
     {

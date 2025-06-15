@@ -2,3 +2,4 @@
 *.json
 *preprocessed
 test.ec
+/_task_list/*
