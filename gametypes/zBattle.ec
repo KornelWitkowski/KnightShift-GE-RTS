@@ -30,7 +30,7 @@ mission "translateGameTypeBattle"
         
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
-
+        EnablePlayer14Spells();
         m_nAIPlayers = 0;
 
         for(i=0; i<8; i=i+1)
@@ -58,7 +58,7 @@ mission "translateGameTypeBattle"
             if(GetPointX(i))
             {
                 rPlayer.LookAt(GetPointX(i)+1, GetPointY(i)-1, 6, 32, 20, 0);
-                rPlayer.CreateBuilding(GetPointX(i), GetPointY(i), 0, 0, "SKIRMISH_COURT");
+                rPlayer.CreateBuilding(GetPointX(i), GetPointY(i), 0, GetPointAlpha(i), "SKIRMISH_COURT");
             }
             else
             {

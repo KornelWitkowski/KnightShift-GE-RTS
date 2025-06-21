@@ -21,8 +21,10 @@ function unitex SpawnSpecialSkeleton(int nWaveNumber, int iMarker)
 
     if(nWaveNumber <= 10)
     {
-        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON7M");
-        uUnitBoss.AddHP(7500);
+        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON5M");
+        uUnitBoss.SetExperienceLevel(3);
+        uUnitBoss.AddHP(12000);
+        uUnitBoss.RegenerateHP();
         HandleExtraEffect(uUnitBoss);
 
         uUnit = rPlayerEnemy.CreateUnit(iX, iY-1, iZ, iAngle, "RPG_SKELETONT3");
@@ -45,8 +47,10 @@ function unitex SpawnSpecialSkeleton(int nWaveNumber, int iMarker)
     }
     else if(nWaveNumber <= 20)
     {
-        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON7M");
-        uUnitBoss.AddHP(10000);
+        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON6M");
+        uUnitBoss.SetExperienceLevel(3);
+        uUnitBoss.AddHP(12000);
+        uUnitBoss.RegenerateHP();
         HandleExtraEffect(uUnitBoss);
 
         uUnit = rPlayerEnemy.CreateUnit(iX, iY-1, iZ, iAngle, "RPG_SKELETONT3");
@@ -69,8 +73,10 @@ function unitex SpawnSpecialSkeleton(int nWaveNumber, int iMarker)
     }
     else if(nWaveNumber <= 30)
     {
-        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON8M");
-        uUnitBoss.AddHP(12500);
+        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON7M");
+        uUnitBoss.SetExperienceLevel(3);
+        uUnitBoss.AddHP(10000);
+        uUnitBoss.RegenerateHP();
         HandleExtraEffect(uUnitBoss);
 
         uUnit = rPlayerEnemy.CreateUnit(iX, iY-1, iZ, iAngle, "RPG_SKELETONT4");
@@ -94,7 +100,9 @@ function unitex SpawnSpecialSkeleton(int nWaveNumber, int iMarker)
     else if(nWaveNumber <= 40)
     {
         uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "RPG_SKELETON8M");
-        uUnitBoss.AddHP(15000);
+        uUnitBoss.SetExperienceLevel(3);
+        uUnitBoss.AddHP(6000);
+        uUnitBoss.RegenerateHP();
         HandleExtraEffect(uUnitBoss);
 
         uUnit = rPlayerEnemy.CreateUnit(iX, iY-1, iZ, iAngle, "RPG_SKELETONT4");

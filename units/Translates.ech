@@ -34,6 +34,7 @@
 #define TRL_STOP "translateCommandStop"
 #define TRL_MOVE "translateCommandMove"
 #define TRL_ENTER "translateCommandEnter"
+#define TRL_LAND "translateCommandLand"
 
 ////    Recycle.ech    ////
 

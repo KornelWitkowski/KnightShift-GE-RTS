@@ -391,6 +391,68 @@ function void CheckBombers(player rPlayerEnemy)
     }
 }
 
+function int TeleportMagesToFirstMarker(unitex uUnit)
+{
+    int bReachedFirstMarker;
+    int iMarkerToReach;
+    int hasShield, hasConversion;
+    int iDistance;
+
+    // pająki
+    if(uUnit.IsAnimal())
+        return false;
+
+    iMarkerToReach = GetUnitMaskedScriptData(uUnit, PATH_MASK);
+
+    hasShield = HaveMagic(uUnit, magicImmortalShield);
+    hasConversion = HaveMagic(uUnit, magicConversion);
+
+    if(!(hasShield || hasConversion))
+        return false;
+
+
+    bReachedFirstMarker = true;
+    if(iMarkerToReach == FIRST_MARKER_TO_REACH_CENTER)
+        bReachedFirstMarker = false;
+    else if(iMarkerToReach == FIRST_MARKER_TO_REACH_LEFT )
+        bReachedFirstMarker = false;
+    else if(iMarkerToReach == FIRST_MARKER_TO_REACH_RIGHT)
+        bReachedFirstMarker = false;
+    
+    if(bReachedFirstMarker)
+        return false;
+
+    iDistance = uUnit.DistanceTo(GetPointX(iMarkerToReach), GetPointY(iMarkerToReach));
+
+    if(iDistance < 10)
+        return false;
+
+    if(RandXor(5) > 0)
+        return false;
+    
+
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    uUnit.SetImmediatePosition(
+        GetPointX(iMarkerToReach) - 2 + RandXor(5),
+        GetPointY(iMarkerToReach) - 2 + RandXor(5),
+        GetPointZ(iMarkerToReach), 
+        GetPointAlpha(iMarkerToReach),
+        true
+        );
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+
+    iMarkerToReach = iMarkerToReach + 1;
+    SetUnitMaskedScriptData(uUnit, PATH_MASK, iMarkerToReach);
+
+    uUnit.CommandMove(
+        GetPointX(iMarkerToReach) - 2 + RandXor(5), 
+        GetPointY(iMarkerToReach) - 2 + RandXor(5), 
+        GetPointZ(iMarkerToReach)
+    );
+
+    return true;
+}
+
 function void AttackPlayer(player rPlayerEnemy, player rPlayerDefender)
 {
     int i, iX, iY, iZ;
@@ -402,6 +464,7 @@ function void AttackPlayer(player rPlayerEnemy, player rPlayerDefender)
     int iLastReachedMarker, iNextMarker;
     int bMagicUsed, bIsAttacking;
     unitex uUnit;
+    unit uAttacker;
 
     iNumberOfUnits = rPlayerEnemy.GetNumberOfUnits();
 
@@ -442,6 +505,9 @@ function void AttackPlayer(player rPlayerEnemy, player rPlayerDefender)
             uUnit.CommandMove(iX - 2 + RandXor(5), iY - 2 + RandXor(5), iZ); 
             continue;
         }
+
+        if(TeleportMagesToFirstMarker(uUnit))
+            continue;
 
 
         if(iDistance < 20)

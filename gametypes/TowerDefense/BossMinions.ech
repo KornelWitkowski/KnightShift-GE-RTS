@@ -13,7 +13,7 @@ function void SpawnNecromancerBossMinions(int iMarker, player rPlayerEnemy)
 
 function int GetSkeletonBossMinionsRate(int iWaveNumber)
 {
-    return 7 + 3 * (iWaveNumber / 10);
+    return 11 + 4 * (iWaveNumber / 10);
 }
 
 
@@ -47,7 +47,6 @@ function void SpawnSkeletonBossMinions(int iMarker, player rPlayerEnemy)
     else
     {
         uUnit = CreateUnitAtMarker(rPlayer9, iMarker, "TD_COW_POISON");
-        uUnit.SetScriptData(SCRIPT_DATA_TRAP_POISON);
         SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, BOMBER_POISON_MARKER);
     }
 }
@@ -65,7 +64,7 @@ function void SpawnMultpliningSkeletonBossMinions(int iMarker, player rPlayerEne
 
 function int GetTitanBossMinionsRate(int iWaveNumber)
 {
-    return 4 + (iWaveNumber / 10);
+    return 5 + (iWaveNumber / 10);
 }
 
 
@@ -98,7 +97,7 @@ function void SpawnTitanBossMinions(int iMarker, player rPlayerEnemy)
 
 function int GetDemonBossMinionsRate(int iWaveNumber)
 {
-    return 3 + iWaveNumber / 10;
+    return 4 + iWaveNumber / 10;
 }
 
 function void SpawnDemonBossMinions(int iMarker, player rPlayerEnemy)

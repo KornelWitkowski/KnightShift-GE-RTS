@@ -211,16 +211,20 @@ function void CleanUpArtefacts(int bTunnel)
 
 event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefact)
 {
-    int i;
+    int i, iDisplayTimeToNextWave;
     unitex uUnit;
 
     if (iArtefactNum == NEXT_WAVE_TRIGGER_MARKER)
     {
-        if(!bWaveActive)
-        {
-            EndBreakTime();
-            CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
-        }
+        iDisplayTimeToNextWave = GetDisplayTimeToNextWave(iCurrentWaveNumber, iBreakTimeStart, iWaveType);
+        if(iDisplayTimeToNextWave <= 30)
+            return false;
+        if(bWaveActive)
+            return false;
+
+        EndBreakTime();
+        CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
+
         return false;
     }
     else if (iArtefactNum == BREAK_TRIGGER_MARKER)

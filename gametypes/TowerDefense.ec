@@ -50,34 +50,6 @@
 #define REWARD_INFO_MARKER 11
 #define CUTSCENE_PRIEST_MARKER 12
 
-/*
-    Na teraz: 
-        - upewnić się, że są wyłączone unity na mapie TD
-        - imiona dla ai
-        - korekta językowa
-
-
-    Backlog:
-        Tower defense:
-        - statystyki na koniec gry
-        - briefing - cutscenka na początku
-        - itemy dedykowane do RTSa (bez precyzji, z większą szybkością)
-        - dopasować wybuch trującej krowy
-        - bardziej dopasowane EXP dla artefaktów do doświadczenia
-        - Animacje prisonerów
-        - imiona dla jednostek TD
-        - Informacja o końcu fali (muzyka, komunikat, itd)
-        - Dla fal z bliskich markerów, krowy powinny pojawiać się szybciej
-
-        Inne tryby:
-        - ai atakujące palisadki
-
-    Bugi:
-        - drobny lag przy prisonerach
-        - lag na koniec fali
-
-
-*/
 
 mission "translateTowerDefense"
 {
@@ -340,7 +312,7 @@ mission "translateTowerDefense"
         
         iExtraHut = 0;
 
-        iCurrentWaveNumber = 39;
+        iCurrentWaveNumber = 1;
 
         bWaveActive = false;
         bIsFinalWave = false;
@@ -350,7 +322,7 @@ mission "translateTowerDefense"
         iBreakTimeStart = GetMissionTime() + 7 * MINUTE;
         iBreakTimeStart = iBreakTimeStart - 40 * SECOND * (comboDifficulty - 2);
 
-        InitXorShiftRNG(iBreakTimeStart + comboWaveNumber + comboStarter + comboDifficulty);
+        InitXorShiftRNG(Rand(10000) + iBreakTimeStart + 10*comboWaveNumber + 100*comboStarter + 1000*comboDifficulty);
         iRewardSeed = RandXor(1000000);
 
         InitAiPlayers();
@@ -437,8 +409,12 @@ mission "translateTowerDefense"
         if(PointExists(CONTROL_BUTTONS_MARKER))
             AddWorldMapSign(GetPointX(CONTROL_BUTTONS_MARKER), GetPointY(CONTROL_BUTTONS_MARKER), 0, 2, 1200);
 
-        CreateStarters();
+        CleanUpArtefacts(0);
+        CleanUpArtefacts(0);
+        CleanUpArtefacts(1);
+        CleanUpArtefacts(1);
 
+        CreateStarters();
         UpdatedPlayersAfterWave();
 
         SetTimer(0, 10);  // Sprawdzenie stanu graczy, obór itd.
@@ -473,10 +449,6 @@ mission "translateTowerDefense"
 
     event RemoveUnits()
     {
-        CleanUpArtefacts(0);
-        CleanUpArtefacts(0);
-        CleanUpArtefacts(1);
-        CleanUpArtefacts(1);
         return true;
     }
 

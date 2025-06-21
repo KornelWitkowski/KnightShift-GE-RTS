@@ -95,7 +95,7 @@ function void DisplayWin()
 function void DisplayText(int iCurrentWaveNumber, int iBreakTimeStart, int iEnemyUnitNumber, int iWaveType)
 {
     int iDisplayTimeToNextWave;
-    iDisplayTimeToNextWave = GetDisplayTimeToNextWave(iCurrentWaveNumber,iBreakTimeStart, iWaveType);
+    iDisplayTimeToNextWave = GetDisplayTimeToNextWave(iCurrentWaveNumber, iBreakTimeStart, iWaveType);
 
     if(bIsWin)
     {

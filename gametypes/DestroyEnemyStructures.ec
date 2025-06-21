@@ -50,7 +50,6 @@ mission "translateGameTypeDestroyStructures"
                     rPlayer.SetMoney(100);
                 }
 
-                // W ScriptData(0) zapisujemy informacje, czy gracz zbudował jakieś budynki. Wstępnie 0, czyli brak budynków.
                 rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
 
                 rPlayer.SetMaxCountLimitForObject("COWSHED", 4);

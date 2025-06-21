@@ -252,7 +252,6 @@ function unitex RewardUnits(int iWaveNumber, int iMarker)
     uRewardUnit.EnableCapture(false);
     uRewardUnit.EnableConversionByMagic(false);
     uRewardUnit.EnableConversionByPlace(false);
-    CreateObjectAtUnit(uRewardUnit, "CAST_TELEPORT");
 
     return uRewardUnit;
 }

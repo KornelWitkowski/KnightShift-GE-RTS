@@ -1,9 +1,9 @@
 function void KillRemainingEnemyUnits()
 {
-    KillArea(rPlayer9.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
-    KillArea(rPlayer10.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
-    KillArea(rPlayer11.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
-    KillArea(rPlayer12.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
+    KillArea(rPlayer9.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
+    KillArea(rPlayer10.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
+    KillArea(rPlayer11.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
+    KillArea(rPlayer12.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
 }
 
 function void PutAuraOnUnit(unitex uUnit, int iAura)

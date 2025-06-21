@@ -56,15 +56,15 @@ mission "translateZeroupgrades"
             rPlayer.EnableResearchUpdate("AUTOSPELL_WITCH"             , false);
             rPlayer.EnableResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS", false);
             rPlayer.EnableResearchUpdate("AUTOSPELL_FIREBALL"          , false);
-            rPlayer.EnableResearchUpdate("SPELL_SHIELD"                , false);
-            rPlayer.EnableResearchUpdate("SPELL_CAPTURE"               , false);
-            rPlayer.EnableResearchUpdate("SPELL_STORM"                 , false);
-            rPlayer.EnableResearchUpdate("SPELL_CONVERSION"            , false);
-            rPlayer.EnableResearchUpdate("SPELL_FIRERAIN"              , false);
-            rPlayer.EnableResearchUpdate("SPELL_SEEING"                , false);
-            rPlayer.EnableResearchUpdate("SPELL_TELEPORTATION"         , false);
-            rPlayer.EnableResearchUpdate("SPELL_GHOST"                 , false);
-            rPlayer.EnableResearchUpdate("SPELL_WOLF"                  , false);
+            rPlayer.ResearchUpdate("SPELL_SHIELD"               );
+            rPlayer.ResearchUpdate("SPELL_CAPTURE"               );
+            rPlayer.ResearchUpdate("SPELL_STORM"                 );
+            rPlayer.ResearchUpdate("SPELL_CONVERSION"            );
+            rPlayer.ResearchUpdate("SPELL_FIRERAIN"              );
+            rPlayer.ResearchUpdate("SPELL_SEEING"                );
+            rPlayer.ResearchUpdate("SPELL_TELEPORTATION"         );
+            rPlayer.ResearchUpdate("SPELL_GHOST"                 );
+            rPlayer.ResearchUpdate("SPELL_WOLF"                  );
             
             rPlayer.EnableResearchUpdate("SPEAR1"  , false);
             rPlayer.EnableResearchUpdate("BOW1"    , false);

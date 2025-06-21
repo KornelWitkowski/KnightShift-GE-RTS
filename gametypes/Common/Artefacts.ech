@@ -1,4 +1,5 @@
 int bClearConsole;
+int iLastSpawnTime;
 
 enum comboArtifacts
 {
@@ -103,15 +104,22 @@ function void CreatePrize(int comboArtifacts, int bMagicArtefacts)
     */
     int i, j, k;
     int x, y, z;
+    unit uUnit;
     
     int nRandNum;
     int nPrize;
+    int iCurrentTime;
 
     player rPlayer;
 
     if(comboArtifacts==0)
         return;
-    
+
+    iCurrentTime = GetMissionTime();
+
+    if((iCurrentTime - iLastSpawnTime) < 30*SECOND)
+        return;
+
     nRandNum = RandXor(8);
 
     x = 0;
@@ -136,6 +144,10 @@ function void CreatePrize(int comboArtifacts, int bMagicArtefacts)
             x = RAND(GetRight()-40) + 20;
             y = RAND(GetBottom()-40) + 20;
             z = 0;
+
+            uUnit = GetUnit(x, y, z);
+            if(uUnit!=null)
+                continue;
 
             // Jeśli gracz może dojść do artefaktu to
             if (IsPathAccessible(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 0, x, y, z, true, false, true))
@@ -174,9 +186,13 @@ function void CreatePrize(int comboArtifacts, int bMagicArtefacts)
         }
     }
 
-    SetConsoleText("translateArtifactCreated");
+    uUnit = GetUnit(x, y, z);
+    if(uUnit!=null)
+        return;
 
+    SetConsoleText("translateArtifactCreated");
     AddWorldMapSign(x, y, z, 0, 1200);
+    iLastSpawnTime = GetMissionTime();
 
 }
 

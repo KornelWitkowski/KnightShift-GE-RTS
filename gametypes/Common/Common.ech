@@ -326,8 +326,8 @@ function int CheckIfPlayerWasDestroyed(int bAiChooseNewMainEnemy)
         if(rPlayer.GetScriptData(PLAYER_STAGE) == STAGE_WITH_BUILDINGS)
         {
             rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
-            KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
-            KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
+            KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
+            KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 1, 255);
             rPlayer.SetGoalState(0, goalFailed, true);
 
             bOneHasBeenDestroyed = true;
@@ -339,7 +339,7 @@ function int CheckIfPlayerWasDestroyed(int bAiChooseNewMainEnemy)
         }
         else
         {
-            if(rPlayer.GetNumberOfUnits()==0)
+            if(rPlayer.GetNumberOfUnits() == 0)
             {
                 rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
                 rPlayer.SetGoalState(0, goalFailed, true);

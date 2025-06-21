@@ -157,6 +157,8 @@ function void GiveRewards(int iWaveNumber)
             uReward = RewardEquipment(iWaveNumber, i);
         }
 
+        CreateObjectAtUnit(uReward, "CAST_TELEPORT");
+
 
         k = i - FIRST_REWARD_MARKER;
         uRewards[k] = uReward;

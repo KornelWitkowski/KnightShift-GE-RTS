@@ -12,7 +12,14 @@
 
 function int ModifyUnitNumber(int iUnitNumber)
 {
-    return ((10 + iDifficulty - 2) * iUnitNumber) / 10;
+    int iModifiedUnitNumber;
+
+    iModifiedUnitNumber = ((10 + iDifficulty - 2) * iUnitNumber) / 10;
+    
+    if(iModifiedUnitNumber < 4)
+        return iUnitNumber;
+
+    return iModifiedUnitNumber;
 }
 
 function int GetUnitNumber(int iWaveType, int iWaveNumber)

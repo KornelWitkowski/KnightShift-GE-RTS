@@ -12,8 +12,8 @@ function int CheckWinLoseUnits(unitex uUnitKilled)
         rPlayer.SetScriptData(1, 1);
         rPlayer.SetGoalState(LOSE_WHEN_KILL_GOAL, goalFailed, true);
 
-        KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
-        KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
+        KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
+        KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 1, 255);
 
         SetStateDelay(150);
         state Defeat;

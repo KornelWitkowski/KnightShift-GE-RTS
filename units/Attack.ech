@@ -1728,23 +1728,46 @@ event Custom2(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
     return AttackEventOnSelectedToAttackByUnit(uUnit);
 }
 
+
+#define IS_ATTACKING 0
+#define GET_DISTANCE_TO_ATTACK_TARGET 1
+#define MOVE_BACK_IF_FAR_FROM_ATTACK_TARGET 1
+#define MOVE_BACK_IF_FAR_FROM_ATTACK_TARGET_EXTRA 1
+#define IS_FREE_POINT 2
+#define IS_BRIDGE_IN_POINT 3
+#define HAVE_MAGIC 4
 // GOLDEN EDITION CUSTOM EVENT
 event Custom3(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
 {
     int iDistance;
     int iDistanceToStay;
-    if(nParam1 == 1){
+    if(nParam1 == IS_ATTACKING){
+        return IsAttacking();
+    }
+    else if(nParam1 == MOVE_BACK_IF_FAR_FROM_ATTACK_TARGET){
         iDistance = DistanceTo(m_uAttackTarget);
-
         iDistanceToStay = DistanceTo(m_nStayGx, m_nStayGy);
-        if(nParam2 == 1 && ((iDistance > 15) || (iDistanceToStay > 25)))
+
+        if(nParam2 == MOVE_BACK_IF_FAR_FROM_ATTACK_TARGET_EXTRA && ((iDistance > 15) || (iDistanceToStay > 25)))
         {
+            if(m_uAttackTarget == null)
+                return 0;
+
             ResetAttackTarget();
             CallMoveToPointAlpha(m_nStayGx, m_nStayGy, m_nStayLz, m_nStayAlpha);
         }
         return iDistance;
     }
-    return IsAttacking();
+    else if(nParam1 == MOVE_BACK_IF_FAR_FROM_ATTACK_TARGET){
+        return IsFreePoint(nParam2, nParam3, nParam4);
+    }
+    else if(nParam1 == IS_FREE_POINT){
+        return IsBridgeInPoint(nParam2, nParam3, nParam4);
+    }
+    else if(nParam1 == HAVE_MAGIC){
+        return HaveMagic(nParam2);
+    }
+    return 0;
 }
 
 

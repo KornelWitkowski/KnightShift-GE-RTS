@@ -152,7 +152,10 @@ mission "translateEconomic"
             iMilkToWin = rPlayer.GetMaxMoney();
 
             rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
-            rPlayer.SetMoney(1000);
+            if(rPlayer.IsAI())
+                rPlayer.SetMoney(400);
+            else
+                rPlayer.SetMoney(100);
 
             SetStringBuffTranslate(2, "translateEconomicGoal");
             SetStringBuff(3, GetStringBuff(2), iMilkToWin);
@@ -266,8 +269,8 @@ mission "translateEconomic"
                         if(i==j) continue;
                         rPlayer2 = GetPlayer(j);
 
-                        KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
-                        KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
+                        KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
+                        KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 1, 255);
                         rPlayer2.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
                 }
 

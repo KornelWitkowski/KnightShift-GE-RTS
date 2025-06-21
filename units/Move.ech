@@ -415,4 +415,24 @@ command TurnDelayed(int nAlphaAngle) hidden
     return true;
 }//����������������������������������������������������������������������������������������������������|
 
+
+command Land() button TRL_LAND description TRL_LAND item ITEM_LAND priority PRIOR_LAND hotkey
+{
+
+    if(IsFlyingUp())
+    {
+        return true;
+    }
+
+    if(!IsOnGround())
+    {
+        CallLand();
+    }
+    else
+    {
+        CallMoveFlyUp(GetAlphaAngle());
+    }
+    return true;
+}
+
 #endif MOVE_ECH

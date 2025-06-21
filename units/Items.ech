@@ -126,6 +126,9 @@
 
 #define PRIOR_STOP 50
 
+#define ITEM_LAND 549
+#define PRIOR_LAND 6
+
 ////    Attack.ech    ////
 
 #define ITEM_ATTACK 128

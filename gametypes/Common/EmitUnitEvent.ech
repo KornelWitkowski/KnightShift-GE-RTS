@@ -1,19 +1,40 @@
+#define IS_ATTACKING 0
+#define GET_DISTANCE_TO_ATTACK_TARGET 1
+#define MOVE_BACK_IF_FAR_FROM_ATTACK_TARGET 1
+#define MOVE_BACK_IF_FAR_FROM_ATTACK_TARGET_EXTRA 1
+#define IS_FREE_POINT 2
+#define IS_BRIDGE_IN_POINT 3
+#define HAVE_MAGIC 4
 
 function int IsUnitAttacking(unitex uUnit)
 {
-    return uUnit.SetCustomEvent(3, 0, 0, 0, 0, null);
+    return uUnit.SetCustomEvent(3, IS_ATTACKING, 0, 0, 0, null);
 }
 
 function int GetDistanceToAttackTarget(unitex uUnit)
 {
-    return uUnit.SetCustomEvent(3, 1, 0, 0, 0, null);
+    return uUnit.SetCustomEvent(3, GET_DISTANCE_TO_ATTACK_TARGET, 0, 0, 0, null);
 }
 
 function int MoveBackIfFarFromAttackTarget(unitex uUnit)
 {
-    return uUnit.SetCustomEvent(3, 1, 1, 0, 0, null);
+    return uUnit.SetCustomEvent(3, MOVE_BACK_IF_FAR_FROM_ATTACK_TARGET, MOVE_BACK_IF_FAR_FROM_ATTACK_TARGET_EXTRA, 0, 0, null);
 }
 
+function int IsFreePoint(unitex uUnit, int nX, int nY, int nZ)
+{
+    return uUnit.SetCustomEvent(3, IS_FREE_POINT, nX, nY, nZ, null);
+}
+
+function int IsBridgeInPoint(unitex uUnit, int nX, int nY, int nZ)
+{
+    return uUnit.SetCustomEvent(3, IS_BRIDGE_IN_POINT, nX, nY, nZ, null);
+}
+
+function int HaveMagic(unitex uUnit, int iMagicNumber)
+{
+    return uUnit.SetCustomEvent(3, HAVE_MAGIC, iMagicNumber, 0, 0, null);
+}
 
 function void MoveBackExtraPlayersUnits()
 {
@@ -34,9 +55,12 @@ function void MoveBackExtraPlayersUnits()
         iNumberOfUnits = rPlayer.GetNumberOfUnits();
         for(j=0; j<iNumberOfUnits; j=j+1)
         {
-                uUnit = rPlayer.GetUnit(j);
-                if(uUnit==null)
-                    continue;
+            uUnit = rPlayer.GetUnit(j);
+            if(uUnit==null)
+                continue;
+
+            if(uUnit.IsAnimal())
+                continue;
 
             MoveBackIfFarFromAttackTarget(uUnit);
         }

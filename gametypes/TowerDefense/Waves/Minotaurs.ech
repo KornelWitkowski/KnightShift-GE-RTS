@@ -7,14 +7,15 @@ function int ChooseMinotaurTier(int nWaveNumber)
     iRoll =  GaussianDistribution(40) + (3 * nWaveNumber / 2);
     iRoll = iRoll + iDifficultyModifier;
     
-    if (20 > iRoll) return 0;
-    if (35 > iRoll) return 1;
-    if (50 > iRoll) return 2;
-    if (65 > iRoll) return 3;
-    if (70 > iRoll) return 4;
-    if (85 > iRoll) return 5;
-    if (95 > iRoll) return 6;
-    return 7;
+    if (15 > iRoll) return 0;
+    if (30 > iRoll) return 1;
+    if (45 > iRoll) return 2;
+    if (60 > iRoll) return 3;
+    if (75 > iRoll) return 4;
+    if (90 > iRoll) return 5;
+    if (105 > iRoll) return 6;
+    if (120 > iRoll)return 7;
+    return 8;
 }
 
 function void SpawnMinotaur(int iWaveNumber, int iMarker)
@@ -53,18 +54,20 @@ function void SpawnMinotaur(int iWaveNumber, int iMarker)
     }
     else if (iTier == 6)
     {
-        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "MINOTAUR_WOODCUTTER");
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "POLICEMAN");
     }
     else if (iTier == 7)
     {
-        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "POLICEMAN");
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "POLICEMANT");
     }
     else
     {
-        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "POLICEMANT");
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "GROMTAR");
     }
 
+    if(iTier != 0)
+        uUnit.EnableCapture(false);
+    
     CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
-    uUnit.EnableCapture(false);
     return;
 }

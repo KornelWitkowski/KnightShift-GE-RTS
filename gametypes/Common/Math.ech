@@ -86,6 +86,7 @@ function int RandXor(int iMax)
     
     if (Rand(100) < 5) {
         iTime = GetMissionTime();
+        iTime = iTime + Rand(10000);
         iXorState = BitwiseXor(iXorState, iTime);
     }
     
