@@ -1758,10 +1758,10 @@ event Custom3(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
         }
         return iDistance;
     }
-    else if(nParam1 == MOVE_BACK_IF_FAR_FROM_ATTACK_TARGET){
+    else if(nParam1 == IS_FREE_POINT){
         return IsFreePoint(nParam2, nParam3, nParam4);
     }
-    else if(nParam1 == IS_FREE_POINT){
+    else if(nParam1 == IS_BRIDGE_IN_POINT){
         return IsBridgeInPoint(nParam2, nParam3, nParam4);
     }
     else if(nParam1 == HAVE_MAGIC){
