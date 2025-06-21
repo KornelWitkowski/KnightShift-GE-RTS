@@ -87,6 +87,7 @@ event Artefact(int iArtefactNum,  unitex uUnitOnArtefact, player rPlayerOnArtefa
         SetResourceGrowSpeed(400);
 
         InitializeMarkerFunctions();
+        TurnOffTier5Items();
 
         /* Jeśli misja ma swój skrypt to robimy Initialize dla tej misji.
            Jeśli nie to skrypt będzie działać dalej jak wojna wiosek. 
