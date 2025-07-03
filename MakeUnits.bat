@@ -1,8 +1,4 @@
 REM Compile general scripts
-for /R rpg %%a in (*.ec) do call _compiler\EarthCP2.bat %%a %%ao
-for /R aiplayers %%a in (*.ec) do call _compiler\EarthCP2.bat %%a %%ao
-for /R gametypes %%a in (*.ec) do call _compiler\EarthCP2.bat %%a %%ao
-for /R campaigns/Campaigns1/Missions %%a in (*.ec) do call _compiler\EarthCP2.bat %%a %%ao
 
 REM Compile unit scripts with their specific GUIDs
 call _compiler\EarthCP2.bat Units\Animal.ec Units\Animal.eco -g EAEAEAEA-0900-0900-0000-000000000001
@@ -22,21 +18,11 @@ call _compiler\EarthCP2.bat Units\Ai\UnitAI.ec Units\Ai\UnitAI.eco -g EAEAEAEA-0
 
 REM Create directories
 if not exist Scripts mkdir Scripts
-if not exist Scripts\aiplayers mkdir Scripts\aiplayers
-if not exist Scripts\gametypes mkdir Scripts\gametypes
-if not exist Scripts\gametypes\single mkdir Scripts\gametypes\single
 if not exist Scripts\units mkdir Scripts\units
 if not exist Scripts\units\ai mkdir Scripts\units\ai
-if not exist Scripts\campaigns\Campaigns1\Missions mkdir Scripts\campaigns\Campaigns1\Missions
 
 REM Move compiled files
-move aiplayers\*.eco Scripts\aiplayers
-copy gametypes\*.eco Scripts\gametypes
-copy rpg\*.eco Scripts\gametypes
-move gametypes\*.eco Scripts\gametypes\single
-move rpg\*.eco Scripts\gametypes\single
 move units\*.eco Scripts\units
 move units\ai\*.eco Scripts\units\ai
-move campaigns\Campaigns1\Missions\*.eco Scripts\campaigns\Campaigns1\Missions
 
 pause
