@@ -9,145 +9,145 @@ int m_nGates;
 
 function int IsGateOpened(int nGate)
 {
-    if ( nGate < 0 || nGate >= m_nGates )
-    {
-        return false;
-    }
+	if ( nGate < 0 || nGate >= m_nGates )
+	{
+		return false;
+	}
 
-    if ( nGate == 0 ) return m_bGateOpened0;
-    if ( nGate == 1 ) return m_bGateOpened1;
-    if ( nGate == 2 ) return m_bGateOpened2;
-    if ( nGate == 3 ) return m_bGateOpened3;
+	if ( nGate == 0 ) return m_bGateOpened0;
+	if ( nGate == 1 ) return m_bGateOpened1;
+	if ( nGate == 2 ) return m_bGateOpened2;
+	if ( nGate == 3 ) return m_bGateOpened3;
 
-    return false;
+	return false;
 }
 
 function int SetGateOpened(int nGate, int bOpened)
 {
-    if ( nGate < 0 || nGate >= m_nGates )
-    {
-        return false;
-    }
+	if ( nGate < 0 || nGate >= m_nGates )
+	{
+		return false;
+	}
 
-    if ( nGate == 0 ) m_bGateOpened0 = bOpened;
-    if ( nGate == 1 ) m_bGateOpened1 = bOpened;
-    if ( nGate == 2 ) m_bGateOpened2 = bOpened;
-    if ( nGate == 3 ) m_bGateOpened3 = bOpened;
+	if ( nGate == 0 ) m_bGateOpened0 = bOpened;
+	if ( nGate == 1 ) m_bGateOpened1 = bOpened;
+	if ( nGate == 2 ) m_bGateOpened2 = bOpened;
+	if ( nGate == 3 ) m_bGateOpened3 = bOpened;
 
-    return true;
+	return true;
 }
 
 function int OpenGate(int nGate)
 {
-    unitex uGate;
-    int nMarker;
+	unitex uGate;
+	int nMarker;
 
-    if ( nGate < 0 || nGate >= m_nGates )
-    {
-        return false;
-    }
+	if ( nGate < 0 || nGate >= m_nGates )
+	{
+		return false;
+	}
 
-    if ( IsGateOpened(nGate) )
-    {
-        return false;
-    }
-    else
-    {
-        nMarker = m_nMarkerGateFirst + nGate;
+	if ( IsGateOpened(nGate) )
+	{
+		return false;
+	}
+	else
+	{
+		nMarker = m_nMarkerGateFirst + nGate;
 
-        uGate = GetUnit( GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker) );
+		uGate = GetUnit( GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker) );
 
-        if ( uGate != null && uGate.IsBuilding() )
-        {
-            uGate.CommandBuildingSetGateMode( modeGateOpened );
-        }
+		if ( uGate != null && uGate.IsBuilding() )
+		{
+			uGate.CommandBuildingSetGateMode( modeGateOpened );
+		}
 
-        SetGateOpened(nGate, true);
+		SetGateOpened(nGate, true);
 
-        return true;
-    }
+		return true;
+	}
     return false;
 }
 
 function int CloseGate(int nGate)
 {
-    unitex uGate;
-    int nMarker;
+	unitex uGate;
+	int nMarker;
 
-    if ( nGate < 0 || nGate >= m_nGates )
-    {
-        return false;
-    }
+	if ( nGate < 0 || nGate >= m_nGates )
+	{
+		return false;
+	}
 
-    if ( ! IsGateOpened(nGate) )
-    {
-        return false;
-    }
-    else
-    {
-        nMarker = m_nMarkerGateFirst + nGate;
+	if ( ! IsGateOpened(nGate) )
+	{
+		return false;
+	}
+	else
+	{
+		nMarker = m_nMarkerGateFirst + nGate;
 
-        uGate = GetUnit( GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker) );
+		uGate = GetUnit( GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker) );
 
-        if ( uGate != null && uGate.IsBuilding() )
-        {
-            uGate.CommandBuildingSetGateMode( modeGateClosed );
-        }
+		if ( uGate != null && uGate.IsBuilding() )
+		{
+			uGate.CommandBuildingSetGateMode( modeGateClosed );
+		}
 
-        SetGateOpened(nGate, false);
+		SetGateOpened(nGate, false);
 
-        return true;
-    }
+		return true;
+	}
     return false;
 }
 
 function int InitializeGate(int nGate, int bOpened)
 {
-    unitex uGate;
-    int nMarker;
+	unitex uGate;
+	int nMarker;
 
-    if ( nGate < 0 || nGate >= m_nGates )
-    {
-        return false;
-    }
+	if ( nGate < 0 || nGate >= m_nGates )
+	{
+		return false;
+	}
 
-    SetGateOpened(nGate, bOpened);
+	SetGateOpened(nGate, bOpened);
 
-    nMarker = m_nMarkerGateFirst + nGate;
+	nMarker = m_nMarkerGateFirst + nGate;
 
-    uGate = GetUnit( GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker) );
+	uGate = GetUnit( GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker) );
 
-    if ( uGate != null && uGate.IsBuilding() )
-    {
-        if ( bOpened )
-        {
-            uGate.CommandBuildingSetGateMode( modeGateOpened );
-        }
-        else
-        {
-            uGate.CommandBuildingSetGateMode( modeGateClosed );
-        }
+	if ( uGate != null && uGate.IsBuilding() )
+	{
+		if ( bOpened )
+		{
+			uGate.CommandBuildingSetGateMode( modeGateOpened );
+		}
+		else
+		{
+			uGate.CommandBuildingSetGateMode( modeGateClosed );
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    return false;
+	return false;
 }
 
 function int InitializeGates(int nMarkerGateFirst, int nGates, int bOpened)
 {
-    int nGate;
-    int bSuccess;
+	int nGate;
+	int bSuccess;
 
-    m_nMarkerGateFirst = nMarkerGateFirst;
-    m_nGates = nGates;
+	m_nMarkerGateFirst = nMarkerGateFirst;
+	m_nGates = nGates;
 
-    bSuccess = true;
+	bSuccess = true;
 
-    for ( nGate = 0; nGate < m_nGates; ++nGate )
-    {
-        bSuccess = bSuccess & InitializeGate(nGate, bOpened);
-    }
+	for ( nGate = 0; nGate < m_nGates; ++nGate )
+	{
+		bSuccess = bSuccess & InitializeGate(nGate, bOpened);
+	}
 
-    return bSuccess;
+	return bSuccess;
 }
