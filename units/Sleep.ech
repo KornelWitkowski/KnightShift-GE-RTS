@@ -11,10 +11,10 @@ state EnteringSleepMode;
 
 enum sleepMode
 {
-    TRL_SLEEP_0 item ITEM_SLEEP_0 description TRL_SLEEP_0,
-    TRL_SLEEP_1 item ITEM_SLEEP_1 description TRL_SLEEP_1,
+	TRL_SLEEP_0 item ITEM_SLEEP_0 description TRL_SLEEP_0,
+	TRL_SLEEP_1 item ITEM_SLEEP_1 description TRL_SLEEP_1,
 multi:
-    TRL_SLEEP_X item ITEM_SLEEP_X description TRL_SLEEP_X
+	TRL_SLEEP_X item ITEM_SLEEP_X description TRL_SLEEP_X
 }//����������������������������������������������������������������������������������������������������|
 
 ////    Functions    ////
@@ -46,7 +46,7 @@ function int ExitSleepModeOnHit()
 
 function int CheckCanEnterSleepMode()
 {
-    if (!IsDamaged() && (GetMagic() >= GetMaxMagic()))
+    if (!IsRPGMode() && !IsDamaged() && (GetMagic() >= GetMaxMagic())) // JA - dodałem isrpgmode ale nie wystarczy bo button przełącza się jeszcze na nieaktywny
     {
         MessageTalk(noSleepHealthyTalk);
         return false;
@@ -63,7 +63,25 @@ function int CheckCanEnterSleepMode()
 
 state InSleepMode
 {
-    if (!IsDamaged() && (GetMagic() >= GetMaxMagic()))
+    if (IsRPGMode())
+    {
+        //Nic, postać nie budzi się sama
+        //Powód: Najprostszy sposób, by cooldowny się odliczały szybciej w trakcie snu
+
+        // if (!IsDamaged() && (GetMagic() >= GetMaxMagic()) && CD_MagicGhost <= 0 && CD_MagicSelfHealing <= 0 && CD_MagicImmortalShield <= 0 && CD_MagicWolf <= 0 && CD_MagicTrap <= 0
+        //     && CD_GetHP <= 0 && CD_MagicOurHoldWildAnimal <= 0 && CD_StrongFight <= 0 && CD_Potion <= 0 && CD_MagicAroundDamage <= 0 && CD_MagicSingleFreeze <= 0 && CD_MagicFreeze <= 0)
+        // {
+
+            // CallEndSleepMode();
+            // sleepMode = 0;
+            // ChangedCommandValue();
+            // NextCommand(1);
+            // return Nothing, 0;
+
+        // }
+    }
+
+    if (!IsRPGMode() && !IsDamaged() && (GetMagic() >= GetMaxMagic()))
     {
         CallEndSleepMode();
         sleepMode = 0;
@@ -196,7 +214,7 @@ command SleepMode(int nMode) button sleepMode priority PRIOR_SLEEP hotkey
 
 #undef EXIT_COMMAND_IN_SLEEP_MODE
 #define EXIT_COMMAND_IN_SLEEP_MODE() \
-    if ((state == InSleepMode) || (state == EnteringSleepMode)) \
+	if ((state == InSleepMode) || (state == EnteringSleepMode)) \
     { \
         return false; \
     }

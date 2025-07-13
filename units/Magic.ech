@@ -27,6 +27,38 @@ int  m_nPrevMagicTargetAlpha;
 int  m_bIsEscorted;
 int  m_nEscortedCounter;
 
+// Zmienne cooldownów GE
+int CD_MagicGhost;
+int CD_MagicGhostLength;
+
+int CD_MagicSelfHealing;
+int CD_MagicSelfHealingLength;
+
+int CD_MagicImmortalShield;
+int CD_MagicImmortalShieldLength;
+
+int CD_MagicWolf;
+int CD_MagicWolfLength;
+
+int CD_MagicTrap;
+int CD_MagicTrapLength;
+
+int CD_GetHP;
+int CD_GetHPLength;
+
+int CD_MagicOurHoldWildAnimal;
+int CD_MagicOurHoldWildAnimalLength;
+
+int CD_MagicAroundDamage;
+int CD_MagicAroundDamageLength;
+
+int CD_MagicSingleFreeze;
+int CD_MagicSingleFreezeLength;
+
+int CD_MagicFreeze;
+int CD_MagicFreezeLength;
+
+
 enum teleportationMode
 {
     TRL_TELEPORTATION_0 item ITEM_TELEPORTATION_0 description TRL_TELEPORTATION_0,
@@ -283,6 +315,40 @@ function int MakeCurrentMagic()
     {
         return false;
     }
+
+    //Sprawdzanie, który czar zostaje właśnie rzucany i przypisywanie cooldownu
+    if (m_nMagicNum == magicSelfHealing)
+    {CD_MagicSelfHealing = CD_MagicSelfHealingLength;}
+
+    if (m_nMagicNum == magicTrap)
+    {CD_MagicTrap = CD_MagicTrapLength;}
+
+    if (m_nMagicNum == magicImmortalShield)
+    {CD_MagicImmortalShield = CD_MagicImmortalShieldLength;}
+
+    if (m_nMagicNum == magicGhost)
+    {CD_MagicGhost = CD_MagicGhostLength;}
+
+    if (m_nMagicNum == magicWildAnimal)
+    {CD_MagicWolf = CD_MagicWolfLength;}
+
+    if (m_nMagicNum == magicFreeze)
+    {CD_MagicFreeze = CD_MagicFreezeLength;}
+
+    if (m_nMagicNum == magicGetHP)
+    {CD_GetHP = CD_GetHPLength;}
+
+    if (m_nMagicNum == magicSingleFreeze)
+    {CD_MagicSingleFreeze = CD_MagicSingleFreezeLength;}
+
+    if (m_nMagicNum == magicOurHoldWildAnimal)
+    {CD_MagicOurHoldWildAnimal = CD_MagicOurHoldWildAnimalLength;}
+
+    if (m_nMagicNum == magicAroundDamage)
+    {CD_MagicAroundDamage = CD_MagicAroundDamageLength;}
+
+
+
     return true;
 }//����������������������������������������������������������������������������������������������������|
 

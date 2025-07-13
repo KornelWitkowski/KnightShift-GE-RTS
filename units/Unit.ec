@@ -20,6 +20,14 @@ int  m_nStayLz;
 int  m_nStayAlpha;
 int  m_nCheckMagicCounter;
 
+// Zmienne cooldownów GE
+int CD_Potion;
+int CD_PotionLength;
+
+int CD_StrongFight;
+int CD_StrongFightLength;
+//----------------------
+
 #define STOPCURRENTACTION
 function int StopCurrentAction();
 
@@ -599,6 +607,84 @@ event OnFindTowerUnitTarget(int bCurrSelfTarget, unit uCurrTarget)
     }
     return false;
 }//����������������������������������������������������������������������������������������������������|
+
+event Custom4(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
+{
+    if (nParam1 == 1)
+    {CD_MagicGhostLength = nParam2;
+        if (CD_MagicGhost > 0)
+        {CD_MagicGhost = CD_MagicGhost -nParam3;}
+        return CD_MagicGhost;
+    }
+    if (nParam1 == 2)
+    {CD_MagicSelfHealingLength = nParam2;
+        if (CD_MagicSelfHealing > 0)
+        {CD_MagicSelfHealing = CD_MagicSelfHealing -nParam3;}
+        return CD_MagicSelfHealing;
+    }
+    if (nParam1 == 3)
+    {CD_MagicImmortalShieldLength = nParam2;
+        if (CD_MagicImmortalShield > 0)
+        {CD_MagicImmortalShield = CD_MagicImmortalShield -nParam3;}
+        return CD_MagicImmortalShield;
+    }
+    if (nParam1 == 4)
+    {CD_MagicWolfLength = nParam2;
+        if (CD_MagicWolf > 0)
+        {CD_MagicWolf = CD_MagicWolf -nParam3;}
+        return CD_MagicWolf;
+    }
+    if (nParam1 == 5)
+    {CD_MagicTrapLength = nParam2;
+        if (CD_MagicTrap > 0)
+        {CD_MagicTrap = CD_MagicTrap -nParam3;}
+        return CD_MagicTrap;
+    }
+    if (nParam1 == 6)
+    {CD_GetHPLength = nParam2;
+        if (CD_GetHP > 0)
+        {CD_GetHP = CD_GetHP -nParam3;}
+        return CD_GetHP;
+    }
+    if (nParam1 == 7)
+    {CD_MagicOurHoldWildAnimalLength = nParam2;
+        if (CD_MagicOurHoldWildAnimal > 0)
+        {CD_MagicOurHoldWildAnimal = CD_MagicOurHoldWildAnimal -nParam3;}
+        return CD_MagicOurHoldWildAnimal;
+    }
+    if (nParam1 == 8)
+    {CD_StrongFightLength = nParam2;
+        if (CD_StrongFight > 0)
+        {CD_StrongFight = CD_StrongFight -nParam3;}
+        return CD_StrongFight;
+    }
+    if (nParam1 == 9)
+    {CD_PotionLength = nParam2;
+        if (CD_Potion > 0)
+        {CD_Potion = CD_Potion -nParam3;}
+        return CD_Potion;
+    }
+    if (nParam1 == 10)
+    {CD_MagicAroundDamageLength = nParam2;
+        if (CD_MagicAroundDamage > 0)
+        {CD_MagicAroundDamage = CD_MagicAroundDamage -nParam3;}
+        return CD_MagicAroundDamage;
+    }
+    if (nParam1 == 11)
+    {CD_MagicSingleFreezeLength = nParam2;
+        if (CD_MagicSingleFreeze > 0)
+        {CD_MagicSingleFreeze = CD_MagicSingleFreeze -nParam3;}
+        return CD_MagicSingleFreeze;
+    }
+    if (nParam1 == 12)
+    {CD_MagicFreezeLength = nParam2;
+        if (CD_MagicFreeze > 0)
+        {CD_MagicFreeze = CD_MagicFreeze -nParam3;}
+        return CD_MagicFreeze;
+    }
+    return true;
+}
+
 
 //event potrzebny aby skasowac linki od razu po zabiciu (command Uninitialize jest wywolywane dopiero
 //po zapadnieciu sie pod ziemie)
