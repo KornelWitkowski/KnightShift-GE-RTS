@@ -1,0 +1,347 @@
+unitex uFinalBoss;
+
+function int ShouldCreateSpawnUnits()
+{
+    int iCurrentTime;
+    int iBreakLength;
+
+    iCurrentTime = GetMissionTime();
+    iBreakLength = GetBreakLength(iCurrentWaveNumber);
+
+    if(iWaveType >= 6 )
+    {
+        if((iCurrentTime - iBreakTimeStart) > (iBreakLength + 30 * SECOND))
+            return true;
+        else
+            return false;
+    }
+
+    return true;
+}
+
+
+function void HandleUnitSpawning()
+{
+    int bSpawned, iEnemyUnitNumber;
+
+    iEnemyUnitNumber = GetEnemyUnitNumber();
+    DisplayText(iCurrentWaveNumber, iBreakTimeStart, iEnemyUnitNumber, iWaveType);
+
+
+    if(iNumberOfUnitsToSpawn > 0)
+    {
+        bSpawned = false;
+        if(ShouldCreateSpawnUnits())
+        {
+            bSpawned = SpawnUnit(iWaveType, iCurrentWaveNumber);
+        }
+
+        if(bSpawned)
+        {
+            iNumberOfUnitsToSpawn = iNumberOfUnitsToSpawn - 1;
+        }
+    }
+
+    if(iNumberOfBombersToSpawn > 0)
+    {
+        bSpawned = SpawnBomberUnit(iWaveType, iCurrentWaveNumber);
+        if(bSpawned)
+        {
+            iNumberOfBombersToSpawn = iNumberOfBombersToSpawn - 1;
+        }
+    }
+}
+
+function void HandleBossSpawning()
+{
+    int iExtraStormPower;
+    player rPlayer;
+
+    uBoss = SpawnBoss(iBossWaveType, iCurrentWaveNumber, FIRST_MARKER_TO_REACH_CENTER);
+
+    if(iBossWaveType == NECROMANCER_BOSS)
+    {
+        rPlayer = GetPlayer(13);
+        iExtraStormPower = (iCurrentWaveNumber / 10 - 1) * 100;
+        Storm(
+            rPlayer.GetStartingPointX(), 
+            rPlayer.GetStartingPointY(), 
+            60, 
+            300 + iExtraStormPower, 
+            300 + iExtraStormPower, 
+            300 + iExtraStormPower, 
+            100, 
+            100, 
+            20
+        );
+    }
+
+    iNumberOfBossUnitsToSpawn = 0;
+
+}
+
+function void HandleActiveWaveProgress()
+{
+    int bIsTimeToBreak;
+    int iEnemyUnitNumber;
+
+    bIsTimeToBreak = IsTimeToBreak();
+    iEnemyUnitNumber = GetEnemyUnitNumber();
+    
+    // Check if wave should end
+    if (bIsTimeToBreak || (iEnemyUnitNumber == 0 && iNumberOfUnitsToSpawn == 0))
+    {
+        EndCurrentWave();
+    }
+    else
+    {
+        if(bIsFinalWave)
+            DisplayFinalWaveInProgress();
+        else
+            DisplayText(iCurrentWaveNumber, iBreakTimeStart, iEnemyUnitNumber, iWaveType);
+    }
+}
+
+
+function void HandleBossWaveProgress()
+{
+    player rPlayerHuman;
+    int bIsTimeToBreak;
+    int iEnemyBossUnitNumber;
+
+    iEnemyBossUnitNumber = GetBossUnitNumber();
+    rPlayerHuman = GetRandomHumanPlayer();
+    SpawnBossMinionUnit(iBossWaveType, iCurrentWaveNumber, rPlayerHuman);
+    DisplayText(iCurrentWaveNumber, iBreakTimeStart, iEnemyBossUnitNumber, iWaveType);
+
+}
+
+function void HandleFinalWaveProgress()
+{
+    player rPlayerHuman;
+    int bIsTimeToBreak;
+    int iEnemyBossUnitNumber;
+
+    iEnemyBossUnitNumber = GetBossUnitNumber();
+    rPlayerHuman = GetRandomHumanPlayer();
+    DisplayText(iCurrentWaveNumber, iBreakTimeStart, iEnemyBossUnitNumber, iWaveType);
+}
+
+function void MakeFinalWave()
+{
+    int i;
+    unitex uUnit;
+    bIsFinalWave = true;
+
+    uUnit = GetUnitAtMarker(BOSS_MARKER);
+    uUnit.ChangePlayer(rPlayer10);
+    uUnit.CommandSetMovementMode(modeMove);
+    uUnit.SetScriptImmortal(false);
+    SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, MAIN_BOSS_NECROMANCER_MARKER);
+
+    uFinalBoss = GetUnitAtMarker(BOSS_MARKER);
+    iPreviousBossHealth = uUnit.GetHP();
+
+    // QUEENS
+    for(i=1; i<5; i=i+1)
+    {
+        uUnit = GetUnitAtMarker(BOSS_MARKER+i);
+        uUnit.CommandSetMovementMode(modeMove);
+        uUnit.ChangePlayer(rPlayer11);
+        uUnit.SetScriptImmortal(false);
+
+        SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, MAIN_BOSS_QUEEN_MARKER);
+    }
+}
+
+
+function void CreateUnitNearBoss(unitex uBoss, string strUnit)
+{
+
+    int j, iPathScriptData;
+    int iX, iY, iZ, iAlpha;
+    
+    unitex uUnit1;
+
+
+    iX = uBoss.GetLocationX();
+    iY = uBoss.GetLocationY();
+    iZ = uBoss.GetLocationZ();
+    iAlpha = uBoss.GetAlphaAngle();
+
+    for(j=0; j<10; j=j+1)
+    {
+        uUnit1 = rPlayer11.CreateUnit(iX -2 + RandXor(5), iY -2 + RandXor(5), iZ, iAlpha, strUnit);
+        CreateObjectAtUnit(uUnit1, "HIT_GHOST");
+        iPathScriptData = GetUnitMaskedScriptData(uBoss, PATH_MASK);
+        SetUnitMaskedScriptData(uUnit1, PATH_MASK, iPathScriptData);    
+        if(uUnit1 != null)
+        {
+            GiveCaptureConvertResistance(uUnit1);
+            return;
+        }
+    }
+}  
+
+
+
+
+function void HandleMainBossHealthMummySpawning()
+{
+    int iRand;
+    int iBossHealth;
+
+    iBossHealth = uFinalBoss.GetHP();
+
+    if(iPreviousBossHealth - iBossHealth > 500)
+    {
+        CreateUnitNearBoss(uFinalBoss, "RPG_EGYPT_MINOTAUR");
+        iPreviousBossHealth = iBossHealth;
+    }
+    else if(iPreviousBossHealth - iBossHealth > 100)
+    {
+        iRand = RandXor(5);
+        if(iRand == 0)
+            CreateUnitNearBoss(uFinalBoss, "RPG_MUMMY1");
+        else if(iRand == 1)
+            CreateUnitNearBoss(uFinalBoss, "RPG_MUMMY2");
+        else if(iRand == 2)
+            CreateUnitNearBoss(uFinalBoss, "RPG_MUMMY3");
+        else if(iRand == 3)
+            CreateUnitNearBoss(uFinalBoss, "RPG_MUMMY4");
+        else if(iRand == 4)
+            CreateUnitNearBoss(uFinalBoss, "RPG_MUMMY5");
+
+        iPreviousBossHealth = iBossHealth;
+    }
+    else if(iBossHealth > iPreviousBossHealth)
+    {
+        iPreviousBossHealth = iBossHealth;
+    }
+}
+
+function void PrepareForFinalWave()
+{
+    iNumberOfUnitsToSpawn = 0;
+    MakeFinalWave();
+}
+
+function void PrepareForNormalWave()
+{
+    iNumberOfUnitsToSpawn = GetUnitNumber(iWaveType, iCurrentWaveNumber);
+    iNumberOfBombersToSpawn = GetBomberNumber(iWaveType, iCurrentWaveNumber);
+
+    if(iCurrentWaveNumber > 0 && iCurrentWaveNumber % 10 == 0)
+    {
+        iNumberOfBossUnitsToSpawn = 1;
+        iNumberOfUnitsToSpawn = 0;
+        iNumberOfBombersToSpawn = 0;
+    }
+
+}
+
+function void StartNextWave()
+{
+    if(iCurrentWaveNumber == iTotalWaveNumber)
+    {
+        PrepareForFinalWave();
+    }
+    else
+    {
+        PrepareForNormalWave();
+    }
+    
+    bWaveActive = true;
+    iWaveTimeStart = GetMissionTime();
+}
+
+function void HandleBreakTime()
+{
+    int bIsTimeToNextWave;
+
+    bIsTimeToNextWave = IsTimeToNextWave();
+    
+    if (bIsTimeToNextWave)
+    {
+        StartNextWave();
+    }
+    else
+    {
+        DisplayText(iCurrentWaveNumber, iBreakTimeStart, 0, iWaveType);
+    }
+}
+
+event Timer0()
+{
+    // Jeśli state to Victory lub Defeat to nie ma potrzeby sprawdzać
+    if ( state != Nothing ) return;
+
+    // Sprawdzamy ile obór mają gracze i ile maksymalnie mleka mogą mieć
+    CheckMilkPool(8);
+
+    // Sprawdzamy, czy gracz został pokonany.
+    CheckIfPlayerIsDestroyed();
+}
+
+event Timer1()
+{
+    int i;
+    player rPlayer;
+    player rDefenderPlayer;
+
+    rDefenderPlayer = GetRandomHumanPlayer();
+
+    for(i=9; i<=12; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        AttackPlayer(rPlayer, rDefenderPlayer);
+    }
+}
+
+event Timer2()
+{
+    int iBossUnitNumber;
+
+    if(bWaveActive && (iNumberOfUnitsToSpawn > 0 || iNumberOfBombersToSpawn > 0))
+    {
+        HandleUnitSpawning();
+    }
+    else if(bWaveActive && iNumberOfBossUnitsToSpawn > 0)
+    {
+        HandleBossSpawning();
+    }
+    else if(bWaveActive)
+    {
+        if(bIsFinalWave)
+            HandleFinalWaveProgress();
+        else if(bIsBossWave)
+            HandleBossWaveProgress();
+        else
+            HandleActiveWaveProgress();
+    }
+    else
+    {
+        HandleBreakTime();
+    }
+}
+
+event Timer3()
+{
+    CheckBombers(rPlayer9);
+    MakePerunRage();
+
+    if(bIsFinalWave)
+    {
+        HandleMainBossHealthMummySpawning();
+    }
+}
+
+event Timer4()
+{
+    MakeWeather();
+}
+
+event Timer7()
+{
+    StartWind();
+}

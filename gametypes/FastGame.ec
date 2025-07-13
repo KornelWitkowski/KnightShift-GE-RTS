@@ -1,5 +1,6 @@
 mission "translateFastgame"
 {
+    #include "Common\Consts.ech"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
@@ -21,7 +22,7 @@ mission "translateFastgame"
 
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
-
+        TurnOffTier5Items();
         // Czary dla gracza 14, czyli od czarnego od potworków na mapie
         EnablePlayer14Spells();
         // Nieskończony milk pool dla gracza 14 i 15 dzięki czemu krowy tego gracza będą się pasły w nieskończoność
@@ -45,12 +46,10 @@ mission "translateFastgame"
                 rPlayer.SetMoney(100);    
             }
 
-            rPlayer.SetScriptData(0, 0);
-
             RegisterGoal(0, "translateFastGameGoal");
             EnableGoal(0, true, true);
 
-            rPlayer.SetScriptData(0, 0);
+            rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
 
             // FAST GAME
             

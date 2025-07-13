@@ -1,5 +1,6 @@
 mission "translateGameTypeDestroyStructures"
 {
+    #include "Common\Consts.ech"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
@@ -22,6 +23,7 @@ mission "translateGameTypeDestroyStructures"
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
         
+        TurnOffTier5Items();
         // Wyłączenie podpowiedzi
         EnableAssistant(0xffffff, false);
 
@@ -48,8 +50,7 @@ mission "translateGameTypeDestroyStructures"
                     rPlayer.SetMoney(100);
                 }
 
-                // W ScriptData(0) zapisujemy informacje, czy gracz zbudował jakieś budynki. Wstępnie 0, czyli brak budynków.
-                rPlayer.SetScriptData(0, 0);
+                rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
 
                 rPlayer.SetMaxCountLimitForObject("COWSHED", 4);
                 rPlayer.SetMaxCountLimitForObject("COURT", 1);

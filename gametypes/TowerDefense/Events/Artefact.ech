@@ -1,0 +1,292 @@
+int iLastCleanupTime;
+int iLastCleanupTimeTunnel;
+int iPerunRageStartTime;
+
+function void CreatePortalArtifact()
+{
+    int i, iSize;
+    iSize = LAST_SPAWN_MARKER_CLOSE - FIRST_SPAWN_MARKER + 1;
+    for(i=0; i<iSize; i=i+1)
+    {
+        if(!PointExist(FIRST_SPAWN_MARKER + i))
+            continue;
+
+        CreateArtefact(
+            "ARTIFACT_INVISIBLE",
+            GetPointX(FIRST_SPAWN_MARKER + i),
+            GetPointY(FIRST_SPAWN_MARKER + i),
+            GetPointZ(FIRST_SPAWN_MARKER + i),
+            FIRST_SPAWN_MARKER + i
+        );
+    }
+}
+
+function void CreateNextWaveTrigger()
+{
+    if(PointExist(NEXT_WAVE_TRIGGER_MARKER))
+    {
+        CreateArtefact(
+            "SWITCH_1_1",
+            GetPointX(NEXT_WAVE_TRIGGER_MARKER),
+            GetPointY(NEXT_WAVE_TRIGGER_MARKER),
+            GetPointZ(NEXT_WAVE_TRIGGER_MARKER),
+            NEXT_WAVE_TRIGGER_MARKER
+        );
+    }
+
+
+    if(PointExist(BREAK_TRIGGER_MARKER))
+    {
+        CreateArtefact(
+            "ARTIFACT_INVISIBLE",
+            GetPointX(BREAK_TRIGGER_MARKER),
+            GetPointY(BREAK_TRIGGER_MARKER),
+            GetPointZ(BREAK_TRIGGER_MARKER),
+            BREAK_TRIGGER_MARKER
+        );
+    }
+}
+
+function void CreateRemoveArtefactsTrigger()
+{
+    if(!PointExist(REMOVE_ARTEFACTS_TRIGGER_MARKER))
+        return;
+
+    CreateArtefact(
+        "SWITCH_1_1",
+        GetPointX(REMOVE_ARTEFACTS_TRIGGER_MARKER),
+        GetPointY(REMOVE_ARTEFACTS_TRIGGER_MARKER),
+        GetPointZ(REMOVE_ARTEFACTS_TRIGGER_MARKER),
+        REMOVE_ARTEFACTS_TRIGGER_MARKER
+    );
+
+}
+
+function void CreatePerunRageTrigger()
+{
+    if(!PointExist(PERUN_RAGE_TRIGGER_MARKER))
+        return;
+
+    CreateArtefact(
+        "SWITCH_1_1",
+        GetPointX(PERUN_RAGE_TRIGGER_MARKER),
+        GetPointY(PERUN_RAGE_TRIGGER_MARKER),
+        GetPointZ(PERUN_RAGE_TRIGGER_MARKER),
+        PERUN_RAGE_TRIGGER_MARKER
+    );
+}
+
+function void CreateExtraBreakTimeTrigger()
+{
+    if(!PointExist(EXTRA_BREAK_TIME_TRIGGER_MARKER))
+        return;
+
+    CreateArtefact(
+        "SWITCH_1_1",
+        GetPointX(EXTRA_BREAK_TIME_TRIGGER_MARKER),
+        GetPointY(EXTRA_BREAK_TIME_TRIGGER_MARKER),
+        GetPointZ(EXTRA_BREAK_TIME_TRIGGER_MARKER),
+        EXTRA_BREAK_TIME_TRIGGER_MARKER
+    );
+}
+
+function void MakePerunRage()
+{
+    int i, j, iRand, iNumberOfUnits, iPerunRageDuration;
+    unitex uUnit;
+    player rPlayer;
+
+    iPerunRageDuration = GetMissionTime() - iPerunRageStartTime;
+
+    if(iPerunRageStartTime == 0 || (iPerunRageDuration > 30*SECOND))
+    {
+        return;
+    }
+
+    for(i=9; i<=12; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        iNumberOfUnits = rPlayer.GetNumberOfUnits();
+
+        for(j=0; j<iNumberOfUnits; j=j+1)
+        {
+            uUnit = rPlayer.GetUnit(j);
+            if(uUnit.GetLocationZ() == 1)
+                continue;
+
+            iRand = RandXor(1000);
+            if(iRand < 850)
+                continue;
+        
+            Lighting(uUnit.GetLocationX(), uUnit.GetLocationY(), 100);
+        }
+    }
+}
+
+function void CleanUpArtefacts(int bTunnel)
+{
+    int iTop, iRight, iBottom, iLeft;
+    int i, j, k;
+    int bShouldContinue;
+
+    iTop = GetTop() + 16;
+    iLeft = GetLeft() + 16;
+
+    iRight = GetRight() - 16;
+    iBottom = GetBottom() - 16;
+
+    for(i=iTop; i<=iBottom; ++i)
+    {
+        for(j=iLeft; j<=iRight; ++j)
+        {
+            bShouldContinue = false;
+            for(k=FIRST_SPAWN_MARKER; k<=LAST_SPAWN_MARKER_CLOSE; ++k)
+            {
+                if(!PointExist(k))
+                    continue;
+
+                if(GetPointZ(k) != bTunnel)
+                    continue;
+
+                if(GetPointX(k) != i)
+                    continue;
+
+                if(GetPointY(k) != j)
+                    continue;
+
+                bShouldContinue = true;
+                break;
+            }
+
+            if(bShouldContinue)
+                continue;
+
+            for(k=NEXT_WAVE_TRIGGER_MARKER; k<=BREAK_TRIGGER_MARKER; ++k)
+            {
+                if(!PointExist(k))
+                    continue;
+
+                if(GetPointZ(k) != bTunnel)
+                    continue;
+
+                if(GetPointX(k) != i)
+                    continue;
+
+                if(GetPointY(k) != j)
+                    continue;
+
+                bShouldContinue = true;
+                break;
+            }
+
+            if(bShouldContinue)
+                continue;
+
+            for(k=FIRST_REWARD_MARKER; k<=REWARD_INFO_MARKER; ++k)
+            {
+                if(!PointExist(k))
+                    continue;
+
+                if(GetPointZ(k) != bTunnel)
+                    continue;
+
+                if(ABS(GetPointX(k) - i) > 1)
+                    continue;
+
+                if(ABS(GetPointY(k) - j) > 1)
+                    continue;
+
+                bShouldContinue = true;
+                break;
+            }
+
+            if(bShouldContinue)
+                continue;
+            
+            RemoveArtefact(i, j, bTunnel);
+        }
+    }
+}
+
+
+event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefact)
+{
+    int i, iDisplayTimeToNextWave;
+    unitex uUnit;
+
+    if (iArtefactNum == NEXT_WAVE_TRIGGER_MARKER)
+    {
+        iDisplayTimeToNextWave = GetDisplayTimeToNextWave(iCurrentWaveNumber, iBreakTimeStart, iWaveType);
+        if(iDisplayTimeToNextWave <= 30)
+            return false;
+        if(bWaveActive)
+            return false;
+
+        EndBreakTime();
+        CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
+
+        return false;
+    }
+    else if (iArtefactNum == BREAK_TRIGGER_MARKER)
+    {
+        if(bWaveActive)
+        {
+            EndWaveTime();
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
+        }
+        return false;
+    }
+    else if (iArtefactNum == REMOVE_ARTEFACTS_TRIGGER_MARKER)
+    { 
+        if(iLastCleanupTime == 0 || (GetMissionTime() - iLastCleanupTime) > 10*SECOND)
+        {
+            // z jakiegoś powodu funkcja musi być wywołana dwa razy aby zadziałała poprawnie
+            // rozdzielone na powierzchnie i tunel aby zmniejszyć laga
+            CleanUpArtefacts(0);
+            CleanUpArtefacts(0);
+            iLastCleanupTime = GetMissionTime();
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
+        }
+        else if(iLastCleanupTimeTunnel == 0 || (GetMissionTime() - iLastCleanupTimeTunnel) > 10*SECOND)
+        {
+            CleanUpArtefacts(1);
+            CleanUpArtefacts(1);
+            iLastCleanupTimeTunnel = GetMissionTime();
+        }
+        return false;
+    }
+    else if (iArtefactNum == PERUN_RAGE_TRIGGER_MARKER)
+    {
+        if(!iPerunRageStartTime)
+        {
+            iPerunRageStartTime = GetMissionTime();
+            CreateArtefactAtUnit("SWITCH_1_2", uUnitOnArtefact, 0);
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
+        }
+        return true;
+    }
+    else if (iArtefactNum == EXTRA_BREAK_TIME_TRIGGER_MARKER)
+    {
+        if(!bWaveActive)
+        {
+            iBreakTimeStart = iBreakTimeStart + 10*MINUTE;
+            CreateArtefactAtUnit("SWITCH_1_2", uUnitOnArtefact, 0);
+            CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
+            return true;
+        }
+        return false;
+    }
+    else if ((iArtefactNum >= FIRST_SPAWN_MARKER) && (iArtefactNum <= LAST_SPAWN_MARKER_CLOSE))
+    {
+        if(rPlayerOnArtefact.GetIFFNumber() > 7)
+            return false;
+
+        uUnit = GetUnitAtMarker(iArtefactNum);
+        CreateObjectAtUnit(uUnit, "HIT_TELEPORT");
+        uUnit.RemoveUnit();
+        return false;
+    }
+
+    i = MarkerFunctionsEventArtefact(iArtefactNum, uUnitOnArtefact, rPlayerOnArtefact);
+    return i;
+}

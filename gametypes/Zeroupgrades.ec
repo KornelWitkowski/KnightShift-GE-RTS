@@ -1,5 +1,6 @@
 mission "translateZeroupgrades"
 {
+    #include "Common\Consts.ech"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
@@ -44,34 +45,34 @@ mission "translateZeroupgrades"
                 CheckMilkPool(4);    
             }
 
-            rPlayer.SetScriptData(0, 0);
+            rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
 
             RegisterGoal(0, "translateZeroUpgradesGoal");
             EnableGoal(0, true, true);
 
             // Ulepszenia - GE
             
-            rPlayer.EnableResearchUpdate("AUTOSPELL_PRIEST"            , false); // 0
-            rPlayer.EnableResearchUpdate("AUTOSPELL_WITCH"             , false); // 0
-            rPlayer.EnableResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS", false); // 0
-            rPlayer.EnableResearchUpdate("AUTOSPELL_FIREBALL"          , false); // 0
-            rPlayer.EnableResearchUpdate("SPELL_SHIELD"                , false); // 0
-            rPlayer.EnableResearchUpdate("SPELL_CAPTURE"               , false); // 0
-            rPlayer.EnableResearchUpdate("SPELL_STORM"                 , false); // 0
-            rPlayer.EnableResearchUpdate("SPELL_CONVERSION"            , false); // 0
-            rPlayer.EnableResearchUpdate("SPELL_FIRERAIN"              , false); // 0
-            rPlayer.EnableResearchUpdate("SPELL_SEEING"                , false); // 0
-            rPlayer.EnableResearchUpdate("SPELL_TELEPORTATION"         , false); // 0
-            rPlayer.EnableResearchUpdate("SPELL_GHOST"                 , false); // 0
-            rPlayer.EnableResearchUpdate("SPELL_WOLF"                  , false); // 0
+            rPlayer.EnableResearchUpdate("AUTOSPELL_PRIEST"            , false);
+            rPlayer.EnableResearchUpdate("AUTOSPELL_WITCH"             , false);
+            rPlayer.EnableResearchUpdate("AUTOSPELL_LIGHTING_PRIESTESS", false);
+            rPlayer.EnableResearchUpdate("AUTOSPELL_FIREBALL"          , false);
+            rPlayer.ResearchUpdate("SPELL_SHIELD"               );
+            rPlayer.ResearchUpdate("SPELL_CAPTURE"               );
+            rPlayer.ResearchUpdate("SPELL_STORM"                 );
+            rPlayer.ResearchUpdate("SPELL_CONVERSION"            );
+            rPlayer.ResearchUpdate("SPELL_FIRERAIN"              );
+            rPlayer.ResearchUpdate("SPELL_SEEING"                );
+            rPlayer.ResearchUpdate("SPELL_TELEPORTATION"         );
+            rPlayer.ResearchUpdate("SPELL_GHOST"                 );
+            rPlayer.ResearchUpdate("SPELL_WOLF"                  );
             
-            rPlayer.EnableResearchUpdate("SPEAR1"  , false); // 0
-            rPlayer.EnableResearchUpdate("BOW1"    , false); // 0
-            rPlayer.EnableResearchUpdate("SWORD1" , false); // 0
-            rPlayer.EnableResearchUpdate("AXE1"    , false); // 0
-            rPlayer.EnableResearchUpdate("SHIELD1" , false); // 0
-            rPlayer.EnableResearchUpdate("ARMOUR1" , false); // 0
-            rPlayer.EnableResearchUpdate("HELMET1", false); // 0
+            rPlayer.EnableResearchUpdate("SPEAR1"  , false);
+            rPlayer.EnableResearchUpdate("BOW1"    , false);
+            rPlayer.EnableResearchUpdate("SWORD1" , false);
+            rPlayer.EnableResearchUpdate("AXE1"    , false);
+            rPlayer.EnableResearchUpdate("SHIELD1" , false);
+            rPlayer.EnableResearchUpdate("ARMOUR1" , false);
+            rPlayer.EnableResearchUpdate("HELMET1", false);
 
             // Budynki - GE
             

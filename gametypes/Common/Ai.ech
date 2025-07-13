@@ -1,0 +1,233 @@
+function int IsShooter(unitex uUnit)
+{
+    /* 
+        uUnit.GetWeaponType = 3 odpowiada strzelcom: łucznik, włócznik, mag, wiedźma, kapłan. 
+        Czarodziejka (i inne jednostki z piorunami) to uUnit.GetWeaponType = 6.
+    */
+
+    if(uUnit.GetWeaponType() == 3)
+        return true;
+    else if(uUnit.GetWeaponType() == 6)
+        return true;
+
+    return false;
+}
+
+
+function int IsTower(unitex uUnit)
+{
+    if(!uUnit.IsBuilding())
+        return 0;
+
+    if(uUnit.GetArmour(1) == 100)
+        return 0;
+
+    if(uUnit.GetMaxHP() == 1200)
+        return 1;
+
+    return 0;
+}
+
+
+function int IsGate(unitex uUnit)
+{
+   if(!uUnit.IsBuilding())
+        return 0;
+
+    if(uUnit.GetArmour(1) == 100)
+        return 0;
+
+    if(uUnit.GetMaxHP() == 3000)
+        return 1;
+
+    return 0;
+}
+
+function int IsWall(unitex uUnit)
+{
+   if(!uUnit.IsBuilding())
+        return 0;
+
+    if(uUnit.GetArmour(1) == 100)
+        return 0;
+
+    if(uUnit.GetMaxHP() == 1000)
+        return 1;
+
+    return 0;
+}
+
+function unitex GetBorderingBuilding(unitex uUnit, int bIncludePassive)
+{
+    int i, j, iX, iY;
+    unitex uUnitTarget;
+    unitex uTower, uGate, uWall, uPassive;
+
+    iX = uUnit.GetLocationX();
+    iY = uUnit.GetLocationY();
+
+    for(i=-1; i<=1; i=i+1)
+    {
+        for(j=-1; j<=1; j=j+1)
+        {
+            if(i==0 && j==0) continue;
+            uUnitTarget = GetUnit(iX+i, iY+j);
+
+            if( uUnitTarget == null)
+                continue;
+
+            if(uUnitTarget.IsBuilding())
+            {
+                if(IsTower(uUnitTarget))
+                    uTower = uUnitTarget;
+                else if(IsGate(uUnitTarget))
+                    uGate = uUnitTarget;
+                else if(IsWall(uUnitTarget))
+                    uWall = uUnitTarget;
+                else if(bIncludePassive && uUnitTarget.IsPassive())
+                    uPassive = uUnitTarget;
+            }
+        }
+    }
+
+    if(uGate != null)
+        return uGate;
+    if(uTower != null)
+        return uTower;
+    if(uWall != null)
+        return uWall;
+    if(uPassive != null)
+        return uPassive;
+
+    return null;
+}
+
+function unitex GetBorderingEnemy(unitex uUnit)
+{
+    int i, j, iX, iY;
+    unitex uEnemyUnit;
+    player rPlayer, rPlayerEnemy;
+
+    iX = uUnit.GetLocationX();
+    iY = uUnit.GetLocationY();
+
+    rPlayer = GetPlayer(uUnit.GetIFFNumber());
+
+    for(i=-1; i<=1; i=i+1)
+    {
+        for(j=-1; j<=1; j=j+1)
+        {
+            if(i==0 && j==0) continue;
+            uEnemyUnit = GetUnit(iX+i, iY+j);
+            if(uEnemyUnit.IsInTower())
+                continue;
+
+            if(uEnemyUnit.IsFlyable())
+                continue;
+
+            if(uEnemyUnit.IsBuilding())
+                continue;
+
+            rPlayerEnemy = GetPlayer(uEnemyUnit.GetIFFNumber());
+
+            if(rPlayer.IsEnemy(rPlayerEnemy))
+                return uEnemyUnit;
+        }
+    }
+    return null;
+}
+
+function int IsNextToBuilding(unitex uUnit, int bIncludePassive)
+{
+    unitex uBuilding;
+    uBuilding = GetBorderingBuilding(uUnit, bIncludePassive);
+    if(uBuilding != null)
+        return true;
+    return false;
+}
+
+function int IsNextToEnemy(unitex uUnit)
+{
+    int i, j, iX, iY;
+    unitex uEnemyUnit;
+    player rPlayer, rPlayerEnemy;
+
+    iX = uUnit.GetLocationX();
+    iY = uUnit.GetLocationY();
+
+    rPlayer = GetPlayer(uUnit.GetIFFNumber());
+
+    for(i=-1; i<=1; i=i+1)
+    {
+        for(j=-1; j<=1; j=j+1)
+        {
+            if(i==0 && j==0) continue;
+            uEnemyUnit = GetUnit(iX+i, iY+j);
+
+            if(uEnemyUnit == null)
+                continue;
+
+            if(uEnemyUnit.IsInTower())
+                continue;
+
+            if(uEnemyUnit.IsFlyable())
+                continue;
+
+            if(uEnemyUnit.IsBuilding())
+                continue;
+
+            if(uEnemyUnit.IsPassive())
+                continue;
+
+            rPlayerEnemy = GetPlayer(uEnemyUnit.GetIFFNumber());
+
+            if(rPlayer.IsEnemy(rPlayerEnemy))
+                return true;
+        }
+    }
+    return false;
+}
+
+
+function int AttackBorderingBuildingOrEnemy(unitex uUnit, int bIncludePassive)
+{
+    int bIsNextToBuilding, bIsNextToEnemy, bIsShooter;
+    unitex uBuilding, uEnemyUnit;
+
+    if(uUnit.IsMoving())
+        return false;
+
+    bIsShooter = IsShooter(uUnit);
+
+    if(bIsShooter)
+        return false;
+
+    bIsNextToBuilding = IsNextToBuilding(uUnit, bIncludePassive);
+    bIsNextToEnemy = IsNextToEnemy(uUnit);
+
+    if(bIsNextToEnemy)
+    {
+        uEnemyUnit = GetBorderingEnemy(uUnit);
+        if(uEnemyUnit != null)
+        {
+            uUnit.CommandAttack(uEnemyUnit);
+            return true;
+        }
+    }
+
+    if(bIsNextToBuilding)
+    {
+        uBuilding = GetBorderingBuilding(uUnit, bIncludePassive);
+        if(uBuilding != null)
+        {
+            uUnit.CommandAttack(uBuilding);
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+
+

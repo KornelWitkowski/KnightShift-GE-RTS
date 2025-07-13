@@ -88,7 +88,7 @@ function void CheckUnitDestroyedAdventureGE4(unitex uUnit)
             {   
                 SetGoalState(0, goalFailed, 1);
 
-                rPlayer.SetScriptData(1, 1);
+                rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
 
                 SetStateDelay(150);
                 state Defeat;

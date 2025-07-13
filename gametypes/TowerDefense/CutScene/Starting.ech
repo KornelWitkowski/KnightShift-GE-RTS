@@ -1,0 +1,299 @@
+/*
+        cutscenka:
+
+        <zbliżenie na kapłana mirogosta>
+        Witaj! Nazywam się Mirogost. Znajdujemy się w ruinach starożytnej twierdzy Czerwień. 
+        
+        <powoli w strone portali>
+        Wezwałem Cię ponieważ państwu Polan grozi śmiertelne zagrożenie.
+
+        <Morowład wychodzi z portalu>
+        Plugawy nekromanta Morowład wykonał rytuał <wymyślić nazwę> i otworzył bramy przez które czarcie moce mogą dostać się do naszego świata.
+
+        <wychodzą królowe-czarodziejki z portalu>
+        Musimy stawić mu opór nim zbierze zbyt wielkie siły i cała nadzieja będzie stracona.
+
+        <zbliżenie na guziki>
+        W podziemiach twierdzy znajdują się starożytne mechanizmy, które mogą pomóc Ci w Twojej misji zapoznaj się z ich inskrypcjami.
+
+        <zbliżenie na miejsce na itemy>
+        Zbuduj osadę i przygotuj obronę, a ja udam się po pomoc - w miarę moich sił przysyłać do Ciebie jednostki i zaopatrzenie.
+
+        <zbliżenie na kapłana>
+        To nie będzie łatwa walka. Swarożyc z Tobą.
+        <teleportuje się>
+
+        <pojawiają się bonusy startowe na zbliżeniu>
+
+        <widok na wioskę i pojawiają się drwalowie i krowy>
+
+        <start>
+*/
+
+    state StartingCutscene0;
+    state StartingCutscene01;
+    state StartingCutscene1;
+    state StartingCutscene2;
+    state StartingCutscene3;
+    state StartingCutscene4;
+    state StartingCutscene5;
+    state StartingCutscene6;
+    state StartingCutsceneFinal;
+
+function void ShowAreaAtMarker(player rPlayer, int nMarker)
+{
+    ShowArea(rPlayer.GetIFF(), GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), 30);
+}
+
+// function int HideAreaAtMarker(player pPlayer, int nMarker, int nRange)
+// {
+//     ASSERT( pPlayer != null );
+//     ASSERT( PointExist(nMarker) );
+
+//     HideArea(pPlayer.GetIFF(), GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nRange);
+
+//     return true;
+// }
+
+state StartingCutscene0
+{
+    player rPlayer;
+    int i;
+    unitex uPriest;
+
+    SetTime(32);
+    
+    rPlayer13 = GetPlayer(13);
+    uPriest = CreateUnitAtMarker(rPlayer13, CUTSCENE_PRIEST_MARKER, "SORCERER");
+
+    for(i=0; i<3; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        rPlayer.SpyPlayer(rPlayer13, true, 60*SECOND);
+        rPlayer.LookAt(GetPointX(CUTSCENE_PRIEST_MARKER), GetPointY(CUTSCENE_PRIEST_MARKER), 12, 128, 128, 0);
+        rPlayer.ShowInterface(false);
+        ShowArea(rPlayer.GetIFF(), (GetLeft() + GetRight())/2, (GetTop() + GetBottom())/2, 0, 256);
+	
+    }
+
+
+    CreateObjectAtMarker(CUTSCENE_PRIEST_MARKER, "HIT_TELEPORT");
+
+    EnableInterface(false);
+    EnableCameraMovement(false);
+    
+
+
+    return StartingCutscene01, 150;
+}
+
+
+
+state StartingCutscene01
+{
+    player rPlayer;
+    int i;
+
+
+    for(i=0; i<3; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        // rPlayer.LookAt(GetPointX(FIRST_MARKER_TO_REACH_CENTER), GetPointY(FIRST_MARKER_TO_REACH_CENTER), 1, 0, 128, false);
+        rPlayer.DelayedLookAt(
+            GetPointX(FIRST_MARKER_TO_REACH_CENTER), 
+            GetPointY(FIRST_MARKER_TO_REACH_CENTER), 
+            12, 0, 13, 0, 300, false);
+
+	
+    }
+
+
+    CreateObjectAtMarker(CUTSCENE_PRIEST_MARKER, "HIT_TELEPORT");
+
+    EnableInterface(false);
+    EnableCameraMovement(false);
+    
+
+
+    return StartingCutscene1, 300;
+}
+
+
+
+
+
+state StartingCutscene1
+{
+    player rPlayer;
+    int i;
+
+    EnableCameraMovement(true);
+    for(i=0; i<3; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        ShowAreaAtMarker(rPlayer, FIRST_SPAWN_MARKER);
+        rPlayer.LookAt(GetPointX(FIRST_SPAWN_MARKER), GetPointY(FIRST_SPAWN_MARKER), 3, 108, 32, 0);
+    }
+
+    EnableCameraMovement(false);
+    return StartingCutscene2, 150;
+}
+
+state StartingCutscene2
+{
+    player rPlayer;
+    int i;
+
+    EnableCameraMovement(true);
+    for(i=0; i<3; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        
+        ShowAreaAtMarker(rPlayer, FIRST_SPAWN_MARKER);
+        rPlayer.LookAt(GetPointX(FIRST_SPAWN_MARKER), GetPointY(FIRST_SPAWN_MARKER), 3, 108, 32, 0);
+    }
+
+    EnableCameraMovement(false);
+    return StartingCutscene3, 150;
+}
+
+
+state StartingCutscene3
+{
+    player rPlayer;
+    int i;
+
+    EnableCameraMovement(true);
+    for(i=0; i<3; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        ShowAreaAtMarker(rPlayer, FIRST_REWARD_MARKER);
+        rPlayer.LookAt(GetPointX(FIRST_REWARD_MARKER), GetPointY(FIRST_REWARD_MARKER), 3, 108, -1, 1);
+
+    }
+
+    EnableCameraMovement(false);
+    return StartingCutscene4, 150;
+}
+
+
+state StartingCutscene4
+{
+    player rPlayer;
+    int i;
+    EnableCameraMovement(true);
+    for(i=0; i<3; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        ShowAreaAtMarker(rPlayer.GetIFF(), NEXT_WAVE_TRIGGER_MARKER, 10);
+        rPlayer.LookAt(GetPointX(NEXT_WAVE_TRIGGER_MARKER), GetPointY(NEXT_WAVE_TRIGGER_MARKER), 3, 108, -1, 1);
+    }
+    EnableCameraMovement(false);
+    return StartingCutscene5, 150;
+}
+
+
+state StartingCutscene5
+{
+    player rPlayer;
+    int i;
+    EnableCameraMovement(true);
+
+    for(i=0; i<3; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        rPlayer.SpyPlayer(rPlayer13, true, 30*SECOND);
+        rPlayer.LookAt(GetPointX(CUTSCENE_PRIEST_MARKER), GetPointY(CUTSCENE_PRIEST_MARKER), 1, 128, 128, 0);
+        ShowAreaAtMarker(rPlayer, CUTSCENE_PRIEST_MARKER, 10);
+    }
+    EnableCameraMovement(false);
+    return StartingCutscene6, 150;
+}
+
+state StartingCutscene6
+{
+    player rPlayer;
+    int i;
+    EnableCameraMovement(true);
+    for(i=0; i<3; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        ShowAreaAtMarker(rPlayer.GetIFF(), FIRST_REWARD_MARKER, 10);
+        rPlayer.LookAt(GetPointX(FIRST_REWARD_MARKER), GetPointY(FIRST_REWARD_MARKER), 3, 108, -1, 1);
+    }
+    EnableCameraMovement(false);
+    return StartingCutsceneFinal, 150;
+}
+
+state StartingCutsceneFinal
+{
+    player rPlayer;
+    int i;
+    EnableCameraMovement(true);
+    EnableInterface(true);
+
+    for(i=0; i<3; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        ShowAreaAtMarker(rPlayer.GetIFF(), i, 20);
+        rPlayer.ShowInterface(true, 30);
+        rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
+    }
+
+
+    // ShowInterfaceBlackBorders(false, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_COLOR, INTERFACE_BORDERS_COLOR, 0, 0);
+
+    return Initialize, 10;
+}
+
+
+event EscapeCutscene()
+{
+    if ( state == StartingCutscene0 )
+    {
+        SetStateDelay(0);
+        state StartingCutscene1;
+    }
+    else if ( state == StartingCutscene1 )
+    {
+        SetStateDelay(0);
+        state StartingCutscene2;
+    }
+    else if ( state == StartingCutscene2 )
+    {
+        SetStateDelay(0);
+        state StartingCutscene3;
+    }
+    else if ( state == StartingCutscene3 )
+    {
+        SetStateDelay(0);
+        state StartingCutscene4;
+    }
+    else if ( state == StartingCutscene4 )
+    {
+        SetStateDelay(0);
+        state StartingCutscene5;
+    }
+    else if ( state == StartingCutscene5 )
+    {
+        SetStateDelay(0);
+        state StartingCutscene6;
+    }
+    else if ( state == StartingCutscene6 )
+    {
+        SetStateDelay(0);
+        state StartingCutsceneFinal;
+    }
+    else if ( state == StartingCutsceneFinal )
+    {
+        SetStateDelay(0);
+        state Initialize;
+    }
+    else
+    {
+        SetStateDelay(0);
+        state Nothing;
+    }
+
+    
+}

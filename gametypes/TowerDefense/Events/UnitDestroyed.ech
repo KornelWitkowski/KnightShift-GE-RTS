@@ -1,0 +1,309 @@
+function void KillRemainingEnemyUnits()
+{
+    KillArea(rPlayer9.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
+    KillArea(rPlayer10.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
+    KillArea(rPlayer11.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
+    KillArea(rPlayer12.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
+}
+
+function void PutAuraOnUnit(unitex uUnit, int iAura)
+{
+    int i;
+    unitex uAura;
+
+    if(iAura == SKELETON_MULTIPLICATION_TIER_3){
+        uAura = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT1");
+        uAura.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+        uAura = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT2");
+        uAura.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+        uAura = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT3");
+        uAura.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+    }
+    else if(iAura == SKELETON_MULTIPLICATION_TIER_2){
+        uAura = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT1");
+        uAura.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+        uAura = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT2");
+        uAura.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+    }
+    else if(iAura == SKELETON_MULTIPLICATION_TIER_1){
+        uAura = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT1");
+        uAura.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+    }
+
+}
+
+function void MultiplicateSkeleton(unitex uUnitKilled, string strUnit, int iUnitsNumber, int iScriptData)
+{
+
+    int j, iPathScriptData;
+    int iUnitsCounter;
+    int iX, iY, iZ, iAlpha;
+    
+    unitex uUnit1, uSmoke;
+    player rPlayerUnit;
+
+    iX = uUnitKilled.GetLocationX();
+    iY = uUnitKilled.GetLocationY();
+    iZ = uUnitKilled.GetLocationZ();
+    iAlpha = uUnitKilled.GetAlphaAngle();
+
+    iUnitsCounter = 1; 
+
+    rPlayerUnit = GetPlayer(uUnitKilled.GetIFFNumber());
+
+    uUnit1 = rPlayerUnit.CreateUnit(iX, iY, iZ, iAlpha, strUnit);
+    CreateObjectAtUnit(uUnit1, "HIT_TELEPORT");
+
+    iPathScriptData = GetUnitMaskedScriptData(uUnitKilled, PATH_MASK);
+    SetUnitMaskedScriptData(uUnit1, PATH_MASK, iPathScriptData);
+    SetUnitMaskedScriptData(uUnit1, MASK_SCRIPT_DATA_TRAP, iScriptData);
+    PutAuraOnUnit(uUnit1, iScriptData);
+
+    for(j=0; j<25; ++j)
+    {
+        if(iUnitsCounter >= iUnitsNumber)
+            return;
+
+        uUnit1 = rPlayerUnit.CreateUnit(iX -2 + RandXor(5), iY -2 + RandXor(5), iZ, iAlpha, strUnit);
+
+        if(uUnit1 == null)
+            continue;
+
+        PutAuraOnUnit(uUnit1, iScriptData);
+
+        ++ iUnitsCounter;
+        CreateObjectAtUnit(uUnit1, "HIT_TELEPORT");
+
+        GiveCaptureConvertResistance(uUnit1);
+        SetUnitMaskedScriptData(uUnit1, MASK_SCRIPT_DATA_TRAP, iScriptData);
+    }     
+
+}
+
+
+function void RemoveMirkoItems(int iX, int iY, int iZ)
+{ 
+    int i, j;
+
+    for(i=-1; i<=1; ++i)
+    {
+        for(j=-1; j<=1; ++j)
+        {
+            RemoveArtefact(iX + i, iY + j, iZ, "ART_SWORD6");
+            RemoveArtefact(iX + i, iY + j, iZ, "ART_HELMET2B");
+            RemoveArtefact(iX + i, iY + j, iZ, "ART_ARMOUR5");
+            RemoveArtefact(iX + i, iY + j, iZ, "ART_SHIELD5");
+            RemoveArtefact(iX + i, iY + j, iZ, "ART_HELMET5");
+        }
+    }
+    
+}
+
+
+event UnitDestroyed(unitex uUnitKilled)
+{
+    unitex uUnit;
+    int iBossUnitNumber, uSmoke;
+    int iMaskedScriptData;
+    int iUnitsNumber;
+    int iPlayerIFF;
+    int iX, iY, iZ, iAlpha;
+    player rPlayer;
+    int k;
+
+    iMaskedScriptData = GetUnitMaskedScriptData(uUnitKilled, TOWER_DEFENSE_SPECIAL_MASK);
+
+    if(bIsWin)
+        return;
+
+    if(uUnitKilled.GetIFFNumber() < 8)
+    {
+        RemoveMirkoItems(uUnitKilled.GetLocationX(), uUnitKilled.GetLocationY(), uUnitKilled.GetLocationZ());
+    }
+
+
+    if( iMaskedScriptData == MAIN_BOSS_DEMON_MARKER)
+    {
+        GenerateSpecialPrize(iCurrentWaveNumber, iDifficulty);
+        SetStateDelay(400);
+        KillRemainingEnemyUnits();
+        SetGoalState(0, goalAchieved, 1);
+        bIsWin = true;
+        bWaveActive = false;
+        PlayTrack("Music\\RPGvictory.tws");
+        state Victory;
+    }
+    else if(iMaskedScriptData == MAIN_BOSS_NECROMANCER_MARKER)
+    {
+        if(iTotalWaveNumber <= 10)
+        {
+            uUnit = rPlayer8.CreateUnit(
+                uUnitKilled.GetLocationX(),
+                uUnitKilled.GetLocationY(),
+                uUnitKilled.GetLocationZ(), 
+                uUnitKilled.GetAlphaAngle(),
+                "MONSTERQUEEN"
+            );
+            uUnit.AddHP(-12000);
+        }
+        else if(iTotalWaveNumber <= 20)
+        {
+            uUnit = rPlayer8.CreateUnit(
+                uUnitKilled.GetLocationX(),
+                uUnitKilled.GetLocationY(),
+                uUnitKilled.GetLocationZ(), 
+                uUnitKilled.GetAlphaAngle(),
+                "MONSTERQUEEN"
+            );
+            uUnit.AddHP(-8000);
+        }
+        else if(iTotalWaveNumber <= 30)
+        {
+            uUnit = rPlayer8.CreateUnit(
+                uUnitKilled.GetLocationX(),
+                uUnitKilled.GetLocationY(),
+                uUnitKilled.GetLocationZ(), 
+                uUnitKilled.GetAlphaAngle(),
+                "MONSTERQUEEN2"
+            );
+            uUnit.AddHP(-16000);
+        }
+        else if(iTotalWaveNumber <= 40)
+        {
+            uUnit = rPlayer8.CreateUnit(
+                uUnitKilled.GetLocationX(),
+                uUnitKilled.GetLocationY(),
+                uUnitKilled.GetLocationZ(), 
+                uUnitKilled.GetAlphaAngle(),
+                "MONSTERQUEEN3"
+            );
+            uUnit.AddHP(-2000);
+        }
+        else
+        {
+            uUnit = rPlayer8.CreateUnit(
+                uUnitKilled.GetLocationX(),
+                uUnitKilled.GetLocationY(),
+                uUnitKilled.GetLocationZ(), 
+                uUnitKilled.GetAlphaAngle(),
+                "MONSTERQUEEN4"
+            );
+            uUnit.AddHP(-5000);
+        }
+
+        SetUnitMaskedScriptData(uUnit, PATH_MASK, iMaskedScriptData);
+        GiveCaptureConvertResistance(uUnit);
+        SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, MAIN_BOSS_DEMON_MARKER);
+        CreateObjectAtUnit(uUnit, "HIT_GHOST");
+    }
+    else if(iMaskedScriptData == MAIN_BOSS_QUEEN_MARKER)
+    {
+        uUnit = rPlayer11.CreateUnit(
+            uUnitKilled.GetLocationX(),
+            uUnitKilled.GetLocationY(),
+            uUnitKilled.GetLocationZ(), 
+            uUnitKilled.GetAlphaAngle(),
+            "ETHEREALDEMON12"
+        );
+        iMaskedScriptData = GetUnitMaskedScriptData(uUnitKilled, PATH_MASK);
+        SetUnitMaskedScriptData(uUnit, PATH_MASK, iMaskedScriptData);
+        GiveCaptureConvertResistance(uUnit);
+        CreateObjectAtUnit(uUnit, "HIT_GHOST");
+    }
+
+    else if (bIsBossWave && (iBossWaveType == MULTIPLYING_SKELETON_BOSS) )
+    {
+
+        iPlayerIFF = uUnitKilled.GetIFFNumber();    
+
+        if(iPlayerIFF != 10)
+            return;
+
+        iMaskedScriptData = GetUnitMaskedScriptData(uUnitKilled, MASK_SCRIPT_DATA_TRAP);    
+        iUnitsNumber = GetMultiplicationValue(iCurrentWaveNumber);
+
+
+        if(iMaskedScriptData == SKELETON_MULTIPLICATION_TIER_4)
+        {
+            MultiplicateSkeleton(uUnitKilled, "SKELETON4", iUnitsNumber, SKELETON_MULTIPLICATION_TIER_3);
+        }
+        else if(iMaskedScriptData == SKELETON_MULTIPLICATION_TIER_3)
+        {
+            MultiplicateSkeleton(uUnitKilled, "SKELETON3", iUnitsNumber , SKELETON_MULTIPLICATION_TIER_2);
+        }
+        else if(iMaskedScriptData == SKELETON_MULTIPLICATION_TIER_2)
+        {
+            MultiplicateSkeleton(uUnitKilled, "SKELETON2", iUnitsNumber, SKELETON_MULTIPLICATION_TIER_1);
+        }
+        else if(iMaskedScriptData == SKELETON_MULTIPLICATION_TIER_1)
+        {
+            MultiplicateSkeleton(uUnitKilled, "SKELETON1", iUnitsNumber, 0);
+        }
+
+        iBossUnitNumber = GetBossUnitNumber();
+
+        if(iBossUnitNumber == 0)
+        {
+            GenerateSpecialPrize(iCurrentWaveNumber, iDifficulty);
+            KillRemainingEnemyUnits();
+            EndCurrentWave();
+        }
+    }
+    else if (uUnitKilled == uBoss)
+    {
+        GenerateSpecialPrize(iCurrentWaveNumber, iDifficulty);
+        KillRemainingEnemyUnits();
+        EndCurrentWave();
+    }
+    else if (bIsBossWave && bWaveActive && (iBossWaveType == NECROMANCER_BOSS))
+    {
+        if(uUnitKilled.GetIFFNumber() > 3)
+            return;
+            
+        iX = uUnitKilled.GetLocationX();
+        iY = uUnitKilled.GetLocationY();
+        iZ = uUnitKilled.GetLocationZ();
+        iAlpha = uUnitKilled.GetAlphaAngle();
+        
+        rPlayer = GetPlayer(11);
+        ResurrectUnit(iX, iY, iZ, iAlpha, uUnitKilled, rPlayer);
+
+    }
+    else if(bIsFinalWave)
+    {
+        if(uUnitKilled.GetIFFNumber() > 3)
+            return;
+            
+        iX = uUnitKilled.GetLocationX();
+        iY = uUnitKilled.GetLocationY();
+        iZ = uUnitKilled.GetLocationZ();
+        iAlpha = uUnitKilled.GetAlphaAngle();
+        
+        rPlayer = GetPlayer(11);
+        ResurrectUnit(iX, iY, iZ, iAlpha, uUnitKilled, rPlayer);
+
+    }
+    else
+    {
+
+        // edge case - wskrzeszanie usuwanych unitów na rewardsach
+        for(k=FIRST_REWARD_MARKER; k<REWARD_INFO_MARKER; ++k)
+        {
+            if(!PointExist(k))
+                continue;
+
+            if(GetPointZ(k) != iZ)
+                continue;
+
+            if((GetPointX(k) - iX) > 1)
+                continue;
+
+            if((GetPointY(k) - iY) > 1)
+                continue;
+
+            return;
+        }
+
+        CheckMarkeredUnitDestroyedEvents(uUnitKilled);
+    } 
+}

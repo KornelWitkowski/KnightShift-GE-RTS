@@ -1,0 +1,57 @@
+
+function void SpawnNormalHuman(int nWaveNumber, int iMarker)
+{
+    int roll;
+    player rPlayerEnemy;
+    unitex uUnit;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    roll = RandXor(100);
+
+    if (roll < 40)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "FOOTMAN");
+    } 
+    else if (roll < 65)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "HUNTER");
+    } 
+    else if (roll < 85)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SPEARMAN");
+    }
+    else if (roll < 90)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "KNIGHT");
+    }
+    else
+    {
+
+        roll = RandXor(100);
+        
+        if(roll < 35)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIESTESS");
+            SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, SORCERESS_MARKER);
+        }
+        else if(roll < 70)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIEST");
+            SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, MAGE_MARKER);
+        }
+        else if(roll < 85)
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SORCERER");
+        }
+        else
+        {
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "WITCH");
+        }
+
+        AddTinyAntiMieszkoDamage(uUnit);
+    }
+
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}

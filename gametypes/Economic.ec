@@ -1,5 +1,8 @@
+#define TIER_5_GAME_TYPE
+
 mission "translateEconomic"
 {
+    #include "Common\Consts.ech"
     #include "Common\States.ech"
     #include "Common\Common.ech"
 
@@ -136,8 +139,6 @@ mission "translateEconomic"
             if(rPlayer==null)
                 continue; 
 
-            rPlayer.SetScriptData(0, 0);
-
             // ECONOMIC
             // ilość mleka potrzebna do wygranej
 
@@ -150,8 +151,11 @@ mission "translateEconomic"
             if(comboMilkToWin==6) rPlayer.SetMaxMoney(500000);  
             iMilkToWin = rPlayer.GetMaxMoney();
 
-            rPlayer.SetScriptData(0, 0);
-            rPlayer.SetMoney(1000);
+            rPlayer.SetScriptData(PLAYER_STAGE, STAGE_WITHOUT_BUILDINGS);
+            if(rPlayer.IsAI())
+                rPlayer.SetMoney(400);
+            else
+                rPlayer.SetMoney(100);
 
             SetStringBuffTranslate(2, "translateEconomicGoal");
             SetStringBuff(3, GetStringBuff(2), iMilkToWin);
@@ -265,9 +269,9 @@ mission "translateEconomic"
                         if(i==j) continue;
                         rPlayer2 = GetPlayer(j);
 
-                        KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
-                        KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
-                        rPlayer2.SetScriptData(1, 1);
+                        KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
+                        KillArea(rPlayer2.GetIFF(), GetRight()/2, GetBottom()/2, 1, 255);
+                        rPlayer2.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
                 }
 
                 state Victory;

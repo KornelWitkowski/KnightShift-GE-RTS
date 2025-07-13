@@ -1,0 +1,49 @@
+event UnitCreated(unitex uUnit)
+{
+    int i, iSize;
+    int iX, iY, iZ;
+    int jX, jY, jZ;
+
+    // poprawka na unity tworzone na markera nagrody i przeciwnicy
+    jX = uUnit.GetLocationX();
+    jY = uUnit.GetLocationY();
+    jZ = uUnit.GetLocationZ();
+
+    for(i=FIRST_REWARD_MARKER; i<=LAST_REWARD_MARKER; ++i)
+    {
+        iX = GetPointX(i);
+        iY = GetPointY(i);
+        iZ = GetPointZ(i);
+
+        if(iX == jX && iY == jY && iZ == jZ)
+        {
+            return;
+        }
+    }
+
+    for(i=FIRST_SPAWN_MARKER; i<=LAST_SPAWN_MARKER; ++i)
+    {
+        iX = GetPointX(i);
+        iY = GetPointY(i);
+        iZ = GetPointZ(i);
+
+        if(iX == jX && iY == jY && iZ == jZ)
+        {
+            return;
+        }
+    }
+
+    for(i=FIRST_SPAWN_MARKER_CLOSE; i<=LAST_SPAWN_MARKER_CLOSE; ++i)
+    {
+        iX = GetPointX(i);
+        iY = GetPointY(i);
+        iZ = GetPointZ(i);
+
+        if(iX == jX && iY == jY && iZ == jZ)
+        {
+            return;
+        }
+    }
+
+    RemoveCapturedUnitArtefacts(uUnit); 
+}

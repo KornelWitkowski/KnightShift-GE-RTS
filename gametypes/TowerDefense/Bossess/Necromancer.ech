@@ -1,0 +1,35 @@
+function unitex SpawnNecromancerBoss(int nWaveNumber, int iMarker)
+{
+    int iX, iY, iZ, iAngle;
+    unitex uUnit;
+
+    uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "noonwraith");
+    
+    if(nWaveNumber <= 10)
+    {
+        uUnit.AddHP(-2500);
+    }
+    else if(nWaveNumber <= 20)
+    {
+       uUnit.AddHP(-1000);
+    }
+    else if(nWaveNumber <= 30)
+    {
+        uUnit.AddHP(-500);
+    }
+    else if(nWaveNumber <= 40)
+    {
+        uUnit.AddHP(2000);
+    }
+    else
+    {
+        uUnit.AddHP(4000);
+    }
+
+    GiveCaptureConvertResistance(uUnit);
+    SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER);
+    SetUnitNecromancer(iMarker);
+    CreateObjectAtUnit(uUnit, "HIT_GHOST");
+
+    return uUnit;
+}

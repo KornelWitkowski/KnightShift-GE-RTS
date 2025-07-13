@@ -1,0 +1,93 @@
+function int ChooseGiantTier(int nWaveNumber)
+{
+    int iRoll;
+    int iDifficultyModifier;
+    iDifficultyModifier = (iDifficulty - 2) * 5;
+
+
+    iRoll =  GaussianDistribution(40) + 8 * nWaveNumber / 5;
+    iRoll = iRoll + iDifficultyModifier;
+    
+    if (20 > iRoll) return 0;
+    if (30 > iRoll) return 1;
+    if (40 > iRoll) return 2;
+    if (50 > iRoll) return 3;
+    if (60 > iRoll) return 4;
+    if (70 > iRoll) return 5;
+    if (80 > iRoll) return 6;
+    if (90 > iRoll) return 7;
+    if (100 > iRoll) return 8;
+    if (110 > iRoll) return 9;
+    if (140 > iRoll) return 10;
+    return 11;
+}
+
+function void SpawnGiant(int iWaveNumber, int iMarker)
+{
+    int iTier;
+    player rPlayerEnemy;
+    unitex uUnit;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    iTier = ChooseGiantTier(iWaveNumber);
+
+    if(iTier == 0)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_SPIDER2");
+        uUnit.AddDamage(1, 20);
+    } 
+    else if (iTier == 1)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_POISON_SPIDER2");
+        uUnit.AddDamage(1, 20);
+    } 
+    else if (iTier == 2)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "GIANT3");
+    }
+    else if (iTier == 3)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "GIANT2");
+    }
+    else if (iTier == 4)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_FIRE_SPIDER");
+        uUnit.AddDamage(1, 20);
+    }
+    else if (iTier == 5)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "GIANT");
+    }
+    else if (iTier == 6)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_WHITE_SPIDER");
+        uUnit.AddDamage(1, 20);
+    }
+    else if (iTier == 7)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_FROST_SPIDER");
+        uUnit.AddDamage(1, 20);
+    }
+    else if (iTier == 8)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_PURPLE_SPIDER");
+        uUnit.AddDamage(1, 20);
+    }
+    else if (iTier == 9)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_GIANT6");
+    }
+    else if (iTier == 10)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_GIANT7");
+    }
+    else if (iTier == 11)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_GIANT8");
+    }
+
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    uUnit.EnableCapture(false);
+    return;
+}

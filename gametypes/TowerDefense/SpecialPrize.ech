@@ -1,0 +1,51 @@
+#define SECRET_A 9137 // Wartości zmienione po kompilacji :)
+#define SECRET_B 48271
+#define SECRET_MOD 900000
+
+function void GenerateSpecialPrize(player rPlayer, int iWaveNumber, int iDifficulty)
+{
+    int i;
+    int iCode;
+    int iSalt;
+    int iLW;
+
+    if(iWaveNumber % 10 != 0)
+        return;
+
+    i = iWaveNumber / 10;
+
+    iCode = iDifficulty * 100 + iWaveNumber;
+
+
+    iSalt = RandXor(255);
+    iLW = iDifficulty * 100 + iWaveNumber;
+    iCode = (iLW * SECRET_A + iSalt * 97 + SECRET_B) % SECRET_MOD + 100000;
+
+    if(iWaveNumber == iTotalWaveNumber)
+        iSalt = iSalt + 256;
+
+    SetStringBuffTranslate(2, "translateTowerDefenseSpecialPrize");
+    SetStringBuff(3, GetStringBuff(2), iWaveNumber, iCode, iSalt);
+
+    rPlayer.RegisterGoal(i, GetStringBuff(3));
+    rPlayer.EnableGoal(i, true, true);
+    rPlayer.SetGoalState(i, goalAchieved, true);
+}
+
+function void GenerateSpecialPrize(int iWaveNumber, int iDifficulty)
+{
+    int i;
+    player rPlayer;
+
+    for(i=0; i<3; ++i)
+    {
+        rPlayer = GetPlayer(i);
+        if(rPlayer == null)
+            continue;
+        if(!rPlayer.IsAlive())
+            continue;
+        GenerateSpecialPrize(rPlayer, iWaveNumber, iDifficulty);
+    }
+}
+
+

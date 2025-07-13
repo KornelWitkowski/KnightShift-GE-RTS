@@ -47,7 +47,7 @@ function void CreateLightingTrap(int iMarker)
         return;
 
     CreateArtefact("ARTIFACT_INVISIBLE",
-        GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_TRAP_LIGHTNING|iMarker);
+        GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), MASK_TRAP_LIGHTING|iMarker);
 }
 
 function void CreateGhostTrapOnMarker(int iMarkerTrigger, int iMarkerGhost)

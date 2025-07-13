@@ -1,0 +1,579 @@
+
+
+function int FindDistanceToClosestUnit(unitex uUnit, player rPlayerTarget, int bTowerOnly)
+{
+    int j;
+    int iDistance, iMinDistance, iNumberOfTargetUnits;
+    unitex uTargetUnit, uClosestTarget;
+    int bIsShooter;
+
+    iMinDistance = 1000;
+    uClosestTarget = null;
+    iNumberOfTargetUnits = rPlayerTarget.GetNumberOfUnits();
+    bIsShooter = IsShooter(uUnit);
+
+    for(j=0; j<iNumberOfTargetUnits; ++j)
+    {
+        uTargetUnit = rPlayerTarget.GetUnit(j);
+        
+        if(bTowerOnly && !uTargetUnit.IsInTower())
+            continue;
+            
+        if(uUnit.GetLocationZ() != uTargetUnit.GetLocationZ())
+            continue;
+
+        if(!uUnit.CanAttackFlyable())
+        {
+            if(uTargetUnit.IsFlyable())
+                continue;
+        }
+
+        iDistance = uUnit.DistanceTo(
+            uTargetUnit.GetLocationX(),
+            uTargetUnit.GetLocationY()
+        );
+
+        if(iDistance < iMinDistance)
+        {
+            iMinDistance = iDistance;
+            uClosestTarget = uTargetUnit;
+        }
+    }
+
+    return iMinDistance;
+}
+
+function int AreAllUnitsInTunnel(player rPlayerDefender)
+{
+    int i;
+    int iNumberOfUnits;
+    unitex uUnit;
+
+
+    iNumberOfUnits = rPlayerDefender.GetNumberOfUnits();
+
+    // Sprawdzamym, czy wszystkie unity są w tunelu
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        uUnit = rPlayerDefender.GetUnit(i);
+
+        if(uUnit.GetLocationZ() != 1)
+            return false;
+    }
+
+    return true;
+}
+
+function unitex FindClosestUnit(unitex uUnit, player rPlayerTarget, int bTowerOnly)
+{
+    int j, bIsShooter, bIsInUnbreakableTower;
+    int iDistance, iMinDistance, iNumberOfTargetUnits;
+    unitex uTargetUnit, uClosestTarget;
+    unit uTower;
+    int bAllUnitsInTunnel;
+
+    iMinDistance = 1000;
+    uClosestTarget = null;
+    iNumberOfTargetUnits = rPlayerTarget.GetNumberOfUnits();
+    bIsShooter = IsShooter(uUnit);
+
+    bAllUnitsInTunnel = AreAllUnitsInTunnel(rPlayerTarget);
+
+    for(j=0; j<iNumberOfTargetUnits; ++j)
+    {
+        uTargetUnit = rPlayerTarget.GetUnit(j);
+        
+        if(!bAllUnitsInTunnel)
+        {
+            if(uTargetUnit.GetLocationZ() != uUnit.GetLocationZ())
+                continue;
+        }
+
+        if(uTargetUnit.IsInCamouflageMode())
+            continue;
+
+        if(bTowerOnly && !uTargetUnit.IsInTower())
+            continue;
+
+        if (!bIsShooter)
+        {
+            bIsInUnbreakableTower = IsInUnbreakableTower(uTargetUnit);
+            if(bIsInUnbreakableTower)
+                continue;
+        
+        }
+
+        if(uTargetUnit.IsFlyable())
+        {
+            if(!uUnit.CanAttackFlyable())
+                continue;
+        }
+            
+        iDistance = uUnit.DistanceTo(
+            uTargetUnit.GetLocationX(),
+            uTargetUnit.GetLocationY()
+        );
+
+        if(iDistance < iMinDistance)
+        {
+            iMinDistance = iDistance;
+            uClosestTarget = uTargetUnit;
+        }
+    }
+
+    return uClosestTarget;
+}
+
+function int AttackClosestUnit(unitex uUnit, player rPlayerTarget, int bTowerOnly)
+{
+    unitex uClosestTarget;
+
+    uClosestTarget = FindClosestUnit(uUnit, rPlayerTarget, bTowerOnly);
+
+    if(uClosestTarget != null)
+    {   
+        uUnit.CommandAttack(uClosestTarget);
+        return 1;
+    }
+    return 0;
+}
+
+function int MoveToClosestUnit(unitex uUnit, player rPlayerTarget, int bTowerOnly)
+{
+    unitex uClosestTarget;
+
+    uClosestTarget = FindClosestUnit(uUnit, rPlayerTarget, bTowerOnly);
+    
+    if(uClosestTarget != null)
+    {
+        uUnit.CommandMove(
+            uClosestTarget.GetLocationX(), 
+            uClosestTarget.GetLocationY(),
+            uClosestTarget.GetLocationZ()
+        );
+        return 1;
+    }
+    return 0;
+}
+
+
+function int IsBomber(unitex uUnit)
+{
+    int iScriptData;
+    iScriptData = GetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK);
+
+    if(iScriptData == BOMBER_MARKER)
+        return true;
+
+    if(iScriptData == BOMBER_POISON_MARKER)
+        return true;
+
+    return false;
+}
+
+function int UseMagic(unitex uUnit, player rPlayerDefender)
+{
+    int i, j;
+    int iX, iY;
+    int iScriptData;
+    int iMinDistance, iDistance;
+    int iRandNum;
+
+    int iNumberOfDefenderUnits;
+    int bBombardBase;
+    unitex uUnitDefender, uDefenderClosestTower, uDefenderClosest;
+
+    iScriptData = GetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK);
+    iNumberOfDefenderUnits = rPlayerDefender.GetNumberOfUnits();
+
+    if(iScriptData != SORCERESS_MARKER && iScriptData != MAGE_MARKER)
+        return false;
+
+    // Deszcz ognia
+    if(RAND(2)==0)
+    {
+        // Koszt za 4 lvl burzy to 140 many. Reszta opcji jest droższa. 
+        // Jeśli postać nie ma many to idziemy do kolejnej.
+        if(uUnit.GetMagic() >= 140)
+        {
+            // Na początku szukamy fortyfikacji do zniszczenia. Szukamy najbliższej wieży
+            iMinDistance = 1000;
+            uDefenderClosestTower == null;
+
+            for(j=0; j<iNumberOfDefenderUnits; ++j)
+            {
+                uUnitDefender = rPlayerDefender.GetUnit(j);
+
+                if(uUnitDefender.GetLocationZ() != uUnit.GetLocationZ())
+                    continue;
+
+                if(uUnitDefender.IsInTower())
+                {
+                    // Dodajemy szum, aby zwiększyć liczbę możliwych targetowanych wież.
+                    iDistance = uUnit.DistanceTo(
+                        uUnitDefender.GetLocationX() - 2 + RandXor(5),
+                        uUnitDefender.GetLocationY() - 2 + RandXor(5)
+                    );
+
+                    if(iDistance < iMinDistance)
+                    {
+                        iMinDistance = iDistance;
+                        uDefenderClosestTower = uUnitDefender;
+                    }
+                }
+            }
+
+            if((uDefenderClosestTower!=null) && (iMinDistance < 30))
+            {
+                uUnit.CommandStop();
+                if(uUnit.GetWeaponType() == 6)
+                {
+                    uUnit.CommandMakeMagicStorm(
+                        uDefenderClosestTower.GetLocationX(),
+                        uDefenderClosestTower.GetLocationY(),
+                        0
+                    );
+                }
+                else
+                {
+                    uUnit.CommandMakeMagicFireRain(
+                        uDefenderClosestTower.GetLocationX(),
+                        uDefenderClosestTower.GetLocationY(),
+                        0
+                    );
+                }
+                
+                return true;
+            }
+
+            // Jeśli nie znaleźliśmy żadnych fortyfikacji do szukamy celów w pobliżu bazy wroga
+            bBombardBase = false;
+
+            // Tutaj sprawdzamy, czy jest możliwy atak na budynki w bazie wroga.
+            // Sprawdzamy teren w okolicy punktu startowego
+            for(j=0; j<12; ++j)
+            {
+                iX = rPlayerDefender.GetStartingPointX() + GaussianDistribution(15);
+                iY = rPlayerDefender.GetStartingPointY() + GaussianDistribution(15);
+
+                // Jeśli deszcz będzie za blisko magów, to nie rzucamy
+                if(uUnit.DistanceTo(iX, iY) < 6)
+                    continue;
+
+                if(uUnit.DistanceTo(iX, iY) > 24)
+                    continue;
+
+                // Jeśli wróg ma budynki, lub unity, w wylosowanym punkcie to rzucamy.
+                if(
+                    (rPlayerDefender.GetNumberOfBuildings(iX, iY, 0, 8) >= 3) || 
+                    (rPlayerDefender.GetNumberOfUnits(iX, iY, 0, 8) >= 5)
+                )
+                {
+                    bBombardBase = true;
+                    break;   
+                }      
+            }
+
+            if(bBombardBase)
+            {
+                uUnit.CommandStop();
+                if(uUnit.GetWeaponType()==6)
+                {
+                    uUnit.CommandMakeMagicStorm(iX, iY, 0);
+                }
+                else
+                {
+                    uUnit.CommandMakeMagicFireRain(iX, iY, 0);
+                }
+
+                return true;
+            }
+        }
+    }
+
+    if(uUnit.GetMagic() < 70)
+        return false;
+
+    iMinDistance = 1000;
+    uDefenderClosest == null;
+
+    for(j=0; j<iNumberOfDefenderUnits; ++j)
+    {
+        uUnitDefender = rPlayerDefender.GetUnit(j);
+
+        if(uUnitDefender.GetLocationZ() != uUnit.GetLocationZ())
+            continue;
+
+        // CommadMakeMagic nie działa na unity na wieżach
+        if(uUnitDefender.IsInTower())
+            continue;
+
+        // Nie chcemy zamieniać krowy w krowę
+        if(uUnitDefender.IsHarvester())
+            continue;
+
+        // Jak jednostka jest w trybie skradania, to udajemy, że jej nie widzimy ;>
+        if(uUnitDefender.IsInCamouflageMode())
+            continue;
+
+        // Dodajemy szum, aby nie targetować zawsze tego samego unitu,
+        // ale umożliwić targetowanie innych znajdujących się blisko
+        iDistance = uUnit.DistanceTo(
+            uUnitDefender.GetLocationX() - 3 + RandXor(7),
+            uUnitDefender.GetLocationY() - 3 + RandXor(7)
+        );
+
+        if(iDistance < iMinDistance)
+        {
+            iMinDistance = iDistance;
+            uDefenderClosest = uUnitDefender;
+        }
+
+        if(iMinDistance < 8)
+        {
+            break;
+        }
+    }
+
+    if(iMinDistance <= 18)
+    {
+        uUnit.CommandStop();
+        if(uUnit.GetWeaponType()==6)
+        {
+            uUnit.CommandMakeMagicCapturing(uDefenderClosest);
+        }
+        else
+        {
+            uUnit.CommandMakeMagicConversion(uDefenderClosest);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
+function void CheckBombers(player rPlayerEnemy)
+{
+    int i;
+    int iNumberOfUnits;
+    int iScriptData;
+    unitex uUnit;
+
+    iNumberOfUnits = rPlayerEnemy.GetNumberOfUnits();
+    
+
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        uUnit = rPlayerEnemy.GetUnit(i);
+        iScriptData = GetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK);
+        if(!IsBomber(uUnit))
+            continue;
+
+        if(iScriptData == BOMBER_MARKER)
+        {
+            if(IsNextToBuilding(uUnit, false))
+            {
+                uUnit.KillUnit();
+                continue;
+            }
+        }
+
+        if(iScriptData == BOMBER_POISON_MARKER) 
+        {
+            if(IsNextToEnemy(uUnit))
+            {
+                uUnit.KillUnit();
+                continue;
+            }
+        }
+    }
+}
+
+function int TeleportMagesToFirstMarker(unitex uUnit)
+{
+    int bReachedFirstMarker;
+    int iMarkerToReach;
+    int hasShield, hasConversion;
+    int iDistance;
+
+    // pająki
+    if(uUnit.IsAnimal())
+        return false;
+
+    iMarkerToReach = GetUnitMaskedScriptData(uUnit, PATH_MASK);
+
+    hasShield = HaveMagic(uUnit, magicImmortalShield);
+    hasConversion = HaveMagic(uUnit, magicConversion);
+
+    if(!(hasShield || hasConversion))
+        return false;
+
+
+    bReachedFirstMarker = true;
+    if(iMarkerToReach == FIRST_MARKER_TO_REACH_CENTER)
+        bReachedFirstMarker = false;
+    else if(iMarkerToReach == FIRST_MARKER_TO_REACH_LEFT )
+        bReachedFirstMarker = false;
+    else if(iMarkerToReach == FIRST_MARKER_TO_REACH_RIGHT)
+        bReachedFirstMarker = false;
+    
+    if(bReachedFirstMarker)
+        return false;
+
+    iDistance = uUnit.DistanceTo(GetPointX(iMarkerToReach), GetPointY(iMarkerToReach));
+
+    if(iDistance < 10)
+        return false;
+
+    if(RandXor(5) > 0)
+        return false;
+    
+
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    uUnit.SetImmediatePosition(
+        GetPointX(iMarkerToReach) - 2 + RandXor(5),
+        GetPointY(iMarkerToReach) - 2 + RandXor(5),
+        GetPointZ(iMarkerToReach), 
+        GetPointAlpha(iMarkerToReach),
+        true
+        );
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+
+    iMarkerToReach = iMarkerToReach + 1;
+    SetUnitMaskedScriptData(uUnit, PATH_MASK, iMarkerToReach);
+
+    uUnit.CommandMove(
+        GetPointX(iMarkerToReach) - 2 + RandXor(5), 
+        GetPointY(iMarkerToReach) - 2 + RandXor(5), 
+        GetPointZ(iMarkerToReach)
+    );
+
+    return true;
+}
+
+function void AttackPlayer(player rPlayerEnemy, player rPlayerDefender)
+{
+    int i, iX, iY, iZ;
+    int iNumberOfUnits, iDistance, iDistanceTower;
+    int bStartAttackBuilding;
+    int bExecutingAnyCommand, bIsShooter;
+    int iScriptData;
+    int bAttackBuilding;
+    int iLastReachedMarker, iNextMarker;
+    int bMagicUsed, bIsAttacking;
+    unitex uUnit;
+    unit uAttacker;
+
+    iNumberOfUnits = rPlayerEnemy.GetNumberOfUnits();
+
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        
+        uUnit = rPlayerEnemy.GetUnit(i);
+        iLastReachedMarker = GetUnitMaskedScriptData(uUnit, PATH_MASK);
+        iNextMarker = iLastReachedMarker + 1;
+
+        bExecutingAnyCommand = uUnit.IsExecutingAnyCommand();
+
+        iX = GetPointX(iNextMarker);
+        iY = GetPointY(iNextMarker);
+        iZ = GetPointZ(iNextMarker);
+
+        iDistance = uUnit.DistanceTo(iX, iY);
+
+        // markery wyznaczają ścieżkę ruchu unitu - jak jesteśmy blisko to zaliczamy punkt
+        if(iDistance < 12)
+            SetUnitMaskedScriptData(uUnit, PATH_MASK, iNextMarker);
+
+        iDistance = FindDistanceToClosestUnit(uUnit, rPlayerDefender, false);
+
+        // Wybuchająca krowa
+        if(IsBomber(uUnit))
+        {
+            if(!PointExist(iNextMarker))
+            {
+                MoveToClosestUnit(uUnit, rPlayerDefender, false);
+
+                iScriptData = GetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK);
+                if(iScriptData == BOMBER_MARKER)
+                    SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, BOMBER_POISON_MARKER);
+                continue;
+            }
+
+            uUnit.CommandMove(iX - 2 + RandXor(5), iY - 2 + RandXor(5), iZ); 
+            continue;
+        }
+
+        if(TeleportMagesToFirstMarker(uUnit))
+            continue;
+
+
+        if(iDistance < 20)
+        {   if(RandXor(2) != 0)
+            {
+                bMagicUsed = UseMagic(uUnit, rPlayerDefender);
+                if(bMagicUsed)
+                    continue;
+            }
+        }
+
+        bIsAttacking = IsUnitAttacking(uUnit);
+
+        if(bIsAttacking && RandXor(3) != 0)
+        {
+            continue;
+        }
+       
+        if(iDistance < 8)
+        {
+            AttackBorderingBuildingOrEnemy(uUnit, false);
+            continue;
+        }
+
+        if(!PointExist(iNextMarker))
+        {
+            AttackClosestUnit(uUnit, rPlayerDefender, false);
+            continue;
+        }
+
+        bIsShooter = IsShooter(uUnit);
+
+        if(bIsShooter)
+        {
+            iDistanceTower = FindDistanceToClosestUnit(uUnit, rPlayerDefender, true);   
+            
+
+            if(iDistance < 23)
+            {
+                if (iDistanceTower - iDistance < 8)
+                {
+                    bIsAttacking = AttackClosestUnit(uUnit, rPlayerDefender, true);
+                    if (bIsAttacking)
+                        continue;
+                }
+
+                bIsAttacking = AttackClosestUnit(uUnit, rPlayerDefender, false);
+                if (bIsAttacking)
+                    continue;
+            }
+        }
+
+        if(iDistance < 20)
+        {
+            bIsAttacking = AttackClosestUnit(uUnit, rPlayerDefender, false);
+            if (bIsAttacking)
+                continue;
+        }
+
+        if(RAND(2)==0)
+        {
+            bAttackBuilding = AttackBorderingBuildingOrEnemy(uUnit, false);
+            if(bAttackBuilding)
+                continue;
+        }
+
+        uUnit.CommandMove(iX - 2 + RandXor(5), iY - 2 + RandXor(5), iZ); 
+    }
+}

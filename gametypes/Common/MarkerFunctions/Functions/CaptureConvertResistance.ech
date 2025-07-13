@@ -1,0 +1,82 @@
+#define MARKER_FIRST_RESISTANCE 980
+#define MARKER_LAST_RESISTANCE 989
+
+unitex uResistance[];
+int iResistanceToAddArray[];
+
+function unitex CreateResistanceArtefact(
+    int iMarkerResistance,
+    int iMarkerFirstResistance,
+)
+{
+    int i, j;
+    unitex uResistanceItem;
+    
+
+    if(!PointExist(iMarkerResistance))
+        return null;
+
+    j = iMarkerResistance - iMarkerFirstResistance;
+    
+
+    uResistanceItem = CreateObjectAtMarker(
+        iMarkerResistance,
+        "TD_COW_ITEM"
+    );
+
+
+    uResistance[j] = uResistanceItem; 
+
+    CreateArtefact(
+        "ARTIFACT_INVISIBLE", 
+        GetPointX(iMarkerResistance), 
+        GetPointY(iMarkerResistance),
+        GetPointZ(iMarkerResistance), 
+        MASK_RESISTANCE_ITEM|iMarkerResistance
+    );
+
+    return uResistanceItem;
+}
+
+function void GrantResistance(unitex uUnit, int iMarkerResistance, int iMarkerFirstResistance)
+{
+    int i;
+    unitex uResistanceItem;
+
+    i = iMarkerResistance - iMarkerFirstResistance;
+
+    uResistanceItem = uResistance[i];
+
+
+    if(uResistanceItem == null)
+        return;
+
+    uResistanceItem.RemoveUnit();
+    uUnit.EnableCapture(false);
+    uUnit.EnableConversionByMagic(false);
+    uUnit.EnableConversionByPlace(false);
+    CreateObjectAtUnit(uUnit, "CAST_CONVERT");
+    CreateObjectAtUnit(uUnit, "CAST_CAPTURE");
+}
+
+
+function void InitializeResistance()
+{
+    int i, iType, iSize;
+
+    iSize = MARKER_LAST_RESISTANCE - MARKER_FIRST_RESISTANCE + 1;
+
+    uResistance.Create(iSize);
+    for(i=0; i<iSize; ++i)
+    {
+        uResistance[i] = null;
+    }
+
+    for(i=MARKER_FIRST_RESISTANCE; i<=MARKER_LAST_RESISTANCE; ++i)
+    {
+        if(!PointExist(i))
+            continue;
+
+        CreateResistanceArtefact(i, MARKER_FIRST_RESISTANCE);
+    }
+}

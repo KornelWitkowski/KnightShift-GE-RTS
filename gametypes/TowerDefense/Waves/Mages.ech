@@ -1,0 +1,26 @@
+function void SpawnMage(int nWaveNumber, int iMarker)
+{
+    int roll;
+    player rPlayerEnemy;
+    unitex uUnit;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    roll = RandXor(2);
+    
+    if(roll == 0)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIESTESS");
+        SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, SORCERESS_MARKER);
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "PRIEST");
+        SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, MAGE_MARKER);
+    }
+
+    AddTinyAntiMieszkoDamage(uUnit);
+
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}

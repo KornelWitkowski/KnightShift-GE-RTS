@@ -1,0 +1,117 @@
+function int GetDisplayTimeToNextWave(int iCurrentWaveNumber, int iBreakTimeStart, int iWaveType)
+{
+    int i;
+    int iCurrentTime;
+    int iBreakLength;
+    iCurrentTime = GetMissionTime();
+    iBreakLength = GetBreakLength(iCurrentWaveNumber);
+
+    i = (iBreakTimeStart + iBreakLength - iCurrentTime) / (SECOND) + 30;
+    return i;
+}
+
+function void DisplayWaveInProgress(int iCurrentWaveNumber, int iEnemyUnitNumber)
+{
+    if(iCurrentWaveNumber == iTotalWaveNumber)
+    {
+        SetStringBuffTranslate(2, "translateTowerDefenseWaveInProgressFinal");
+    }
+    else if(iCurrentWaveNumber > 0 && iCurrentWaveNumber % 10 == 0)
+    {
+        SetStringBuffTranslate(2, "translateTowerDefenseWaveInProgressBoss");
+    }
+    else
+    {
+        SetStringBuffTranslate(2, "translateTowerDefenseWaveInProgress");
+    }
+    SetStringBuff(3, GetStringBuff(2), iCurrentWaveNumber, iEnemyUnitNumber);
+    SetConsoleText(GetStringBuff(3));
+}
+
+function void DisplayFinalWaveInProgress()
+{
+    SetConsoleText("translateTowerDefenseWaveInProgressFinal");
+}
+
+
+function void DisplayWaveStart(int iCurrentWaveNumber)
+{
+    if(iCurrentWaveNumber == iTotalWaveNumber)
+    {
+        SetStringBuffTranslate(2, "translateTowerDefenseWaveStartFinal");
+    }
+    else if(iCurrentWaveNumber > 0 && iCurrentWaveNumber % 10 == 0)
+    {
+        SetStringBuffTranslate(2, "translateTowerDefenseWaveStartBoss");
+    }
+    else
+    {
+        SetStringBuffTranslate(2, "translateTowerDefenseWaveStart");
+    }
+    SetStringBuff(3, GetStringBuff(2), iCurrentWaveNumber);
+    SetConsoleText(GetStringBuff(3));
+}
+
+function void DisplayBreakTime(int iCurrentWaveNumber, int iBreakTimeStart)
+{
+    int iCurrentTime;
+    if(iCurrentWaveNumber == iTotalWaveNumber)
+    {
+        SetStringBuffTranslate(2, "translateTowerDefenseBreakTimeFinal");
+        SetStringBuff(3, GetStringBuff(2), iBreakTimeStart);
+    
+    }
+    else if(iCurrentWaveNumber > 0 && iCurrentWaveNumber % 10 == 0)
+    {
+        SetStringBuffTranslate(2, "translateTowerDefenseBreakTimeBoss");
+        SetStringBuff(3, GetStringBuff(2), iCurrentWaveNumber, iBreakTimeStart);
+    }
+    else
+    {
+        SetStringBuffTranslate(2, "translateTowerDefenseBreakTime");
+        SetStringBuff(3, GetStringBuff(2), iCurrentWaveNumber, iBreakTimeStart);
+
+        if(iCurrentWaveNumber == 1)
+        {
+            iCurrentTime = GetMissionTime();
+            if(iCurrentTime <  2 * MINUTE)
+            {
+                SetStringBuffTranslate(4, "translateTowerDefenseFirstWaveInfo");
+                AppendStringBuff(3, 4);
+            }
+        }
+
+    }
+    
+    SetConsoleText(GetStringBuff(3));
+}
+
+function void DisplayWin()
+{
+    SetStringBuffTranslate(2, "translateTowerDefenseWin");
+    SetConsoleText(GetStringBuff(2));
+}
+
+function void DisplayText(int iCurrentWaveNumber, int iBreakTimeStart, int iEnemyUnitNumber, int iWaveType)
+{
+    int iDisplayTimeToNextWave;
+    iDisplayTimeToNextWave = GetDisplayTimeToNextWave(iCurrentWaveNumber, iBreakTimeStart, iWaveType);
+
+    if(bIsWin)
+    {
+        DisplayWin();
+    }
+    else if(iDisplayTimeToNextWave > 30)
+    {
+        DisplayBreakTime(iCurrentWaveNumber, iDisplayTimeToNextWave);
+    }
+    else if(iDisplayTimeToNextWave > 0)
+    {
+        DisplayWaveStart(iCurrentWaveNumber);
+    }
+    else
+    {
+        DisplayWaveInProgress(iCurrentWaveNumber, iEnemyUnitNumber);
+    }
+
+}

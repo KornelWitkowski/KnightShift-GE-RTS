@@ -1,4 +1,5 @@
-#define AIEXPERT_EC
+#define AI_GOLDEN_EDITION
+#define AIMASTER_EC
 
 #include "Translates.ech"
 
@@ -14,6 +15,7 @@ player "translateAIPlayerMaster"
     state State3;
     state State4;
     state State5;
+    state StateCows;
 
     int iRandNum;
     int iStartegy;
@@ -43,7 +45,8 @@ player "translateAIPlayerMaster"
         ResetAIFeatures();
         ResetAIFeatures2();
 
-        EnableAIFeatures(aiBuildRoads |
+        EnableAIFeatures(
+                        aiBuildRoads |
                         aiBuildNewBuildings |
                         aiRebuildLostDefenceBuildings | 
                        // aiBuildTowersEx |
@@ -78,6 +81,7 @@ player "translateAIPlayerMaster"
                         ai2SetSmartUnitAttackMode | 
                         ai2ResearchUpdatesLevelAll, true);
 
+
         SetThinkSpeed(aiThinkSpeedBuildUnits, 5);
         SetThinkSpeed(aiThinkSpeedExecuteOrders, 60);
         SetThinkSpeed(aiThinkSpeedControlUnits, 100);
@@ -91,89 +95,86 @@ player "translateAIPlayerMaster"
         SetThinkSpeed(aiThinkSpeedControlCapturers, 3*MINUTE);
         SetThinkSpeed(aiThinkSpeedBuildNewBridges, 3*MINUTE);
         SetThinkSpeed(aiThinkSpeedRebuildLostBridges, 3*MINUTE);
-        SetThinkSpeed(aiThinkSpeedResearchUpdates, 2*MINUTE);
+        SetThinkSpeed(aiThinkSpeedResearchUpdates, 3*MINUTE);
 
         SetStartAttacksTime((5+RAND(15))*MINUTE);
 
         SetUnitsInPlatoon(30);
         SetPlatoonsProportions(2, 1); //offensive/defensive
 
-        SetUnitsBuildTimePercent(50);
+        SetUnitsBuildTimePercent(70);
         SetMinHarvesters(9);
-        SetMinBuilders(6);
+        SetMinBuilders(6);   
+ 
         bUseSeeing = RAND(2);
 
         // Informacja dla skryptów misji o poziomie trudności bota
         // Wykorzystywane do zajmowania wież
         SetScriptData(10, 1);
 
-        return StateSetStrategy, 25;
+        return StateCows, 25;
     }
+
+    state StateCows
+    {
+        int iMaxCowNumber;
+        int iNumberOfCows;
+
+        iMaxCowNumber = GetMaxCowNumber();
+        iNumberOfCows = GetNumberOfUnits(U_COW);
+
+        if(iNumberOfCows < iMaxCowNumber)
+        {
+            SetUnitProdCount(U_COW, 1);
+        }
+        else
+        {
+            return StateSetStrategy, 50;
+        }
+
+        return StateCows, 50;
+    }    
 
     state StateSetStrategy
     {
         iRandNum = RAND(100);
 
-        if(iRandNum < 50)
+        if(iRandNum < 60)
         {
-            // Strategia standard - 50% szans
+            // Strategia standard - 60% szans
             iStartegy = 0;
         }
-        else if(iRandNum < 70)
+        else if(iRandNum < 80)
         {
             // Strategia włócznicy - 20% szans
             iStartegy = 1;
         }
-        else if(iRandNum < 90)
+        else
         {
             // Strategia drwale - 20% szans
             iStartegy = 2;
         }
-        else if(iRandNum < 95)
-        {
-            // Strategia wiedźmy - 5% szans
-            iStartegy = 3;
-        }
-        else if(iRandNum < 100)
-        {
-            // Strategia magowie - 5% szans
-            iStartegy = 4;
-        }
 
-        // Jeśli gramy tryb miecze i sandały lub balans to wykorzystujemy strategie nie nastawione na magów
-        if((GetMaxCountLimitForObject("SHRINE")==0) || (GetMaxCountLimitForObject("SHRINE")==2))
+        // W trybie fastgame używamy tylko strategie standard
+        if(GetMaxCountLimitForObject("SHRINE")==1)
         {
-            if(iStartegy > 2)
-                iStartegy = 0;
-        }
-        else if(GetMaxCountLimitForObject("SHRINE")==1)
-        // W fastgame używamy tylko standard i atakujemy szybciej
-        {
-            iStartegy = 0;
-
             EnableAIFeatures2(ai2ControlTowers, false);
-            SetStartAttacksTime((4+RAND(8))*MINUTE);
+            iStartegy = 0;
         }
-
-        SetStrategy(1, iStartegy);
+        SetStrategy(1, iStartegy); 
 
         return State1, 25;
     }
 
     state State1
     {
-        ControlMilk(10+RAND(10+1), 100000);
-
+        ControlMilk(3+RAND(5+1), 100000);
         if(bUseSeeing != 0)
-            UseSeeing(10);
+            UseSeeing(5);
         EnterSleepMode();
-        
-        if(RAND(500) <= 5)
-        {
-            MakeSuicidalSorcererAttack(1);
-        }   
+        GoBackWhenLowHP();
 
-        if ((GetMissionTime() > 6*MINUTE) || IsReachedLimitForAllProdCountUnits())
+        if ((GetMissionTime() > 7*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
             SetStrategy(2, iStartegy);
             return State2, 50;
@@ -184,21 +185,16 @@ player "translateAIPlayerMaster"
 
     state State2
     {
-        ControlMilk(15+RAND(10+1), 100000);
-
+        ControlMilk(5+RAND(5+1), 100000);
         if(bUseSeeing != 0)
-            UseSeeing(10);
+            UseSeeing(5);
         EnterSleepMode();
+        GoBackWhenLowHP();
 
-        if(RAND(500) <= 5)
-        {
-            MakeSuicidalSorcererAttack(2);
-        }   
-
-        if ((GetMissionTime() > 12*MINUTE) || IsReachedLimitForAllProdCountUnits())
+        if ((GetMissionTime() > 14*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
             SetStrategy(3, iStartegy);   
-            return State3, 100;
+            return State3, 50;
         }
 
         return State2, 50;
@@ -206,17 +202,13 @@ player "translateAIPlayerMaster"
 
     state State3
     {
-        ControlMilk(20+RAND(10+1), 100000);
+        ControlMilk(7+RAND(5+1), 100000);
         if(bUseSeeing != 0)
-            UseSeeing(10);
+            UseSeeing(5);
         EnterSleepMode();
+        GoBackWhenLowHP();
 
-        if(RAND(500) <= 5)
-        {
-            MakeSuicidalSorcererAttack(3);
-        }   
-
-        if ((GetMissionTime() > 18*MINUTE) || IsReachedLimitForAllProdCountUnits())
+        if ((GetMissionTime() > 21*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
             SetStrategy(4, iStartegy); 
 
@@ -228,21 +220,17 @@ player "translateAIPlayerMaster"
 
     state State4
     {
-        ControlMilk(25+RAND(10+1), 100000);
+        ControlMilk(10+RAND(10+1), 100000);
 
         if(bUseSeeing != 0)
-            UseSeeing(10);
+            UseSeeing(5);
         EnterSleepMode();
+        GoBackWhenLowHP();
 
-        if(RAND(500) <= 5)
-        {
-            MakeSuicidalSorcererAttack(4);
-        }   
-
-        if ((GetMissionTime() > 24*MINUTE) || IsReachedLimitForAllProdCountUnits())
+        if ((GetMissionTime() > 28*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
             SetStrategy(5, iStartegy); 
-            return State5, 100;
+            return State5, 50;
         }
 
         return State4, 50;
@@ -250,16 +238,12 @@ player "translateAIPlayerMaster"
 
     state State5
     {
-        ControlMilk(30+RAND(15+1), 100000);
+        ControlMilk(20+RAND(15+1), 100000);
 
         if(bUseSeeing != 0)
-            UseSeeing(10);
+            UseSeeing(5);
         EnterSleepMode();
-
-        if(RAND(500) <= 5)
-        {
-            MakeSuicidalSorcererAttack(4);
-        }   
+        GoBackWhenLowHP();
 
         SetStrategy(6, iStartegy); 
 

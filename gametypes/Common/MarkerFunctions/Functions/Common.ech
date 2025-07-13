@@ -10,3 +10,25 @@ function void SetUnitOnMarkerScriptData(int iMarker, int iScriptData)
 
     uUnit.SetScriptData(iScriptData | uUnit.GetScriptData());    
 }
+
+
+function void SetUnitMaskedScriptData(unitex uUnit, int iMask, int iScriptDataToSet)
+{
+    int iScriptData;
+
+    iScriptData = uUnit.GetScriptData();
+    iScriptData = iScriptData & ~iMask;
+    iScriptData = iScriptData | iScriptDataToSet;
+
+    uUnit.SetScriptData(iScriptData);
+}
+
+function int GetUnitMaskedScriptData(unitex uUnit, int iMask)
+{
+    int iScriptData;
+
+    iScriptData = uUnit.GetScriptData();
+    iScriptData = iScriptData & iMask;
+
+    return iScriptData;
+}

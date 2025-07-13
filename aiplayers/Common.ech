@@ -12,6 +12,42 @@ consts
 
 ////    Functions    ////
 
+function int MIN(int nVal1, int nVal2)
+{
+    if (nVal1 < nVal2)
+    {
+        return nVal1;
+    }
+    return nVal2;
+}
+
+
+function int MAX(int nVal1, int nVal2)
+{
+    if (nVal1 > nVal2)
+    {
+        return nVal1;
+    }
+    return nVal2;
+}
+
+function int GetMaxCowNumber()
+{
+    int iMaxCowNumber;
+    int iMissionTime;
+    int iNumberOfCowsheds;
+
+    iMissionTime = GetMissionTime();
+    iNumberOfCowsheds = GetMaxCountLimitForObject("COWSHED");
+
+    if(iNumberOfCowsheds < 0)
+        iMaxCowNumber = 12 + (iMissionTime/MINUTE)/2;
+    else
+        iMaxCowNumber = MIN(12 + (iMissionTime/MINUTE)/2, 3 * iNumberOfCowsheds - 2);
+
+    return iMaxCowNumber;
+}
+
 function int GaussianDistribution(int iStd)
 {
     /*
@@ -126,6 +162,42 @@ function void EnterSleepMode()
                 uUnit.CommandSleepMode(1);
             }
         }
+    }
+}
+
+function void GoBackWhenLowHP()
+{
+    int i, iX, iY;
+    int iNumberOfUnits;
+    unitex uUnit;
+    iNumberOfUnits = GetNumberOfUnits();
+
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        
+        uUnit = GetUnit(i);	
+
+        if(uUnit.IsInSleepMode())
+            continue;
+
+        if( uUnit.GetHP() < 15*uUnit.GetMaxHP()/100)
+        {
+            iX = GetStartingPointX();
+            iY = GetStartingPointY();
+
+            if(uUnit.DistanceTo(iX, iY) < 15)
+            {
+                uUnit.CommandSleepMode(1);
+                continue;
+            }
+
+            if(RAND(2) == 0)
+                continue;
+
+            iX = iX - 7 + RAND(14);
+            iY = iY - 7 + RAND(14);
+            uUnit.CommandMove(iX, iY, 0);
+        }		
     }
 }
 
@@ -338,6 +410,9 @@ function void SetStrategyWitches(int iStage)
 
 function void SetStrategy(int iStage, int iStartegy)
 {
+    int iMaxCowNumber;
+    int iNumberOfCows;
+
     if(iStartegy == 0)
     {
         SetStrategyStandard(iStage);
@@ -379,7 +454,29 @@ function void SetStrategy(int iStage, int iStartegy)
         SetThinkSpeed(aiThinkSpeedMakeBigAttack, (8+RAND(14))*MINUTE);
         SetStartAttacksTime((10+RAND(10))*MINUTE);
     }
-        
+
+    iMaxCowNumber = GetMaxCowNumber();
+    iNumberOfCows = GetNumberOfUnits(U_COW);
+
+    if(iNumberOfCows < iMaxCowNumber)
+    {
+        SetUnitProdCount(U_COW, 1);
+    }
+
+    if(iStage < 3)
+    {
+        SetUnitProdCount(U_SHEPHERD, 0);
+    }
+    else if(iStage < 5)
+    {
+        if(GetNumberOfUnits(U_SHEPHERD) == 0)
+            SetUnitProdCount(U_SHEPHERD, 1);
+    }
+    else
+    {
+        if(GetNumberOfUnits(U_SHEPHERD) < 2)
+            SetUnitProdCount(U_SHEPHERD, 1);
+    }  
 }
 
 
@@ -908,25 +1005,6 @@ function void ResetAIFeatures()
 function void ResetAIFeatures2()
 {
     EnableAIFeatures2(~(ai2UsePlatoons), false);
-}
-
-function int MIN(int nVal1, int nVal2)
-{
-    if (nVal1 < nVal2)
-    {
-        return nVal1;
-    }
-    return nVal2;
-}
-
-
-function int MAX(int nVal1, int nVal2)
-{
-    if (nVal1 > nVal2)
-    {
-        return nVal1;
-    }
-    return nVal2;
 }
 
 #endif COMMON_ECH

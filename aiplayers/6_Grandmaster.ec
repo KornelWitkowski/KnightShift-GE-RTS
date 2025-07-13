@@ -1,8 +1,9 @@
-#define AIEXPERT_EC
+#define AI_GOLDEN_EDITION
+#define AIGRANDMASTER_EC
 
 #include "Translates.ech"
 
-player "translateAIPlayerGodlike"
+player "translateAIPlayerGrandMaster"
 {
 
 ////    Declarations    ////
@@ -14,9 +15,11 @@ player "translateAIPlayerGodlike"
     state State3;
     state State4;
     state State5;
+    state StateCows;
 
+    int iRandNum;
     int iStartegy;
-    int bControlTowers;
+    int bUseSeeing;
 
     #include "Common.ech"
     #include "Objects.ech"
@@ -27,16 +30,17 @@ player "translateAIPlayerGodlike"
 
     state Initialize
     {
+        int iRandNum;
 
-        if ( GetIFFNumber() == 0 )      SetName("translateAINameGodlike0");
-        else if ( GetIFFNumber() == 1 ) SetName("translateAINameGodlike1");
-        else if ( GetIFFNumber() == 2 ) SetName("translateAINameGodlike2");
-        else if ( GetIFFNumber() == 3 ) SetName("translateAINameGodlike3");
-        else if ( GetIFFNumber() == 4 ) SetName("translateAINameGodlike4");
-        else if ( GetIFFNumber() == 5 ) SetName("translateAINameGodlike5");
-        else if ( GetIFFNumber() == 6 ) SetName("translateAINameGodlike6");
-        else if ( GetIFFNumber() == 7 ) SetName("translateAINameGodlike7");
-        else                            SetName("translateAIPlayerGodlike");
+        if ( GetIFFNumber() == 0 )      SetName("translateAINameGrandMaster0");
+        else if ( GetIFFNumber() == 1 ) SetName("translateAINameGrandMaster1");
+        else if ( GetIFFNumber() == 2 ) SetName("translateAINameGrandMaster2");
+        else if ( GetIFFNumber() == 3 ) SetName("translateAINameGrandMaster3");
+        else if ( GetIFFNumber() == 4 ) SetName("translateAINameGrandMaster4");
+        else if ( GetIFFNumber() == 5 ) SetName("translateAINameGrandMaster5");
+        else if ( GetIFFNumber() == 6 ) SetName("translateAINameGrandMaster6");
+        else if ( GetIFFNumber() == 7 ) SetName("translateAINameGrandMaster7");
+        else                            SetName("translateAIPlayerGrandMaster");
 
         ResetAIFeatures();
         ResetAIFeatures2();
@@ -51,8 +55,7 @@ player "translateAIPlayerGodlike"
                         aiCaptureStartingPoints |
                         aiProduceUnits, true);
 
-        EnableAIFeatures2(
-                        ai2ControlTowers |
+        EnableAIFeatures2(ai2ControlTowers |
                         ai2ControlBuildersBuild | 
                         ai2ControlBuildersRepair | 
                         ai2ControlHarvesters | 
@@ -84,37 +87,80 @@ player "translateAIPlayerGodlike"
         SetThinkSpeed(aiThinkSpeedBuildBuildingsEx, 20);
         SetThinkSpeed(aiThinkSpeedMakeDefense, 40);
         SetThinkSpeed(aiThinkSpeedMovePlatoonsOutsideBase, 4*MINUTE);
-
+        SetThinkSpeed(aiThinkSpeedMakeSmallAttack, 12*MINUTE);
+        SetThinkSpeed(aiThinkSpeedMakeBigAttack, (8+RAND(16))*MINUTE);
         SetThinkSpeed(aiThinkSpeedControlConverters, 2*MINUTE);
         SetThinkSpeed(aiThinkSpeedControlCapturers, 3*MINUTE);
         SetThinkSpeed(aiThinkSpeedBuildNewBridges, 3*MINUTE);
         SetThinkSpeed(aiThinkSpeedRebuildLostBridges, 3*MINUTE);
-        SetThinkSpeed(aiThinkSpeedResearchUpdates, 1*MINUTE);
+        SetThinkSpeed(aiThinkSpeedResearchUpdates, 2*MINUTE);
 
-        /* ustawiamy dla poszczególnych strategii osobno
-        SetThinkSpeed(aiThinkSpeedMakeSmallAttack, 10*MINUTE);
-        SetThinkSpeed(aiThinkSpeedMakeBigAttack, (8+RAND(14))*MINUTE);
         SetStartAttacksTime((5+RAND(15))*MINUTE);
-        */
 
         SetUnitsInPlatoon(30);
         SetPlatoonsProportions(2, 1); //offensive/defensive
 
-        SetUnitsBuildTimePercent(20);
+        SetUnitsBuildTimePercent(50);
         SetMinHarvesters(9);
         SetMinBuilders(6);
+        bUseSeeing = RAND(2);
 
         // Informacja dla skryptów misji o poziomie trudności bota
         // Wykorzystywane do zajmowania wież
         SetScriptData(10, 1);
 
-        return StateSetStrategy, 25;
+        return StateCows, 25;
+    }
+
+    state StateCows
+    {
+        int iMaxCowNumber;
+        int iNumberOfCows;
+
+        iMaxCowNumber = GetMaxCowNumber();
+        iNumberOfCows = GetNumberOfUnits(U_COW);
+
+        if(iNumberOfCows < iMaxCowNumber)
+        {
+            SetUnitProdCount(U_COW, 1);
+        }
+        else
+        {
+            return StateSetStrategy, 50;
+        }
+
+        return StateCows, 50;
     }
 
     state StateSetStrategy
     {
+        iRandNum = RAND(100);
 
-        iStartegy = RAND(5);
+        if(iRandNum < 50)
+        {
+            // Strategia standard - 50% szans
+            iStartegy = 0;
+        }
+        else if(iRandNum < 70)
+        {
+            // Strategia włócznicy - 20% szans
+            iStartegy = 1;
+        }
+        else if(iRandNum < 90)
+        {
+            // Strategia drwale - 20% szans
+            iStartegy = 2;
+        }
+        else if(iRandNum < 95)
+        {
+            // Strategia wiedźmy - 5% szans
+            iStartegy = 3;
+        }
+        else if(iRandNum < 100)
+        {
+            // Strategia magowie - 5% szans
+            iStartegy = 4;
+        }
 
         // Jeśli gramy tryb miecze i sandały lub balans to wykorzystujemy strategie nie nastawione na magów
         if((GetMaxCountLimitForObject("SHRINE")==0) || (GetMaxCountLimitForObject("SHRINE")==2))
@@ -126,10 +172,11 @@ player "translateAIPlayerGodlike"
         // W fastgame używamy tylko standard i atakujemy szybciej
         {
             iStartegy = 0;
+
             EnableAIFeatures2(ai2ControlTowers, false);
             SetStartAttacksTime((4+RAND(8))*MINUTE);
         }
-  
+
         SetStrategy(1, iStartegy);
 
         return State1, 25;
@@ -137,18 +184,19 @@ player "translateAIPlayerGodlike"
 
     state State1
     {
-        ControlMilk(30+RAND(20), 100000);
+        ControlMilk(10+RAND(10+1), 100000);
 
-        UseSeeing(20);
+        if(bUseSeeing != 0)
+            UseSeeing(10);
         EnterSleepMode();
-        ChangeEscapeOnStormStrategy();
 
-        if(RAND(500) <= 10)
+
+        if(RAND(500) <= 5)
         {
             MakeSuicidalSorcererAttack(1);
-        }        
-            
-        if ((GetMissionTime() > 5*MINUTE) || IsReachedLimitForAllProdCountUnits())
+        }   
+
+        if ((GetMissionTime() > 6*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
             SetStrategy(2, iStartegy);
             return State2, 50;
@@ -159,19 +207,22 @@ player "translateAIPlayerGodlike"
 
     state State2
     {
-        ControlMilk(40+RAND(30), 100000);
+        ControlMilk(15+RAND(10+1), 100000);
 
-        UseSeeing(20);
+        if(bUseSeeing != 0)
+            UseSeeing(10);
         EnterSleepMode();
-        ChangeEscapeOnStormStrategy();
 
-        if(RAND(500) <= 10)
+
+        if(RAND(500) <= 5)
+        {
             MakeSuicidalSorcererAttack(2);
+        }   
 
-        if ((GetMissionTime() > 10*MINUTE) || IsReachedLimitForAllProdCountUnits())
+        if ((GetMissionTime() > 12*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
             SetStrategy(3, iStartegy);   
-            return State3, 50;
+            return State3, 100;
         }
 
         return State2, 50;
@@ -179,18 +230,17 @@ player "translateAIPlayerGodlike"
 
     state State3
     {
-        ControlMilk(50+RAND(40), 100000);
-
-        UseSeeing(20);
+        ControlMilk(20+RAND(10+1), 100000);
+        if(bUseSeeing != 0)
+            UseSeeing(10);
         EnterSleepMode();
-        ChangeEscapeOnStormStrategy();
 
-        if(RAND(500) <= 10)
+        if(RAND(500) <= 5)
         {
             MakeSuicidalSorcererAttack(3);
-        }
+        }   
 
-        if ((GetMissionTime() > 15*MINUTE) || IsReachedLimitForAllProdCountUnits())
+        if ((GetMissionTime() > 18*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
             SetStrategy(4, iStartegy); 
 
@@ -202,22 +252,22 @@ player "translateAIPlayerGodlike"
 
     state State4
     {
-        ControlMilk(60+RAND(50), 100000);
+        ControlMilk(25+RAND(10+1), 100000);
 
-        UseSeeing(20);
+        if(bUseSeeing != 0)
+            UseSeeing(10);
         EnterSleepMode();
-        ChangeEscapeOnStormStrategy();
 
-        if(RAND(500) <= 10)
+
+        if(RAND(500) <= 5)
         {
             MakeSuicidalSorcererAttack(4);
-        }
+        }   
 
-        if ((GetMissionTime() > 20*MINUTE) || IsReachedLimitForAllProdCountUnits())
+        if ((GetMissionTime() > 24*MINUTE) || IsReachedLimitForAllProdCountUnits())
         {
-            SetStrategy(4, iStartegy); 
-
-            return State4, 50;
+            SetStrategy(5, iStartegy); 
+            return State5, 100;
         }
 
         return State4, 50;
@@ -225,16 +275,17 @@ player "translateAIPlayerGodlike"
 
     state State5
     {
-        ControlMilk(70+RAND(60), 100000);
+        ControlMilk(30+RAND(15+1), 100000);
 
-        UseSeeing(20);
+        if(bUseSeeing != 0)
+            UseSeeing(10);
         EnterSleepMode();
-        ChangeEscapeOnStormStrategy();
 
-        if(RAND(500) <= 10)
+
+        if(RAND(500) <= 5)
         {
             MakeSuicidalSorcererAttack(4);
-        }
+        }   
 
         SetStrategy(6, iStartegy); 
 

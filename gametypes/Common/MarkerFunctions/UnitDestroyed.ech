@@ -12,8 +12,8 @@ function int CheckWinLoseUnits(unitex uUnitKilled)
         rPlayer.SetScriptData(1, 1);
         rPlayer.SetGoalState(LOSE_WHEN_KILL_GOAL, goalFailed, true);
 
-        KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 128);
-        KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 1, 128);
+        KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 0, 255);
+        KillArea(rPlayer.GetIFF(), GetRight()/2, GetBottom()/2, 1, 255);
 
         SetStateDelay(150);
         state Defeat;
@@ -139,14 +139,13 @@ function int CheckUnitDestoyedTraps(unitex uUnitKilled)
     else if(iTrapScriptData == SCRIPT_DATA_TRAP_POISON)
     {
         // sztuczka magika - w miejsce pokonanego unita dajemy krasnoludka, żeby zdetonował bombę
-        uTemp = rPlayer.CreateUnit(iX, iY, iZ, 0, "DWARF_WOODCUTTER_1");
+        uTemp = rPlayer.CreateUnit(iX, iY, iZ, 0, "DWARF_INVISIBLE");
         uTemp.AddHP(-uTemp.GetMaxHP()+1);
         CreateObjectAtUnit(uTemp, "POISONTRAP4");
     }
     else if(iTrapScriptData == SCRIPT_DATA_TRAP_MAGIC_DAMAGE)
     {
-        // sztuczka magika - w miejsce pokonanego unita dajemy krasnoludka, żeby zdetonował bombę
-        uTemp = rPlayer.CreateUnit(iX, iY, iZ, 0, "DWARF_WOODCUTTER_1");
+        uTemp = rPlayer.CreateUnit(iX, iY, iZ, 0, "DWARF_INVISIBLE");
         uTemp.AddHP(-uTemp.GetMaxHP()+1);
         CreateObjectAtUnit(uTemp, "BOMBTRAP4");
     } 

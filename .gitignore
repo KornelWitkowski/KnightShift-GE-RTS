@@ -2,5 +2,4 @@
 *.json
 *preprocessed
 test.ec
-TowerDefense.ec
-gametypes/TowerDefense/
+/_task_list/*

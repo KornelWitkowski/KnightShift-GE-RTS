@@ -214,5 +214,11 @@ function void InitializeMarkerFunctions()
 
     InitializePrisoners(920, 939); 
 
-    InitializeSleepers(940, 950);
+    InitializeSleepers(940, 949);
+
+    // Doświadczenie jako przedmiot do podniesienia: od 950 do 979
+    InitializeExperience();
+
+    // Odporność na zamianę w krowę i przejście jako przedmiot do podniesienia: od 980 do 989
+    InitializeResistance();
 }

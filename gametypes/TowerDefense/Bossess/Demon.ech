@@ -1,0 +1,35 @@
+
+function unitex SpawnDemonBoss(int nWaveNumber, int iMarker)
+{
+    int iX, iY, iZ, iAngle;
+    unitex uUnit;
+
+    uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "DEMONGE1");
+    
+    if(nWaveNumber <= 10)
+    {
+        uUnit.AddHP(-18500);
+    }
+    else if(nWaveNumber <= 20)
+    {
+        uUnit.AddHP(-15500);
+    }
+    else if(nWaveNumber <= 30)
+    {
+        uUnit.AddHP(-13000);
+    }
+    else if(nWaveNumber <= 40)
+    {
+        uUnit.AddHP(-9000);
+    }
+    else
+    {
+        uUnit.AddHP(-9000);
+    }
+
+    GiveCaptureConvertResistance(uUnit);
+    SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER);
+    CreateObjectAtUnit(uUnit, "HIT_GHOST");
+
+    return uUnit;
+}

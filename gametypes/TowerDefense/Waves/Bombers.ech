@@ -1,0 +1,29 @@
+
+
+function void SpawnBomber(int iWaveNumber, int iMarker)
+{
+    int iRoll;
+    unitex uUnit;
+
+
+    if((iWaveType == SKELETON_WAVE) && (RandXor(5) == 0))
+    {
+        uUnit = CreateUnitAtMarker(rPlayer9, iMarker, "TD_COW_POISON");
+        SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, BOMBER_POISON_MARKER);
+    }
+    else if((iWaveType == DEMON_WAVE) && (RandXor(5) == 0))
+    {
+        uUnit = CreateUnitAtMarker(rPlayer9, iMarker, "TD_COW_POISON");
+        SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, BOMBER_POISON_MARKER);
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayer9, iMarker, "TD_COW_EXPLODE");
+        SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, BOMBER_MARKER);
+    }
+    
+    uUnit.SetExperienceLevel(6);    
+    uUnit.EnableCapture(false);
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}

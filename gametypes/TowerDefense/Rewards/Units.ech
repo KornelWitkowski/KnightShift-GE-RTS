@@ -1,0 +1,258 @@
+function unitex CreateTier1Unit(int iMarker)
+{
+    player rPlayer;
+    unitex uUnit;
+    int iRoll;
+
+    rPlayer = GetPlayer(13);
+
+    iRoll = RandXorNoExtraEntropy(6);
+
+
+    if (iRoll == 0) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MERCHUNTER");
+    } else if (iRoll == 1) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MERCSPEARMAN");
+        uUnit.AddHP(120);
+    } else if (iRoll == 2) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MERCWOODCUTTER");
+    } else if (iRoll == 3) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "BANDIT");
+    } else if (iRoll == 4) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_F_RECRUIT");
+    } else if (iRoll == 5) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_H_MERC");
+    }
+
+    return uUnit;
+}
+
+
+function unitex CreateTier2Unit(int iMarker)
+{
+    player rPlayer;
+    unitex uUnit;
+    int iRoll;
+
+    rPlayer = GetPlayer(13);
+
+    iRoll = RandXorNoExtraEntropy(6);
+
+    if (iRoll == 0) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "AMAZONE");
+    } else if (iRoll == 1) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "DARKPRIEST");
+    } else if (iRoll == 2) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_W_GET");
+    } else if (iRoll == 3) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_BANDITT");
+    } else if (iRoll == 4) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_BANDIT_SPEARMAN");
+        uUnit.AddHP(200);
+    } else if (iRoll == 5) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_B4NDITM");
+    }
+
+    return uUnit;
+}
+
+
+function unitex CreateTier3Unit(int iMarker)
+{
+    player rPlayer;
+    unitex uUnit;
+    int iRoll;
+
+    rPlayer = GetPlayer(13);
+
+    iRoll = RandXorNoExtraEntropy(6);
+
+    if (iRoll == 0) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_AMAZONE");
+    } else if (iRoll == 1) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_BANDIT_SPEARMAN2");
+        uUnit.AddHP(100);
+    } else if (iRoll == 2) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_F_MERC");
+        uUnit.AddHP(200);
+    } else if (iRoll == 3) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NKAPLAN");
+    } else if (iRoll == 4) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_FORESTS");
+        uUnit.AddHP(100);
+    } else if (iRoll == 5) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "OLDWITCH");
+        uUnit.AddHP(800);
+        uUnit.AddDamage(2, 140);
+    } 
+
+    return uUnit;
+}
+
+
+function unitex CreateTier4Unit(int iMarker)
+{
+    player rPlayer;
+    unitex uUnit;
+    int iRoll;
+
+    rPlayer = GetPlayer(13);
+
+    iRoll = RandXorNoExtraEntropy(6);
+
+
+    if (iRoll == 0) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_AMAZONE2");
+    } else if (iRoll == 1) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NCZARODZIEJKA");
+        uUnit.AddHP(100);
+        uUnit.AddDamage(2, 40);
+    } else if (iRoll == 2) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NMAG");
+        uUnit.AddHP(100);
+    } else if (iRoll == 3) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NPC_FOOTMAN");
+        uUnit.AddHP(600);
+        uUnit.AddDamage(1, 50);
+    } else if (iRoll == 4) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SPECIALCOW");
+        uUnit.CommandSetTalkMode(true, true, false);
+        uUnit.CommandStop();
+    } else if (iRoll == 5) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NPC_HUNTER");
+        uUnit.AddHP(300);
+        uUnit.AddDamage(1, 20);
+    }
+    
+    return uUnit;
+}
+
+
+function unitex CreateTier5Unit(int iMarker)
+{
+    player rPlayer;
+    unitex uUnit;
+    int iRoll;
+
+    rPlayer = GetPlayer(13);
+
+    iRoll = RandXorNoExtraEntropy(6);
+
+    if (iRoll == 0) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_AMAZONE3");
+    } else if (iRoll == 1) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NPC_KNIGHT");
+        uUnit.AddHP(800);
+        uUnit.AddDamage(1, 40);
+    } else if (iRoll == 2) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RINGLEADER");
+    } else if (iRoll == 3) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_GRAF");
+    } else if (iRoll == 4) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "GIANTSPECIAL");
+    } else if (iRoll == 5) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NRYCERZ");
+    }
+
+    return uUnit;
+}
+
+
+function unitex CreateTier6Unit(int iMarker)
+{
+    player rPlayer;
+    unitex uUnit;
+    int iRoll;
+
+    rPlayer = GetPlayer(13);
+
+    iRoll = RandXorNoExtraEntropy(6);
+
+    if (iRoll == 0) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "PRINCESS");
+        uUnit.AddHP(1600);
+        uUnit.AddDamage(2, 130);
+    } else if (iRoll == 1) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MIESZKO");
+        uUnit.AddHP(1500);
+        uUnit.AddDamage(2, 55);
+    } else if (iRoll == 2) {
+        uUnit = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
+            "HERO_EASY", "HELMET5", "ARMOUR5", "SHIELD5", "SWORD6", null, null, null, null);
+        uUnit.AddHP(200);
+        uUnit.AddDamage(2, 15);
+    } else if (iRoll == 3) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "DRAGON_RED");
+    } else if (iRoll == 4) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "KOSCIEJ");
+        uUnit.AddHP(1000);
+        uUnit.AddDamage(2, 100);
+        SetUnitNecromancer(iMarker);
+    } else if (iRoll == 5) {
+        uUnit = CreateUnitAtMarker(rPlayer, iMarker, "FATHER");
+    }
+
+    return uUnit;
+}
+
+
+function void MarkAsPrisoner(unitex uPrisoner, int iMarker)
+{
+    int i, j;
+    unitex uTalkerSmoke;
+
+    if(uPrisoner.GetMaxHP() < 2000 )
+        uTalkerSmoke = CreateObjectAtUnit(uPrisoner, "PART_TALK");
+    else
+        uTalkerSmoke = CreateObjectAtUnit(uPrisoner, "PART_TALK_GIANT");
+    
+    uTalkerSmoke.SetSmokeObject(uPrisoner.GetUnitRef(), true, true, true, true);
+    uSmokes[iMarker] = uTalkerSmoke; 
+
+    for(i=-1; i <= 1; ++i)
+    {
+        for(j=-1; j <= 1; ++j)
+        {
+            if(i==0 && j==0) continue;
+            CreateArtefact(
+                "ARTIFACT_INVISIBLE",
+                uPrisoner.GetLocationX()+i,
+                uPrisoner.GetLocationY()+j,
+                uPrisoner.GetLocationZ(),
+                MASK_PRISONER|iMarker
+            );
+        }
+    }
+}
+
+function unitex RewardUnits(int iWaveNumber, int iMarker)
+{
+    int iRoll;
+    unitex uRewardUnit;
+
+    iRoll =  GaussianDistributionNoExtraEntropy(30) + 3 * iWaveNumber / 2;
+
+    // Reward unit based on thresholds
+    if (iRoll < 20) {
+        uRewardUnit = CreateTier1Unit(iMarker);
+    } else if (iRoll < 40) {
+        uRewardUnit = CreateTier2Unit(iMarker);
+    } else if (iRoll < 60) {
+        uRewardUnit = CreateTier3Unit(iMarker);
+    } else if (iRoll < 80) {
+        uRewardUnit = CreateTier4Unit(iMarker);
+    } else if (iRoll < 100) {
+        uRewardUnit = CreateTier5Unit(iMarker);
+    } else {
+        uRewardUnit = CreateTier6Unit(iMarker);
+    }
+
+    MarkAsPrisoner(uRewardUnit, iMarker);
+    uRewardUnit.CommandSetMovementMode(modeHoldPos);
+    uRewardUnit.EnableCapture(false);
+    uRewardUnit.EnableConversionByMagic(false);
+    uRewardUnit.EnableConversionByPlace(false);
+
+    return uRewardUnit;
+}
+

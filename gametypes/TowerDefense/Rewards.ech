@@ -1,0 +1,169 @@
+unitex uRewards[];
+int iRewardSeed;
+
+#include "Rewards\Units.ech"
+#include "Rewards\Supplements.ech"
+#include "Rewards\Equipment.ech"
+#include "Rewards\Experience.ech"
+#include "Rewards\ResearchPrisoners.ech"
+
+
+function void InitRewards()
+{
+    int i, iSize;
+    iSize = LAST_REWARD_MARKER - FIRST_REWARD_MARKER + 1;
+    uRewards.Create(iSize);
+    for(i=0; i<iSize; ++i)
+    {
+        uRewards[i] = null;
+    }
+}
+
+function void CleanupRewards()
+{
+    int i, k, iX, iY, iZ;
+    unitex uUnit;
+
+    for(i=FIRST_REWARD_MARKER; i<=LAST_REWARD_MARKER; ++i)
+    {
+        if(!PointExist(i))
+            continue;
+
+        k = i - FIRST_REWARD_MARKER;
+        uUnit = uRewards[k];
+
+        RemoveArtefact(GetPointX(i), GetPointY(i), GetPointZ(i));
+        RemoveArtefact(GetPointX(i), GetPointY(i)+1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i), GetPointY(i)-1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)+1, GetPointY(i), GetPointZ(i));
+        RemoveArtefact(GetPointX(i)+1, GetPointY(i)+1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)+1, GetPointY(i)-1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)-1, GetPointY(i), GetPointZ(i));
+        RemoveArtefact(GetPointX(i)-1, GetPointY(i)+1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)-1, GetPointY(i)-1, GetPointZ(i));
+        
+        if(uUnit == null)
+            continue;
+
+        iX = uUnit.GetLocationX();
+        iY = uUnit.GetLocationY();
+        iZ = uUnit.GetLocationZ();
+
+        if(GetPointX(i) != iX)
+            continue;
+
+        if(GetPointY(i) != iY)
+            continue;
+
+        if(GetPointZ(i) != iZ)
+            continue;
+
+        uUnit.RemoveUnit();
+        uRewards[k] = null;
+    }
+
+    for(i=FIRST_REWARD_MARKER; i<=LAST_REWARD_MARKER; ++i)
+    {
+        uUnit = GetUnitAtMarker(i);
+        if(uUnit == null)
+            continue;
+
+        uUnit.RemoveUnit();
+        RemoveArtefact(GetPointX(i), GetPointY(i), GetPointZ(i));
+        RemoveArtefact(GetPointX(i), GetPointY(i)+1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i), GetPointY(i)-1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)+1, GetPointY(i), GetPointZ(i));
+        RemoveArtefact(GetPointX(i)+1, GetPointY(i)+1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)+1, GetPointY(i)-1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)-1, GetPointY(i), GetPointZ(i));
+        RemoveArtefact(GetPointX(i)-1, GetPointY(i)+1, GetPointZ(i));
+        RemoveArtefact(GetPointX(i)-1, GetPointY(i)-1, GetPointZ(i));
+    }
+}
+
+
+function void GiveMilkReward()
+{
+    if(!PointExists(MILK_MARKER))
+        return;
+
+    if(iDifficulty == 0)
+    {
+        RemoveArtefact(GetPointX(MILK_MARKER), GetPointY(MILK_MARKER), GetPointZ(MILK_MARKER));
+        CreateObjectAtMarker(MILK_MARKER, "ART_MILK_GE_400");
+    }
+    else if(iDifficulty == 1)
+    {
+        RemoveArtefact(GetPointX(MILK_MARKER), GetPointY(MILK_MARKER), GetPointZ(MILK_MARKER));
+        CreateObjectAtMarker(MILK_MARKER, "ART_MILK_GE_300");
+    }
+    else if(iDifficulty == 2)
+    {
+        RemoveArtefact(GetPointX(MILK_MARKER), GetPointY(MILK_MARKER), GetPointZ(MILK_MARKER));
+        CreateObjectAtMarker(MILK_MARKER, "ART_MILK_GE_200");
+    }
+    else if(iDifficulty == 3)
+    {
+        RemoveArtefact(GetPointX(MILK_MARKER), GetPointY(MILK_MARKER), GetPointZ(MILK_MARKER));
+        CreateObjectAtMarker(MILK_MARKER, "ART_MILK_GE_100");
+    }
+}
+
+
+function void UpdatePrisonerPlayerResearch(int iWaveNumber)
+{
+    AddResearchAfterWave(rPlayer13, iWaveNumber-1);
+}
+
+function void GiveRewards(int iWaveNumber)
+{
+    int i, j, k;
+    unitex uReward;
+
+    UpdatePrisonerPlayerResearch(iWaveNumber);
+    CleanupRewards();
+    GiveMilkReward();
+
+    // Ustawiamy seed na początku losowania aby uniknąć exploita z wczytywaniem
+    InitXorShiftRNGNoExtraEntropy(iRewardSeed);
+
+    i = RandXorNoExtraEntropy(5);
+    j = RandXorNoExtraEntropy(5);
+    k = RandXorNoExtraEntropy(5);
+
+    CreateObjectAtMarker(FIRST_REWARD_MARKER, "PENTAGRAM_BIG");
+
+    for(i=FIRST_REWARD_MARKER; i<=LAST_REWARD_MARKER; ++i)
+    {
+        if(!PointExists(i))
+            continue;
+
+        j = RandXorNoExtraEntropy(5);
+
+        if(j==0)
+        {
+            uReward = RewardUnits(iWaveNumber, i);
+        }
+        else if (j==1)
+        {
+            uReward = RewardSupplement(iWaveNumber, i);
+        }
+        else if (j==2)
+        {
+            uReward = RewardExperience(iWaveNumber, i);
+        }
+        else
+        {
+            uReward = RewardEquipment(iWaveNumber, i);
+        }
+
+        CreateObjectAtUnit(uReward, "CAST_TELEPORT");
+
+
+        k = i - FIRST_REWARD_MARKER;
+        uRewards[k] = uReward;
+    }
+
+    // Na koniec wybieramy nowy seed: następny reward będzie losowy, ale nie będzie dało się go zmienić wczytaniem
+    iRewardSeed = RandXor(1000000);
+}

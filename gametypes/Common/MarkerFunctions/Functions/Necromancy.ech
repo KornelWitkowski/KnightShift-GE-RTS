@@ -87,7 +87,7 @@ function int ResurrectUnit(int iX, int iY, int iZ, int iAlpha, unitex uUnitKille
     }
 
     uUnit.SetExperienceLevel(iLevel);
-    CreateObjectAtUnit(uUnit, "HIT_WOLF");
+    CreateObjectAtUnit(uUnit, "HIT_GHOST");
     return true;
 }
 

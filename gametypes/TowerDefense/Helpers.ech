@@ -1,0 +1,61 @@
+function player GetRandomHumanPlayer()
+{
+    player rPlayer;
+    int i, iRandom;
+
+    iRandom = RandXor(3);
+
+    for(i=0; i<3; i=i+1)
+    {
+        rPlayer = GetPlayer((i+iRandom) % 3);
+        if( rPlayer != null && rPlayer.IsAlive() )
+            return rPlayer;
+    }
+
+    return null;
+}
+
+function void CheckIfPlayerIsDestroyed()
+{
+    int i;
+    int iCountBuilding, iNumberOfUnits, iTotalNumberOfUnits;
+    player rPlayer;
+
+    for(i=0; i<3; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        if(rPlayer == null) continue;
+        if(!rPlayer.IsAlive()) continue;
+    
+        iCountBuilding = CountNormalBuildings(rPlayer);
+        iNumberOfUnits = rPlayer.GetNumberOfUnits();
+        iTotalNumberOfUnits = iCountBuilding + iNumberOfUnits;
+
+        if(iTotalNumberOfUnits == 0)
+        {
+            rPlayer.SetScriptData(PLAYER_STATUS, STATUS_DEFEAT);
+            rPlayer.SetGoalState(0, goalFailed, true);
+
+            SetStateDelay(150);
+            state Defeat;
+        }
+    }
+}
+
+function void AddTinyAntiMieszkoDamage(unitex uUnit)
+{
+    /*
+        Mieszko może mieć odporność na magie 100%
+        lekka kompensacja aby AI nie wariowało
+    */
+    uUnit.AddDamage(0, 10);
+}
+
+function void AddBigAntiMieszkoDamage(unitex uUnit)
+{
+    /*
+        Mieszko może mieć odporność na magie 100%
+        lekka kompensacja aby AI nie wariowało
+    */
+    uUnit.AddDamage(0, 60);
+}

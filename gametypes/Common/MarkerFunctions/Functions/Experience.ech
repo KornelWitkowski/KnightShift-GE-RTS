@@ -1,0 +1,119 @@
+#define MARKER_FIRST_EXPERIENCE 950
+#define MARKER_LAST_EXPERIENCE 979
+
+unitex uExperience[];
+int iExperienceToAddArray[];
+
+function unitex CreateExperienceArtefact(
+    int iMarkerExperience,
+    int iMarkerFirstExperience,
+    int iType    
+)
+{
+    int i, j, iExperienceToAdd;
+    unitex uExperienceItem;
+    
+
+    if(!PointExist(iMarkerExperience))
+        return null;
+
+    j = iMarkerExperience - iMarkerFirstExperience;
+    
+    if(iType == 0){
+        uExperienceItem = CreateObjectAtMarker(
+            iMarkerExperience,
+            "TD_EXP_ITEM"
+        );
+        iExperienceToAdd = 20;
+    }
+    else if(iType == 1){
+        uExperienceItem = CreateObjectAtMarker(
+            iMarkerExperience,
+            "TD_EXP_ITEM2"
+        );
+        iExperienceToAdd = 50;
+    }
+    else if(iType == 2){
+        uExperienceItem = CreateObjectAtMarker(
+            iMarkerExperience,
+            "TD_EXP_ITEM3"
+        );
+        iExperienceToAdd = 100;
+    }
+
+    uExperience[j] = uExperienceItem; 
+    iExperienceToAddArray[j] = iExperienceToAdd;
+
+    CreateArtefact(
+        "ARTIFACT_INVISIBLE", 
+        GetPointX(iMarkerExperience), 
+        GetPointY(iMarkerExperience),
+        GetPointZ(iMarkerExperience), 
+        MASK_EXPERIENCE|iMarkerExperience
+    );
+
+    return uExperienceItem;
+}
+
+function void GrantExperience(unitex uUnit, int iMarkerExperience, int iMarkerFirstExperience)
+{
+    int i, iCurrentExperience, iExperienceToAdd;
+    int iCurrentLevel, iNewLevel;
+    unitex uExperienceItem;
+
+    i = iMarkerExperience - iMarkerFirstExperience;
+
+    uExperienceItem = uExperience[i];
+    iExperienceToAdd = iExperienceToAddArray[i]; 
+
+    if(uExperienceItem == null)
+        return;
+
+    iCurrentExperience = uUnit.GetExperiencePoints();
+    iCurrentLevel = uUnit.GetExperienceLevel();
+
+
+    uExperienceItem.RemoveUnit();
+
+    if(iExperienceToAdd == 20){
+        CreateObjectAtUnit(uUnit, "GET_ADD_MANA20");
+    }
+    else if(iExperienceToAdd == 50){
+        CreateObjectAtUnit(uUnit, "GET_ADD_MANA50");
+    }
+    else if(iExperienceToAdd == 100){
+        CreateObjectAtUnit(uUnit, "GET_ADD_MANA100");
+    }
+    
+    uUnit.SetExperiencePoints(iCurrentExperience + iExperienceToAdd);
+    iNewLevel = uUnit.GetExperienceLevel();
+
+    if(iNewLevel > iCurrentLevel){
+        CreateObjectAtUnit(uUnit, "EXP_EXPERIENCE1");
+    }
+}
+
+
+function void InitializeExperience()
+{
+    int i, iType, iSize;
+
+    iSize = MARKER_LAST_EXPERIENCE - MARKER_FIRST_EXPERIENCE + 1;
+
+    uExperience.Create(iSize);
+    iExperienceToAddArray.Create(iSize);
+    for(i=0; i<iSize; ++i)
+    {
+        uExperience[i] = null;
+        iExperienceToAddArray[i] = 0;
+    }
+
+    for(i=MARKER_FIRST_EXPERIENCE; i<=MARKER_LAST_EXPERIENCE; ++i)
+    {
+        if(!PointExist(i))
+            continue;
+
+        iType = (i - MARKER_FIRST_EXPERIENCE) / 10;
+        CreateExperienceArtefact(i, MARKER_FIRST_EXPERIENCE, iType);
+    }
+}
