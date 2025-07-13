@@ -29,7 +29,7 @@
 #define STANDARD_DIRECTION true
 
 #ifndef TALK_AREA_MARGIN
-    #define TALK_AREA_MARGIN 10
+	#define TALK_AREA_MARGIN 10
 #endif // TALK_AREA_MARGIN
 
 #define DIALOG_SCREEN_SHOOT_LEFT   10
@@ -58,227 +58,227 @@ int m_bPlayingDialog;
 /*****************************************************************************/
 
 #define ADD_TALK(UnitName, DialogName, Time, AminNum, AnimLoop, AnimReset) \
-    AddTalk(m_u ## UnitName, AminNum, AnimLoop, AnimReset, WAVE_MISSION_DIALOG_PREFIX # DialogName ".wav", Time, MISSION_DIALOG_PREFIX # DialogName);
+	AddTalk(m_u ## UnitName, AminNum, AnimLoop, AnimReset, WAVE_MISSION_DIALOG_PREFIX # DialogName ".wav", Time, MISSION_DIALOG_PREFIX # DialogName);
 
 #define ADD_TALK_DELAYED_LOOK_AT_UNIT(UnitNameFrom, UnitNameTo, CameraZ, Alpha, View, Delay, Direction) \
-    AddTalkDelayedLookAt(m_u ## UnitNameTo.GetLocationX(), m_u ## UnitNameTo.GetLocationY(), CameraZ, m_u ## UnitNameFrom.GetAngleToTarget(m_u ## UnitNameTo.GetUnitRef()) + Alpha, View, m_u ## UnitNameTo.GetLocationZ(), Delay, Direction);
+	AddTalkDelayedLookAt(m_u ## UnitNameTo.GetLocationX(), m_u ## UnitNameTo.GetLocationY(), CameraZ, m_u ## UnitNameFrom.GetAngleToTarget(m_u ## UnitNameTo.GetUnitRef()) + Alpha, View, m_u ## UnitNameTo.GetLocationZ(), Delay, Direction);
 
 #define ADD_TALK_SYNC_PREV(UnitName, AminNum, AnimLoop, AnimReset) \
-    AddTalkSyncPrev(m_u ## UnitName, AminNum, AnimLoop, AnimReset);
+	AddTalkSyncPrev(m_u ## UnitName, AminNum, AnimLoop, AnimReset);
 
 #define ADD_STANDARD_TALK(UnitNameFrom, UnitNameTo, DialogName) \
-    ADD_STANDARD_TALK_4(UnitNameFrom, UnitNameTo, DialogName, TIME_MISSION_DIALOG_PREFIX)
+	ADD_STANDARD_TALK_4(UnitNameFrom, UnitNameTo, DialogName, TIME_MISSION_DIALOG_PREFIX)
 
 #define ADD_STANDARD_TALK_4(UnitNameFrom, UnitNameTo, DialogName, TimePrefix) \
-    ADD_STANDARD_TALK_4_BIS(UnitNameFrom, UnitNameTo, DialogName, TimePrefix)
+	ADD_STANDARD_TALK_4_BIS(UnitNameFrom, UnitNameTo, DialogName, TimePrefix)
 
 #define ADD_STANDARD_TALK_4_BIS(UnitNameFrom, UnitNameTo, DialogName, TimePrefix) \
-/*    ADD_TALK_DELAYED_LOOK_AT_UNIT(UnitNameTo, UnitNameFrom, STANDARD_CAMERA_Z, STANDARD_ALPHA, STANDARD_VIEW, STANDARD_DELAY, STANDARD_DIRECTION);*/ \
-    ADD_TALK(UnitNameFrom, DialogName, STANDARD_TIME /*TimePrefix ## DialogName*/, STANDARD_ANIM_NUM_FROM, STANDARD_ANIM_LOOP_FROM, STANDARD_ANIM_RESET_FROM); \
-    ADD_TALK_SYNC_PREV(UnitNameTo, STANDARD_ANIM_NUM_TO, STANDARD_ANIM_LOOP_TO, STANDARD_ANIM_RESET_TO);
+/*	ADD_TALK_DELAYED_LOOK_AT_UNIT(UnitNameTo, UnitNameFrom, STANDARD_CAMERA_Z, STANDARD_ALPHA, STANDARD_VIEW, STANDARD_DELAY, STANDARD_DIRECTION);*/ \
+	ADD_TALK(UnitNameFrom, DialogName, STANDARD_TIME /*TimePrefix ## DialogName*/, STANDARD_ANIM_NUM_FROM, STANDARD_ANIM_LOOP_FROM, STANDARD_ANIM_RESET_FROM); \
+	ADD_TALK_SYNC_PREV(UnitNameTo, STANDARD_ANIM_NUM_TO, STANDARD_ANIM_LOOP_TO, STANDARD_ANIM_RESET_TO);
 
 #define SAVE_TALK_DIALOG(UnitNameA, UnitNameB, DialogName, FullSave) \
-    SAVE_TALK_DIALOG_BIS(UnitNameA, UnitNameB, DialogName, FullSave)
+	SAVE_TALK_DIALOG_BIS(UnitNameA, UnitNameB, DialogName, FullSave)
 
 #define SAVE_TALK_DIALOG_BIS(UnitNameA, UnitNameB, DialogName, FullSave) \
-    SaveTalkDialog(m_u ## UnitNameA, m_u ## UnitNameB, MISSION_DIALOG_PREFIX # DialogName, FullSave);
+	SaveTalkDialog(m_u ## UnitNameA, m_u ## UnitNameB, MISSION_DIALOG_PREFIX # DialogName, FullSave);
 
 #define START_TALK_DEFINITION() \
-    StartTalkDefinition();
+	StartTalkDefinition();
 
 #define PLAY_TALK_DEFINITION() \
-    MakeCurrSaveTalkDialogScreenShoot(DIALOG_SCREEN_SHOOT_LEFT, DIALOG_SCREEN_SHOOT_TOP, DIALOG_SCREEN_SHOOT_RIGHT, DIALOG_SCREEN_SHOOT_BOTTOM); \
-    PlayTalkDefinition();
+	MakeCurrSaveTalkDialogScreenShoot(DIALOG_SCREEN_SHOOT_LEFT, DIALOG_SCREEN_SHOOT_TOP, DIALOG_SCREEN_SHOOT_RIGHT, DIALOG_SCREEN_SHOOT_BOTTOM); \
+	PlayTalkDefinition();
 
 #define END_TALK_DEFINITION()
 
-//    EnableInterface(true);
-//    EnableCameraMovement(true);
+//	EnableInterface(true);
+//	EnableCameraMovement(true);
 
 #define INITIALIZE_TALK_UNITS(UnitNameA, UnitNameB, TurnUnits) \
-    INITIALIZE_TALK_UNITS_BIS(UnitNameA, UnitNameB, TurnUnits)
+	INITIALIZE_TALK_UNITS_BIS(UnitNameA, UnitNameB, TurnUnits)
 
 #define INITIALIZE_TALK_UNITS_BIS(UnitNameA, UnitNameB, TurnUnits) \
-    InitializeTalkUnits(m_u ## UnitNameA, m_u ## UnitNameB, TurnUnits);
+	InitializeTalkUnits(m_u ## UnitNameA, m_u ## UnitNameB, TurnUnits);
 
 #define INITIALIZE_TALK_INTERFACE(PlayerName, UnitNameFrom, UnitNameTo, PrepareInterfaceToTalk) \
-    INITIALIZE_TALK_INTERFACE_BIS(PlayerName, UnitNameFrom, UnitNameTo, PrepareInterfaceToTalk)
+	INITIALIZE_TALK_INTERFACE_BIS(PlayerName, UnitNameFrom, UnitNameTo, PrepareInterfaceToTalk)
 
 #define INITIALIZE_TALK_INTERFACE_BIS(PlayerName, UnitNameFrom, UnitNameTo, PrepareInterfaceToTalk) \
-    InitializeTalkInterface(m_p ## PlayerName, m_u ## UnitNameFrom, m_u ## UnitNameTo, PrepareInterfaceToTalk);
+	InitializeTalkInterface(m_p ## PlayerName, m_u ## UnitNameFrom, m_u ## UnitNameTo, PrepareInterfaceToTalk);
 
 /*****************************************************************************/
 
 function int InitializeTalkUnits(unitex uTalkUnitA, unitex uTalkUnitB, int bTurnUnits)
 {
-    ASSERT( uTalkUnitA != null );
-    ASSERT( uTalkUnitB != null );
+	ASSERT( uTalkUnitA != null );
+	ASSERT( uTalkUnitB != null );
 
-    ASSERT( uTalkUnitA.IsLive() );
-    ASSERT( uTalkUnitB.IsLive() );
+	ASSERT( uTalkUnitA.IsLive() );
+	ASSERT( uTalkUnitB.IsLive() );
 
-    uTalkUnitA.EndRecord();
-    uTalkUnitB.EndRecord();
+	uTalkUnitA.EndRecord();
+	uTalkUnitB.EndRecord();
 
-    uTalkUnitA.CommandSetTalkMode(true, true, false);
-    uTalkUnitB.CommandSetTalkMode(true, true, false);
+	uTalkUnitA.CommandSetTalkMode(true, true, false);
+	uTalkUnitB.CommandSetTalkMode(true, true, false);
 
-    if ( bTurnUnits )
-    {
-        if ( uTalkUnitA == uTalkUnitB )
-        {
-            uTalkUnitA.CommandTurn(DEFAULT_LOOK_DIRECTION);
-        }
-        else
-        {
-            uTalkUnitA.CommandTurn(uTalkUnitA.GetAngleToTarget(uTalkUnitB.GetUnitRef()));
-            uTalkUnitB.CommandTurn(uTalkUnitB.GetAngleToTarget(uTalkUnitA.GetUnitRef()));
-            // TRACE2("AngleToTarget (A->B):", uTalkUnitA.GetAngleToTarget(uTalkUnitB.GetUnitRef()));
-            // TRACE2("AngleToTarget (B->A):", uTalkUnitB.GetAngleToTarget(uTalkUnitA.GetUnitRef()));
-        }
-    }
+	if ( bTurnUnits )
+	{
+		if ( uTalkUnitA == uTalkUnitB )
+		{
+			uTalkUnitA.CommandTurn(DEFAULT_LOOK_DIRECTION);
+		}
+		else
+		{
+			uTalkUnitA.CommandTurn(uTalkUnitA.GetAngleToTarget(uTalkUnitB.GetUnitRef()));
+			uTalkUnitB.CommandTurn(uTalkUnitB.GetAngleToTarget(uTalkUnitA.GetUnitRef()));
+			// TRACE2("AngleToTarget (A->B):", uTalkUnitA.GetAngleToTarget(uTalkUnitB.GetUnitRef()));
+			// TRACE2("AngleToTarget (B->A):", uTalkUnitB.GetAngleToTarget(uTalkUnitA.GetUnitRef()));
+		}
+	}
 
-    m_uTalkUnitA = uTalkUnitA;
-    m_uTalkUnitB = uTalkUnitB;
+	m_uTalkUnitA = uTalkUnitA;
+	m_uTalkUnitB = uTalkUnitB;
 
-    return true;
+	return true;
 }
 
 function int InitializeTalkInterface(player pPlayer, unitex uTalkUnitFrom, unitex uTalkUnitTo, int bPrepareInterfaceToTalk)
 {
-    int nLeft, nTop, nRight, nBottom;
-    int nCenterX, nCenterY, nZ, nAlpha, nAlphaDist;
-    int yOffset, xOffset, nNewZ;
-    int a;
-    
-    m_bPlayingDialog = true;
+	int nLeft, nTop, nRight, nBottom;
+	int nCenterX, nCenterY, nZ, nAlpha, nAlphaDist;
+	int yOffset, xOffset, nNewZ;
+	int a;
+	
+	m_bPlayingDialog = true;
 
-    ASSERT( pPlayer != null );
+	ASSERT( pPlayer != null );
 
-    ASSERT( uTalkUnitFrom != null );
-    ASSERT( uTalkUnitTo   != null );
+	ASSERT( uTalkUnitFrom != null );
+	ASSERT( uTalkUnitTo   != null );
 
-    ASSERT( uTalkUnitFrom.IsLive() );
-    ASSERT( uTalkUnitTo.IsLive() );
+	ASSERT( uTalkUnitFrom.IsLive() );
+	ASSERT( uTalkUnitTo.IsLive() );
 
-    /**********/
+	/**********/
 
-    if (uTalkUnitFrom.GetLocationX() < uTalkUnitTo.GetLocationX())
-    {
-        nLeft = uTalkUnitFrom.GetLocationX() - TALK_AREA_MARGIN;
-        nRight = uTalkUnitTo.GetLocationX() + TALK_AREA_MARGIN;
-    }
-    else
-    {
-        nLeft = uTalkUnitTo.GetLocationX() - TALK_AREA_MARGIN;
-        nRight = uTalkUnitFrom.GetLocationX() + TALK_AREA_MARGIN;
-    }
-    if (uTalkUnitFrom.GetLocationY() < uTalkUnitTo.GetLocationY())
-    {
-        nTop = uTalkUnitFrom.GetLocationY() - TALK_AREA_MARGIN;
-        nBottom = uTalkUnitTo.GetLocationY() + TALK_AREA_MARGIN;
-    }
-    else
-    {
-        nTop = uTalkUnitTo.GetLocationY() - TALK_AREA_MARGIN;
-        nBottom = uTalkUnitFrom.GetLocationY() + TALK_AREA_MARGIN;
-    }
+	if (uTalkUnitFrom.GetLocationX() < uTalkUnitTo.GetLocationX())
+	{
+		nLeft = uTalkUnitFrom.GetLocationX() - TALK_AREA_MARGIN;
+		nRight = uTalkUnitTo.GetLocationX() + TALK_AREA_MARGIN;
+	}
+	else
+	{
+		nLeft = uTalkUnitTo.GetLocationX() - TALK_AREA_MARGIN;
+		nRight = uTalkUnitFrom.GetLocationX() + TALK_AREA_MARGIN;
+	}
+	if (uTalkUnitFrom.GetLocationY() < uTalkUnitTo.GetLocationY())
+	{
+		nTop = uTalkUnitFrom.GetLocationY() - TALK_AREA_MARGIN;
+		nBottom = uTalkUnitTo.GetLocationY() + TALK_AREA_MARGIN;
+	}
+	else
+	{
+		nTop = uTalkUnitTo.GetLocationY() - TALK_AREA_MARGIN;
+		nBottom = uTalkUnitFrom.GetLocationY() + TALK_AREA_MARGIN;
+	}
 
-    SetLimitedStepRect(nLeft, nTop, nRight, nBottom, pPlayer.GetAllianceIFF() | pPlayer.GetNeutralIFF() | neutralIFF);
+	SetLimitedStepRect(nLeft, nTop, nRight, nBottom, pPlayer.GetAllianceIFF() | pPlayer.GetNeutralIFF() | neutralIFF);
 
-    /**********/
+	/**********/
 
-    if ( bPrepareInterfaceToTalk )
-    {
-        nCenterX = 128+( uTalkUnitFrom.GetLocationX()*256 + uTalkUnitTo.GetLocationX()*256 ) / 2;
-        nCenterY = 128+( uTalkUnitFrom.GetLocationY()*256 + uTalkUnitTo.GetLocationY()*256 ) / 2;
-        nZ = uTalkUnitFrom.GetLocationZ();
+	if ( bPrepareInterfaceToTalk )
+	{
+		nCenterX = 128+( uTalkUnitFrom.GetLocationX()*256 + uTalkUnitTo.GetLocationX()*256 ) / 2;
+		nCenterY = 128+( uTalkUnitFrom.GetLocationY()*256 + uTalkUnitTo.GetLocationY()*256 ) / 2;
+		nZ = uTalkUnitFrom.GetLocationZ();
 
-        if ( uTalkUnitFrom == uTalkUnitTo )
-        {
-            nAlpha = DEFAULT_LOOKAT_ALPHA;
-        }
-        else
-        {
-            nAlpha  = uTalkUnitFrom.GetAngleToTarget(uTalkUnitTo.GetUnitRef()) + 0x40;
+		if ( uTalkUnitFrom == uTalkUnitTo )
+		{
+			nAlpha = DEFAULT_LOOKAT_ALPHA;
+		}
+		else
+		{
+			nAlpha  = uTalkUnitFrom.GetAngleToTarget(uTalkUnitTo.GetUnitRef()) + 0x40;
 
-            if ( nAlpha > 0xff ) nAlpha = nAlpha - 0x100;
-        }
+			if ( nAlpha > 0xff ) nAlpha = nAlpha - 0x100;
+		}
 
-        nAlphaDist = GetCameraAlphaAngle() - nAlpha;
-        if ( nAlphaDist < 0 ) nAlphaDist = -nAlphaDist;
-        if ( nAlphaDist > 0x40 && nAlphaDist < 0xc0 )
-        {
-            nAlpha = nAlpha + 0x80;
-            if ( nAlpha > 0xff ) nAlpha = nAlpha - 0x100;
-        }
+		nAlphaDist = GetCameraAlphaAngle() - nAlpha;
+		if ( nAlphaDist < 0 ) nAlphaDist = -nAlphaDist;
+		if ( nAlphaDist > 0x40 && nAlphaDist < 0xc0 )
+		{
+			nAlpha = nAlpha + 0x80;
+			if ( nAlpha > 0xff ) nAlpha = nAlpha - 0x100;
+		}
 
-        /*
-        if ( nAlpha > 240 || nAlpha<= 16){ yOffset =-256;xOffset =   0;}
-        if ( nAlpha >  16 && nAlpha<= 48){ yOffset =-128;xOffset = 128;}
-        if ( nAlpha >  48 && nAlpha<= 80){ yOffset =   0;xOffset = 256;}
-        if ( nAlpha >  80 && nAlpha<=112){ yOffset = 128;xOffset = 128;}
-        if ( nAlpha > 112 && nAlpha<=144){ yOffset = 256;xOffset =   0;}
-        if ( nAlpha > 144 && nAlpha<=176){ yOffset = 128;xOffset =-128;}
-        if ( nAlpha > 176 && nAlpha<=208){ yOffset =   0;xOffset =-256;}
-        if ( nAlpha > 208 && nAlpha<=240){ yOffset =-128;xOffset =-128;}
-        */
+		/*
+		if ( nAlpha > 240 || nAlpha<= 16){ yOffset =-256;xOffset =   0;}
+		if ( nAlpha >  16 && nAlpha<= 48){ yOffset =-128;xOffset = 128;}
+		if ( nAlpha >  48 && nAlpha<= 80){ yOffset =   0;xOffset = 256;}
+		if ( nAlpha >  80 && nAlpha<=112){ yOffset = 128;xOffset = 128;}
+		if ( nAlpha > 112 && nAlpha<=144){ yOffset = 256;xOffset =   0;}
+		if ( nAlpha > 144 && nAlpha<=176){ yOffset = 128;xOffset =-128;}
+		if ( nAlpha > 176 && nAlpha<=208){ yOffset =   0;xOffset =-256;}
+		if ( nAlpha > 208 && nAlpha<=240){ yOffset =-128;xOffset =-128;}
+		*/
 
-        a = (nAlpha%64) * 4;
+		a = (nAlpha%64) * 4;
 
-             if ( nAlpha >= 0x00 && nAlpha < 0x040 ) { xOffset =      a; yOffset = -256+a; }
-        else if ( nAlpha >= 0x40 && nAlpha < 0x080 ) { xOffset =  256-a; yOffset =      a; }
-        else if ( nAlpha >= 0x80 && nAlpha < 0x0c0 ) { xOffset =     -a; yOffset =  256-a; }
-        else if ( nAlpha >= 0xc0 && nAlpha < 0x100 ) { xOffset = -256+a; yOffset =     -a; }
-        else __ASSERT_FALSE();
+			 if ( nAlpha >= 0x00 && nAlpha < 0x040 ) { xOffset =      a; yOffset = -256+a; }
+		else if ( nAlpha >= 0x40 && nAlpha < 0x080 ) { xOffset =  256-a; yOffset =      a; }
+		else if ( nAlpha >= 0x80 && nAlpha < 0x0c0 ) { xOffset =     -a; yOffset =  256-a; }
+		else if ( nAlpha >= 0xc0 && nAlpha < 0x100 ) { xOffset = -256+a; yOffset =     -a; }
+		else __ASSERT_FALSE();
 
-        // TRACE6("                                        nAlpha=",nAlpha,"xOff=",xOffset,"yOff=",yOffset);
+		// TRACE6("                                        nAlpha=",nAlpha,"xOff=",xOffset,"yOff=",yOffset);
 
-        nCenterX = nCenterX+xOffset;
-        nCenterY = nCenterY+yOffset;
-        
-        nNewZ = DEFAULT_LOOKAT_Z + (uTalkUnitFrom.DistanceTo(uTalkUnitTo.GetLocationX(),uTalkUnitTo.GetLocationY()))/3;
-        m_nGameCameraZ = GetCameraZ();
-        m_nGameCameraAlpha = GetCameraAlphaAngle();
-        m_nGameCameraView = GetCameraViewAngle();
+		nCenterX = nCenterX+xOffset;
+		nCenterY = nCenterY+yOffset;
+		
+		nNewZ = DEFAULT_LOOKAT_Z + (uTalkUnitFrom.DistanceTo(uTalkUnitTo.GetLocationX(),uTalkUnitTo.GetLocationY()))/3;
+		m_nGameCameraZ = GetCameraZ();
+		m_nGameCameraAlpha = GetCameraAlphaAngle();
+		m_nGameCameraView = GetCameraViewAngle();
 
-        PlayerAutoDirDelayedLookAt(pPlayer, nCenterX, nCenterY, nNewZ, nAlpha, DEFAULT_LOOKAT_VIEW, nZ, INITIALIZE_CAMERA_DELAY);
-        
-        // EnableInterface(false);
-        // EnableCameraMovement(false);
-        // ShowInterface(false, INITIALIZE_CAMERA_DELAY);
-        // ShowPanel(false, INITIALIZE_CAMERA_DELAY);
-        // ShowInterfaceBlackBorders(true, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_COLOR, INTERFACE_BORDERS_COLOR, INTERFACE_BORDERS_START_DELAY, INTERFACE_BORDERS_MOVE_DELAY);
+		PlayerAutoDirDelayedLookAt(pPlayer, nCenterX, nCenterY, nNewZ, nAlpha, DEFAULT_LOOKAT_VIEW, nZ, INITIALIZE_CAMERA_DELAY);
+		
+		// EnableInterface(false);
+		// EnableCameraMovement(false);
+		// ShowInterface(false, INITIALIZE_CAMERA_DELAY);
+		// ShowPanel(false, INITIALIZE_CAMERA_DELAY);
+		// ShowInterfaceBlackBorders(true, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_COLOR, INTERFACE_BORDERS_COLOR, INTERFACE_BORDERS_START_DELAY, INTERFACE_BORDERS_MOVE_DELAY);
 
-        PrepareInterfaceToTalk(true, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_COLOR);
-    }
-    
-    return true;
+		PrepareInterfaceToTalk(true, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_COLOR);
+	}
+	
+	return true;
 }
 
 function int RestoreTalkInterface(player pPlayer, unitex uUnit)
 {
-    ASSERT( pPlayer != null );
+	ASSERT( pPlayer != null );
 
-    ASSERT( uUnit != null );
-    ASSERT( uUnit.IsLive() );
+	ASSERT( uUnit != null );
+	ASSERT( uUnit.IsLive() );
 
-    EndCurrSaveTalkDialog();
+	EndCurrSaveTalkDialog();
 
-    PlayerAutoDirDelayedLookAtUnit(pPlayer, uUnit, m_nGameCameraZ, m_nGameCameraAlpha, m_nGameCameraView, INITIALIZE_CAMERA_DELAY);
+	PlayerAutoDirDelayedLookAtUnit(pPlayer, uUnit, m_nGameCameraZ, m_nGameCameraAlpha, m_nGameCameraView, INITIALIZE_CAMERA_DELAY);
 
-    // ShowInterface(true, INTERFACE_BORDERS_START_DELAY + INTERFACE_BORDERS_MOVE_DELAY);
-    // ShowPanel(true, INTERFACE_BORDERS_START_DELAY + INTERFACE_BORDERS_MOVE_DELAY);
-    // ShowInterfaceBlackBorders(false, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_COLOR, INTERFACE_BORDERS_COLOR, INTERFACE_BORDERS_START_DELAY, INTERFACE_BORDERS_MOVE_DELAY);
+	// ShowInterface(true, INTERFACE_BORDERS_START_DELAY + INTERFACE_BORDERS_MOVE_DELAY);
+	// ShowPanel(true, INTERFACE_BORDERS_START_DELAY + INTERFACE_BORDERS_MOVE_DELAY);
+	// ShowInterfaceBlackBorders(false, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_COLOR, INTERFACE_BORDERS_COLOR, INTERFACE_BORDERS_START_DELAY, INTERFACE_BORDERS_MOVE_DELAY);
 
-    PrepareInterfaceToTalk(false, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_COLOR);
+	PrepareInterfaceToTalk(false, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_COLOR);
 
-    m_uTalkUnitA.CommandSetTalkMode(false, true, false);
-    m_uTalkUnitB.CommandSetTalkMode(false, true, false);
+	m_uTalkUnitA.CommandSetTalkMode(false, true, false);
+	m_uTalkUnitB.CommandSetTalkMode(false, true, false);
 
-    SetLimitedStepRect(0, 0, 0, 0, 0);
+	SetLimitedStepRect(0, 0, 0, 0, 0);
 
-    return true;
+	return true;
 }
 
 unitex g_SaveTalkDialog_uTalkUnitA;
@@ -287,56 +287,56 @@ int g_SaveTalkDialog_bFullSave;
 
 function int SaveTalkDialog(unitex uTalkUnitA, unitex uTalkUnitB, string strDialogName, int m_bFullSave)
 {
-    g_SaveTalkDialog_uTalkUnitA = uTalkUnitA;
-    g_SaveTalkDialog_uTalkUnitB = uTalkUnitB;
-    g_SaveTalkDialog_bFullSave = m_bFullSave;
+	g_SaveTalkDialog_uTalkUnitA = uTalkUnitA;
+	g_SaveTalkDialog_uTalkUnitB = uTalkUnitB;
+	g_SaveTalkDialog_bFullSave = m_bFullSave;
 
-    SetStringBuff(0, strDialogName);
+	SetStringBuff(0, strDialogName);
 
-    return true;
+	return true;
 }
 
 function int SaveTalkDialogBis(unitex uTalkUnitA, unitex uTalkUnitB, string strDialogName)
 {
-    int nLeft, nTop, nRight, nBottom;
-    
-    ASSERT( uTalkUnitA != null );
-    ASSERT( uTalkUnitB != null );
+	int nLeft, nTop, nRight, nBottom;
+	
+	ASSERT( uTalkUnitA != null );
+	ASSERT( uTalkUnitB != null );
 
-    ASSERT( uTalkUnitA.IsLive() );
-    ASSERT( uTalkUnitB.IsLive() );
+	ASSERT( uTalkUnitA.IsLive() );
+	ASSERT( uTalkUnitB.IsLive() );
 
-    if (uTalkUnitA.GetLocationX() < uTalkUnitB.GetLocationX())
-    {
-        nLeft = uTalkUnitA.GetLocationX() - TALK_AREA_MARGIN;
-        nRight = uTalkUnitB.GetLocationX() + TALK_AREA_MARGIN;
-    }
-    else
-    {
-        nLeft = uTalkUnitB.GetLocationX() - TALK_AREA_MARGIN;
-        nRight = uTalkUnitA.GetLocationX() + TALK_AREA_MARGIN;
-    }
-    if (uTalkUnitA.GetLocationY() < uTalkUnitB.GetLocationY())
-    {
-        nTop = uTalkUnitA.GetLocationY() - TALK_AREA_MARGIN;
-        nBottom = uTalkUnitB.GetLocationY() + TALK_AREA_MARGIN;
-    }
-    else
-    {
-        nTop = uTalkUnitB.GetLocationY() - TALK_AREA_MARGIN;
-        nBottom = uTalkUnitA.GetLocationY() + TALK_AREA_MARGIN;
-    }
+	if (uTalkUnitA.GetLocationX() < uTalkUnitB.GetLocationX())
+	{
+		nLeft = uTalkUnitA.GetLocationX() - TALK_AREA_MARGIN;
+		nRight = uTalkUnitB.GetLocationX() + TALK_AREA_MARGIN;
+	}
+	else
+	{
+		nLeft = uTalkUnitB.GetLocationX() - TALK_AREA_MARGIN;
+		nRight = uTalkUnitA.GetLocationX() + TALK_AREA_MARGIN;
+	}
+	if (uTalkUnitA.GetLocationY() < uTalkUnitB.GetLocationY())
+	{
+		nTop = uTalkUnitA.GetLocationY() - TALK_AREA_MARGIN;
+		nBottom = uTalkUnitB.GetLocationY() + TALK_AREA_MARGIN;
+	}
+	else
+	{
+		nTop = uTalkUnitB.GetLocationY() - TALK_AREA_MARGIN;
+		nBottom = uTalkUnitA.GetLocationY() + TALK_AREA_MARGIN;
+	}
 
-    if ( g_SaveTalkDialog_bFullSave )
-    {
-        SaveTalkDialog(GetLeft(), GetTop(), GetRight(), GetBottom(), strDialogName);
-    }
-    else
-    {
-        SaveTalkDialog(nLeft, nTop, nRight, nBottom, strDialogName);
-    }
+	if ( g_SaveTalkDialog_bFullSave )
+	{
+		SaveTalkDialog(GetLeft(), GetTop(), GetRight(), GetBottom(), strDialogName);
+	}
+	else
+	{
+		SaveTalkDialog(nLeft, nTop, nRight, nBottom, strDialogName);
+	}
 
-    return true;
+	return true;
 }
 
 /*****************************************************************************/
@@ -347,55 +347,55 @@ int m_nDialogToPlay;
 /*****************************************************************************/
 
 #define BEGIN_RESTORE_STATE_BLOCK() \
-    if ( false ) {}
+	if ( false ) {}
 
 #define RESTORE_STATE(State) \
-    else if ( m_nStateAfterDialog == State ) \
-    { \
-        /* TRACE1("Restore State: " # State); */ \
-        return State; \
-    }
+	else if ( m_nStateAfterDialog == State ) \
+	{ \
+		/* TRACE1("Restore State: " # State); */ \
+		return State; \
+	}
 
 #define END_RESTORE_STATE_BLOCK() \
-    else \
-    { \
-        TRACE1("Can't restore game state."); \
-    }
+	else \
+	{ \
+		TRACE1("Can't restore game state."); \
+	}
 
 #define SET_DIALOG(DialogName, State) \
-    m_nDialogToPlay = dialog ## DialogName; \
-    m_nStateAfterDialog = State;
+	m_nDialogToPlay = dialog ## DialogName; \
+	m_nStateAfterDialog = State;
 
 /*
 #define START_TALK(UnitName) \
-    CreateArtefactAtUnit("ARTIFACT_TALK", m_u ## UnitName, 0); \
-    m_u ## UnitName.CommandSetMovementMode(modeHoldPos); \
-    TRACE1( "Start Talk: " # UnitName );
+	CreateArtefactAtUnit("ARTIFACT_TALK", m_u ## UnitName, 0); \
+	m_u ## UnitName.CommandSetMovementMode(modeHoldPos); \
+	TRACE1( "Start Talk: " # UnitName );
 
 #define STOP_TALK(UnitName) \
-    RemoveArtefactAtUnit(m_u ## UnitName); \
-    TRACE1( "Stop Talk: " # UnitName );
+	RemoveArtefactAtUnit(m_u ## UnitName); \
+	TRACE1( "Stop Talk: " # UnitName );
 */
 
 #define START_TALK(UnitName) \
-    m_u ## UnitName ## TalkSmoke = CreateObject(m_u ## UnitName.GetLocationX(), m_u ## UnitName.GetLocationY(), m_u ## UnitName.GetLocationZ(), 0, "PART_TALK"); \
-    m_u ## UnitName ## TalkSmoke.SetSmokeObject(m_u ## UnitName.GetUnitRef(), true, true, true, true); \
+	m_u ## UnitName ## TalkSmoke = CreateObject(m_u ## UnitName.GetLocationX(), m_u ## UnitName.GetLocationY(), m_u ## UnitName.GetLocationZ(), 0, "PART_TALK"); \
+	m_u ## UnitName ## TalkSmoke.SetSmokeObject(m_u ## UnitName.GetUnitRef(), true, true, true, true); \
     m_u ## UnitName.SetIsQuestGiverUnit(true); \
-    m_u ## UnitName.CommandSetMovementMode(modeHoldPos); \
-    /* TRACE1( "Start Talk: " # UnitName ); */
+	m_u ## UnitName.CommandSetMovementMode(modeHoldPos); \
+	/* TRACE1( "Start Talk: " # UnitName ); */
 
 #define START_TALK_GIANT(UnitName) \
-    m_u ## UnitName ## TalkSmoke = CreateObject(m_u ## UnitName.GetLocationX(), m_u ## UnitName.GetLocationY(), m_u ## UnitName.GetLocationZ(), 0, "PART_TALK_GIANT"); \
-    m_u ## UnitName ## TalkSmoke.SetSmokeObject(m_u ## UnitName.GetUnitRef(), true, true, true, true); \
+	m_u ## UnitName ## TalkSmoke = CreateObject(m_u ## UnitName.GetLocationX(), m_u ## UnitName.GetLocationY(), m_u ## UnitName.GetLocationZ(), 0, "PART_TALK_GIANT"); \
+	m_u ## UnitName ## TalkSmoke.SetSmokeObject(m_u ## UnitName.GetUnitRef(), true, true, true, true); \
     m_u ## UnitName.SetIsQuestGiverUnit(true); \
-    m_u ## UnitName.CommandSetMovementMode(modeHoldPos); \
-    /* TRACE1( "Start Talk: " # UnitName ); */
+	m_u ## UnitName.CommandSetMovementMode(modeHoldPos); \
+	/* TRACE1( "Start Talk: " # UnitName ); */
 
 #define STOP_TALK(UnitName) \
-    m_u ## UnitName ## TalkSmoke.RemoveUnit(); \
-    m_u ## UnitName ## TalkSmoke = null; \
+	m_u ## UnitName ## TalkSmoke.RemoveUnit(); \
+	m_u ## UnitName ## TalkSmoke = null; \
     m_u ## UnitName.SetIsQuestGiverUnit(false); \
-    /* TRACE1( "Stop Talk: " # UnitName ); */
+	/* TRACE1( "Stop Talk: " # UnitName ); */
 
 /*****************************************************************************/
 
@@ -405,28 +405,28 @@ state EndPlayDialog;
 
 state TalkDialog
 {
-    //przerywane przez EndTalk
-    //uwaga - ten stan nie powinien byc zmieniony przez zaden event
-    return TalkDialog;
+	//przerywane przez EndTalk
+	//uwaga - ten stan nie powinien byc zmieniony przez zaden event
+	return TalkDialog;
 }
 
 state WaitForEndPrepareInterfaceToTalk
 {
-    return WaitForEndPrepareInterfaceToTalk, 1;
+	return WaitForEndPrepareInterfaceToTalk, 1;
 }
 
 state PlayDialog
 {
-    SaveTalkDialogBis(g_SaveTalkDialog_uTalkUnitA, g_SaveTalkDialog_uTalkUnitB, GetStringBuff(0));
+	SaveTalkDialogBis(g_SaveTalkDialog_uTalkUnitA, g_SaveTalkDialog_uTalkUnitB, GetStringBuff(0));
 
-    PLAY_TALK_DEFINITION();
-    
-    return TalkDialog;
+	PLAY_TALK_DEFINITION();
+	
+	return TalkDialog;
 }
 
 event EndTalk(int nIFFNum)
 {
-    state EndPlayDialog;
+	state EndPlayDialog;
 }
 
 event EndPrepareInterfaceToTalk(int bStartTalk, int nIFFNum)
@@ -438,7 +438,7 @@ event EndPrepareInterfaceToTalk(int bStartTalk, int nIFFNum)
     else
     {
         //uwaga - przy odgrywaniu dialogu ten event przyjdzie do skryptu ktory nie wywolal PrepareInterfaceToTalk
-        m_bPlayingDialog = false;
+		m_bPlayingDialog = false;
 
         state RestoreGameState;
     }
