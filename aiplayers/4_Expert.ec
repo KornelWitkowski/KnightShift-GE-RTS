@@ -49,14 +49,15 @@ player "translateAIPlayerEkspert"
                         aiBuildRoads |
                         aiBuildNewBuildings |
                         aiRebuildLostDefenceBuildings | 
-                        aiBuildTowersEx |
+                        // aiBuildTowersEx |
                         aiBuildNewBridges | 
                         aiRebuildLostBridges |
                         aiAllowBuildClose |
                         aiCaptureStartingPoints |
                         aiProduceUnits, true);
 
-        EnableAIFeatures2(ai2ControlTowers |
+        EnableAIFeatures2(
+                        // ai2ControlTowers |
                         ai2ControlBuildersBuild | 
                         ai2ControlBuildersRepair | 
                         ai2ControlHarvesters | 

@@ -5,6 +5,7 @@
 #define IS_FREE_POINT 2
 #define IS_BRIDGE_IN_POINT 3
 #define HAVE_MAGIC 4
+#define IS_RESOURCE_IN_POINT 5
 
 function int IsUnitAttacking(unitex uUnit)
 {
@@ -34,6 +35,11 @@ function int IsBridgeInPoint(unitex uUnit, int nX, int nY, int nZ)
 function int HaveMagic(unitex uUnit, int iMagicNumber)
 {
     return uUnit.SetCustomEvent(3, HAVE_MAGIC, iMagicNumber, 0, 0, null);
+}
+
+function int IsResourceInPoint(unitex uUnit, int nX, int nY)
+{
+    return uUnit.SetCustomEvent(3, IS_RESOURCE_IN_POINT, nX, nY, 0, null);
 }
 
 function void MoveBackExtraPlayersUnits()

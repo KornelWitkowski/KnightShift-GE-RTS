@@ -1736,6 +1736,7 @@ event Custom2(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
 #define IS_FREE_POINT 2
 #define IS_BRIDGE_IN_POINT 3
 #define HAVE_MAGIC 4
+#define IS_RESOURCE_IN_POINT 5
 // GOLDEN EDITION CUSTOM EVENT
 event Custom3(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
 {
@@ -1766,6 +1767,9 @@ event Custom3(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
     }
     else if(nParam1 == HAVE_MAGIC){
         return HaveMagic(nParam2);
+    }
+    else if(nParam1 == IS_RESOURCE_IN_POINT){
+        return IsResourceInPoint(nParam2, nParam3, nParam4);
     }
     return 0;
 }
