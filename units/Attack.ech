@@ -87,10 +87,12 @@ function int InitializeAttack()
     m_nAllowInvisibleCounter = 0;
     return true;
 }
+}
 
 function int AttackEventOnChangedEquipment()
 {
     return InitializeAttack();
+}
 }
 
 function void ResetAttackTarget()
@@ -111,6 +113,7 @@ function void ResetAttackTarget()
     m_bWasMoveCommand = false;
     m_nAllowInvisibleCounter = 0;
 }
+}
 
 function void CheckRunMode(int nDist)
 {
@@ -122,6 +125,7 @@ function void CheckRunMode(int nDist)
     {
         SetScriptRunMode(false);
     }
+}
 }
 
 function void CheckRunMode()
@@ -135,6 +139,7 @@ function void CheckRunMode()
         SetScriptRunMode(false);
     }
 }
+}
 
 function int SwitchSmartAttackMode(int nModeVal, int nNonModeVal)
 {
@@ -143,6 +148,7 @@ function int SwitchSmartAttackMode(int nModeVal, int nNonModeVal)
         return nModeVal;
     }
     return nNonModeVal;
+}
 }
 
 function int SwitchSmartAttackMode(int nModeSwordVal, int nModeCannonVal, int nNonModeVal)
@@ -159,6 +165,7 @@ function int SwitchSmartAttackMode(int nModeSwordVal, int nModeCannonVal, int nN
         }
     }
     return nNonModeVal;
+}
 }
 
 function void SetAttackTarget(unit uTarget, int bCommandTarget, int bSelfTarget, int bResponseToAttack, int bSetStartAttackPos, int bClosedGateTarget)
@@ -207,12 +214,14 @@ function void SetAttackTarget(unit uTarget, int bCommandTarget, int bSelfTarget,
     m_bLowPriorWall = true;
     m_bWasMoveCommand = false;
 }
+}
 
 function void StopAttacking()
 {
     CallStopMoving();
     ResetAttackTarget();
     NextCommand(1);
+}
 }
 
 //funkcja dla lucznika wywolywana na poczatku sprawdzania celu - szukamy takich ktore atakuja take same jak
@@ -227,6 +236,7 @@ function unit FindCannonNeighbourUnitTarget1()
         return uTarget;
     }
     return null;
+}
 }
 
 //funkcja dla lucznika wywolywana gdy nie znalazl zadnych wrogow w zasiegu
@@ -254,6 +264,7 @@ function unit FindCannonNeighbourUnitTarget2(int nFindFromStartAttackRange)
     //(funkcja FindNeighbourUnitTarget przy pierwszym i drugim parametrze false (sameUnitID, sameWeaponType) preferuje te o tym samym ID lub weaponType)
     uTarget = FindNeighbourUnitTarget(false, false, false, nRange - 1, nFromGx, nFromGy, nFromLz, nRange);
     return uTarget;
+}
 }
 
 function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCloseTargets, int nFindFromStartAttackRange)
@@ -602,6 +613,10 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
                         !bInHoldPosMode &&
                         (!m_bSmartAttackMode || !bOnlyCloseTargets) &&
                         ((uLastTarget == null) || ((nLastInRange == notInRange) && (nInRange != notInRange))))
+                    else if (
+                        !bInHoldPosMode &&
+                        (!m_bSmartAttackMode || !bOnlyCloseTargets) &&
+                        ((uLastTarget == null) || ((nLastInRange == notInRange) && (nInRange != notInRange))))
                     {
                         uLastTarget = uTarget;
                         nLastInRange = nInRange;
@@ -650,6 +665,7 @@ function unit FindAttackTarget(int nTargetTypes, int bInHoldPosMode, int bOnlyCl
     }
     return uLastTarget;
 }
+}
 
 function unit FindCloseEnemyWall()
 {
@@ -661,10 +677,12 @@ function unit FindCloseEnemyWall()
     }
     return null;
 }
+}
 
 function unit FindAttackTarget(int bInHoldPosMode)
 {
     return FindAttackTarget(m_nTargetTypes, bInHoldPosMode, true, 0);
+}
 }
 
 //odsuniecie sie od punktu nFromGx,y,z
@@ -731,6 +749,7 @@ function void MoveAwayFromPoint(int nFromGx, int nFromGy, int nFromLz, unit uTar
         }
     }
 }
+}
 
 function int MoveToAttackTarget(unit uTarget, int bSelfTarget, int nInRange)
 {
@@ -750,6 +769,7 @@ function int MoveToAttackTarget(unit uTarget, int bSelfTarget, int nInRange)
         }
         return true;
     }
+    else if (IsInHoldPosMode() && bSelfTarget)
     else if (IsInHoldPosMode() && bSelfTarget)
     {
         return false;
@@ -828,6 +848,7 @@ function int MoveToAttackTarget(unit uTarget, int bSelfTarget, int nInRange)
     }
     return true;
 }
+}
 
 function int MoveToAttackTarget(unit uTarget, int bSelfTarget)
 {
@@ -836,6 +857,7 @@ function int MoveToAttackTarget(unit uTarget, int bSelfTarget)
         return false;
     }
     return MoveToAttackTarget(uTarget, bSelfTarget, IsTargetInAttackRange(uTarget));
+}
 }
 
 function int TryFindNewAttackTarget(int bInTower, int bForceHoldPos, int bOnlyCloseTargets, int bSetStartAttackPos, int bCheckIfCloseToStartAttackPos)
@@ -890,10 +912,12 @@ function int TryFindNewAttackTarget(int bInTower, int bForceHoldPos, int bOnlyCl
     }
     return false;
 }
+}
 
 function int TryFindNewAttackTarget(int bInTower, int bForceHoldPos)
 {
     return TryFindNewAttackTarget(bInTower, bForceHoldPos, true, true, false);
+}
 }
 
 //wyslane przez uTarget.SetEventOnSelectedToAttack(GetUnitRef());
@@ -924,6 +948,7 @@ function int AttackEventOnSelectedToAttackByUnit(unit uByUnit)
     }
     return false;
 }
+}
 
 function int AttackEventOnEndAttackByUnit(unit uByUnit)
 {
@@ -943,10 +968,12 @@ function int AttackEventOnEndAttackByUnit(unit uByUnit)
     }
     return false;
 }
+}
 
 function unit AttackEventOnGetTarget()
 {
     return m_uAttackTarget;
+}
 }
 
 function int MoveToAttackPoint(int nGx, int nGy, int nLz)
@@ -1035,6 +1062,7 @@ function int MoveToAttackPoint(int nGx, int nGy, int nLz)
     }
     return true;
 }
+}
 
 function int FindNewNotBuildingTarget(int bInTower)
 {
@@ -1065,6 +1093,7 @@ function int FindNewNotBuildingTarget(int bInTower)
     }
     return false;
 }
+}
 
 //sprawdza czy unit ktorego atakujemy przypadkiem nie wszedl do wiezy, jesli wszedl to sprawdzamy czy mozemy go
 //tam zaatakowac i jesli nie to zwracamy false
@@ -1087,6 +1116,7 @@ function int CheckTargetMoveInsideTower()
     }
     return true;
 }
+}
 
 ////    States    ////
 
@@ -1108,6 +1138,14 @@ state MovingToAttackTarget
         --m_nAllowInvisibleCounter;
     }
 #endif
+    if ((m_uAttackTarget == null) ||
+        !m_uAttackTarget.IsLive() ||
+        (IsAlliance(m_uAttackTarget) &&
+        !m_bAllyTarget &&
+        !m_uAttackTarget.IsInBlindAttack()) ||
+        (m_bTowerUnitAttackTarget && !m_uAttackTarget.HaveUnitOnTower()) ||
+        !CheckTargetMoveInsideTower() ||
+        (GetHPDamageOnObject(m_uAttackTarget) == 0) ||
     if ((m_uAttackTarget == null) ||
         !m_uAttackTarget.IsLive() ||
         (IsAlliance(m_uAttackTarget) &&
@@ -1177,6 +1215,7 @@ state MovingToAttackTarget
         return MovingToAttackTarget, 5;
     }
     else if (IsInHoldPosMode() && m_bSelfAttackTarget)
+    else if (IsInHoldPosMode() && m_bSelfAttackTarget)
     {
         //target not exist
         STOPATTACKING_RETURNSTATE();
@@ -1187,10 +1226,19 @@ state MovingToAttackTarget
         (m_nAttackTargetGx != m_uAttackTarget.GetLocationX()) ||
         (m_nAttackTargetGy != m_uAttackTarget.GetLocationY()) ||
         (m_nAttackTargetLz != m_uAttackTarget.GetLocationZ()))
+        (m_nAttackTargetGx != m_uAttackTarget.GetLocationX()) ||
+        (m_nAttackTargetGy != m_uAttackTarget.GetLocationY()) ||
+        (m_nAttackTargetLz != m_uAttackTarget.GetLocationZ()))
     {
         if (bWaiting)
         {
             uNewTarget = GetWaitingBeforeClosedGate();
+            if ((uNewTarget != null) &&
+                (IsEnemy(uNewTarget) ||
+                IsLastEnemyTowerOrGate(uNewTarget)) &&
+                GetHPDamageOnObject(uNewTarget) &&
+                (uNewTarget != m_uAttackTarget)
+            )
             if ((uNewTarget != null) &&
                 (IsEnemy(uNewTarget) ||
                 IsLastEnemyTowerOrGate(uNewTarget)) &&
@@ -1261,6 +1309,7 @@ state MovingToAttackTarget
     //jesli atakujemy budynek to szukamy innego celu - nie budynku
     if (m_bSelfAttackTarget && !m_bClosedGateTarget &&
         ((m_uAttackTarget.IsBuilding() || m_uAttackTarget.IsPassive())))
+        ((m_uAttackTarget.IsBuilding() || m_uAttackTarget.IsPassive())))
     {
         FindNewNotBuildingTarget(false);
         nDist = DistanceTo(m_uAttackTarget);
@@ -1319,6 +1368,7 @@ state MovingToAttackTarget
     }
     m_uAttackTarget.SetCustomEvent(2, 0, 0, 0, 0, GetUnitRef());//informujemy go ze do niego idziemy
     return MovingToAttackTarget, MIN(nDist*2, 20);
+}
 }
 
 state WaitingForAttackedTarget
@@ -1390,6 +1440,7 @@ state WaitingForAttackedTarget
         return WaitingForAttackedTarget, 5;
     }
     else if (IsInHoldPosMode() && m_bSelfAttackTarget)
+    else if (IsInHoldPosMode() && m_bSelfAttackTarget)
     {
         //target not exist
         STOPATTACKING_RETURNSTATE();
@@ -1409,6 +1460,7 @@ state WaitingForAttackedTarget
         CallTurnToAngle(GetAngleToTargetEx(m_uAttackTarget));
     }
     return WaitingForAttackedTarget, MIN(nDist*2, 20);
+}
 }
 
 state TurningToAttackTarget
@@ -1499,6 +1551,7 @@ state TurningToAttackTarget
     }
     return TurningToAttackTarget, 0;
 }
+}
 
 state AttackingTarget
 {
@@ -1520,6 +1573,7 @@ state AttackingTarget
         //to zaczynamy go atakowac
         if (m_bSelfAttackTarget && !m_bClosedGateTarget &&
             (m_uAttackTarget.IsBuilding() || m_uAttackTarget.IsPassive()))
+            (m_uAttackTarget.IsBuilding() || m_uAttackTarget.IsPassive()))
         {
             if (FindNewNotBuildingTarget(false))
             {
@@ -1534,6 +1588,7 @@ state AttackingTarget
         m_bAttackedTarget = true;
         return MovingToAttackTarget, 0;
     }
+}
 }
 
 state MovingToAttackPoint
@@ -1561,7 +1616,9 @@ state MovingToAttackPoint
         MoveToAttackPoint(m_nAttackTargetGx, m_nAttackTargetGy, m_nAttackTargetLz);
     }
 
+
     return MovingToAttackPoint;
+}
 }
 
 state TurningToAttackPoint
@@ -1605,6 +1662,7 @@ state TurningToAttackPoint
     }
     return TurningToAttackPoint, 5;
 }
+}
 
 state AttackingPoint
 {
@@ -1616,6 +1674,7 @@ state AttackingPoint
     {
         STOPATTACKING_RETURNSTATE();
     }
+}
 }
 
 ////    Events    ////
@@ -1721,6 +1780,7 @@ event OnEndAttackTarget(unit uPrevTarget)
     }
     return null;
 }
+}
 
 //unit uUnit idzie do nas
 event Custom2(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
@@ -1736,6 +1796,7 @@ event Custom2(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
 #define IS_FREE_POINT 2
 #define IS_BRIDGE_IN_POINT 3
 #define HAVE_MAGIC 4
+#define IS_RESOURCE_IN_POINT 5
 // GOLDEN EDITION CUSTOM EVENT
 event Custom3(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
 {
@@ -1766,6 +1827,9 @@ event Custom3(int nParam1, int nParam2, int nParam3, int nParam4, unit uUnit)
     }
     else if(nParam1 == HAVE_MAGIC){
         return HaveMagic(nParam2);
+    }
+    else if(nParam1 == IS_RESOURCE_IN_POINT){
+        return IsResourceInPoint(nParam2, nParam3, nParam4);
     }
     return 0;
 }
@@ -1816,12 +1880,16 @@ command Attack(unit uTarget) button TRL_ATTACK description TRL_ATTACK item ITEM_
     }
     return true;
 }
+}
 
 command SetSmartAttackMode(int nMode) hidden
 {
     m_bSmartAttackMode = nMode;
     NextCommand(1);
     return true;
+}
+
+
 }
 
 

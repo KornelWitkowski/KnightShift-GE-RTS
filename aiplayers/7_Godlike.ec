@@ -51,10 +51,12 @@ player "translateAIPlayerGodlike"
                         aiRebuildLostBridges |
                         aiAllowBuildClose |
                         aiCaptureStartingPoints |
-                        aiProduceUnits, true);
+                        aiProduceUnits, 
+                        true
+                    );
 
         EnableAIFeatures2(
-                        ai2ControlTowers |
+                        // ai2ControlTowers |
                         ai2ControlBuildersBuild | 
                         ai2ControlBuildersRepair | 
                         ai2ControlHarvesters | 
@@ -77,7 +79,9 @@ player "translateAIPlayerGodlike"
                         ai2DefendUnitsInPlatoon | 
                         // ai2RandomizedBehaviours | 
                         ai2SetSmartUnitAttackMode | 
-                        ai2ResearchUpdatesLevelAll, true);
+                        ai2ResearchUpdatesLevelAll, 
+                        true
+                    );
 
         SetThinkSpeed(aiThinkSpeedBuildUnits, 5);
         SetThinkSpeed(aiThinkSpeedExecuteOrders, 60);

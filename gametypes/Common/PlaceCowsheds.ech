@@ -1,0 +1,150 @@
+int iResult[];
+
+function int ComputeConvolution(unitex uUnit, int iXCowshed, int iYCowshed, int iAlpha)
+{
+    int nTotal;
+    int i, j;
+    int iX, iY;
+
+    iX = iXCowshed + 5*GetXInFront(iAlpha) + 1*GetXToRight(iAlpha);
+    iY = iYCowshed + 5*GetYInFront(iAlpha) + 1*GetYToRight(iAlpha);
+
+    nTotal = 0;
+
+    for(i = -2; i <= 2; ++i)
+    {
+        for(j = -2; j <= 2; ++j)
+        {
+            if(!IsResourceInPoint(uUnit, iX + i, iY + j))
+                continue;
+            if(!IsFreePoint(uUnit, iX + i, iY + j, 0))
+                continue;
+            if(!IsPathAccessible(uUnit, iX + i, iY + j))
+                continue;
+
+            nTotal = nTotal + 1;
+        }
+    }
+
+    return nTotal;
+}
+
+
+function int IsCowshedPlacement(unitex uUnit, int iXStarting, int iYStarting, int iAlpha)
+{
+    int i, j;
+    int iX, iY;
+
+    for(i = 0; i < 5; ++i)
+    {
+        for(j = 0; j < 3; ++j)
+        {
+            iX = iXStarting + i * GetXInFront(iAlpha) + j * GetXToRight(iAlpha);
+            iY = iYStarting + i * GetYInFront(iAlpha) + j * GetYToRight(iAlpha);
+
+            if(!IsFreePoint(uUnit, iX, iY, 0))
+                return 0;
+        }
+    }
+
+    return 1;
+}
+
+
+function void FindCowshedPlacement(unitex uUnit)
+{
+    int iX, iY, iAlpha;
+    int iXStarting, iYStarting;
+    int iRadius;
+    int iScore;
+    int iBestScore;
+    int iBestX;
+    int iBestY;
+    int iBestAlpha;
+
+    iBestScore = -1;
+    iBestX = 0;
+    iBestY = 0;
+    iBestAlpha = 0;
+
+    iXStarting = uUnit.GetLocationX();
+    iYStarting = uUnit.GetLocationY();
+
+    iRadius = 12;
+
+    for(iX = iXStarting-iRadius; iX < (iXStarting+iRadius); ++iX)
+    {
+        for(iY = iYStarting-iRadius; iY < (iYStarting+iRadius); ++iY)
+        {
+            for(iAlpha = 0; iAlpha < 256; iAlpha = iAlpha + 64)
+            {
+                if(!IsPathAccessible(uUnit, iX, iY))
+                    continue;
+
+                if(!IsCowshedPlacement(uUnit, iX, iY, iAlpha))
+                    continue;
+
+                iScore = ComputeConvolution(uUnit, iX, iY, iAlpha);
+
+                if(iScore > iBestScore)
+                {
+                    iBestScore = iScore;
+                    iBestX = iX;
+                    iBestY = iY;
+                    iBestAlpha = iAlpha;
+                }
+            }
+        }
+    }
+
+    iResult.Create(4);
+    iResult[0] = iBestX;
+    iResult[1] = iBestY;
+    iResult[2] = iBestAlpha;
+    iResult[3] = iBestScore;
+}
+
+
+function void BuildCowsheds(player rPlayer)
+{
+    int i, iNumberOfCowsheds, iNumberOfCowshedsToBuild;
+    int iRand, iMoney, iNumberOfCows;
+    unitex uUnit;
+
+    iNumberOfCowsheds = rPlayer.GetNumberOfBuildings("COWSHED");
+    iNumberOfCows = rPlayer.GetNumberOfUnits("COW");
+    iNumberOfCowshedsToBuild = rPlayer.GetMaxCountLimitForObject("COWSHED") - iNumberOfCowsheds;
+
+    iMoney = rPlayer.GetMoney();
+
+    if(iMoney < 80)
+        return;
+
+    if(!iNumberOfCowshedsToBuild)
+        return;
+
+    uUnit = rPlayer.GetUnit(0);
+
+    if(uUnit == null)
+        return;
+
+    if(iNumberOfCows * 2 < iNumberOfCowsheds)
+        return;
+
+    FindCowshedPlacement(uUnit);
+    iRand = RandXor(3);
+    if(iRand == 0)
+    {
+        rPlayer.CreateBuilding(iResult[0], iResult[1], 0, iResult[2], "COWSHED_BUILD_V3");
+    }
+    else if(iRand == 1)
+    {
+        rPlayer.CreateBuilding(iResult[0], iResult[1], 0, iResult[2], "COWSHED_BUILD_V2");
+    }
+    else
+    {
+        rPlayer.CreateBuilding(iResult[0], iResult[1], 0, iResult[2], "COWSHED_BUILD");
+    }
+
+    rPlayer.SetMoney(iMoney - 80);
+}

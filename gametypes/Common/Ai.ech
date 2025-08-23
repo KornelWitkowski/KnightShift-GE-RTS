@@ -57,6 +57,49 @@ function int IsWall(unitex uUnit)
     return 0;
 }
 
+function unitex GetBorderingPassive(unitex uUnit)
+{
+    int i, j, iX, iY;
+    int iR, jR;
+    int iStart, iStep, jStart, jStep;
+    unitex uUnitTarget;
+    unitex uPassive;
+
+    iX = uUnit.GetLocationX();
+    iY = uUnit.GetLocationY();
+
+    iStart = RandXor(7);
+    iStep = RandXor(6) + 1;
+    jStart = RandXor(7);
+    jStep = RandXor(6) + 1;
+
+    for(i=0; i<7; i=i+1)
+    {
+        iR = (iStart + i*iStep) % 7 - 3;
+        for(j=0; j<7; j=j+1)
+        {
+            jR = (jStart + j*jStep) % 7 - 3;
+            if(iR==0 && jR==0) continue;
+            uUnitTarget = GetUnit(iX+iR, iY+jR);
+
+            if( !uUnitTarget.IsPassive())
+                continue;
+
+            // neutralna palisada
+            if(uUnitTarget.GetMaxHP() == 1000)
+                continue;
+
+            if(uUnitTarget.GetArmour(1) == 100)
+                continue;
+
+            return uUnitTarget;
+        }
+    }
+
+    return null;
+}
+
+
 function unitex GetBorderingBuilding(unitex uUnit, int bIncludePassive)
 {
     int i, j, iX, iY;
@@ -137,6 +180,17 @@ function unitex GetBorderingEnemy(unitex uUnit)
     return null;
 }
 
+
+function int IsNextToPassive(unitex uUnit)
+{
+    unitex uPassive;
+    uPassive = GetBorderingPassive(uUnit);
+    if(uPassive != null)
+        return true;
+    return false;
+}
+
+
 function int IsNextToBuilding(unitex uUnit, int bIncludePassive)
 {
     unitex uBuilding;
@@ -191,7 +245,7 @@ function int IsNextToEnemy(unitex uUnit)
 
 function int AttackBorderingBuildingOrEnemy(unitex uUnit, int bIncludePassive)
 {
-    int bIsNextToBuilding, bIsNextToEnemy, bIsShooter;
+    int bIsNextToBuilding, bIsNextToPassive, bIsShooter, bIsAttacking;
     unitex uBuilding, uEnemyUnit;
 
     if(uUnit.IsMoving())
@@ -203,9 +257,9 @@ function int AttackBorderingBuildingOrEnemy(unitex uUnit, int bIncludePassive)
         return false;
 
     bIsNextToBuilding = IsNextToBuilding(uUnit, bIncludePassive);
-    bIsNextToEnemy = IsNextToEnemy(uUnit);
+    bIsNextToPassive = IsNextToPassive(uUnit);
 
-    if(bIsNextToEnemy)
+    if(bIsNextToPassive)
     {
         uEnemyUnit = GetBorderingEnemy(uUnit);
         if(uEnemyUnit != null)
@@ -227,7 +281,71 @@ function int AttackBorderingBuildingOrEnemy(unitex uUnit, int bIncludePassive)
     return false;
 }
 
+function int AttackBorderingObjects(unitex uUnit)
+{
+    int bIsNextToBuilding, bIsNextToPassive, bIsShooter, bIsAttacking;
+    int iDistanceToBase;
+    unitex uBuilding, uPassive;
+
+    if(uUnit.IsMoving())
+        return false;
+
+    bIsShooter = IsShooter(uUnit);
+
+    if(bIsShooter)
+        return false;
+
+    bIsAttacking = IsUnitAttacking(uUnit);
+
+    if(bIsAttacking)
+        return false;
+
+    iDistanceToBase = GetDistanceToBase(uUnit);
+    
+    
+
+    if(iDistanceToBase < 25)
+    {
+        uPassive = GetBorderingPassive(uUnit);
+        if(uPassive != null)
+        {
+            if(!IsPathAccessible(uUnit, uPassive.GetLocationX() -1 + RandXor(3), uPassive.GetLocationY() -1 + RandXor(3)))
+                return false;
+
+            uUnit.CommandAttack(uPassive);
+            return true;
+        }
+        return false;
+    }
+
+
+    uBuilding = GetBorderingBuilding(uUnit, false);
+    if(uBuilding != null)
+    {
+        // if(!uUnit.IsAccessible(uBuilding.GetUnitRef()))
+        //     return false;
+
+        uUnit.CommandAttack(uBuilding);
+        return true;
+    }
+    return false;
+}
 
 
 
+function void AttackBorderingObjects(player rPlayer)
+{
+    int i, iNumberOfUnits;
+    unitex uUnit;
 
+    iNumberOfUnits = rPlayer.GetNumberOfUnits();
+
+    for(i = 0; i < iNumberOfUnits; ++i)
+    {
+        uUnit = rPlayer.GetUnit(i);
+        if(uUnit == null)
+            continue;
+
+        AttackBorderingObjects(uUnit);
+    }
+}
