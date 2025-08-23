@@ -1,7 +1,7 @@
 #define NO_DEBUG
 
 #ifndef NO_DEBUG
-    #define DEBUG
+	#define DEBUG
 #endif
 
 #include "Trace.ech"
@@ -18,634 +18,659 @@ consts
 #include "Consts.ech"
 }
 
+function void TurnOffTier5Items()
+{
+   player rPlayer;
+   int i;
+
+   for(i=0; i<12; i=i+1)
+   {
+        rPlayer = GetPlayer(i);
+        
+        if(rPlayer != null)
+        {
+             rPlayer.EnableResearchUpdate("AXE6", false);
+             rPlayer.EnableResearchUpdate("BOW6", false);
+             rPlayer.EnableResearchUpdate("SPEAR6", false);
+             rPlayer.EnableResearchUpdate("SHIELD3A", false);
+             rPlayer.EnableResearchUpdate("HELMET4",  false);
+             rPlayer.EnableResearchUpdate("ARMOUR4",  false);
+             rPlayer.EnableResearchUpdate("SWORD3A", false);
+
+            rPlayer.EnableResearchUpdate("AMULET_SHIELD_TIER5_ITEM", false);
+            rPlayer.EnableResearchUpdate("AMULET_REGMAGIC_TIER5_ITEM", false);
+        }
+   }
+}
+
 function void ClearAreaAtMarker(int nMarker, int nRange)
 {
-    ClearArea(65535, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nRange);
+	ClearArea(65535, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nRange);
 }
 
 function int ClearMarkers(int nMarkerFirst, int nMarkerLast, int nRange)
 {
-    int nMarker;
-    int bSuccess;
+	int nMarker;
+	int bSuccess;
 
-    bSuccess = true;
+	bSuccess = true;
 
-    for ( nMarker=nMarkerFirst; nMarker<=nMarkerLast; ++nMarker )
-    {
-        #ifdef DEBUG
-            if ( ! PointExist(nMarker) )
-            {
-                TRACE3("ClearMarkers: Marker", nMarker, "don't exist");
+	for ( nMarker=nMarkerFirst; nMarker<=nMarkerLast; ++nMarker )
+	{
+		#ifdef DEBUG
+			if ( ! PointExist(nMarker) )
+			{
+				TRACE3("ClearMarkers: Marker", nMarker, "don't exist");
 
-                bSuccess = false;
-            }
-        #endif
+				bSuccess = false;
+			}
+		#endif
 
-        ClearAreaAtMarker(nMarker, nRange);
-    }
+		ClearAreaAtMarker(nMarker, nRange);
+	}
 
-    return bSuccess;
+	return bSuccess;
 }
 
 function int OnDifficultyLevelClearMarkers(int nDifficultyLevel, int nMarkerFirst, int nMarkerLast, int nRange)
 {
-    if ( GetDifficultyLevel() == nDifficultyLevel )
-    {
-        return ClearMarkers(nMarkerFirst, nMarkerLast, nRange);
-    }
+	if ( GetDifficultyLevel() == nDifficultyLevel )
+	{
+		return ClearMarkers(nMarkerFirst, nMarkerLast, nRange);
+	}
 
-    return false;
+	return false;
 }
 
 function int RestorePlayerUnitsAtMarker (player pPlayer, int nFromBuffer, int nMarker)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( PointExist(nMarker) );
+	ASSERT( pPlayer != null );
+	ASSERT( PointExist(nMarker) );
 
-    return pPlayer.RestoreUnitsAt(nFromBuffer, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), true);
+	return pPlayer.RestoreUnitsAt(nFromBuffer, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), true);
 }
 
 function int RestorePlayerUnitsAtMarker (player pPlayer, int nFromBuffer, int nMarker, string strUnitID, int nUnits)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( PointExist(nMarker) );
+	ASSERT( pPlayer != null );
+	ASSERT( PointExist(nMarker) );
 
-    return pPlayer.RestoreUnitsAt(nFromBuffer, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), strUnitID, 0, nUnits, true);
+	return pPlayer.RestoreUnitsAt(nFromBuffer, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), strUnitID, 0, nUnits, true);
 }
 
 function unitex RestorePlayerUnitAtMarker (player pPlayer, int nFromBuffer, int nMarker)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( PointExist(nMarker) );
+	ASSERT( pPlayer != null );
+	ASSERT( PointExist(nMarker) );
 
-    return pPlayer.RestoreUnitAt(nFromBuffer, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), true);
+	return pPlayer.RestoreUnitAt(nFromBuffer, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), true);
 }
 
 function int SetNeutrals(player pPlayer1, player pPlayer2)
 {
-    ASSERT( pPlayer1 != null );
-    ASSERT( pPlayer2 != null );
-    ASSERT( pPlayer1 != pPlayer2 );
+	ASSERT( pPlayer1 != null );
+	ASSERT( pPlayer2 != null );
+	ASSERT( pPlayer1 != pPlayer2 );
 
-    pPlayer1.SetNeutral(pPlayer2);
-    pPlayer2.SetNeutral(pPlayer1);
+	pPlayer1.SetNeutral(pPlayer2);
+	pPlayer2.SetNeutral(pPlayer1);
 
-    return true;
+	return true;
 }
 
 function int SetEnemies(player pPlayer1, player pPlayer2)
 {
-    ASSERT( pPlayer1 != null );
-    ASSERT( pPlayer2 != null );
-    ASSERT( pPlayer1 != pPlayer2 );
+	ASSERT( pPlayer1 != null );
+	ASSERT( pPlayer2 != null );
+	ASSERT( pPlayer1 != pPlayer2 );
 
-    pPlayer1.SetEnemy(pPlayer2);
-    pPlayer2.SetEnemy(pPlayer1);
+	pPlayer1.SetEnemy(pPlayer2);
+	pPlayer2.SetEnemy(pPlayer1);
 
-    return true;
+	return true;
 }
 
 function int SetAlly(player pPlayer1, player pPlayer2)
 {
-    ASSERT( pPlayer1 != null );
-    ASSERT( pPlayer2 != null );
-    ASSERT( pPlayer1 != pPlayer2 );
+	ASSERT( pPlayer1 != null );
+	ASSERT( pPlayer2 != null );
+	ASSERT( pPlayer1 != pPlayer2 );
 
-    pPlayer2.EnableAIFeatures(aiRejectAlliance, false);
-    pPlayer1.SetAlly(pPlayer2);
+	pPlayer2.EnableAIFeatures(aiRejectAlliance, false);
+	pPlayer1.SetAlly(pPlayer2);
 
-    return true;
+	return true;
 }
 
 function int PlayerLocatedMarker(player pPlayer, int nMarker)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( PointExist(nMarker) );
+	ASSERT( pPlayer != null );
+	ASSERT( PointExist(nMarker) );
 
-    return pPlayer.IsPointLocated(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
+	return pPlayer.IsPointLocated(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
 }
 
 function int PlayerLocatedUnit(player pPlayer, unitex uUnit)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( uUnit != null );
-    ASSERT( uUnit.IsLive() );
+	ASSERT( pPlayer != null );
+	ASSERT( uUnit != null );
+	ASSERT( uUnit.IsLive() );
 
-    return pPlayer.IsPointLocated(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ());
+	return pPlayer.IsPointLocated(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ());
 }
 
 function void PlayerLookAtUnit(player pPlayer, unitex uUnit, int nHeight, int nAlpha, int nView)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( uUnit != null );
-    ASSERT( uUnit.IsLive() );
+	ASSERT( pPlayer != null );
+	ASSERT( uUnit != null );
+	ASSERT( uUnit.IsLive() );
 
-    pPlayer.LookAt(uUnit.GetLocationX(), uUnit.GetLocationY(), nHeight, nAlpha, nView, uUnit.GetLocationZ());
+	pPlayer.LookAt(uUnit.GetLocationX(), uUnit.GetLocationY(), nHeight, nAlpha, nView, uUnit.GetLocationZ());
 }
 
 function void PlayerDelayedLookAtUnit(player pPlayer, unitex uUnit, int nHeight, int nAlpha, int nView, int nDelay, int nDirection)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( uUnit != null );
-    ASSERT( uUnit.IsLive() );
+	ASSERT( pPlayer != null );
+	ASSERT( uUnit != null );
+	ASSERT( uUnit.IsLive() );
 
-    pPlayer.DelayedLookAt(uUnit.GetLocationX(), uUnit.GetLocationY(), nHeight, nAlpha, nView, uUnit.GetLocationZ(), nDelay, nDirection);
+	pPlayer.DelayedLookAt(uUnit.GetLocationX(), uUnit.GetLocationY(), nHeight, nAlpha, nView, uUnit.GetLocationZ(), nDelay, nDirection);
 }
 
 function void PlayerLookAtMarker(player pPlayer, int nMarker, int nHeight, int nAlpha, int nView)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( PointExist(nMarker) );
+	ASSERT( pPlayer != null );
+	ASSERT( PointExist(nMarker) );
 
-    pPlayer.LookAt(GetPointX(nMarker), GetPointY(nMarker), nHeight, nAlpha, nView, GetPointZ(nMarker));
+	pPlayer.LookAt(GetPointX(nMarker), GetPointY(nMarker), nHeight, nAlpha, nView, GetPointZ(nMarker));
 }
 
 function void PlayerDelayedLookAtMarker(player pPlayer, int nMarker, int nHeight, int nAlpha, int nView, int nDelay, int nDirection)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( PointExist(nMarker) );
+	ASSERT( pPlayer != null );
+	ASSERT( PointExist(nMarker) );
 
-    pPlayer.DelayedLookAt(GetPointX(nMarker), GetPointY(nMarker), nHeight, nAlpha, nView, GetPointZ(nMarker), nDelay, nDirection);
+	pPlayer.DelayedLookAt(GetPointX(nMarker), GetPointY(nMarker), nHeight, nAlpha, nView, GetPointZ(nMarker), nDelay, nDirection);
 }
 
 function void PlayerAutoDirDelayedLookAt(player pPlayer, int x, int y, int z, int alpha, int view, int iTunnel, int iDelay)
 {
-    int nCurrAlpha;
-    int nClockDirDist;
-    int nDirection;
+	int nCurrAlpha;
+	int nClockDirDist;
+	int nDirection;
 
-    ASSERT( pPlayer != null );
+	ASSERT( pPlayer != null );
 
-    nCurrAlpha = GetCameraAlphaAngle();
+	nCurrAlpha = GetCameraAlphaAngle();
 
-    nClockDirDist = alpha - nCurrAlpha;
+	nClockDirDist = alpha - nCurrAlpha;
 
-    if ( nClockDirDist < 0 ) nClockDirDist = nClockDirDist + 0x100;
+	if ( nClockDirDist < 0 ) nClockDirDist = nClockDirDist + 0x100;
 
-    if ( nClockDirDist <= 0x80 )
-    {
-        nDirection = true;
-        if ( iDelay == -1 ) iDelay = 10*nClockDirDist/0x80;
-    }
-    else
-    {
-        nDirection = false;
-        if ( iDelay == -1 ) iDelay = 10*(0x100-nClockDirDist)/0x80;
-    }
+	if ( nClockDirDist <= 0x80 )
+	{
+		nDirection = true;
+		if ( iDelay == -1 ) iDelay = 10*nClockDirDist/0x80;
+	}
+	else
+	{
+		nDirection = false;
+		if ( iDelay == -1 ) iDelay = 10*(0x100-nClockDirDist)/0x80;
+	}
 
-    if ( nClockDirDist == 0 ) alpha = -1; // bez tego czesem obrot o 360 stopni...
+	if ( nClockDirDist == 0 ) alpha = -1; // bez tego czesem obrot o 360 stopni...
 
-    pPlayer.DelayedLookAt(x, y, z, alpha, view, iTunnel, iDelay, nDirection);
+	pPlayer.DelayedLookAt(x, y, z, alpha, view, iTunnel, iDelay, nDirection);
 }
 
 function void PlayerAutoDirDelayedLookAtUnit(player pPlayer, unitex uUnit, int nHeight, int nAlpha, int nView, int nDelay)
 {
-    ASSERT( uUnit != null );
+	ASSERT( uUnit != null );
 
-    PlayerAutoDirDelayedLookAt(pPlayer, uUnit.GetLocationX(), uUnit.GetLocationY(), nHeight, nAlpha, nView, uUnit.GetLocationZ(), nDelay);
+	PlayerAutoDirDelayedLookAt(pPlayer, uUnit.GetLocationX(), uUnit.GetLocationY(), nHeight, nAlpha, nView, uUnit.GetLocationZ(), nDelay);
 }
 
 function int CreateArtefacts(string strName, int nMarkerFirst, int nMarkerLast, int nNumber, int bNumberIsMask)
 {
-    int nMarker;
-    int nTmp;
-    int bSuccess;
+	int nMarker;
+	int nTmp;
+	int bSuccess;
 
-    nTmp = nNumber;
-    bSuccess = true;
-    
-    for ( nMarker=nMarkerFirst; nMarker<=nMarkerLast; ++nMarker )
-    {
-        if ( bNumberIsMask )
-        {
-            nTmp = nNumber | nMarker;
-        }
+	nTmp = nNumber;
+	bSuccess = true;
+	
+	for ( nMarker=nMarkerFirst; nMarker<=nMarkerLast; ++nMarker )
+	{
+		if ( bNumberIsMask )
+		{
+			nTmp = nNumber | nMarker;
+		}
 
-        ASSERT( PointExist(nMarker) );
+		ASSERT( PointExist(nMarker) );
 
-        if ( CreateArtefact(strName, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nTmp) == null )
-        {
-            TRACE2("CreateArtefacts: Can't create artifact at marker", nMarker);
+		if ( CreateArtefact(strName, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nTmp) == null )
+		{
+			TRACE2("CreateArtefacts: Can't create artifact at marker", nMarker);
 
-            bSuccess = false;
-        }
-    }
+			bSuccess = false;
+		}
+	}
 
-    return bSuccess;
+	return bSuccess;
 }
 
 function int RemoveArtefacts(int nMarkerFirst, int nMarkerLast)
 {
-    int nMarker;
+	int nMarker;
 
-    for ( nMarker=nMarkerFirst; nMarker<=nMarkerLast; ++nMarker )
-    {
-        ASSERT( PointExist(nMarker) );
+	for ( nMarker=nMarkerFirst; nMarker<=nMarkerLast; ++nMarker )
+	{
+		ASSERT( PointExist(nMarker) );
 
-        RemoveArtefact(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
-    }
+		RemoveArtefact(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
+	}
 
-    return true;
+	return true;
 }
 
 function int CreateArtefactsLine(string strName, int nStartMarker, int nEndMarker, int nNumber)
 {
-    int nGx, nGy, nLz;
-    int dx, dy;
+	int nGx, nGy, nLz;
+	int dx, dy;
 
-    int bSuccess;
+	int bSuccess;
 
-    #ifdef DEBUG
-        if ( !PointExist(nStartMarker) )
-        {
-            TRACE3("CreateArtefactsLine: Marker", nStartMarker, "don't exist");
+	#ifdef DEBUG
+		if ( !PointExist(nStartMarker) )
+		{
+			TRACE3("CreateArtefactsLine: Marker", nStartMarker, "don't exist");
 
-            return false;
-        }
+			return false;
+		}
 
-        if ( !PointExist(nEndMarker) )
-        {
-            TRACE3("CreateArtefactsLine: Marker", nEndMarker, "don't exist");
+		if ( !PointExist(nEndMarker) )
+		{
+			TRACE3("CreateArtefactsLine: Marker", nEndMarker, "don't exist");
 
-            return false;
-        }
-    #endif
+			return false;
+		}
+	#endif
 
-    dx = dy = 0;
+	dx = dy = 0;
 
-    if ( GetPointX(nStartMarker) == GetPointX(nEndMarker) )
-    {
-        if ( GetPointY(nStartMarker) < GetPointY(nEndMarker) )
-        {
-            dy = 1;
-        }
-        else
-        {
-            dy = -1;
-        }
-    }
-    else if ( GetPointY(nStartMarker) == GetPointY(nEndMarker) )
-    {
-        if ( GetPointX(nStartMarker) < GetPointX(nEndMarker) )
-        {
-            dx = 1;
-        }
-        else
-        {
-            dx = -1;
-        }
-    }
+	if ( GetPointX(nStartMarker) == GetPointX(nEndMarker) )
+	{
+		if ( GetPointY(nStartMarker) < GetPointY(nEndMarker) )
+		{
+			dy = 1;
+		}
+		else
+		{
+			dy = -1;
+		}
+	}
+	else if ( GetPointY(nStartMarker) == GetPointY(nEndMarker) )
+	{
+		if ( GetPointX(nStartMarker) < GetPointX(nEndMarker) )
+		{
+			dx = 1;
+		}
+		else
+		{
+			dx = -1;
+		}
+	}
 
-    bSuccess = true;
+	bSuccess = true;
 
-    nGx = GetPointX(nStartMarker)-dx;
-    nGy = GetPointY(nStartMarker)-dy;
-    nLz = GetPointZ(nStartMarker);
+	nGx = GetPointX(nStartMarker)-dx;
+	nGy = GetPointY(nStartMarker)-dy;
+	nLz = GetPointZ(nStartMarker);
 
-    while ( (dx != 0 && nGx != GetPointX(nEndMarker)) || (dy != 0 && nGy != GetPointY(nEndMarker)) )
-    {
-        nGx = nGx + dx;
-        nGy = nGy + dy;
+	while ( (dx != 0 && nGx != GetPointX(nEndMarker)) || (dy != 0 && nGy != GetPointY(nEndMarker)) )
+	{
+		nGx = nGx + dx;
+		nGy = nGy + dy;
 
-        if ( CreateArtefact(strName, nGx, nGy, nLz, nNumber) == null )
-        {
-            TRACE4("CreateArtefactsLine: Can't create artifact at", nGx, nGy, nLz);
+		if ( CreateArtefact(strName, nGx, nGy, nLz, nNumber) == null )
+		{
+			TRACE4("CreateArtefactsLine: Can't create artifact at", nGx, nGy, nLz);
 
-            bSuccess = false;
-        }
-    }
+			bSuccess = false;
+		}
+	}
 
-    return bSuccess;
+	return bSuccess;
 }
 
 function int IsPlayerUnitNearMarker(int nMarker, int nRange, int nIFF)
 {
-    ASSERT( PointExist(nMarker) );
+	ASSERT( PointExist(nMarker) );
 
-    return IsUnitNearPoint(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nRange, nIFF);
+	return IsUnitNearPoint(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nRange, nIFF);
 }
 
 function int IsUnitNearMarker(unitex uUnit, int nMarker, int nRange)
 {
-    ASSERT( PointExist(nMarker) );
-    ASSERT( uUnit != null );
-    ASSERT( uUnit.IsLive() );
+	ASSERT( PointExist(nMarker) );
+	ASSERT( uUnit != null );
+	ASSERT( uUnit.IsLive() );
 
-    if    (
-        uUnit.GetLocationZ() == GetPointZ(nMarker) &&
-        Distance ( uUnit.GetLocationX(), uUnit.GetLocationY(), GetPointX(nMarker), GetPointY(nMarker) ) <= nRange
-        )
-    {
-        return true;
-    }
+	if	(
+		uUnit.GetLocationZ() == GetPointZ(nMarker) &&
+		Distance ( uUnit.GetLocationX(), uUnit.GetLocationY(), GetPointX(nMarker), GetPointY(nMarker) ) <= nRange
+		)
+	{
+		return true;
+	}
 
-    return false;
+	return false;
 }
 
 function int IsUnitNearUnit(unitex uUnitA, unitex uUnitB, int nRange)
 {
-    ASSERT( uUnitA != null );
-    ASSERT( uUnitB != null );
-    // ASSERT( uUnitA.IsLive() );
-    // ASSERT( uUnitB.IsLive() );
+	ASSERT( uUnitA != null );
+	ASSERT( uUnitB != null );
+	// ASSERT( uUnitA.IsLive() );
+	// ASSERT( uUnitB.IsLive() );
 
-    // TRACE4("IsUnitNearUnit:", Distance(uUnitA.GetLocationX(), uUnitA.GetLocationY(), uUnitB.GetLocationX(), uUnitB.GetLocationY()), uUnitA.GetLocationZ(), uUnitB.GetLocationZ() );
+	// TRACE4("IsUnitNearUnit:", Distance(uUnitA.GetLocationX(), uUnitA.GetLocationY(), uUnitB.GetLocationX(), uUnitB.GetLocationY()), uUnitA.GetLocationZ(), uUnitB.GetLocationZ() );
 
-    if    (
-        uUnitA.GetLocationZ() == uUnitB.GetLocationZ() &&
-        Distance ( uUnitA.GetLocationX(), uUnitA.GetLocationY(), uUnitB.GetLocationX(), uUnitB.GetLocationY() ) <= nRange
-        )
-    {
-        return true;
-    }
+	if	(
+		uUnitA.GetLocationZ() == uUnitB.GetLocationZ() &&
+		Distance ( uUnitA.GetLocationX(), uUnitA.GetLocationY(), uUnitB.GetLocationX(), uUnitB.GetLocationY() ) <= nRange
+		)
+	{
+		return true;
+	}
 
-    return false;
+	return false;
 }
 
 function int CommandMoveUnitToMarker(unitex uUnit, int nMarker)
 {
-    ASSERT( PointExist(nMarker) );
-    ASSERT( uUnit != null );
-    ASSERT( uUnit.IsLive() );
+	ASSERT( PointExist(nMarker) );
+	ASSERT( uUnit != null );
+	ASSERT( uUnit.IsLive() );
 
-    uUnit.CommandMoveEx(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
+	uUnit.CommandMoveEx(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
 
     return true;
 }
 
 function int CommandMoveUnitToMarker(unitex uUnit, int nMarker, int nOffX, int nOffY)
 {
-    ASSERT( PointExist(nMarker) );
-    ASSERT( uUnit != null );
-    ASSERT( uUnit.IsLive() );
+	ASSERT( PointExist(nMarker) );
+	ASSERT( uUnit != null );
+	ASSERT( uUnit.IsLive() );
 
-    uUnit.CommandMoveEx(GetPointX(nMarker)+nOffX, GetPointY(nMarker)+nOffY, GetPointZ(nMarker));
+	uUnit.CommandMoveEx(GetPointX(nMarker)+nOffX, GetPointY(nMarker)+nOffY, GetPointZ(nMarker));
 
     return true;
 }
 
 function int CommandMoveAndDefendUnitToMarker(unitex uUnit, int nMarker)
 {
-    ASSERT( PointExist(nMarker) );
-    ASSERT( uUnit != null );
-    ASSERT( uUnit.IsLive() );
+	ASSERT( PointExist(nMarker) );
+	ASSERT( uUnit != null );
+	ASSERT( uUnit.IsLive() );
 
-    uUnit.CommandMoveAndDefend(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
+	uUnit.CommandMoveAndDefend(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
 
     return true;
 }
 
 function int CommandMoveUnitToUnit(unitex uUnit, unitex uDestination)
 {
-    ASSERT( uUnit != null );
-    ASSERT( uDestination != null );
-    ASSERT( uUnit.IsLive() );
-    ASSERT( uDestination.IsLive() );
+	ASSERT( uUnit != null );
+	ASSERT( uDestination != null );
+	ASSERT( uUnit.IsLive() );
+	ASSERT( uDestination.IsLive() );
 
-    uUnit.CommandMoveEx(uDestination.GetLocationX(), uDestination.GetLocationY(), uDestination.GetLocationZ());
+	uUnit.CommandMoveEx(uDestination.GetLocationX(), uDestination.GetLocationY(), uDestination.GetLocationZ());
 
     return true;
 }
 
 function int CommandMoveUnitToUnit(unitex uUnit, unitex uDestination, int nOffX, int nOffY)
 {
-    ASSERT( uUnit != null );
-    ASSERT( uDestination != null );
-    ASSERT( uUnit.IsLive() );
-    ASSERT( uDestination.IsLive() );
+	ASSERT( uUnit != null );
+	ASSERT( uDestination != null );
+	ASSERT( uUnit.IsLive() );
+	ASSERT( uDestination.IsLive() );
 
-    uUnit.CommandMoveEx(uDestination.GetLocationX()+nOffX, uDestination.GetLocationY()+nOffY, uDestination.GetLocationZ());
+	uUnit.CommandMoveEx(uDestination.GetLocationX()+nOffX, uDestination.GetLocationY()+nOffY, uDestination.GetLocationZ());
 
     return true;
 }
 
 function int CommandMovePlatoonToUnit(platoon pPlatoon, unitex uDestination)
 {
-    ASSERT( pPlatoon != null );
-    ASSERT( uDestination != null );
-    ASSERT( uDestination.IsLive() );
+	ASSERT( pPlatoon != null );
+	ASSERT( uDestination != null );
+	ASSERT( uDestination.IsLive() );
 
-    pPlatoon.CommandMove(uDestination.GetLocationX(), uDestination.GetLocationY(), uDestination.GetLocationZ());
+	pPlatoon.CommandMove(uDestination.GetLocationX(), uDestination.GetLocationY(), uDestination.GetLocationZ());
 
     return true;
 }
 
 function int CommandMovePlatoonToUnit(platoon pPlatoon, unitex uDestination, int nOffX, int nOffY)
 {
-    ASSERT( pPlatoon != null );
-    ASSERT( uDestination != null );
-    ASSERT( uDestination.IsLive() );
+	ASSERT( pPlatoon != null );
+	ASSERT( uDestination != null );
+	ASSERT( uDestination.IsLive() );
 
-    pPlatoon.CommandMove(uDestination.GetLocationX()+nOffX, uDestination.GetLocationY()+nOffY, uDestination.GetLocationZ());
+	pPlatoon.CommandMove(uDestination.GetLocationX()+nOffX, uDestination.GetLocationY()+nOffY, uDestination.GetLocationZ());
 
     return true;
 }
 
 function int CommandMovePlatoonToMarker(platoon pPlatoon, int nMarker)
 {
-    ASSERT( PointExist(nMarker) );
-    ASSERT( pPlatoon != null );
+	ASSERT( PointExist(nMarker) );
+	ASSERT( pPlatoon != null );
 
-    pPlatoon.CommandMove(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
+	pPlatoon.CommandMove(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
 
     return true;
 }
 
 function int CommandMoveAndDefendPlatoonToMarker(platoon pPlatoon, int nMarker)
 {
-    ASSERT( PointExist(nMarker) );
-    ASSERT( pPlatoon != null );
+	ASSERT( PointExist(nMarker) );
+	ASSERT( pPlatoon != null );
 
-    pPlatoon.CommandMoveAndDefend(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
+	pPlatoon.CommandMoveAndDefend(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
 
     return true;
 }
 
 function int CommandMoveAndDefendPlatoonToUnit(platoon pPlatoon, unitex uDestination)
 {
-    ASSERT( uDestination != null );
-    ASSERT( pPlatoon != null );
+	ASSERT( uDestination != null );
+	ASSERT( pPlatoon != null );
 
-    pPlatoon.CommandMoveAndDefend(uDestination.GetLocationX(), uDestination.GetLocationY(), uDestination.GetLocationZ());
+	pPlatoon.CommandMoveAndDefend(uDestination.GetLocationX(), uDestination.GetLocationY(), uDestination.GetLocationZ());
 
     return true;
 }
 
 function unitex CreateUnitAtMarker(player pPlayer, int nMarker, string strName)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( PointExist(nMarker) );
+	ASSERT( pPlayer != null );
+	ASSERT( PointExist(nMarker) );
 
-    return pPlayer.CreateUnit(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), GetPointAlpha(nMarker), strName);
+	return pPlayer.CreateUnit(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), GetPointAlpha(nMarker), strName);
 }
 
 function unitex CreateExpUnitAtMarker(player pPlayer, int nMarker, string strName, int nExp)
 {
-    unitex uTmp;
+	unitex uTmp;
 
-    ASSERT( pPlayer != null );
-    ASSERT( PointExist(nMarker) );
+	ASSERT( pPlayer != null );
+	ASSERT( PointExist(nMarker) );
 
-    uTmp = pPlayer.CreateUnit(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), GetPointAlpha(nMarker), strName);
+	uTmp = pPlayer.CreateUnit(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), GetPointAlpha(nMarker), strName);
 
-    ASSERT( uTmp != null );
+	ASSERT( uTmp != null );
 
-    uTmp.SetExperienceLevel(nExp);
+	uTmp.SetExperienceLevel(nExp);
 
-    return uTmp;
+	return uTmp;
 }
 
 function unitex CreateUnitNearUnit(player pPlayer, unitex uUnit, string strName)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( uUnit != null );
+	ASSERT( pPlayer != null );
+	ASSERT( uUnit != null );
 
-    return pPlayer.CreateUnit(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ(), 0, strName);
+	return pPlayer.CreateUnit(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ(), 0, strName);
 }
 
 function unitex CreateUnitAtMarker(player pPlayer, int nMarker, string strName, int nDir)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( PointExist(nMarker) );
+	ASSERT( pPlayer != null );
+	ASSERT( PointExist(nMarker) );
 
-    return pPlayer.CreateUnit(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nDir, strName);
+	return pPlayer.CreateUnit(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nDir, strName);
 }
 
 function platoon CreateUnits(player pPlayer, int nMarkerFirst, int nMarkerLast, string strName)
 {
-    platoon platTmp;
-    unitex uTmp;
+	platoon platTmp;
+	unitex uTmp;
 
-    int nMarker;
-    int nTmp;
-    int bSuccess;
+	int nMarker;
+	int nTmp;
+	int bSuccess;
 
-    ASSERT( pPlayer != null );
+	ASSERT( pPlayer != null );
 
-    platTmp = pPlayer.CreatePlatoon();
+	platTmp = pPlayer.CreatePlatoon();
     platTmp.EnableFeatures(disposeIfNoUnits,true);
-    
-    for ( nMarker=nMarkerFirst; nMarker<=nMarkerLast; ++nMarker )
-    {
-        ASSERT( PointExist(nMarker) );
+	
+	for ( nMarker=nMarkerFirst; nMarker<=nMarkerLast; ++nMarker )
+	{
+		ASSERT( PointExist(nMarker) );
 
-        uTmp = CreateUnitAtMarker(pPlayer, nMarker, strName);
+		uTmp = CreateUnitAtMarker(pPlayer, nMarker, strName);
 
-        if ( uTmp == null )
-        {
-            TRACE2("CreateUnits: Can't create unit at marker", nMarker);
-        }
-        else
-        {
-            platTmp.AddUnitToPlatoon(uTmp.GetUnitRef());
-        }
-    
-    }
+		if ( uTmp == null )
+		{
+			TRACE2("CreateUnits: Can't create unit at marker", nMarker);
+		}
+		else
+		{
+			platTmp.AddUnitToPlatoon(uTmp.GetUnitRef());
+		}
+	
+	}
 
-    return platTmp;
+	return platTmp;
 }
 
 function platoon CreateExpUnits(player pPlayer, int nMarkerFirst, int nMarkerLast, string strName, int nExp)
 {
-    platoon platTmp;
-    unitex uTmp;
+	platoon platTmp;
+	unitex uTmp;
 
-    int nMarker;
-    int nTmp;
-    int bSuccess;
+	int nMarker;
+	int nTmp;
+	int bSuccess;
 
-    ASSERT( pPlayer != null );
+	ASSERT( pPlayer != null );
 
-    platTmp = pPlayer.CreatePlatoon();
+	platTmp = pPlayer.CreatePlatoon();
     platTmp.EnableFeatures(disposeIfNoUnits,true);
-    
-    for ( nMarker=nMarkerFirst; nMarker<=nMarkerLast; ++nMarker )
-    {
-        ASSERT( PointExist(nMarker) );
+	
+	for ( nMarker=nMarkerFirst; nMarker<=nMarkerLast; ++nMarker )
+	{
+		ASSERT( PointExist(nMarker) );
 
-        uTmp = CreateUnitAtMarker(pPlayer, nMarker, strName);
-        uTmp.SetExperienceLevel(nExp);
+		uTmp = CreateUnitAtMarker(pPlayer, nMarker, strName);
+		uTmp.SetExperienceLevel(nExp);
 
-        if ( uTmp == null )
-        {
-            TRACE2("CreateExpUnits: Can't create unit at marker", nMarker);
-        }
-        else
-        {
-            platTmp.AddUnitToPlatoon(uTmp.GetUnitRef());
-        }
-    
-    }
+		if ( uTmp == null )
+		{
+			TRACE2("CreateExpUnits: Can't create unit at marker", nMarker);
+		}
+		else
+		{
+			platTmp.AddUnitToPlatoon(uTmp.GetUnitRef());
+		}
+	
+	}
 
-    return platTmp;
+	return platTmp;
 }
 
 function platoon CreateExpUnitsAtMarker(platoon platUnits, player pPlayer, int nMarker, string strName, int nExp, int nUnits)
 {
-    int i;
-    unitex uTmp;
+	int i;
+	unitex uTmp;
 
-    ASSERT( pPlayer != null );
-    ASSERT( platUnits != null );
+	ASSERT( pPlayer != null );
+	ASSERT( platUnits != null );
 
-    for ( i=0; i<nUnits; ++i )
-    {
-        uTmp = CreateUnitAtMarker(pPlayer, nMarker, strName);
+	for ( i=0; i<nUnits; ++i )
+	{
+		uTmp = CreateUnitAtMarker(pPlayer, nMarker, strName);
 
-        ASSERT( uTmp != null );
+		ASSERT( uTmp != null );
 
-        uTmp.SetExperienceLevel(nExp);
+		uTmp.SetExperienceLevel(nExp);
 
-        platUnits.AddUnitToPlatoon(uTmp.GetUnitRef());
-    }
+		platUnits.AddUnitToPlatoon(uTmp.GetUnitRef());
+	}
 
-    return platUnits;
+	return platUnits;
 }
 
 function platoon CreateExpUnitsAtMarker(player pPlayer, int nMarker, string strName, int nExp, int nUnits)
 {
-    platoon platTmp;
+	platoon platTmp;
 
-    ASSERT( pPlayer != null );
+	ASSERT( pPlayer != null );
 
-    platTmp = pPlayer.CreatePlatoon();
+	platTmp = pPlayer.CreatePlatoon();
     platTmp.EnableFeatures(disposeIfNoUnits,true);
 
-    return CreateExpUnitsAtMarker(platTmp, pPlayer, nMarker, strName, nExp, nUnits);
+	return CreateExpUnitsAtMarker(platTmp, pPlayer, nMarker, strName, nExp, nUnits);
 }
 
 function platoon CreateExpUnits(platoon platUnits, player pPlayer, int x, int y, int z, string strName, int nExp, int nUnits)
 {
-    int i;
-    unitex uTmp;
+	int i;
+	unitex uTmp;
 
-    ASSERT( pPlayer != null );
-    ASSERT( platUnits != null );
+	ASSERT( pPlayer != null );
+	ASSERT( platUnits != null );
 
-    for ( i=0; i<nUnits; ++i )
-    {
-        uTmp = pPlayer.CreateUnit(x, y, z, 0, strName);
+	for ( i=0; i<nUnits; ++i )
+	{
+		uTmp = pPlayer.CreateUnit(x, y, z, 0, strName);
 
-        ASSERT( uTmp != null );
+		ASSERT( uTmp != null );
 
-        uTmp.SetExperienceLevel(nExp);
+		uTmp.SetExperienceLevel(nExp);
 
-        platUnits.AddUnitToPlatoon(uTmp.GetUnitRef());
-    }
+		platUnits.AddUnitToPlatoon(uTmp.GetUnitRef());
+	}
 
-    return platUnits;
+	return platUnits;
 }
 
 function platoon CreateExpUnits(player pPlayer, int x, int y, int z, string strName, int nExp, int nUnits)
 {
-    platoon platTmp;
+	platoon platTmp;
 
-    ASSERT( pPlayer != null );
+	ASSERT( pPlayer != null );
 
-    platTmp = pPlayer.CreatePlatoon();
+	platTmp = pPlayer.CreatePlatoon();
     platTmp.EnableFeatures(disposeIfNoUnits,true);
 
-    return CreateExpUnits(platTmp, pPlayer, x, y, z, strName, nExp, nUnits);
+	return CreateExpUnits(platTmp, pPlayer, x, y, z, strName, nExp, nUnits);
 }
 
 /************ + New + ************/
@@ -653,113 +678,113 @@ function platoon CreateExpUnits(player pPlayer, int x, int y, int z, string strN
 #define MAX_L 8
 
 #define CREATE_DIR_UNIT(X, Y, Z, A) \
-    if ( GetUnit(X, Y, Z) == null ) \
-    { \
-        uTmp = pPlayer.CreateUnit(X, Y, Z, A, strName); \
-        ASSERT( uTmp.GetLocationX() == X && uTmp.GetLocationY() == Y); \
-        uTmp.SetScriptData(nScriptData); \
-        platUnits.AddUnitToPlatoon(uTmp.GetUnitRef()); \
-        if ( --nUnits == 0 ) return platUnits; \
-    }
+	if ( GetUnit(X, Y, Z) == null ) \
+	{ \
+		uTmp = pPlayer.CreateUnit(X, Y, Z, A, strName); \
+		ASSERT( uTmp.GetLocationX() == X && uTmp.GetLocationY() == Y); \
+		uTmp.SetScriptData(nScriptData); \
+		platUnits.AddUnitToPlatoon(uTmp.GetUnitRef()); \
+		if ( --nUnits == 0 ) return platUnits; \
+	}
 
 function platoon CreateNoDirUnits(platoon platUnits, player pPlayer, int x, int y, int z, string strName, int nUnits, int nScriptData)
 {
-    int i;
-    unitex uTmp;
+	int i;
+	unitex uTmp;
 
-    ASSERT( pPlayer != null );
-    ASSERT( platUnits != null );
+	ASSERT( pPlayer != null );
+	ASSERT( platUnits != null );
 
-    for ( i=0; i<nUnits; ++i )
-    {
-        uTmp = pPlayer.CreateUnit(x, y, z, RAND(0x100), strName);
+	for ( i=0; i<nUnits; ++i )
+	{
+		uTmp = pPlayer.CreateUnit(x, y, z, RAND(0x100), strName);
 
-        ASSERT( uTmp != null );
+		ASSERT( uTmp != null );
 
-        uTmp.SetScriptData(nScriptData);
-        platUnits.AddUnitToPlatoon(uTmp.GetUnitRef());
-    }
+		uTmp.SetScriptData(nScriptData);
+		platUnits.AddUnitToPlatoon(uTmp.GetUnitRef());
+	}
 
-    return platUnits;
+	return platUnits;
 }
 
 function platoon CreateDirUnits(platoon platUnits, player pPlayer, int x, int y, int z, int a, string strName, int nUnits, int nScriptData)
 {
-    unitex uTmp;
+	unitex uTmp;
 
-    int fx, fy;
-    int rx, ry;
+	int fx, fy;
+	int rx, ry;
 
-    int l, i;
+	int l, i;
 
-    int ax, ay;
+	int ax, ay;
 
-    int nAllUnits;
+	int nAllUnits;
 
-    if ( nUnits == 0 ) return platUnits;
+	if ( nUnits == 0 ) return platUnits;
 
-    if ( a == -1 ) return CreateNoDirUnits(platUnits, pPlayer, x, y, z, strName, nUnits, nScriptData);
+	if ( a == -1 ) return CreateNoDirUnits(platUnits, pPlayer, x, y, z, strName, nUnits, nScriptData);
 
-    ASSERT( pPlayer != null );
-    ASSERT( platUnits != null );
+	ASSERT( pPlayer != null );
+	ASSERT( platUnits != null );
 
-         if ( a ==   0 ) { fx =  0; fy = -1; rx =  1; ry =  0; }
-    else if ( a ==  64 ) { fx =  1; fy =  0; rx =  0; ry =  1; }
-    else if ( a == 128 ) { fx =  0; fy =  1; rx = -1; ry =  0; }
-    else if ( a == 192 ) { fx = -1; fy =  0; rx =  0; ry = -1; }
-    else __ASSERT_FALSE();
+	     if ( a ==   0 ) { fx =  0; fy = -1; rx =  1; ry =  0; }
+	else if ( a ==  64 ) { fx =  1; fy =  0; rx =  0; ry =  1; }
+	else if ( a == 128 ) { fx =  0; fy =  1; rx = -1; ry =  0; }
+	else if ( a == 192 ) { fx = -1; fy =  0; rx =  0; ry = -1; }
+	else __ASSERT_FALSE();
 
-    nAllUnits = nUnits;
+	nAllUnits = nUnits;
 
-    for ( l=0; l<MAX_L; ++l )
-    {
-        ax = x + l*fx;
-        ay = y + l*fy;
+	for ( l=0; l<MAX_L; ++l )
+	{
+		ax = x + l*fx;
+		ay = y + l*fy;
 
-        CREATE_DIR_UNIT(ax, ay, z, RAND(0x100));
+		CREATE_DIR_UNIT(ax, ay, z, RAND(0x100));
 
-        for ( i=1; i<=l; ++i )
-        {
-            ax = x + l*fx + i*rx;
-            ay = y + l*fy + i*ry;
+		for ( i=1; i<=l; ++i )
+		{
+			ax = x + l*fx + i*rx;
+			ay = y + l*fy + i*ry;
 
-            CREATE_DIR_UNIT(ax, ay, z, RAND(0x100));
+			CREATE_DIR_UNIT(ax, ay, z, RAND(0x100));
 
-            ax = x + l*fx - i*rx;
-            ay = y + l*fy - i*ry;
+			ax = x + l*fx - i*rx;
+			ay = y + l*fy - i*ry;
 
-            CREATE_DIR_UNIT(ax, ay, z, RAND(0x100));
-        }
+			CREATE_DIR_UNIT(ax, ay, z, RAND(0x100));
+		}
 
-        for ( i=0; i<=l; ++i )
-        {
-            ax = x + i*fx + (l+1)*rx;
-            ay = y + i*fy + (l+1)*ry;
+		for ( i=0; i<=l; ++i )
+		{
+			ax = x + i*fx + (l+1)*rx;
+			ay = y + i*fy + (l+1)*ry;
 
-            CREATE_DIR_UNIT(ax, ay, z, RAND(0x100));
+			CREATE_DIR_UNIT(ax, ay, z, RAND(0x100));
 
-            ax = x + i*fx - (l+1)*rx;
-            ay = y + i*fy - (l+1)*ry;
+			ax = x + i*fx - (l+1)*rx;
+			ay = y + i*fy - (l+1)*ry;
 
-            CREATE_DIR_UNIT(ax, ay, z, RAND(0x100));
-        }
-    }
+			CREATE_DIR_UNIT(ax, ay, z, RAND(0x100));
+		}
+	}
 
-    TRACE5("CreateDirUnits:", nAllUnits-nUnits, "of", nAllUnits, "units created.");
+	TRACE5("CreateDirUnits:", nAllUnits-nUnits, "of", nAllUnits, "units created.");
 
-    return platUnits;
+	return platUnits;
 }
 
 function platoon CreateDirUnits(player pPlayer, int x, int y, int z, int a, string strName, int nUnits, int nScriptData)
 {
-    platoon platTmp;
+	platoon platTmp;
 
-    ASSERT( pPlayer != null );
+	ASSERT( pPlayer != null );
 
-    platTmp = pPlayer.CreatePlatoon();
+	platTmp = pPlayer.CreatePlatoon();
     platTmp.EnableFeatures(disposeIfNoUnits,true);
 
-    return CreateDirUnits(platTmp, pPlayer, x, y, z, a, strName, nUnits, nScriptData);
+	return CreateDirUnits(platTmp, pPlayer, x, y, z, a, strName, nUnits, nScriptData);
 }
 
 /************ - New - ************/
@@ -767,754 +792,754 @@ function platoon CreateDirUnits(player pPlayer, int x, int y, int z, int a, stri
 
 function platoon CreateUnitsAtMarker(player pPlayer, int nMarker, string strName, int nUnits)
 {
-    return CreateExpUnitsAtMarker(pPlayer, nMarker, strName, 0, nUnits);
+	return CreateExpUnitsAtMarker(pPlayer, nMarker, strName, 0, nUnits);
 }
 
 function platoon CreateUnitsAtMarker(platoon platUnits, player pPlayer, int nMarker, string strName, int nUnits)
 {
-    return CreateExpUnitsAtMarker(platUnits, pPlayer, nMarker, strName, 0, nUnits);
+	return CreateExpUnitsAtMarker(platUnits, pPlayer, nMarker, strName, 0, nUnits);
 }
 
 function unitex CreateBuildingAtMarker(player pPlayer, int nMarker, string strName)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( PointExist(nMarker) );
+	ASSERT( pPlayer != null );
+	ASSERT( PointExist(nMarker) );
 
-    return pPlayer.CreateBuilding(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), 0, strName);
+	return pPlayer.CreateBuilding(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), 0, strName);
 }
 
 function unitex CreateObjectAtMarker(int nMarker, string strName)
 {
-    ASSERT( PointExist(nMarker) );
+	ASSERT( PointExist(nMarker) );
 
-    return CreateObject(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), GetPointAlpha(nMarker), strName);
+	return CreateObject(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), GetPointAlpha(nMarker), strName);
 }
 
 function unitex CreateObjectAtMarker(int nMarker, string strName, int a)
 {
-    ASSERT( PointExist(nMarker) );
+	ASSERT( PointExist(nMarker) );
 
-    return CreateObject(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), a, strName);
+	return CreateObject(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), a, strName);
 }
 
 function unitex CreateObjectAtUnit(unitex uUnit, string strName)
 {
-    ASSERT( uUnit != null );
+	ASSERT( uUnit != null );
 
-    return CreateObject(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ(), uUnit.GetAlphaAngle(), strName);
+	return CreateObject(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ(), uUnit.GetAlphaAngle(), strName);
 }
 
 function platoon CreateUnitsWithEffect(platoon platUnits, player pPlayer, int nMarkerFirst, int nMarkerLast, string strName, string strEffect)
 {
-    unitex uTmp;
+	unitex uTmp;
 
-    int nMarker;
-    int nTmp;
-    int bSuccess;
+	int nMarker;
+	int nTmp;
+	int bSuccess;
 
-    ASSERT( pPlayer != null );
+	ASSERT( pPlayer != null );
 
-    for ( nMarker=nMarkerFirst; nMarker<=nMarkerLast; ++nMarker )
-    {
-        ASSERT( PointExist(nMarker) );
+	for ( nMarker=nMarkerFirst; nMarker<=nMarkerLast; ++nMarker )
+	{
+		ASSERT( PointExist(nMarker) );
 
-        uTmp = CreateUnitAtMarker(pPlayer, nMarker, strName);
+		uTmp = CreateUnitAtMarker(pPlayer, nMarker, strName);
 
-        if ( uTmp == null )
-        {
-            TRACE2("CreateUnits: Can't create unit at marker", nMarker);
-        }
-        else
-        {
-            CreateObjectAtUnit(uTmp, strEffect);
+		if ( uTmp == null )
+		{
+			TRACE2("CreateUnits: Can't create unit at marker", nMarker);
+		}
+		else
+		{
+			CreateObjectAtUnit(uTmp, strEffect);
 
-            platUnits.AddUnitToPlatoon(uTmp.GetUnitRef());
-        }
-    }
+			platUnits.AddUnitToPlatoon(uTmp.GetUnitRef());
+		}
+	}
 
-    return platUnits;
+	return platUnits;
 }
 
 function platoon CreateUnitsWithEffect(player pPlayer, int nMarkerFirst, int nMarkerLast, string strName, string strEffect)
 {
-    platoon platTmp;
+	platoon platTmp;
 
-    ASSERT( pPlayer != null );
+	ASSERT( pPlayer != null );
 
-    platTmp = pPlayer.CreatePlatoon();
+	platTmp = pPlayer.CreatePlatoon();
     platTmp.EnableFeatures(disposeIfNoUnits,true);
-    
-    return CreateUnitsWithEffect(platTmp, pPlayer, nMarkerFirst, nMarkerLast, strName, strEffect);
+	
+	return CreateUnitsWithEffect(platTmp, pPlayer, nMarkerFirst, nMarkerLast, strName, strEffect);
 }
 
 /*/
 consts
 {
-    idHunter      =  1;
-    idSpearman    =  2;
-    idCrossbowman =  3;
-    idFootman     =  4;
-    idKnight      =  5;
-    idGiant       =  6;
-    idWitch       =  7;
-    idPriest      =  8;
-    idSorcerer    =  9;
-    idDarkPriest  = 10;
-    idWolf        = 11;
-    idBear        = 12;
-    idMonster     = 13;
-    idWoodcutter  = 14;
-    idShepherd    = 15;
-    idCow         = 16;
+	idHunter      =  1;
+	idSpearman    =  2;
+	idCrossbowman =  3;
+	idFootman     =  4;
+	idKnight      =  5;
+	idGiant       =  6;
+	idWitch       =  7;
+	idPriest      =  8;
+	idSorcerer    =  9;
+	idDarkPriest  = 10;
+	idWolf        = 11;
+	idBear        = 12;
+	idMonster     = 13;
+	idWoodcutter  = 14;
+	idShepherd    = 15;
+	idCow         = 16;
 }
 
 function unitex CreateUnit(player pPlayer, int nGx, int nGy, int nLz, int nID)
 {
-    unitex uTmp;
+	unitex uTmp;
 
-    if      ( nID == idHunter      ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "HUNTER");
-    else if ( nID == idSpearman    ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "SPEARMAN");
-    else if ( nID == idCrossbowman ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "CROSSBOWMAN");
-    else if ( nID == idFootman     ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "FOOTMAN");
-    else if ( nID == idKnight      ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "KNIGHT");
-    else if ( nID == idGiant       ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "GIANT");
-    else if ( nID == idWitch       ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "WITCH");
-    else if ( nID == idPriest      ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "PRIEST");
-    else if ( nID == idSorcerer    ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "SORCERER");
-    else if ( nID == idDarkPriest  ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "DARKPRIEST");
-    else if ( nID == idWolf        ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "WOLF");
-    else if ( nID == idBear        ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "BEAR");
-    else if ( nID == idMonster     ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "MONSTER");
-    else if ( nID == idWoodcutter  ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "WOODCUTTER");
-    else if ( nID == idShepherd    ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "SHEPHERD");
-    else if ( nID == idCow         ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "COW");
+	if      ( nID == idHunter      ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "HUNTER");
+	else if ( nID == idSpearman    ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "SPEARMAN");
+	else if ( nID == idCrossbowman ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "CROSSBOWMAN");
+	else if ( nID == idFootman     ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "FOOTMAN");
+	else if ( nID == idKnight      ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "KNIGHT");
+	else if ( nID == idGiant       ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "GIANT");
+	else if ( nID == idWitch       ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "WITCH");
+	else if ( nID == idPriest      ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "PRIEST");
+	else if ( nID == idSorcerer    ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "SORCERER");
+	else if ( nID == idDarkPriest  ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "DARKPRIEST");
+	else if ( nID == idWolf        ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "WOLF");
+	else if ( nID == idBear        ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "BEAR");
+	else if ( nID == idMonster     ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "MONSTER");
+	else if ( nID == idWoodcutter  ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "WOODCUTTER");
+	else if ( nID == idShepherd    ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "SHEPHERD");
+	else if ( nID == idCow         ) uTmp = pPlayer.CreateUnit(nGx, nGy, nLz, 0, "COW");
 
-    return uTmp;
+	return uTmp;
 }
 
 function platoon CreatePlatoon(player pPlayer, int nGx, int nGy, int nLz, int arrUnits[])
 {
-    platoon platTmp;
-    int i, nStep, dx, dy, nCount;
-    unitex uTmp;
+	platoon platTmp;
+	int i, nStep, dx, dy, nCount;
+	unitex uTmp;
 
-    ASSERT( pPlayer != null );
+	ASSERT( pPlayer != null );
 
-    platTmp = pPlayer.CreatePlatoon();
+	platTmp = pPlayer.CreatePlatoon();
     platTmp.EnableFeatures(disposeIfNoUnits,true);
 
-    dx = 1;
-    dy = 0;
-    nCount = 1;
-    nStep = 0;
-    for(i=0; i<arrUnits.GetSize(); )
-    {
-        uTmp = CreateUnit(pPlayer, nGx, nGy, nLz, arrUnits[i]);
+	dx = 1;
+	dy = 0;
+	nCount = 1;
+	nStep = 0;
+	for(i=0; i<arrUnits.GetSize(); )
+	{
+		uTmp = CreateUnit(pPlayer, nGx, nGy, nLz, arrUnits[i]);
 
-        if ( uTmp )
-        {
-            platTmp.AddUnitToPlatoon(uTmp.GetUnitRef());
-            ++i;
-        }
+		if ( uTmp )
+		{
+			platTmp.AddUnitToPlatoon(uTmp.GetUnitRef());
+			++i;
+		}
 
-        nGx = nGx + dx;
-        nGy = nGy + dy;
-        --nCount;
+		nGx = nGx + dx;
+		nGy = nGy + dy;
+		--nCount;
 
-        if ( nCount == 0 )
-        {
-            ++nStep;
-            nCount = 1 + (nStep / 2);
+		if ( nCount == 0 )
+		{
+			++nStep;
+			nCount = 1 + (nStep / 2);
 
-            if ( nStep%4 == 0 )
-            {
-                dx = 1;
-                dy = 0;
-            }
-            else if ( nStep%4 == 1 )
-            {
-                dx = 0;
-                dy = 1;
-            }
-            else if ( nStep%4 == 2 )
-            {
-                dx = -1;
-                dy = 0;
-            }
-            else if ( nStep%4 == 3 )
-            {
-                dx = 0;
-                dy = -1;
-            }
-        }
-    }
+			if ( nStep%4 == 0 )
+			{
+				dx = 1;
+				dy = 0;
+			}
+			else if ( nStep%4 == 1 )
+			{
+				dx = 0;
+				dy = 1;
+			}
+			else if ( nStep%4 == 2 )
+			{
+				dx = -1;
+				dy = 0;
+			}
+			else if ( nStep%4 == 3 )
+			{
+				dx = 0;
+				dy = -1;
+			}
+		}
+	}
 
-    return platTmp;
+	return platTmp;
 }
 
 function platoon CreatePlatoon(player pPlayer, int nGx, int nGy, int nLz, int nHunters, int nSpearmans, int nCrossbowmans, int nFootmans, int nKnights, int nGiants, int nWitches, int nPriests, int nSorcerers, int nDarkPriests, int nWolfs, int nBears, int nMonsters, int nWoodcutters, int nShepherds, int nCows)
 {
-    int arrUnits[];
-    int i;
+	int arrUnits[];
+	int i;
 
-    arrUnits.Create(0);
+	arrUnits.Create(0);
 
-    for (i=0; i<nHunters     ; ++i) arrUnits.Add(idHunter);
-    for (i=0; i<nSpearmans   ; ++i) arrUnits.Add(idSpearman);
-    for (i=0; i<nCrossbowmans; ++i) arrUnits.Add(idCrossbowman);
-    for (i=0; i<nFootmans    ; ++i) arrUnits.Add(idFootman);
-    for (i=0; i<nKnights     ; ++i) arrUnits.Add(idKnight);
-    for (i=0; i<nGiants      ; ++i) arrUnits.Add(idGiant);
-    for (i=0; i<nWitches     ; ++i) arrUnits.Add(idWitch);
-    for (i=0; i<nPriests     ; ++i) arrUnits.Add(idPriest);
-    for (i=0; i<nSorcerers   ; ++i) arrUnits.Add(idSorcerer);
-    for (i=0; i<nDarkPriests ; ++i) arrUnits.Add(idDarkPriest);
-    for (i=0; i<nWolfs       ; ++i) arrUnits.Add(idWolf);
-    for (i=0; i<nBears       ; ++i) arrUnits.Add(idBear);
-    for (i=0; i<nMonsters    ; ++i) arrUnits.Add(idMonster);
-    for (i=0; i<nWoodcutters ; ++i) arrUnits.Add(idWoodcutter);
-    for (i=0; i<nShepherds   ; ++i) arrUnits.Add(idShepherd);
-    for (i=0; i<nCows        ; ++i) arrUnits.Add(idCow);
+	for (i=0; i<nHunters     ; ++i) arrUnits.Add(idHunter);
+	for (i=0; i<nSpearmans   ; ++i) arrUnits.Add(idSpearman);
+	for (i=0; i<nCrossbowmans; ++i) arrUnits.Add(idCrossbowman);
+	for (i=0; i<nFootmans    ; ++i) arrUnits.Add(idFootman);
+	for (i=0; i<nKnights     ; ++i) arrUnits.Add(idKnight);
+	for (i=0; i<nGiants      ; ++i) arrUnits.Add(idGiant);
+	for (i=0; i<nWitches     ; ++i) arrUnits.Add(idWitch);
+	for (i=0; i<nPriests     ; ++i) arrUnits.Add(idPriest);
+	for (i=0; i<nSorcerers   ; ++i) arrUnits.Add(idSorcerer);
+	for (i=0; i<nDarkPriests ; ++i) arrUnits.Add(idDarkPriest);
+	for (i=0; i<nWolfs       ; ++i) arrUnits.Add(idWolf);
+	for (i=0; i<nBears       ; ++i) arrUnits.Add(idBear);
+	for (i=0; i<nMonsters    ; ++i) arrUnits.Add(idMonster);
+	for (i=0; i<nWoodcutters ; ++i) arrUnits.Add(idWoodcutter);
+	for (i=0; i<nShepherds   ; ++i) arrUnits.Add(idShepherd);
+	for (i=0; i<nCows        ; ++i) arrUnits.Add(idCow);
 
-    return CreatePlatoon(pPlayer, nGx, nGy, nLz, arrUnits);
+	return CreatePlatoon(pPlayer, nGx, nGy, nLz, arrUnits);
 }
 
 function platoon CreatePlatoonOnMarker(player pPlayer, int nMarker, int nHunters, int nSpearmans, int nCrossbowmans, int nFootmans, int nKnights, int nGiants, int nWitches, int nPriests, int nSorcerers, int nDarkPriests, int nWolfs, int nBears, int nMonsters, int nWoodcutters, int nShepherds, int nCows)
 {
-    ASSERT( PointExist(nMarker) );
+	ASSERT( PointExist(nMarker) );
 
-    return CreatePlatoon(pPlayer, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nHunters, nSpearmans, nCrossbowmans, nFootmans, nKnights, nGiants, nWitches, nPriests, nSorcerers, nDarkPriests, nWolfs, nBears, nMonsters, nWoodcutters, nShepherds, nCows);
+	return CreatePlatoon(pPlayer, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nHunters, nSpearmans, nCrossbowmans, nFootmans, nKnights, nGiants, nWitches, nPriests, nSorcerers, nDarkPriests, nWolfs, nBears, nMonsters, nWoodcutters, nShepherds, nCows);
 }
 /**/
 
 function unitex GetUnitAtMarker( int nMarker )
 {
-    ASSERT( PointExist(nMarker) );
+	ASSERT( PointExist(nMarker) );
 
-    return GetUnit( GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker) );
+	return GetUnit( GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker) );
 }
 
 #define SAVE_PLAYER_UNITS() \
-    m_pPlayer.SaveUnit(bufferHero, false, m_uHero, true); \
-    m_pPlayer.SaveUnitsFromArea(bufferCrew, false, GetPointX(markerCrewEndFrom), GetPointY(markerCrewEndFrom), GetPointX(markerCrewEndTo), GetPointY(markerCrewEndTo), GetPointZ(markerCrewEndFrom), null, true);
+	m_pPlayer.SaveUnit(bufferHero, false, m_uHero, true); \
+	m_pPlayer.SaveUnitsFromArea(bufferCrew, false, GetPointX(markerCrewEndFrom), GetPointY(markerCrewEndFrom), GetPointX(markerCrewEndTo), GetPointY(markerCrewEndTo), GetPointZ(markerCrewEndFrom), null, true);
 
 #define RESTORE_PLAYER_UNITS() \
-    m_uHero = RestorePlayerUnitAtMarker(m_pPlayer, bufferHero, markerHeroStart); \
-    RestorePlayerUnitsAtMarker(m_pPlayer, bufferCrew, markerCrewStart);
+	m_uHero = RestorePlayerUnitAtMarker(m_pPlayer, bufferHero, markerHeroStart); \
+	RestorePlayerUnitsAtMarker(m_pPlayer, bufferCrew, markerCrewStart);
 
 function unitex CreateArtefactAtMarker(string strArtefactID, int nMarker, int nArtefactNum)
 {
-    ASSERT( PointExist(nMarker) );
+	ASSERT( PointExist(nMarker) );
 
-    return CreateArtefact(strArtefactID, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nArtefactNum);
+	return CreateArtefact(strArtefactID, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nArtefactNum);
 }
 
 function unitex CreateArtefactAtUnit(string strArtefactID, unitex uUnit, int nArtefactNum)
 {
-    ASSERT( uUnit != null );
+	ASSERT( uUnit != null );
 
-    return CreateArtefact(strArtefactID, uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ(), nArtefactNum);
+	return CreateArtefact(strArtefactID, uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ(), nArtefactNum);
 }
 
 function int RemoveArtefactAtUnit(unitex uUnit)
 {
-    ASSERT( uUnit != null );
+	ASSERT( uUnit != null );
 
-    RemoveArtefact(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ());
+	RemoveArtefact(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ());
 
-    return true;
+	return true;
 }
 
 function int RemoveArtefactAtMarker(int nMarker)
 {
-    ASSERT( PointExist(nMarker) );
+	ASSERT( PointExist(nMarker) );
 
-    RemoveArtefact(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
+	RemoveArtefact(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
 
-    return true;
+	return true;
 }
 
 function int CreateMissionExit(int nMarkerHeroEnd, int nMarkerCrewEndFrom, int nMarkerCrewEndTo)
 {
-    int x, y, z;
-    int bSuccess;
-    
-    ASSERT( PointExist(nMarkerHeroEnd) );
-    ASSERT( PointExist(nMarkerCrewEndFrom) );
-    ASSERT( PointExist(nMarkerCrewEndTo) );
+	int x, y, z;
+	int bSuccess;
+	
+	ASSERT( PointExist(nMarkerHeroEnd) );
+	ASSERT( PointExist(nMarkerCrewEndFrom) );
+	ASSERT( PointExist(nMarkerCrewEndTo) );
 
-    bSuccess = true;
+	bSuccess = true;
 
-    if ( ! CreateArtefactAtMarker("ARTIFACT_STARTMISSION_MIRKO", nMarkerHeroEnd, idHeroEnd) )
-    {
-        TRACE2("CreateMissionExit: Can't create artifact at marker", nMarkerHeroEnd);
+	if ( ! CreateArtefactAtMarker("ARTIFACT_STARTMISSION_MIRKO", nMarkerHeroEnd, idHeroEnd) )
+	{
+		TRACE2("CreateMissionExit: Can't create artifact at marker", nMarkerHeroEnd);
 
-        bSuccess = false;
-    }
-    
-    z = GetPointZ(nMarkerCrewEndFrom);
-    
-    for(x=GetPointX(nMarkerCrewEndFrom); x<=GetPointX(nMarkerCrewEndTo); ++x)
-    {
-        for(y=GetPointY(nMarkerCrewEndFrom); y<=GetPointY(nMarkerCrewEndTo); ++y)
-        {
-            if ( CreateArtefact("ARTIFACT_STARTMISSION", x, y, z, 0) == null )
-            {
-                TRACE4("CreateMissionExit: Can't create artifact at", x, y, z);
+		bSuccess = false;
+	}
+	
+	z = GetPointZ(nMarkerCrewEndFrom);
+	
+	for(x=GetPointX(nMarkerCrewEndFrom); x<=GetPointX(nMarkerCrewEndTo); ++x)
+	{
+		for(y=GetPointY(nMarkerCrewEndFrom); y<=GetPointY(nMarkerCrewEndTo); ++y)
+		{
+			if ( CreateArtefact("ARTIFACT_STARTMISSION", x, y, z, 0) == null )
+			{
+				TRACE4("CreateMissionExit: Can't create artifact at", x, y, z);
 
-                bSuccess = false;
-            }
-        }
-    }
+				bSuccess = false;
+			}
+		}
+	}
 
-    return bSuccess;
+	return bSuccess;
 }
 
 function int RemoveMissionExit(int nMarkerHeroEnd, int nMarkerCrewEndFrom, int nMarkerCrewEndTo)
 {
-    int x, y, z;
-    int bSuccess;
-    
-    ASSERT( PointExist(nMarkerHeroEnd) );
-    ASSERT( PointExist(nMarkerCrewEndFrom) );
-    ASSERT( PointExist(nMarkerCrewEndTo) );
+	int x, y, z;
+	int bSuccess;
+	
+	ASSERT( PointExist(nMarkerHeroEnd) );
+	ASSERT( PointExist(nMarkerCrewEndFrom) );
+	ASSERT( PointExist(nMarkerCrewEndTo) );
 
-    bSuccess = true;
+	bSuccess = true;
 
-    if ( ! RemoveArtefactAtMarker(nMarkerHeroEnd) )
-    {
-        TRACE2("RemoveMissionExit: Can't remove artifact at marker", nMarkerHeroEnd);
+	if ( ! RemoveArtefactAtMarker(nMarkerHeroEnd) )
+	{
+		TRACE2("RemoveMissionExit: Can't remove artifact at marker", nMarkerHeroEnd);
 
-        bSuccess = false;
-    }
-    
-    z = GetPointZ(nMarkerCrewEndFrom);
-    
-    for(x=GetPointX(nMarkerCrewEndFrom); x<=GetPointX(nMarkerCrewEndTo); ++x)
-    {
-        for(y=GetPointY(nMarkerCrewEndFrom); y<=GetPointY(nMarkerCrewEndTo); ++y)
-        {
-            if ( ! RemoveArtefact(x, y, z) )
-            {
-                TRACE4("RemoveMissionExit: Can't remove artifact at", x, y, z);
+		bSuccess = false;
+	}
+	
+	z = GetPointZ(nMarkerCrewEndFrom);
+	
+	for(x=GetPointX(nMarkerCrewEndFrom); x<=GetPointX(nMarkerCrewEndTo); ++x)
+	{
+		for(y=GetPointY(nMarkerCrewEndFrom); y<=GetPointY(nMarkerCrewEndTo); ++y)
+		{
+			if ( ! RemoveArtefact(x, y, z) )
+			{
+				TRACE4("RemoveMissionExit: Can't remove artifact at", x, y, z);
 
-                bSuccess = false;
-            }
-        }
-    }
+				bSuccess = false;
+			}
+		}
+	}
 
-    return bSuccess;
+	return bSuccess;
 }
 
 function void ShowAreaAtMarker(int nIFF, int nMarker, int nRange)
 {
-    ASSERT( PointExist(nMarker) );
+	ASSERT( PointExist(nMarker) );
 
-    ShowArea(nIFF, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nRange, showAreaPassives|showAreaBuildings|showAreaUnits);
+	ShowArea(nIFF, GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nRange, showAreaPassives|showAreaBuildings|showAreaUnits);
 }
 
 function int ShowAreaAtMarker(player pPlayer, int nMarker, int nRange)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( PointExist(nMarker) );
+	ASSERT( pPlayer != null );
+	ASSERT( PointExist(nMarker) );
 
-    ShowArea(pPlayer.GetIFF(), GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nRange, showAreaPassives|showAreaBuildings|showAreaUnits);
+	ShowArea(pPlayer.GetIFF(), GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nRange, showAreaPassives|showAreaBuildings|showAreaUnits);
 
-    return true;
+	return true;
 }
 
 function int HideAreaAtMarker(player pPlayer, int nMarker, int nRange)
 {
-    ASSERT( pPlayer != null );
-    ASSERT( PointExist(nMarker) );
+	ASSERT( pPlayer != null );
+	ASSERT( PointExist(nMarker) );
 
-    HideArea(pPlayer.GetIFF(), GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nRange);
+	HideArea(pPlayer.GetIFF(), GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nRange);
 
-    return true;
+	return true;
 }
 
 function int AddWorldMapSignAtMarker(int nMarker, int nType, int nTime)
 {
-    ASSERT( PointExist(nMarker) );
+	ASSERT( PointExist(nMarker) );
 
-    AddWorldMapSign(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nType, nTime);
+	AddWorldMapSign(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), nType, nTime);
 
-    return true;
+	return true;
 }
 
 function int AddWorldMapSignAtUnit(unitex uUnit, int nType, int nTime)
 {
-    ASSERT( uUnit != null );
+	ASSERT( uUnit != null );
 
-    AddWorldMapSign(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ(), nType, nTime);
+	AddWorldMapSign(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ(), nType, nTime);
 
-    return true;
+	return true;
 }
 
 function int RemoveWorldMapSignAtMarker(int nMarker)
 {
-    ASSERT( PointExist(nMarker) );
+	ASSERT( PointExist(nMarker) );
 
-    RemoveWorldMapSign(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
+	RemoveWorldMapSign(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
 
-    return true;
+	return true;
 }
 
 function int RemoveWorldMapSignAtUnit(unitex uUnit)
 {
-    ASSERT( uUnit != null );
+	ASSERT( uUnit != null );
 
-    RemoveWorldMapSign(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ());
+	RemoveWorldMapSign(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ());
 
-    return true;
+	return true;
 }
 
 function int SetupOneWayTeleportBetweenMarkers(int nMarkerFrom, int nMarkerTo)
 {
-    unitex uTeleportFrom, uTeleportTo;
+	unitex uTeleportFrom, uTeleportTo;
 
-    if ( !PointExist(nMarkerFrom) )
-    {
-        TRACE3("SetupOneWayTeleportBetweenMarkers: Marker", nMarkerFrom, "don't exist");
+	if ( !PointExist(nMarkerFrom) )
+	{
+		TRACE3("SetupOneWayTeleportBetweenMarkers: Marker", nMarkerFrom, "don't exist");
 
-        return false;
-    }
+		return false;
+	}
 
-    if ( !PointExist(nMarkerTo) )
-    {
-        TRACE3("SetupOneWayTeleportBetweenMarkers: Marker", nMarkerTo, "don't exist");
+	if ( !PointExist(nMarkerTo) )
+	{
+		TRACE3("SetupOneWayTeleportBetweenMarkers: Marker", nMarkerTo, "don't exist");
 
-        return false;
-    }
+		return false;
+	}
 
-    uTeleportFrom = GetUnitAtMarker(nMarkerFrom);
-    uTeleportTo   = GetUnitAtMarker(nMarkerTo  );
+	uTeleportFrom = GetUnitAtMarker(nMarkerFrom);
+	uTeleportTo   = GetUnitAtMarker(nMarkerTo  );
 
-    uTeleportFrom.SetTeleportDestination(uTeleportTo);
+	uTeleportFrom.SetTeleportDestination(uTeleportTo);
 
-    return true;
+	return true;
 }
 
 function int SetupTeleportBetweenMarkers(int nMarker1, int nMarker2)
 {
-    unitex uTeleport1, uTeleport2;
+	unitex uTeleport1, uTeleport2;
 
-    if ( !PointExist(nMarker1) )
-    {
-        TRACE3("SetupTeleportBetweenMarkers: Marker", nMarker1, "don't exist");
+	if ( !PointExist(nMarker1) )
+	{
+		TRACE3("SetupTeleportBetweenMarkers: Marker", nMarker1, "don't exist");
 
-        return false;
-    }
+		return false;
+	}
 
-    if ( !PointExist(nMarker2) )
-    {
-        TRACE3("SetupTeleportBetweenMarkers: Marker", nMarker2, "don't exist");
+	if ( !PointExist(nMarker2) )
+	{
+		TRACE3("SetupTeleportBetweenMarkers: Marker", nMarker2, "don't exist");
 
-        return false;
-    }
+		return false;
+	}
 
-    uTeleport1 = GetUnitAtMarker(nMarker1);
-    uTeleport2 = GetUnitAtMarker(nMarker2);
+	uTeleport1 = GetUnitAtMarker(nMarker1);
+	uTeleport2 = GetUnitAtMarker(nMarker2);
 
-    uTeleport1.SetTeleportDestination(uTeleport2);
-    uTeleport2.SetTeleportDestination(uTeleport1);
+	uTeleport1.SetTeleportDestination(uTeleport2);
+	uTeleport2.SetTeleportDestination(uTeleport1);
 
-    return true;
+	return true;
 }
 
 function int ResetTeleportAtMarker(int nMarker)
 {
-    unitex uTeleport;
+	unitex uTeleport;
 
-    if ( !PointExist(nMarker) )
-    {
-        TRACE3("ResetTeleportAtMarker: Marker", nMarker, "don't exist");
+	if ( !PointExist(nMarker) )
+	{
+		TRACE3("ResetTeleportAtMarker: Marker", nMarker, "don't exist");
 
-        return false;
-    }
+		return false;
+	}
 
-    uTeleport = GetUnitAtMarker(nMarker);
+	uTeleport = GetUnitAtMarker(nMarker);
 
-    uTeleport.SetTeleportDestination(null);
+	uTeleport.SetTeleportDestination(null);
 
-    return true;
+	return true;
 }
 
 function int LightingAtMarker(int nMarker)
 {
-    ASSERT( PointExist(nMarker) );
+	ASSERT( PointExist(nMarker) );
 
-    Lighting(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
+	Lighting(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker));
 
-    return true;
+	return true;
 }
 
 function int RemoveUnitFromArray(unitex auUnits[], unitex uUnit)
 {
-    int i;
+	int i;
 
-    for ( i=0; i<auUnits.GetSize(); ++i )
-    {
-        if ( auUnits[i] == uUnit )
-        {
-            auUnits.RemoveAt(i);
+	for ( i=0; i<auUnits.GetSize(); ++i )
+	{
+		if ( auUnits[i] == uUnit )
+		{
+			auUnits.RemoveAt(i);
 
-            return true;
-        }
-    }
+			return true;
+		}
+	}
 
-    return false;
+	return false;
 }
 
 function int RemoveIntFromArray(int anInts[], int nInt)
 {
-    int i;
+	int i;
 
-    for ( i=0; i<anInts.GetSize(); ++i )
-    {
-        if ( anInts[i] == nInt )
-        {
-            anInts.RemoveAt(i);
+	for ( i=0; i<anInts.GetSize(); ++i )
+	{
+		if ( anInts[i] == nInt )
+		{
+			anInts.RemoveAt(i);
 
-            return true;
-        }
-    }
+			return true;
+		}
+	}
 
-    return false;
+	return false;
 }
 
 function int FindUnitInArray(unitex auUnits[], unitex uUnit)
 {
-    int i;
+	int i;
 
-    for ( i=0; i<auUnits.GetSize(); ++i )
-    {
-        if ( auUnits[i] == uUnit )
-        {
-            return i;
-        }
-    }
+	for ( i=0; i<auUnits.GetSize(); ++i )
+	{
+		if ( auUnits[i] == uUnit )
+		{
+			return i;
+		}
+	}
 
-    return -1;
+	return -1;
 }
 
 function int FindIntInArray(int anInts[], int nInt)
 {
-    int i;
+	int i;
 
-    for ( i=0; i<anInts.GetSize(); ++i )
-    {
-        if ( anInts[i] == nInt )
-        {
-            return i;
-        }
-    }
+	for ( i=0; i<anInts.GetSize(); ++i )
+	{
+		if ( anInts[i] == nInt )
+		{
+			return i;
+		}
+	}
 
-    return -1;
+	return -1;
 }
 
 function int IsUnitInArray(unitex auUnits[], unitex uUnit)
 {
-    if ( FindUnitInArray(auUnits, uUnit) != -1 )
-    {
-        return true;
-    }
+	if ( FindUnitInArray(auUnits, uUnit) != -1 )
+	{
+		return true;
+	}
 
-    return false;
+	return false;
 }
 
 function int IsIntInArray(int anInts[], int nInt)
 {
-    if ( FindIntInArray(anInts, nInt) != -1 )
-    {
-        return true;
-    }
+	if ( FindIntInArray(anInts, nInt) != -1 )
+	{
+		return true;
+	}
 
-    return false;
+	return false;
 }
 
 function int CountLessIntsInArray(int anInts[], int nInt)
 {
-    int i;
-    int nCount;
+	int i;
+	int nCount;
 
-    nCount = 0;
+	nCount = 0;
 
-    for ( i=0; i<anInts.GetSize(); ++i )
-    {
-        if ( anInts[i] < nInt )
-        {
-            ++nCount;
-        }
-    }
+	for ( i=0; i<anInts.GetSize(); ++i )
+	{
+		if ( anInts[i] < nInt )
+		{
+			++nCount;
+		}
+	}
 
-    return nCount;
+	return nCount;
 }
 
 function int RemoveLessIntsFromArray(int anInts[], int nInt)
 {
-    int i;
-    int nCount;
+	int i;
+	int nCount;
 
-    nCount = 0;
+	nCount = 0;
 
-    for ( i=0; i<anInts.GetSize(); ++i )
-    {
-        if ( anInts[i] < nInt )
-        {
-            anInts.RemoveAt(i);
-            --i;
+	for ( i=0; i<anInts.GetSize(); ++i )
+	{
+		if ( anInts[i] < nInt )
+		{
+			anInts.RemoveAt(i);
+			--i;
 
-            ++nCount;
-        }
-    }
+			++nCount;
+		}
+	}
 
-    return nCount;
+	return nCount;
 }
 
 function int CountUnitInArray(unitex auUnits[], unitex uUnit)
 {
-    int i;
-    int nCount;
+	int i;
+	int nCount;
 
-    nCount = 0;
+	nCount = 0;
 
-    for ( i=0; i<auUnits.GetSize(); ++i )
-    {
-        if ( auUnits[i] == uUnit )
-        {
-            ++nCount;
-        }
-    }
+	for ( i=0; i<auUnits.GetSize(); ++i )
+	{
+		if ( auUnits[i] == uUnit )
+		{
+			++nCount;
+		}
+	}
 
-    return nCount;
+	return nCount;
 }
 
 function int GetCameraDistanceToMarker(int nMarker)
 {
-    ASSERT( PointExist(nMarker) );
+	ASSERT( PointExist(nMarker) );
 
-    if    ( GetCameraZ() == GetPointZ(nMarker) )
-    {
-        return Distance( GetCameraX(), GetCameraY(), GetPointX(nMarker), GetPointY(nMarker) );
-    }
+	if	( GetCameraZ() == GetPointZ(nMarker) )
+	{
+		return Distance( GetCameraX(), GetCameraY(), GetPointX(nMarker), GetPointY(nMarker) );
+	}
 
-    return 256;
+	return 256;
 }
 
 function void LoadAIScript(player pPlayer)
 {
-    if ( GetDifficultyLevel() == difficultyEasy )
-    {
-        pPlayer.LoadScript("single\\singleEasy");
-    }
-    else if ( GetDifficultyLevel() == difficultyMedium )
-    {
-        pPlayer.LoadScript("single\\singleMedium");
-    }
-    else if ( GetDifficultyLevel() == difficultyHard )
-    {
-        pPlayer.LoadScript("single\\singleHard");
-    }
+	if ( GetDifficultyLevel() == difficultyEasy )
+	{
+		pPlayer.LoadScript("single\\singleEasy");
+	}
+	else if ( GetDifficultyLevel() == difficultyMedium )
+	{
+		pPlayer.LoadScript("single\\singleMedium");
+	}
+	else if ( GetDifficultyLevel() == difficultyHard )
+	{
+		pPlayer.LoadScript("single\\singleHard");
+	}
 }
 
 function void SetCutsceneText(string strText)
 {
-    SetStringBuff(0, "<f2>");
-    SetStringBuffTranslate(1, strText);
-    AppendStringBuff(0, 1);
-    SetLowConsoleText(GetStringBuff(0));
+	SetStringBuff(0, "<f2>");
+	SetStringBuffTranslate(1, strText);
+	AppendStringBuff(0, 1);
+	SetLowConsoleText(GetStringBuff(0));
 }
 
 function void SetRealImmortal(unitex uUnit, int bImmortal)
 {
-    uUnit.SetScriptImmortal(bImmortal);
-    uUnit.EnableCapture(!bImmortal);
-    uUnit.EnableConversionByMagic(!bImmortal);
+	uUnit.SetScriptImmortal(bImmortal);
+	uUnit.EnableCapture(!bImmortal);
+	uUnit.EnableConversionByMagic(!bImmortal);
 }
 
 function unitex GetUnitEx(platoon pPlatoon, int nUnit)
 {
-    unit uTmp;
-    uTmp = pPlatoon.GetUnit(nUnit);
-    return GetUnitExRef(uTmp);
+	unit uTmp;
+	uTmp = pPlatoon.GetUnit(nUnit);
+	return GetUnitExRef(uTmp);
 }
 
 function void SetRealImmortal(platoon pUnits, int bImmortal)
 {
-    int i, n;
+	int i, n;
 
-    n = pUnits.GetUnitsCount();
-    for ( i=0; i<n; ++i )
-    {
-        SetRealImmortal(GetUnitEx(pUnits, i), bImmortal);
-    }
+	n = pUnits.GetUnitsCount();
+	for ( i=0; i<n; ++i )
+	{
+		SetRealImmortal(GetUnitEx(pUnits, i), bImmortal);
+	}
 }
 
 function void RemovePlatoon(platoon pUnits)
 {
-    int i, n;
-    unitex uUnit;
+	int i, n;
+	unitex uUnit;
 
-    unitex auUnits[];
+	unitex auUnits[];
 
-    n = pUnits.GetUnitsCount();
+	n = pUnits.GetUnitsCount();
 
-    auUnits.Create(n);
+	auUnits.Create(n);
 
-    for ( i=0; i<n; ++i )
-    {
-        auUnits[i] = GetUnitEx(pUnits, i);
-    }
+	for ( i=0; i<n; ++i )
+	{
+		auUnits[i] = GetUnitEx(pUnits, i);
+	}
 
-    for ( i=0; i<n; ++i )
-    {
-        uUnit = auUnits[i];
+	for ( i=0; i<n; ++i )
+	{
+		uUnit = auUnits[i];
 
-        if ( uUnit.IsLive() )
-        {
-            uUnit.RemoveUnit();
-        }
-    }
+		if ( uUnit.IsLive() )
+		{
+			uUnit.RemoveUnit();
+		}
+	}
 }
 
 function unitex CreateSmokeObject(unitex uUnit, string strSmokeName)
 {
-    unitex uSmoke;
+	unitex uSmoke;
 
-    uSmoke = CreateObject(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ(), 0, strSmokeName);
-    uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+	uSmoke = CreateObject(uUnit.GetLocationX(), uUnit.GetLocationY(), uUnit.GetLocationZ(), 0, strSmokeName);
+	uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
 
-    return uSmoke;
+	return uSmoke;
 }
 
 function void SetUnitAtMarker(unitex uUnit, int nMarker)
 {
-    uUnit.SetImmediatePosition(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), uUnit.GetAlphaAngle(), true);
+	uUnit.SetImmediatePosition(GetPointX(nMarker), GetPointY(nMarker), GetPointZ(nMarker), uUnit.GetAlphaAngle(), true);
 }
 
 function void SetUnitAtMarker(unitex uUnit, int nMarker, int nOffX, int nOffY)
 {
-    uUnit.SetImmediatePosition(GetPointX(nMarker)+nOffX, GetPointY(nMarker)+nOffY, GetPointZ(nMarker), uUnit.GetAlphaAngle(), true);
+	uUnit.SetImmediatePosition(GetPointX(nMarker)+nOffX, GetPointY(nMarker)+nOffY, GetPointZ(nMarker), uUnit.GetAlphaAngle(), true);
 }
 
 #define REGISTER_GOAL(GoalName) \
-    RegisterGoal(goal ## GoalName, MISSION_GOAL_PREFIX # GoalName);
+	RegisterGoal(goal ## GoalName, MISSION_GOAL_PREFIX # GoalName);
 
 #define ADD_BRIEFING(BriefingName) \
-    AddBriefing(null, MISSION_BRIEFING_PREFIX # BriefingName);
+	AddBriefing(null, MISSION_BRIEFING_PREFIX # BriefingName);
 
 #define INITIALIZE_PLAYER(PlayerName) \
-    m_p ## PlayerName = GetPlayer(player ## PlayerName);
+	m_p ## PlayerName = GetPlayer(player ## PlayerName);
 
 #define INITIALIZE_UNIT(UnitName) \
-    m_u ## UnitName = GetUnitAtMarker(marker ## UnitName);
+	m_u ## UnitName = GetUnitAtMarker(marker ## UnitName);
 
 #define INITIALIZE_HERO() \
-    /*m_uHero = GetUnitAtMarker(markerHeroStart);*/ ASSERT( m_uHero != null );
+	/*m_uHero = GetUnitAtMarker(markerHeroStart);*/ ASSERT( m_uHero != null );
 
 #define INITIALIZE_MIESZKO() \
-    /*m_uMieszko = GetUnitAtMarker(markerMieszkoStart);*/ ASSERT( m_uMieszko != null );
+	/*m_uMieszko = GetUnitAtMarker(markerMieszkoStart);*/ ASSERT( m_uMieszko != null );
 
 #define UNIT_CREATE_EFFECT "HIT_TELEPORT"
 #define UNIT_REMOVE_EFFECT "CAST_TELEPORT"
@@ -1523,26 +1548,26 @@ unitex CLOSE_GATE_uTmp;
 unitex OPEN_GATE_uTmp;
 
 #define CLOSE_GATE( marker ) \
-    CLOSE_GATE_uTmp = GetUnitAtMarker(marker); \
-    CLOSE_GATE_uTmp.CommandBuildingSetGateMode(modeGateClosed);
+	CLOSE_GATE_uTmp = GetUnitAtMarker(marker); \
+	CLOSE_GATE_uTmp.CommandBuildingSetGateMode(modeGateClosed);
 
 #define OPEN_GATE( marker ) \
-    OPEN_GATE_uTmp = GetUnitAtMarker(marker); \
-    OPEN_GATE_uTmp.CommandBuildingSetGateMode(modeGateOpened);
+	OPEN_GATE_uTmp = GetUnitAtMarker(marker); \
+	OPEN_GATE_uTmp.CommandBuildingSetGateMode(modeGateOpened);
 
 function unitex GetLoadedShopUnit(player pPlayer)
 {
-    return GetUnit(pPlayer.GetLoadedShopUnitX(), pPlayer.GetLoadedShopUnitY(), pPlayer.GetLoadedShopUnitZ());
+	return GetUnit(pPlayer.GetLoadedShopUnitX(), pPlayer.GetLoadedShopUnitY(), pPlayer.GetLoadedShopUnitZ());
 }
 
 function unitex GetLoadedTeleport(player pPlayer)
 {
-    return GetUnit(pPlayer.GetLoadedTeleportX(), pPlayer.GetLoadedTeleportY(), pPlayer.GetLoadedTeleportZ());
+	return GetUnit(pPlayer.GetLoadedTeleportX(), pPlayer.GetLoadedTeleportY(), pPlayer.GetLoadedTeleportZ());
 }
 
 function unitex GetLoadedGate(player pPlayer)
 {
-    return GetUnit(pPlayer.GetLoadedGateX(), pPlayer.GetLoadedGateY(), pPlayer.GetLoadedGateZ());
+	return GetUnit(pPlayer.GetLoadedGateX(), pPlayer.GetLoadedGateY(), pPlayer.GetLoadedGateZ());
 }
 
 function int GetWindTimerTicks()
@@ -1552,17 +1577,17 @@ function int GetWindTimerTicks()
 
 function void StartWind()
 {
-    int nRandNum;
-    int nWind;
+	int nRandNum;
+	int nWind;
 
-    nRandNum = RAND(100);
+	nRandNum = RAND(100);
 
-         if ( nRandNum <  25 ) nWind = 0; // 25 %
-    else if ( nRandNum <  45 ) nWind = 1; // 20 %
-    else if ( nRandNum <  75 ) nWind = 2; // 30 %
-    else if ( nRandNum <  90 ) nWind = 3; // 15 %
-    else if ( nRandNum <  95 ) nWind = 4; //  5 %
-    else if ( nRandNum < 100 ) nWind = 5; //  5 %
+	     if ( nRandNum <  25 ) nWind = 0; // 25 %
+	else if ( nRandNum <  45 ) nWind = 1; // 20 %
+	else if ( nRandNum <  75 ) nWind = 2; // 30 %
+	else if ( nRandNum <  90 ) nWind = 3; // 15 %
+	else if ( nRandNum <  95 ) nWind = 4; //  5 %
+	else if ( nRandNum < 100 ) nWind = 5; //  5 %
 
-    Wind(400, 3200, 400, nWind, RAND(0x100));
+	Wind(400, 3200, 400, nWind, RAND(0x100));
 }

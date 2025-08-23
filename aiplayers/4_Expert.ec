@@ -49,7 +49,7 @@ player "translateAIPlayerEkspert"
                         aiBuildRoads |
                         aiBuildNewBuildings |
                         aiRebuildLostDefenceBuildings | 
-                        // aiBuildTowersEx |
+                        aiBuildTowersEx |
                         aiBuildNewBridges | 
                         aiRebuildLostBridges |
                         aiAllowBuildClose |

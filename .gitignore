@@ -1,6 +1,7 @@
 *.eco
 *.json
+.vscode
 *preprocessed
 test.ec
-/_task_list/*
-/rpg/*
+_task_list/*
+rpg/*
