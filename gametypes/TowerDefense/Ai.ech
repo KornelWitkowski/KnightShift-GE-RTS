@@ -391,30 +391,21 @@ function void CheckBombers(player rPlayerEnemy)
     }
 }
 
-function int TeleportMagesToFirstMarker(unitex uUnit)
+
+
+function int TeleportToFirstMarker(unitex uUnit)
 {
     int bReachedFirstMarker;
     int iMarkerToReach;
     int hasShield, hasConversion;
     int iDistance;
 
-    // pająki
-    if(uUnit.IsAnimal())
-        return false;
-
     iMarkerToReach = GetUnitMaskedScriptData(uUnit, PATH_MASK);
-
-    hasShield = HaveMagic(uUnit, magicImmortalShield);
-    hasConversion = HaveMagic(uUnit, magicConversion);
-
-    if(!(hasShield || hasConversion))
-        return false;
-
 
     bReachedFirstMarker = true;
     if(iMarkerToReach == FIRST_MARKER_TO_REACH_CENTER)
         bReachedFirstMarker = false;
-    else if(iMarkerToReach == FIRST_MARKER_TO_REACH_LEFT )
+    else if(iMarkerToReach == FIRST_MARKER_TO_REACH_LEFT)
         bReachedFirstMarker = false;
     else if(iMarkerToReach == FIRST_MARKER_TO_REACH_RIGHT)
         bReachedFirstMarker = false;
@@ -433,8 +424,8 @@ function int TeleportMagesToFirstMarker(unitex uUnit)
 
     CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
     uUnit.SetImmediatePosition(
-        GetPointX(iMarkerToReach) - 2 + RandXor(5),
-        GetPointY(iMarkerToReach) - 2 + RandXor(5),
+        GetPointX(iMarkerToReach) - 1 + RandXor(3),
+        GetPointY(iMarkerToReach) - 1 + RandXor(3),
         GetPointZ(iMarkerToReach), 
         GetPointAlpha(iMarkerToReach),
         true
@@ -452,6 +443,23 @@ function int TeleportMagesToFirstMarker(unitex uUnit)
 
     return true;
 }
+
+function int TeleportMagesToFirstMarker(unitex uUnit)
+{
+    int hasShield, hasConversion;
+    // pająki
+    if(uUnit.IsAnimal())
+        return false;
+
+    hasShield = HaveMagic(uUnit, magicImmortalShield);
+    hasConversion = HaveMagic(uUnit, magicConversion);
+
+    if(!(hasShield || hasConversion))
+        return false;
+
+    return TeleportToFirstMarker(uUnit);
+}
+
 
 function void AttackPlayer(player rPlayerEnemy, player rPlayerDefender)
 {
@@ -487,7 +495,6 @@ function void AttackPlayer(player rPlayerEnemy, player rPlayerDefender)
         if(iDistance < 12)
             SetUnitMaskedScriptData(uUnit, PATH_MASK, iNextMarker);
 
-        iDistance = FindDistanceToClosestUnit(uUnit, rPlayerDefender, false);
 
         // Wybuchająca krowa
         if(IsBomber(uUnit))
@@ -509,7 +516,7 @@ function void AttackPlayer(player rPlayerEnemy, player rPlayerDefender)
         if(TeleportMagesToFirstMarker(uUnit))
             continue;
 
-
+        iDistance = FindDistanceToClosestUnit(uUnit, rPlayerDefender, false);
         if(iDistance < 20)
         {   if(RandXor(2) != 0)
             {

@@ -1,0 +1,47 @@
+function unitex SpawnMinotaurBoss(int nWaveNumber, int iMarker)
+{
+    int iX, iY, iZ, iAngle;
+    unitex uUnit, uUnitBoss;
+    player rPlayerBoss;
+
+    iX = GetPointX(iMarker);
+    iY = GetPointY(iMarker);
+    iZ = GetPointZ(iMarker);
+    iAngle = GetPointAlpha(iMarker);
+    
+    rPlayerBoss = GetPlayer(10);
+
+    if(nWaveNumber <= 10)
+    {
+        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "TD_MINOTAUR_BOSS");
+
+    }
+    else if(nWaveNumber <= 20)
+    {
+        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "TD_MINOTAUR_BOSS");
+        uUnitBoss.AddHP(1500);
+        uUnitBoss.AddDamage(0, 30);
+        uUnitBoss.AddDamage(1, 30);
+        uUnitBoss.AddDamage(2, 30);
+
+    }
+    else if(nWaveNumber <= 30)
+    {
+        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "TD_MINOTAUR_BOSS");
+        uUnitBoss.AddHP(3000);
+        uUnitBoss.AddDamage(0, 60);
+        uUnitBoss.AddDamage(1, 60);
+        uUnitBoss.AddDamage(2, 60);
+
+    }
+    else if(nWaveNumber <= 40)
+    {
+        uUnitBoss = rPlayerBoss.CreateUnit(iX, iY, iZ, iAngle, "TD_MINOTAUR_BOSS");
+        uUnitBoss.AddHP(5000);
+        uUnitBoss.AddDamage(0, 100);
+        uUnitBoss.AddDamage(1, 100);
+        uUnitBoss.AddDamage(2, 100);
+    }
+
+    return uUnitBoss;
+}

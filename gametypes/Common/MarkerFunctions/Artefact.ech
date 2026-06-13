@@ -257,6 +257,19 @@ function int MarkerFunctionsEventArtefact(int iArtefactNum, unitex uUnitOnArtefa
         #endif
         return true;
     }
+    else if (iMaskedArtefact == MASK_BUILDING_HP)
+    {
+        if (uUnitOnArtefact.GetIFFNumber() >= 8)
+            return false;
+
+        iMarker = iArtefactNum & ~MASK_BUILDING_HP;
+        #ifdef FIRST_REWARD_MARKER 
+            GrantBuildingHp(uUnitOnArtefact, iMarker, FIRST_REWARD_MARKER);
+        #else
+            GrantBuildingHp(uUnitOnArtefact, iMarker, MARKER_FIRST_BUILDING_HP);
+        #endif
+        return true;
+    }
     else if (iMaskedArtefact == MASK_STEP_ON_TO_WIN)
     {
 

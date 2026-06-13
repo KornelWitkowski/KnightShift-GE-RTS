@@ -1,0 +1,77 @@
+int iTDStatisticsTab;
+int iTDStatisticsColumnWaves;
+int iTDStatisticsColumnCows; 
+int iTDStatisticsColumnWalls; 
+int iTDStatisticsColumnTowers; 
+int iTDStatisticsColumnGates;
+int iPlayerWallsBuilt[];
+int iPlayerTowersBuilt[];
+int iPlayerGatesBuilt[];
+int iPlayerExplodedCows;
+
+function void InitializeTDStatistics()
+{
+    iPlayerTowersBuilt.Create(8);
+    iPlayerWallsBuilt.Create(8);
+    iPlayerGatesBuilt.Create(8);
+    iPlayerExplodedCows = 0;
+
+
+    StatisticReset();
+    StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
+    StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
+    StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
+    
+
+    iTDStatisticsTab = StatisticAddTab("translateTDStatistics", statisticTabUserDefined, true);
+
+    iTDStatisticsColumnWaves = StatisticAddColumn(iTDStatisticsTab, "translateTDStatisticsWaves", statisticDataUserDefined, 0);
+    iTDStatisticsColumnCows = StatisticAddColumn(iTDStatisticsTab, "translateTDStatisticsCows", statisticDataUserDefined, 0);
+    iTDStatisticsColumnWalls = StatisticAddColumn(iTDStatisticsTab, "translateTDStatisticsWalls", statisticDataUserDefined, 0);
+    iTDStatisticsColumnTowers = StatisticAddColumn(iTDStatisticsTab, "translateTDStatisticsTowers", statisticDataUserDefined, 0);
+    iTDStatisticsColumnGates = StatisticAddColumn(iTDStatisticsTab, "translateTDStatisticsGates", statisticDataUserDefined, 0);
+
+    StatisticSetSortOrder(0, 3, true);
+}
+
+function void UpdateWavesStatistics(int iWaveNumber)
+{
+    int i;
+    player rPlayer;
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        if(rPlayer == null || !rPlayer.IsAlive())
+            continue;
+
+        StatisticSetUserData(
+            iTDStatisticsTab, 
+            iTDStatisticsColumnWaves, 
+            rPlayer.GetIFFNumber(), 
+            iWaveNumber
+        );
+    }
+}
+
+
+function void UpdateCowsStatistics()
+{
+    int i;
+    player rPlayer;
+
+    iPlayerExplodedCows = iPlayerExplodedCows + 1;
+
+    for(i=0; i<8; i=i+1)
+    {
+        rPlayer = GetPlayer(i);
+        if(rPlayer == null || !rPlayer.IsAlive())
+            continue;
+
+        StatisticSetUserData(
+            iTDStatisticsTab, 
+            iTDStatisticsColumnCows, 
+            rPlayer.GetIFFNumber(), 
+            iPlayerExplodedCows
+        );
+    }
+}

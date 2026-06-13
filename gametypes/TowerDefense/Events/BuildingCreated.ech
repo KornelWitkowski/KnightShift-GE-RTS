@@ -1,0 +1,33 @@
+
+
+event BuildingCreated(unitex uBuilding)
+{
+    player rPlayer;
+    int iIFF;
+    
+    iIFF = uBuilding.GetIFFNumber();
+    rPlayer = GetPlayer(iIFF);
+
+    if (iIFF >= 8)
+        return;
+
+    ApplyBuildingHpBonus(uBuilding);
+
+    if (IsWall(uBuilding))
+    {
+        iPlayerWallsBuilt[iIFF] = iPlayerWallsBuilt[iIFF] + 1;
+        StatisticSetUserData(iTDStatisticsTab, iTDStatisticsColumnWalls, iIFF, iPlayerWallsBuilt[iIFF]);
+    }
+    else if (IsTower(uBuilding))
+    {
+        iPlayerTowersBuilt[iIFF] = iPlayerTowersBuilt[iIFF] + 1;
+        StatisticSetUserData(iTDStatisticsTab, iTDStatisticsColumnTowers, iIFF, iPlayerTowersBuilt[iIFF]);
+    }
+    else if (IsGate(uBuilding))
+    {
+        iPlayerGatesBuilt[iIFF] = iPlayerGatesBuilt[iIFF] + 1;
+        StatisticSetUserData(iTDStatisticsTab, iTDStatisticsColumnGates, iIFF, iPlayerGatesBuilt[iIFF]);
+    }
+
+
+}

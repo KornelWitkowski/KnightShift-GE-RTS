@@ -2,22 +2,23 @@
         cutscenka:
 
         <zbliżenie na kapłana mirogosta>
-        Witaj! Nazywam się Mirogost. Znajdujemy się w ruinach starożytnej twierdzy Czerwień. 
+        <z powagą i spokojem> Witaj! Nazywam się Mirogost. <pauza> </pauza> Znajdujemy się w ruinach starożytnej twierdzy Czerwień.  </z powagą i spokojem>
         
         <powoli w strone portali>
-        Wezwałem Cię ponieważ państwu Polan grozi śmiertelne zagrożenie.
+        <z powagą i trwogą> Wezwałem Cię ponieważ państwu Polan grozi śmiertelne niebezpieczeństwo. </z powagą i trwogą>
 
         <Morowład wychodzi z portalu>
-        Plugawy nekromanta Morowład wykonał rytuał <wymyślić nazwę> i otworzył bramy przez które czarcie moce mogą dostać się do naszego świata.
+        <z gniewem> Plugawy nekromanta **Morowład** wykonał nikczemy rytuał i otworzył bramy przez które czarcie moce mogą dostać się do naszego świata. </z gniewem>
 
         <wychodzą królowe-czarodziejki z portalu>
-        Musimy stawić mu opór nim zbierze zbyt wielkie siły i cała nadzieja będzie stracona.
-
-        <zbliżenie na guziki>
-        W podziemiach twierdzy znajdują się starożytne mechanizmy, które mogą pomóc Ci w Twojej misji zapoznaj się z ich inskrypcjami.
+        Musimy stawić mu opór nim zbierze zbyt wielkie siły i cała nadzieja zostanie utracona.
 
         <zbliżenie na miejsce na itemy>
-        Zbuduj osadę i przygotuj obronę, a ja udam się po pomoc - w miarę moich sił przysyłać do Ciebie jednostki i zaopatrzenie.
+        <z powagą i spokojem> Zbuduj osadę i przygotuj obronę, a ja udam się po pomoc - w miarę moich sił przysyłać do Ciebie jednostki i zaopatrzenie. </z powagą i spokojem>
+
+        <zbliżenie na guziki>
+        <spokojnie> W podziemiach twierdzy znajdują się starożytne mechanizmy, które mogą pomóc Ci w Twojej misji.  </spokojnie> <nagląco> Zapoznaj się z ich inskrypcjami! </nagląco>
+
 
         <zbliżenie na kapłana>
         To nie będzie łatwa walka. Swarożyc z Tobą.
@@ -28,17 +29,23 @@
         <widok na wioskę i pojawiają się drwalowie i krowy>
 
         <start>
+
+
+
+
 */
 
-    state StartingCutscene0;
-    state StartingCutscene01;
-    state StartingCutscene1;
-    state StartingCutscene2;
-    state StartingCutscene3;
-    state StartingCutscene4;
-    state StartingCutscene5;
-    state StartingCutscene6;
-    state StartingCutsceneFinal;
+state StartingCutscene1;
+state StartingCutscene2;
+state StartingCutscene3;
+state StartingCutscene4;
+state StartingCutscene5;
+state StartingCutscene6;
+state StartingCutscene7;
+state StartingCutsceneFinal;
+
+unitex uDummy1, uDummy2, uDummy3;
+
 
 function void ShowAreaAtMarker(player rPlayer, int nMarker)
 {
@@ -55,16 +62,16 @@ function void ShowAreaAtMarker(player rPlayer, int nMarker)
 //     return true;
 // }
 
-state StartingCutscene0
+state Initialize
 {
     player rPlayer;
     int i;
     unitex uPriest;
 
-    SetTime(32);
+    // SetTime(32);
     
     rPlayer13 = GetPlayer(13);
-    uPriest = CreateUnitAtMarker(rPlayer13, CUTSCENE_PRIEST_MARKER, "SORCERER");
+    
 
     for(i=0; i<3; i=i+1)
     {
@@ -76,20 +83,22 @@ state StartingCutscene0
 	
     }
 
-
+    EnableAssistant(0xffffff, false);
+    uPriest = CreateUnitAtMarker(rPlayer13, CUTSCENE_PRIEST_MARKER, "SORCERER");
+    SetCutsceneText("Witaj! Nazywam się Mirogost.");
     CreateObjectAtMarker(CUTSCENE_PRIEST_MARKER, "HIT_TELEPORT");
 
     EnableInterface(false);
     EnableCameraMovement(false);
-    
+    PlayWave("Special\\starting1.wav");
 
 
-    return StartingCutscene01, 150;
+    return StartingCutscene1, 150;
 }
 
 
 
-state StartingCutscene01
+state StartingCutscene1
 {
     player rPlayer;
     int i;
@@ -98,31 +107,31 @@ state StartingCutscene01
     for(i=0; i<3; i=i+1)
     {
         rPlayer = GetPlayer(i);
-        // rPlayer.LookAt(GetPointX(FIRST_MARKER_TO_REACH_CENTER), GetPointY(FIRST_MARKER_TO_REACH_CENTER), 1, 0, 128, false);
-        rPlayer.DelayedLookAt(
-            GetPointX(FIRST_MARKER_TO_REACH_CENTER), 
-            GetPointY(FIRST_MARKER_TO_REACH_CENTER), 
-            12, 0, 13, 0, 300, false);
+        rPlayer.LookAt(
+            GetPointX(FIRST_MARKER_TO_REACH_CENTER+2), 
+            GetPointY(FIRST_MARKER_TO_REACH_CENTER+2), 
+            1000, 128, 50, 0
+        );
 
 	
     }
 
-
+    SetCutsceneText("Znajdujemy na granicy państwa Polan, w ruinach pradawnej Twierdzy Czerwień...");
     CreateObjectAtMarker(CUTSCENE_PRIEST_MARKER, "HIT_TELEPORT");
 
     EnableInterface(false);
     EnableCameraMovement(false);
-    
+    PlayWave("Special\\starting2.wav");
 
 
-    return StartingCutscene1, 300;
+    return StartingCutscene2, 300;
 }
 
 
 
 
 
-state StartingCutscene1
+state StartingCutscene2
 {
     player rPlayer;
     int i;
@@ -136,10 +145,12 @@ state StartingCutscene1
     }
 
     EnableCameraMovement(false);
-    return StartingCutscene2, 150;
+    SetCutsceneText("Wezwałem Cię ponieważ państwu Polan grozi śmiertelne niebezpieczeństwo.");
+    PlayWave("Special\\starting3.wav");
+    return StartingCutscene3, 150;
 }
 
-state StartingCutscene2
+state StartingCutscene3
 {
     player rPlayer;
     int i;
@@ -154,11 +165,12 @@ state StartingCutscene2
     }
 
     EnableCameraMovement(false);
-    return StartingCutscene3, 150;
+    SetCutsceneText("Plugawy nekromanta, Morowład, wykonał nikczemy rytuał i otworzył bramy przez które czarcie moce mogą dostać się do naszego świata. ");
+    return StartingCutscene4, 150;
 }
 
 
-state StartingCutscene3
+state StartingCutscene4
 {
     player rPlayer;
     int i;
@@ -172,12 +184,13 @@ state StartingCutscene3
 
     }
 
+    SetCutsceneText("Musimy stawić mu opór nim zbierze zbyt wielkie siły i cała nadzieja zostanie utracona.");
     EnableCameraMovement(false);
-    return StartingCutscene4, 150;
+    return StartingCutscene5, 150;
 }
 
 
-state StartingCutscene4
+state StartingCutscene5
 {
     player rPlayer;
     int i;
@@ -189,11 +202,13 @@ state StartingCutscene4
         rPlayer.LookAt(GetPointX(NEXT_WAVE_TRIGGER_MARKER), GetPointY(NEXT_WAVE_TRIGGER_MARKER), 3, 108, -1, 1);
     }
     EnableCameraMovement(false);
-    return StartingCutscene5, 150;
+
+    SetCutsceneText("W podziemiach twierdzy znajdują się starożytne mechanizmy, które mogą pomóc Ci w Twojej misji zapoznaj się z ich inskrypcjami. ");
+    return StartingCutscene6, 150;
 }
 
 
-state StartingCutscene5
+state StartingCutscene6
 {
     player rPlayer;
     int i;
@@ -207,10 +222,11 @@ state StartingCutscene5
         ShowAreaAtMarker(rPlayer, CUTSCENE_PRIEST_MARKER, 10);
     }
     EnableCameraMovement(false);
-    return StartingCutscene6, 150;
+    SetCutsceneText("Zbuduj osadę i przygotuj obronę");
+    return StartingCutscene7, 150;
 }
 
-state StartingCutscene6
+state StartingCutscene7
 {
     player rPlayer;
     int i;
@@ -221,6 +237,8 @@ state StartingCutscene6
         ShowAreaAtMarker(rPlayer.GetIFF(), FIRST_REWARD_MARKER, 10);
         rPlayer.LookAt(GetPointX(FIRST_REWARD_MARKER), GetPointY(FIRST_REWARD_MARKER), 3, 108, -1, 1);
     }
+
+    SetCutsceneText("Ja udam się po pomoc - w miarę moich sił przysyłać do Ciebie jednostki i zaopatrzenie.");
     EnableCameraMovement(false);
     return StartingCutsceneFinal, 150;
 }
@@ -229,8 +247,7 @@ state StartingCutsceneFinal
 {
     player rPlayer;
     int i;
-    EnableCameraMovement(true);
-    EnableInterface(true);
+
 
     for(i=0; i<3; i=i+1)
     {
@@ -240,21 +257,23 @@ state StartingCutsceneFinal
         rPlayer.LookAt(rPlayer.GetStartingPointX(), rPlayer.GetStartingPointY(), 6, 32, 20, 0);
     }
 
+    SetCutsceneText("");
 
     // ShowInterfaceBlackBorders(false, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_SIZE, INTERFACE_BORDERS_COLOR, INTERFACE_BORDERS_COLOR, 0, 0);
-
-    return Initialize, 10;
+    EnableCameraMovement(true);
+    EnableInterface(true);
+    return InitializeGame, 10;
 }
 
 
 event EscapeCutscene()
 {
-    if ( state == StartingCutscene0 )
+    if ( state == Initialize )
     {
         SetStateDelay(0);
         state StartingCutscene1;
     }
-    else if ( state == StartingCutscene1 )
+    if ( state == StartingCutscene1 )
     {
         SetStateDelay(0);
         state StartingCutscene2;
@@ -282,17 +301,19 @@ event EscapeCutscene()
     else if ( state == StartingCutscene6 )
     {
         SetStateDelay(0);
+        state StartingCutscene7;
+    }
+    else if ( state == StartingCutscene7 )
+    {
+        SetStateDelay(0);
         state StartingCutsceneFinal;
     }
     else if ( state == StartingCutsceneFinal )
     {
+        EnableCameraMovement(true);
+        EnableInterface(true);
         SetStateDelay(0);
-        state Initialize;
-    }
-    else
-    {
-        SetStateDelay(0);
-        state Nothing;
+        state InitializeGame;
     }
 
     

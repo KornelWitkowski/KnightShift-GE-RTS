@@ -40,6 +40,20 @@ function unitex CreateExperienceArtefact(
         );
         iExperienceToAdd = 100;
     }
+    else if(iType == 3){
+        uExperienceItem = CreateObjectAtMarker(
+            iMarkerExperience,
+            "GOLDEN_FIGURE_STATUE"
+        );
+        iExperienceToAdd = 200;
+    }
+    else if(iType == 4){
+        uExperienceItem = CreateObjectAtMarker(
+            iMarkerExperience,
+            "CHARONS_BOAT_MODEL"
+        );
+        iExperienceToAdd = 500;
+    }
 
     uExperience[j] = uExperienceItem; 
     iExperienceToAddArray[j] = iExperienceToAdd;
@@ -84,6 +98,12 @@ function void GrantExperience(unitex uUnit, int iMarkerExperience, int iMarkerFi
     else if(iExperienceToAdd == 100){
         CreateObjectAtUnit(uUnit, "GET_ADD_MANA100");
     }
+    else if(iExperienceToAdd == 200){
+        CreateObjectAtUnit(uUnit, "GET_GOLD200");
+    }
+    else if(iExperienceToAdd == 500){
+        CreateObjectAtUnit(uUnit, "GET_GOLD500");
+    }
     
     uUnit.SetExperiencePoints(iCurrentExperience + iExperienceToAdd);
     iNewLevel = uUnit.GetExperienceLevel();
@@ -113,7 +133,7 @@ function void InitializeExperience()
         if(!PointExist(i))
             continue;
 
-        iType = (i - MARKER_FIRST_EXPERIENCE) / 10;
+        iType = (i - MARKER_FIRST_EXPERIENCE) / 6;
         CreateExperienceArtefact(i, MARKER_FIRST_EXPERIENCE, iType);
     }
 }

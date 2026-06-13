@@ -1,5 +1,3 @@
-unitex uFinalBoss;
-
 function int ShouldCreateSpawnUnits()
 {
     int iCurrentTime;
@@ -8,7 +6,7 @@ function int ShouldCreateSpawnUnits()
     iCurrentTime = GetMissionTime();
     iBreakLength = GetBreakLength(iCurrentWaveNumber);
 
-    if(iWaveType >= 6 )
+    if(iWaveType >= 7 )
     {
         if((iCurrentTime - iBreakTimeStart) > (iBreakLength + 30 * SECOND))
             return true;
@@ -80,6 +78,7 @@ function void HandleBossSpawning()
 
 }
 
+
 function void HandleActiveWaveProgress()
 {
     int bIsTimeToBreak;
@@ -133,25 +132,33 @@ function void MakeFinalWave()
     unitex uUnit;
     bIsFinalWave = true;
 
-    uUnit = GetUnitAtMarker(BOSS_MARKER);
-    uUnit.ChangePlayer(rPlayer10);
-    uUnit.CommandSetMovementMode(modeMove);
-    uUnit.SetScriptImmortal(false);
-    SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, MAIN_BOSS_NECROMANCER_MARKER);
-
-    uFinalBoss = GetUnitAtMarker(BOSS_MARKER);
+    uFinalBoss.ChangePlayer(rPlayer10);
+    uFinalBoss.CommandSetMovementMode(modeMove);
+    uFinalBoss.SetScriptImmortal(false);
+    SetUnitMaskedScriptData(uFinalBoss, TOWER_DEFENSE_SPECIAL_MASK, MAIN_BOSS_NECROMANCER_MARKER);
     iPreviousBossHealth = uUnit.GetHP();
 
     // QUEENS
-    for(i=1; i<5; i=i+1)
-    {
-        uUnit = GetUnitAtMarker(BOSS_MARKER+i);
-        uUnit.CommandSetMovementMode(modeMove);
-        uUnit.ChangePlayer(rPlayer11);
-        uUnit.SetScriptImmortal(false);
+    uFinalBossMinion1.CommandSetMovementMode(modeMove);
+    uFinalBossMinion1.ChangePlayer(rPlayer11);
+    uFinalBossMinion1.SetScriptImmortal(false);
+    SetUnitMaskedScriptData(uFinalBossMinion1, TOWER_DEFENSE_SPECIAL_MASK, MAIN_BOSS_QUEEN_MARKER);
 
-        SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, MAIN_BOSS_QUEEN_MARKER);
-    }
+    uFinalBossMinion2.CommandSetMovementMode(modeMove);
+    uFinalBossMinion2.ChangePlayer(rPlayer11);
+    uFinalBossMinion2.SetScriptImmortal(false);
+    SetUnitMaskedScriptData(uFinalBossMinion2, TOWER_DEFENSE_SPECIAL_MASK, MAIN_BOSS_QUEEN_MARKER);
+
+    uFinalBossMinion3.CommandSetMovementMode(modeMove);
+    uFinalBossMinion3.ChangePlayer(rPlayer11);
+    uFinalBossMinion3.SetScriptImmortal(false);
+    SetUnitMaskedScriptData(uFinalBossMinion3, TOWER_DEFENSE_SPECIAL_MASK, MAIN_BOSS_QUEEN_MARKER);
+
+    uFinalBossMinion4.CommandSetMovementMode(modeMove);
+    uFinalBossMinion4.ChangePlayer(rPlayer11);
+    uFinalBossMinion4.SetScriptImmortal(false);
+    SetUnitMaskedScriptData(uFinalBossMinion4, TOWER_DEFENSE_SPECIAL_MASK, MAIN_BOSS_QUEEN_MARKER);
+
 }
 
 
@@ -242,7 +249,7 @@ function void PrepareForNormalWave()
 
 function void StartNextWave()
 {
-    if(iCurrentWaveNumber == iTotalWaveNumber)
+    if(iCurrentWaveNumber == TOTAL_WAVE_NUMBER)
     {
         PrepareForFinalWave();
     }
@@ -271,6 +278,35 @@ function void HandleBreakTime()
     }
 }
 
+
+function void HandleTeleportStuckUnits(player rPlayer)
+{
+    int iTimeToBreak;
+    int i;
+    int iNumberOfUnits;
+
+    iNumberOfUnits = rPlayer.GetNumberOfUnits();
+
+    iTimeToBreak = GetTimeToBreak();
+
+    if(iTimeToBreak > 45 * SECOND)
+    {
+        return;
+    }
+
+    for(i=0; i<iNumberOfUnits; i=i+1)
+    {
+        uUnit = rPlayer.GetUnit(i);
+        if(uUnit == null)
+            continue;
+        if(RandXor(5) != 0)
+            continue;
+
+        TeleportToFirstMarker(uUnit);
+    }
+}
+
+
 event Timer0()
 {
     // Jeśli state to Victory lub Defeat to nie ma potrzeby sprawdzać
@@ -295,6 +331,7 @@ event Timer1()
     {
         rPlayer = GetPlayer(i);
         AttackPlayer(rPlayer, rDefenderPlayer);
+        HandleTeleportStuckUnits(rPlayer);
     }
 }
 

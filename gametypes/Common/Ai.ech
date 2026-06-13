@@ -22,7 +22,7 @@ function int IsTower(unitex uUnit)
     if(uUnit.GetArmour(1) == 100)
         return 0;
 
-    if(uUnit.GetMaxHP() == 1200)
+    if(uUnit.GetBuildingType() == buildingTower)
         return 1;
 
     return 0;
@@ -37,7 +37,7 @@ function int IsGate(unitex uUnit)
     if(uUnit.GetArmour(1) == 100)
         return 0;
 
-    if(uUnit.GetMaxHP() == 3000)
+    if(uUnit.GetBuildingType() == buildingGate)
         return 1;
 
     return 0;
@@ -51,7 +51,7 @@ function int IsWall(unitex uUnit)
     if(uUnit.GetArmour(1) == 100)
         return 0;
 
-    if(uUnit.GetMaxHP() == 1000)
+    if(uUnit.GetBuildingType() == buildingWall)
         return 1;
 
     return 0;
@@ -193,8 +193,11 @@ function int AttackBorderingBuildingOrEnemy(unitex uUnit, int bIncludePassive)
 {
     int bIsNextToBuilding, bIsNextToEnemy, bIsShooter;
     unitex uBuilding, uEnemyUnit;
+    int iRand;
 
-    if(uUnit.IsMoving())
+    iRand = RandXor(100);
+
+    if(uUnit.IsMoving() &&  iRand < 90)
         return false;
 
     bIsShooter = IsShooter(uUnit);

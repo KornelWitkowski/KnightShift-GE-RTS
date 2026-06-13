@@ -6,35 +6,31 @@ function unitex SpawnTitanBoss(int nWaveNumber, int iMarker)
     
     if(nWaveNumber <= 10)
     {
-        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "RTS_ATLAS_1");
-        uUnit.AddHP(-2000);
+        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "TD_TITAN_BOSS");
     }
     else if(nWaveNumber <= 20)
     {
-        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "RTS_ATLAS_1");
-        uUnit.AddHP(-1000);
+        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "TD_TITAN_BOSS");
+        uUnit.AddHP(1500);
+        uUnit.AddDamage(0, 30);
+        uUnit.AddDamage(1, 30);
+        uUnit.AddDamage(2, 30);
     }
     else if(nWaveNumber <= 30)
     {
-        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "RTS_ATLAS_1");
+        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "TD_TITAN_BOSS");
+        uUnit.AddHP(3000);
+        uUnit.AddDamage(0, 60);
+        uUnit.AddDamage(1, 60);
+        uUnit.AddDamage(2, 60);
     }
     else
     {
-        uUnit = rPlayer10.CreateUnit(
-            GetPointX(iMarker),
-            GetPointY(iMarker),
-            GetPointZ(iMarker),
-            64,
-            "RTS_ATLAS_2",
-            null,
-            null,
-            null,
-            "RPG_AXE69",
-            null,
-            null,
-            null,
-            null
-        );
+        uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "TD_TITAN_BOSS");
+        uUnit.AddHP(5000);
+        uUnit.AddDamage(0, 100);
+        uUnit.AddDamage(1, 100);
+        uUnit.AddDamage(2, 100);
     }
 
     GiveCaptureConvertResistance(uUnit);

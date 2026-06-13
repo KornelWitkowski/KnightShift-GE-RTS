@@ -79,6 +79,10 @@ function int RandXor(int iMax)
     int iTime;
     int iTemp;
     int iSeed;
+    int iResult;
+
+    if (iMax <= 0) return 0;
+
     if (iXorState == 0) {
         iSeed = GetMissionTime();
         InitXorShiftRNG(iSeed);
@@ -97,8 +101,12 @@ function int RandXor(int iMax)
     iTemp = iXorState << 5;
     iXorState = BitwiseXor(iXorState, iTemp);
     
-    if (iXorState < 0) iXorState = -iXorState;
-    return iXorState % iMax;
+    iResult = iXorState;
+    if (iResult < 0) {
+        iResult = -iResult;
+    }
+    
+    return iResult % iMax;
 }
 
 function int RandXorNoExtraEntropy(int iMax)
@@ -110,6 +118,10 @@ function int RandXorNoExtraEntropy(int iMax)
     */
     int iTemp;
     int iSeed;
+    int iResult;
+
+    if (iMax <= 0) return 0;
+
     if (iXorStateNoExtraEntropy == 0) {
         iSeed = GetMissionTime();
         InitXorShiftRNGNoExtraEntropy(iSeed);
@@ -123,8 +135,12 @@ function int RandXorNoExtraEntropy(int iMax)
     iTemp = iXorStateNoExtraEntropy << 5;
     iXorStateNoExtraEntropy = BitwiseXor(iXorStateNoExtraEntropy, iTemp);
     
-    if (iXorStateNoExtraEntropy < 0) iXorStateNoExtraEntropy = -iXorStateNoExtraEntropy;
-    return iXorStateNoExtraEntropy % iMax;
+    iResult = iXorStateNoExtraEntropy;
+    if (iResult < 0) {
+        iResult = -iResult;
+    }
+    
+    return iResult % iMax;
 }
 
 function int GaussianDistribution(int iStd)

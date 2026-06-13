@@ -11,13 +11,13 @@ function void SpawnNecromancerBossMinions(int iMarker, player rPlayerEnemy)
 }
 
 
-function int GetSkeletonBossMinionsRate(int iWaveNumber)
+function int GetMinotaurBossMinionsRate(int iWaveNumber)
 {
     return 11 + 4 * (iWaveNumber / 10);
 }
 
 
-function void SpawnSkeletonBossMinions(int iMarker, player rPlayerEnemy)
+function void SpawnMinotaurBossMinions(int iMarker, player rPlayerEnemy)
 {
     int iRoll;
     unitex uUnit;
@@ -128,6 +128,94 @@ function void SpawnDemonBossMinions(int iMarker, player rPlayerEnemy)
     }
 }
 
+function int GetWitchBossMinionsRate(int iWaveNumber)
+{
+    return 11 + 4 * (iWaveNumber / 10);
+}
+
+
+function void SpawnWitchBossMinions(int iMarker, player rPlayerEnemy)
+{
+    int iRoll;
+    unitex uUnit;
+    iRoll = RandXor(100);
+
+
+    if(iRoll < 40)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "WITCH");
+    }
+    else if(iRoll < 80)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "SORCERER");
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "KNIGHT");
+    }
+
+}
+
+
+function int SpawnWitchBossMinionUnit(int iWaveNumber, player rPlayerHuman)
+{
+    int i, iSize;
+    int iMarker;
+    int iRate, iRand;
+    unitex uUnit;
+    player rPlayerEnemy;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    // szukamy przez próbkowanie dostępnego markera na którym nie ma jednostki
+    for(i = 0; i < 20; i = i + 1)
+    {
+        iSize = LAST_SPAWN_MARKER - FIRST_SPAWN_MARKER + 1;
+        iMarker = FIRST_SPAWN_MARKER + RandXor(iSize);
+
+        if(!PointExist(iMarker))
+            continue;
+
+        uUnit = GetUnitAtMarker(iMarker);
+
+        if(uUnit == null)
+            break;
+    }
+
+    if(!PointExist(iMarker))
+        return 0;
+
+    if(uUnit != null)
+        return 0;
+
+    
+    iRand = RandXor(100);
+    iRate = GetWitchBossMinionsRate(iWaveNumber);
+
+    if(iRand < iRate)
+    {
+        SpawnWitchBossMinions(iMarker, rPlayerEnemy);
+    }
+
+    uUnit = GetUnitAtMarker(iMarker);
+
+    if (uUnit == null)
+        return 0;
+
+    if(RandXor(100) < 50)
+    {
+        SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_RIGHT);
+    }
+    else
+    {
+        SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_LEFT);
+    }
+
+    CreateObjectAtUnit(uUnit, "HIT_TELEPORT");
+    AttackClosestUnit(uUnit, rPlayerHuman, false);
+
+    return 1;
+}
 
 
 function int SpawnBossMinionUnit(int iBossWaveType, int iWaveNumber, player rPlayerHuman)
@@ -139,6 +227,11 @@ function int SpawnBossMinionUnit(int iBossWaveType, int iWaveNumber, player rPla
     player rPlayerEnemy;
 
     rPlayerEnemy = GetPlayer(11);
+
+    if(iBossWaveType == WITCH_BOSS)
+    {
+        return SpawnWitchBossMinionUnit(iWaveNumber, rPlayerHuman);
+    }
 
     // szukamy przez próbkowanie dostępnego markera na którym nie ma jednostki
     for(i = 0; i < 20; i = i + 1)
@@ -173,12 +266,12 @@ function int SpawnBossMinionUnit(int iBossWaveType, int iWaveNumber, player rPla
             SpawnNecromancerBossMinions(iMarker, rPlayerEnemy);
         }
     }
-    else if (iBossWaveType == SKELETON_BOSS)
+    else if (iBossWaveType == MINOTAUR_BOSS)
     {
-        iRate = GetSkeletonBossMinionsRate(iWaveNumber);
+        iRate = GetMinotaurBossMinionsRate(iWaveNumber);
         if(iRand < iRate)
         {
-            SpawnSkeletonBossMinions(iMarker, rPlayerEnemy);
+            SpawnMinotaurBossMinions(iMarker, rPlayerEnemy);
         }
     }
     else if (iBossWaveType == MULTIPLYING_SKELETON_BOSS)

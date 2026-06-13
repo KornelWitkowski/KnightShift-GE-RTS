@@ -979,6 +979,7 @@ function void UpdateAiResearch(int iWaveNumber)
     int iUpdateRate, iEliteUpdateRate;
 
     int iTierItem, iTierMagicItem, iTierSpell;
+    int iPrevTierItem, iPrevTierMagicItem, iPrevTierSpell;
 
     iUpdateRate = 15 - 2 * (iDifficulty - 2);
     iEliteUpdateRate = 30 - 5 * (iDifficulty - 2);

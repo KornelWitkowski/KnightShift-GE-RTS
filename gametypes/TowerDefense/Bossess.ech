@@ -1,14 +1,16 @@
 #define NECROMANCER_BOSS 0
-#define SKELETON_BOSS 1
+#define MINOTAUR_BOSS 1
 #define MULTIPLYING_SKELETON_BOSS 2
 #define DEMON_BOSS 3
 #define TITAN_BOSS 4
+#define WITCH_BOSS 5
 
 #include "Bossess/Necromancer.ech"
 #include "Bossess/Titan.ech"
-#include "Bossess/SkeletonTeam.ech"
+#include "Bossess/Minotaur.ech"
 #include "Bossess/Demon.ech"
 #include "Bossess/MultiplyingSkeleton.ech"
+#include "Bossess/Witch.ech"
 
 #include "BossMinions.ech"
 
@@ -23,9 +25,9 @@ function unitex SpawnBoss(int iBossWaveType, int iWaveNumber, int iMarker)
         uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT2");
         uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
     }
-    else if(iBossWaveType == SKELETON_BOSS)
+    else if(iBossWaveType == MINOTAUR_BOSS)
     {
-        uUnit = SpawnSpecialSkeleton(iWaveNumber, iMarker);
+        uUnit = SpawnMinotaurBoss(iWaveNumber, iMarker);
         uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT2");
         uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
     }
@@ -49,6 +51,12 @@ function unitex SpawnBoss(int iBossWaveType, int iWaveNumber, int iMarker)
     else if(iBossWaveType == TITAN_BOSS)
     {
         uUnit = SpawnTitanBoss(iWaveNumber, iMarker);
+        uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT3");
+        uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
+    }
+    else if(iBossWaveType == WITCH_BOSS)
+    {
+        uUnit = SpawnWitchBoss(iWaveNumber, iMarker);
         uSmoke = CreateObjectAtUnit(uUnit, "SMOKE_SHIELD_EFFECT3");
         uSmoke.SetSmokeObject(uUnit.GetUnitRef(), true, true, true, true);
     }

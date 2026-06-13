@@ -28,47 +28,60 @@ function void CreateRandomArtefact(int x, int y, int bMagicArtefacts)
     // Losujemy artefakty w zależności od trybu. Dla trybu 'Miecze i Sandały' pomijamy magiczne artefakty.
     if(bMagicArtefacts)
     {
-        nRandNum = RandXor(33);
+        nRandNum = RandXor(41);
     }
     else
     {
-        nRandNum = RandXor(24);
+        nRandNum = RandXor(32);
     }
 
     CreateArtefactIfNumberMatches(x, y, "ART_HELMET3",           0, nRandNum);
     CreateArtefactIfNumberMatches(x, y, "ART_HELMET3A",          1, nRandNum);
     CreateArtefactIfNumberMatches(x, y, "ART_HELMET4",           2, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_HELMET4A",          3, nRandNum);    
+    CreateArtefactIfNumberMatches(x, y, "ART_HELMET4A",          3, nRandNum);  
+
     CreateArtefactIfNumberMatches(x, y, "ART_SWORD3",            4, nRandNum);
     CreateArtefactIfNumberMatches(x, y, "ART_SWORD3A",           5, nRandNum);
     CreateArtefactIfNumberMatches(x, y, "ART_SWORD4",            6, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_SWORD4A",           7, nRandNum);        
-    CreateArtefactIfNumberMatches(x, y, "ART_SPEAR5",            8, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_SPEAR6",            9, nRandNum);    
-    CreateArtefactIfNumberMatches(x, y, "ART_AXE5",              10, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_AXE6",              11, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_BOW5",              12, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_BOW6",              13, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_ARMOUR3A",          14, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_ARMOUR4",           15, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_ARMOUR4A",          16, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD2H",          17, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD3",           18, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD3A",          19, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD3B",          20, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD4",           21, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD4A",          22, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD4B",          23, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_SWORD4A",           7, nRandNum);  
+    CreateArtefactIfNumberMatches(x, y, "ART_SWORD6",            8, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_SWORD7",            9, nRandNum);    
+    
+    CreateArtefactIfNumberMatches(x, y, "ART_SPEAR5",            10, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_SPEAR6",            11, nRandNum); 
+    CreateArtefactIfNumberMatches(x, y, "ART_SPEAR7",            12, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_SPEAR8",            13, nRandNum); 
+    
+    CreateArtefactIfNumberMatches(x, y, "ART_AXE5",              14, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_AXE6",              15, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_AXE7",              16, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_AXE8",              17, nRandNum); 
 
-    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_SHIELD1",    24, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_SHIELD2",    25, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_SHIELD3",    26, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_MAXMAGIC1",  27, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_MAXMAGIC2",  28, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_MAXMAGIC3",  29, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_REGMAGIC1",  30, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_REGMAGIC2",  31, nRandNum);
-    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_REGMAGIC3",  32, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_BOW5",              18, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_BOW6",              19, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_BOW7",              20, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_BOW8",              21, nRandNum); 
+
+    CreateArtefactIfNumberMatches(x, y, "ART_ARMOUR3A",          22, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_ARMOUR4",           23, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_ARMOUR4A",          24, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD2H",          25, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD3",           26, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD3A",          27, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD3B",          28, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD4",           29, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD4A",          30, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_SHIELD4B",          31, nRandNum);
+
+    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_SHIELD1",    32, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_SHIELD2",    33, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_SHIELD3",    34, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_MAXMAGIC1",  35, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_MAXMAGIC2",  36, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_MAXMAGIC3",  37, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_REGMAGIC1",  38, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_REGMAGIC2",  39, nRandNum);
+    CreateArtefactIfNumberMatches(x, y, "ART_AMULET_REGMAGIC3",  40, nRandNum);
     
 }
 

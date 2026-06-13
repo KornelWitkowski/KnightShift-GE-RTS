@@ -11,17 +11,23 @@ function unitex CreateTier1Unit(int iMarker)
 
     if (iRoll == 0) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MERCHUNTER");
+        uUnit.SetUnitName("translateTDRewardUnit00");
     } else if (iRoll == 1) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MERCSPEARMAN");
         uUnit.AddHP(120);
+        uUnit.SetUnitName("translateTDRewardUnit01");
     } else if (iRoll == 2) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MERCWOODCUTTER");
+        uUnit.SetUnitName("translateTDRewardUnit02");
     } else if (iRoll == 3) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "BANDIT");
+        uUnit.SetUnitName("translateTDRewardUnit03");
     } else if (iRoll == 4) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_F_RECRUIT");
+        uUnit.SetUnitName("translateTDRewardUnit04");
     } else if (iRoll == 5) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_H_MERC");
+        uUnit.SetUnitName("translateTDRewardUnit05");
     }
 
     return uUnit;
@@ -40,17 +46,23 @@ function unitex CreateTier2Unit(int iMarker)
 
     if (iRoll == 0) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "AMAZONE");
+        uUnit.SetUnitName("translateTDRewardUnit10");
     } else if (iRoll == 1) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "DARKPRIEST");
+        uUnit.SetUnitName("translateTDRewardUnit11");
     } else if (iRoll == 2) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_W_GET");
+        uUnit.SetUnitName("translateTDRewardUnit12");
     } else if (iRoll == 3) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_BANDITT");
+        uUnit.SetUnitName("translateTDRewardUnit13");
     } else if (iRoll == 4) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_BANDIT_SPEARMAN");
         uUnit.AddHP(200);
+        uUnit.SetUnitName("translateTDRewardUnit14");
     } else if (iRoll == 5) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_B4NDITM");
+        uUnit.SetUnitName("translateTDRewardUnit15");
     }
 
     return uUnit;
@@ -69,21 +81,27 @@ function unitex CreateTier3Unit(int iMarker)
 
     if (iRoll == 0) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_AMAZONE");
+        uUnit.SetUnitName("translateTDRewardUnit20");
     } else if (iRoll == 1) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_BANDIT_SPEARMAN2");
         uUnit.AddHP(100);
+        uUnit.SetUnitName("translateTDRewardUnit21");
     } else if (iRoll == 2) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SG_F_MERC");
         uUnit.AddHP(200);
+        uUnit.SetUnitName("translateTDRewardUnit22");
     } else if (iRoll == 3) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NKAPLAN");
+        uUnit.SetUnitName("translateTDRewardUnit23");
     } else if (iRoll == 4) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_FORESTS");
         uUnit.AddHP(100);
+        uUnit.SetUnitName("translateTDRewardUnit24");
     } else if (iRoll == 5) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "OLDWITCH");
         uUnit.AddHP(800);
         uUnit.AddDamage(2, 140);
+        uUnit.SetUnitName("translateTDRewardUnit25");
     } 
 
     return uUnit;
@@ -103,25 +121,31 @@ function unitex CreateTier4Unit(int iMarker)
 
     if (iRoll == 0) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_AMAZONE2");
+        uUnit.SetUnitName("translateTDRewardUnit30");
     } else if (iRoll == 1) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NCZARODZIEJKA");
         uUnit.AddHP(100);
         uUnit.AddDamage(2, 40);
+        uUnit.SetUnitName("translateTDRewardUnit31");
     } else if (iRoll == 2) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NMAG");
         uUnit.AddHP(100);
+        uUnit.SetUnitName("translateTDRewardUnit32");
     } else if (iRoll == 3) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NPC_FOOTMAN");
         uUnit.AddHP(600);
         uUnit.AddDamage(1, 50);
+        uUnit.SetUnitName("translateTDRewardUnit33");
     } else if (iRoll == 4) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "SPECIALCOW");
         uUnit.CommandSetTalkMode(true, true, false);
         uUnit.CommandStop();
+        uUnit.SetUnitName("translateTDRewardUnit34");
     } else if (iRoll == 5) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NPC_HUNTER");
         uUnit.AddHP(300);
         uUnit.AddDamage(1, 20);
+        uUnit.SetUnitName("translateTDRewardUnit35");
     }
     
     return uUnit;
@@ -140,18 +164,24 @@ function unitex CreateTier5Unit(int iMarker)
 
     if (iRoll == 0) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_AMAZONE3");
+        uUnit.SetUnitName("translateTDRewardUnit40");
     } else if (iRoll == 1) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NPC_KNIGHT");
         uUnit.AddHP(800);
         uUnit.AddDamage(1, 40);
+        uUnit.SetUnitName("translateTDRewardUnit41");
     } else if (iRoll == 2) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RINGLEADER");
+        uUnit.SetUnitName("translateTDRewardUnit42");
     } else if (iRoll == 3) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "RPG_GRAF");
+        uUnit.SetUnitName("translateTDRewardUnit43");
     } else if (iRoll == 4) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "GIANTSPECIAL");
+        uUnit.SetUnitName("translateTDRewardUnit44");
     } else if (iRoll == 5) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "NRYCERZ");
+        uUnit.SetUnitName("translateTDRewardUnit45");
     }
 
     return uUnit;
@@ -172,24 +202,30 @@ function unitex CreateTier6Unit(int iMarker)
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "PRINCESS");
         uUnit.AddHP(1600);
         uUnit.AddDamage(2, 130);
+        uUnit.SetUnitName("translateTDRewardUnit50");
     } else if (iRoll == 1) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "MIESZKO");
         uUnit.AddHP(1500);
         uUnit.AddDamage(2, 55);
+        uUnit.SetUnitName("translateTDRewardUnit51");
     } else if (iRoll == 2) {
         uUnit = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
             "HERO_EASY", "HELMET5", "ARMOUR5", "SHIELD5", "SWORD6", null, null, null, null);
         uUnit.AddHP(200);
         uUnit.AddDamage(2, 15);
+        uUnit.SetUnitName("translateTDRewardUnit52");
     } else if (iRoll == 3) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "DRAGON_RED");
+        uUnit.SetUnitName("translateTDRewardUnit53");
     } else if (iRoll == 4) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "KOSCIEJ");
         uUnit.AddHP(1000);
         uUnit.AddDamage(2, 100);
         SetUnitNecromancer(iMarker);
+        uUnit.SetUnitName("translateTDRewardUnit54");
     } else if (iRoll == 5) {
         uUnit = CreateUnitAtMarker(rPlayer, iMarker, "FATHER");
+        uUnit.SetUnitName("translateTDRewardUnit55");
     }
 
     return uUnit;
@@ -230,7 +266,7 @@ function unitex RewardUnits(int iWaveNumber, int iMarker)
     int iRoll;
     unitex uRewardUnit;
 
-    iRoll =  GaussianDistributionNoExtraEntropy(30) + 3 * iWaveNumber / 2;
+    iRoll =  GaussianDistributionNoExtraEntropy(40) + 3 * iWaveNumber / 2;
 
     // Reward unit based on thresholds
     if (iRoll < 20) {
@@ -256,3 +292,36 @@ function unitex RewardUnits(int iWaveNumber, int iMarker)
     return uRewardUnit;
 }
 
+
+function void RewardBreakTimeUnits(int iMarker)
+{
+    unitex uRewardUnit;
+    player rPlayer;
+
+    rPlayer = GetPlayer(13);
+
+
+    uRewardUnit = CreateUnitAtMarker(rPlayer, iMarker, "SHEPHERD");
+    MarkAsPrisoner(uRewardUnit, iMarker);
+    uRewardUnit.CommandSetMovementMode(modeHoldPos);
+
+    uRewardUnit = CreateUnitAtMarker(rPlayer, iMarker+1, "WOODCUTTER");
+    MarkAsPrisoner(uRewardUnit, iMarker+1);
+    uRewardUnit.CommandSetMovementMode(modeHoldPos);
+
+    uRewardUnit = CreateUnitAtMarker(rPlayer, iMarker+2, "WOODCUTTER");
+    MarkAsPrisoner(uRewardUnit, iMarker+2);
+    uRewardUnit.CommandSetMovementMode(modeHoldPos);
+
+    uRewardUnit = CreateUnitAtMarker(rPlayer, iMarker+3, "COW");
+    MarkAsPrisoner(uRewardUnit, iMarker+3);
+    uRewardUnit.CommandSetMovementMode(modeHoldPos);
+    uRewardUnit.CommandSetTalkMode(true, true, false);
+    uRewardUnit.CommandStop();
+
+    uRewardUnit = CreateUnitAtMarker(rPlayer, iMarker+4, "COW");
+    MarkAsPrisoner(uRewardUnit, iMarker+4);
+    uRewardUnit.CommandSetMovementMode(modeHoldPos);
+    uRewardUnit.CommandSetTalkMode(true, true, false);
+    uRewardUnit.CommandStop();
+}
