@@ -272,6 +272,10 @@ event Artefact(int iArtefactNum, unitex uUnitOnArtefact, player rPlayerOnArtefac
             iBreakTimeStart = iBreakTimeStart + 10*MINUTE;
             CreateArtefactAtUnit("SWITCH_1_2", uUnitOnArtefact, 0);
             CreateObjectAtUnit(uUnitOnArtefact, "CAST_MAGIC1");
+
+            CleanupRewards();
+            GiveExtraBreakTimeMilk();
+            RewardBreakTimeUnits(FIRST_REWARD_MARKER);
             return true;
         }
         return false;

@@ -1,13 +1,48 @@
 function int ChooseSupplementTier(int iWaveNumber)
 {
+    int i;
+    int j;
+    int iRolls;
+    int iMinRoll;
+    int iCandidate;
+    int iBest;
     int iRoll;
 
-    iRoll =  GaussianDistributionNoExtraEntropy(30) + 2 * iWaveNumber;
-    
-    if (20 > iRoll) return 0;
-    if (40 > iRoll) return 1;
-    if (60 > iRoll) return 2;
-    if (80 > iRoll) return 3;
+    /* Best-of-N: im dalsza fala, tym więcej rzutów, bierzemy najlepszy.
+       Waves 0-11 -> 1 rzut, 12-23 -> 2, 24-35 -> 3, 36+ -> 4.
+       Ta sama skala co w equipmencie, żeby dropy rosły spójnie. */
+    iRolls = 1 + iWaveNumber / 12;
+    if (iRolls > 4) iRolls = 4;
+
+    /* Progresywny floor. Koszyk w supplementach ma szerokość 20, więc progi
+       też idą o 20. Do fali 9 brak floora. Cap na 80, żeby zostawić
+       losowość w środku gry i nie wymuszać top-tieru. */
+    iMinRoll = 0;
+    if (iWaveNumber >= 10) iMinRoll = 10;
+    if (iWaveNumber >= 15) iMinRoll = 20;
+    if (iWaveNumber >= 25) iMinRoll = 40;
+    if (iWaveNumber >= 35) iMinRoll = 60;
+    if (iWaveNumber >= 45) iMinRoll = 80;
+
+    iBest = -999;
+    iCandidate = 0;
+    for (i = 0; i < iRolls; ++i)
+    {
+        /* Reroll gdy rzut poniżej floora; limit 8 iteracji zabezpiecza
+           przed zapętleniem w skrajnych przypadkach. */
+        for (j = 0; j < 8; ++j)
+        {
+            iCandidate = GaussianDistributionNoExtraEntropy(30) + 2 * iWaveNumber;
+            if (iCandidate >= iMinRoll) break;
+        }
+        if (iCandidate > iBest) iBest = iCandidate;
+    }
+    iRoll = iBest;
+
+    if (20 > iRoll)  return 0;
+    if (40 > iRoll)  return 1;
+    if (60 > iRoll)  return 2;
+    if (80 > iRoll)  return 3;
     if (100 > iRoll) return 4;
     if (120 > iRoll) return 5;
     return 6;
@@ -30,9 +65,9 @@ function unitex CreateHPSupplementReward(int iWaveNumber, int iMarker)
     else if (iTier == 4)
         uSupplement = CreateObjectAtMarker(iMarker, "ART_ADD_HP_GE_400");
     else if (iTier == 5)
-        uSupplement = CreateObjectAtMarker(iMarker, "ART_ADD_HP_GE_500");
-    else
         uSupplement = CreateObjectAtMarker(iMarker, "ART_ADD_HP_GE_600");
+    else
+        uSupplement = CreateObjectAtMarker(iMarker, "ART_ADD_HP_GE_800");
 
     return uSupplement;
 }

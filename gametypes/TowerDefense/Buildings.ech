@@ -218,7 +218,5 @@ function void UpdateBuildingsAfterWave(player rPlayer, int nWaveNumber)
     else 
     {
         UpdateBuildings(rPlayer, 6, 8, 8, 4, 5, 4);
-    }
-    
-    
+    } 
 }

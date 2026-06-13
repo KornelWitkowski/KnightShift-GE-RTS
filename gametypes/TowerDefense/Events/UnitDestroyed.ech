@@ -121,10 +121,14 @@ event UnitDestroyed(unitex uUnitKilled)
         RemoveMirkoItems(uUnitKilled.GetLocationX(), uUnitKilled.GetLocationY(), uUnitKilled.GetLocationZ());
     }
 
+    if(IsBomber(uUnitKilled))
+    {
+        UpdateCowsStatistics();
+    }
 
     if( iMaskedScriptData == MAIN_BOSS_DEMON_MARKER)
     {
-        GenerateSpecialPrize(iCurrentWaveNumber, iDifficulty);
+        UpdateWavesStatistics(iCurrentWaveNumber);
         SetStateDelay(400);
         KillRemainingEnemyUnits();
         SetGoalState(0, goalAchieved, 1);
@@ -135,61 +139,14 @@ event UnitDestroyed(unitex uUnitKilled)
     }
     else if(iMaskedScriptData == MAIN_BOSS_NECROMANCER_MARKER)
     {
-        if(iTotalWaveNumber <= 10)
-        {
-            uUnit = rPlayer8.CreateUnit(
-                uUnitKilled.GetLocationX(),
-                uUnitKilled.GetLocationY(),
-                uUnitKilled.GetLocationZ(), 
-                uUnitKilled.GetAlphaAngle(),
-                "MONSTERQUEEN"
-            );
-            uUnit.AddHP(-12000);
-        }
-        else if(iTotalWaveNumber <= 20)
-        {
-            uUnit = rPlayer8.CreateUnit(
-                uUnitKilled.GetLocationX(),
-                uUnitKilled.GetLocationY(),
-                uUnitKilled.GetLocationZ(), 
-                uUnitKilled.GetAlphaAngle(),
-                "MONSTERQUEEN"
-            );
-            uUnit.AddHP(-8000);
-        }
-        else if(iTotalWaveNumber <= 30)
-        {
-            uUnit = rPlayer8.CreateUnit(
-                uUnitKilled.GetLocationX(),
-                uUnitKilled.GetLocationY(),
-                uUnitKilled.GetLocationZ(), 
-                uUnitKilled.GetAlphaAngle(),
-                "MONSTERQUEEN2"
-            );
-            uUnit.AddHP(-16000);
-        }
-        else if(iTotalWaveNumber <= 40)
-        {
-            uUnit = rPlayer8.CreateUnit(
-                uUnitKilled.GetLocationX(),
-                uUnitKilled.GetLocationY(),
-                uUnitKilled.GetLocationZ(), 
-                uUnitKilled.GetAlphaAngle(),
-                "MONSTERQUEEN3"
-            );
-            uUnit.AddHP(-2000);
-        }
-        else
-        {
-            uUnit = rPlayer8.CreateUnit(
-                uUnitKilled.GetLocationX(),
-                uUnitKilled.GetLocationY(),
-                uUnitKilled.GetLocationZ(), 
-                uUnitKilled.GetAlphaAngle(),
-                "MONSTERQUEEN4"
-            );
-            uUnit.AddHP(-5000);
-        }
+
+        uUnit = rPlayer8.CreateUnit(
+            uUnitKilled.GetLocationX(),
+            uUnitKilled.GetLocationY(),
+            uUnitKilled.GetLocationZ(), 
+            uUnitKilled.GetAlphaAngle(),
+            "MONSTERQUEEN4"
+        );
 
         SetUnitMaskedScriptData(uUnit, PATH_MASK, iMaskedScriptData);
         GiveCaptureConvertResistance(uUnit);
@@ -244,16 +201,14 @@ event UnitDestroyed(unitex uUnitKilled)
 
         if(iBossUnitNumber == 0)
         {
-            GenerateSpecialPrize(iCurrentWaveNumber, iDifficulty);
             KillRemainingEnemyUnits();
-            EndCurrentWave();
+            EndCurrentBossWave();
         }
     }
     else if (uUnitKilled == uBoss)
     {
-        GenerateSpecialPrize(iCurrentWaveNumber, iDifficulty);
         KillRemainingEnemyUnits();
-        EndCurrentWave();
+        EndCurrentBossWave();
     }
     else if (bIsBossWave && bWaveActive && (iBossWaveType == NECROMANCER_BOSS))
     {

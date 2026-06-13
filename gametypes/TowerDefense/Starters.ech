@@ -36,7 +36,7 @@ function void CreateStarters()
     else if(comboStarter == 1)
     {
         uUnit1 = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
-            "MIESZKO_EASY", "HELMET3", "ARMOUR3", "SHIELD3", "SWORD3", null, null, null, null);
+            "TD_MIESZKO", "HELMET3", "ARMOUR3", "SHIELD3", "SWORD3", null, null, null, null);
         CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
     }
     else if(comboStarter == 2)
@@ -51,25 +51,25 @@ function void CreateStarters()
             "MERCWOODCUTTER", null, null, null, "AXE6", null, null, null, null);
         CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
         uUnit1.AddDamage(1, 20);
-        uUnit1.AddHP(400);
+        uUnit1.AddHP(500);
         GiveCaptureConvertResistance(uUnit1);
         uUnit2 = rPlayer.CreateUnit(GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), GetPointAlpha(iMarker+1), 
             "MERCWOODCUTTER", null, null, null, "AXE6", null, null, null, null);
         CreateObjectAtMarker(iMarker+1, "HIT_TELEPORT");
         uUnit2.AddDamage(1, 20);
-        uUnit2.AddHP(400);
+        uUnit2.AddHP(500);
         GiveCaptureConvertResistance(uUnit2);
         uUnit3 = rPlayer.CreateUnit(GetPointX(iMarker+2), GetPointY(iMarker+2), GetPointZ(iMarker+2), GetPointAlpha(iMarker+2), 
             "MERCWOODCUTTER", null, null, null, "AXE6", null, null, null, null);
         CreateObjectAtMarker(iMarker+2, "HIT_TELEPORT");
         uUnit3.AddDamage(1, 20);
-        uUnit3.AddHP(400);
+        uUnit3.AddHP(500);
         GiveCaptureConvertResistance(uUnit3);
         uUnit4 = rPlayer.CreateUnit(GetPointX(iMarker+3), GetPointY(iMarker+3), GetPointZ(iMarker+3), GetPointAlpha(iMarker+3), 
             "MERCWOODCUTTER", null, null, null, "AXE6", null, null, null, null);
         CreateObjectAtMarker(iMarker+3, "HIT_TELEPORT");
         uUnit4.AddDamage(1, 20);
-        uUnit4.AddHP(400);
+        uUnit4.AddHP(500);
         GiveCaptureConvertResistance(uUnit4);
             
     }
@@ -78,14 +78,14 @@ function void CreateStarters()
         uUnit1 = rPlayer.CreateUnit(GetPointX(iMarker), GetPointY(iMarker), GetPointZ(iMarker), GetPointAlpha(iMarker), 
             "MERCHUNTER", null, null, null, "BOW4", null, null, null, null);
         CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
-        uUnit1.AddDamage(0, 20);
-        uUnit1.AddHP(400);
+        uUnit1.AddDamage(0, 30);
+        uUnit1.AddHP(600);
         GiveCaptureConvertResistance(uUnit1);
         uUnit2 = rPlayer.CreateUnit(GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), GetPointAlpha(iMarker+1), 
             "MERCSPEARMAN", null, null, "SHIELD3B", "SPEAR4", null, null, null, null);
         CreateObjectAtMarker(iMarker+1, "HIT_TELEPORT");
-        uUnit2.AddDamage(0, 20);
-        uUnit2.AddHP(400);
+        uUnit2.AddDamage(0, 30);
+        uUnit2.AddHP(600);
         GiveCaptureConvertResistance(uUnit2);
     }
     else if(comboStarter == 5)
@@ -119,8 +119,8 @@ function void CreateStarters()
     {
         CreateObjectAtMarker(MILK_MARKER, "ART_MILK_GE_400");    
         CreateExperienceArtefact(iMarker, FIRST_REWARD_MARKER, 2);
-        CreateArtefact("ART_ADD_DAMAGE_GE_060", GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), GetPointAlpha(iMarker+1));
-        CreateArtefact("ART_ADD_DAMAGE_GE_060", GetPointX(iMarker+2), GetPointY(iMarker+2), GetPointZ(iMarker+2), GetPointAlpha(iMarker+2));
+        CreateArtefact("ART_ADD_DAMAGE_GE_080", GetPointX(iMarker+1), GetPointY(iMarker+1), GetPointZ(iMarker+1), GetPointAlpha(iMarker+1));
+        CreateArtefact("ART_ADD_DAMAGE_GE_080", GetPointX(iMarker+2), GetPointY(iMarker+2), GetPointZ(iMarker+2), GetPointAlpha(iMarker+2));
         CreateArtefact("ART_ADD_HP_GE_800", GetPointX(iMarker+3), GetPointY(iMarker+3), GetPointZ(iMarker+3), GetPointAlpha(iMarker+3));
         CreateResistanceArtefact(iMarker+4, FIRST_REWARD_MARKER);
 
@@ -148,6 +148,14 @@ function void CreateStarters()
             }
             
         }
+
+        CreateBuildingHpArtefact(iMarker, FIRST_REWARD_MARKER, 0);
+        CreateBuildingHpArtefact(iMarker+1, FIRST_REWARD_MARKER, 1);
+        CreateBuildingHpArtefact(iMarker+2, FIRST_REWARD_MARKER, 2);
+
+        CreateObjectAtMarker(iMarker, "HIT_TELEPORT");
+        CreateObjectAtMarker(iMarker+1, "HIT_TELEPORT");
+        CreateObjectAtMarker(iMarker+2, "HIT_TELEPORT");
     }
 
     if(uUnit1 != null)

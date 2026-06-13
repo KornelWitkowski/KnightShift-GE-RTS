@@ -28,10 +28,12 @@
 #define ELITE_HUMAN_WAVE 3
 #define MINOTAUR_WAVE 4
 #define DEMON_WAVE 5
-#define BEAST_WAVE 6
-#define MAGE_WAVE 7
-#define BANDIT_WAVE 8
-#define DRAGON_WAVE 9
+#define WOODCUTTER_WAVE 6
+// fale poniżej mają spawn blisko bazy
+#define BEAST_WAVE 7
+#define MAGE_WAVE 8
+#define BANDIT_WAVE 9
+#define DRAGON_WAVE 10
 
 #define FIRST_SPAWN_MARKER 20
 #define LAST_SPAWN_MARKER 39
@@ -49,6 +51,8 @@
 
 #define REWARD_INFO_MARKER 11
 #define CUTSCENE_PRIEST_MARKER 12
+
+#define TOTAL_WAVE_NUMBER 50
 
 
 mission "translateTowerDefense"
@@ -68,14 +72,13 @@ mission "translateTowerDefense"
     #include "Common\MarkerFunctions.ech"
     #include "Common\Artefacts.ech"
     #include "Common\Alliance.ech"
-    #include "Common\StartingUnits.ech"
+    #include "Common\StartingUnits.ech" 
 
     player rPlayer8, rPlayer9, rPlayer10, rPlayer11, rPlayer12, rPlayer13, rPlayer14;
     int bIsWin;
     int bIsBossWave, bIsFinalWave;
     int iBossWaveType;
     unitex uBoss;
-    int iTotalWaveNumber;
     int bWaveActive;
     int iBreakTime, iBreakTimeStart;
     int iWaveTimeStart;
@@ -83,7 +86,10 @@ mission "translateTowerDefense"
     int iCurrentWaveNumber;
     int iWaveType;
 
+    unitex uFinalBoss, uFinalBossMinion1, uFinalBossMinion2, uFinalBossMinion3, uFinalBossMinion4;
+
     int iDifficulty;
+    state InitializeGame;
 
     #include "TowerDefense\SpecialPrize.ech"
     #include "TowerDefense\Helpers.ech"
@@ -94,6 +100,8 @@ mission "translateTowerDefense"
     #include "TowerDefense\Ai.ech"
     #include "TowerDefense\Waves.ech"
     #include "TowerDefense\Bossess.ech"
+    #include "TowerDefense\Statistics.ech"
+    #include "TowerDefense\CutScene\Starting.ech"
 
     int iBossHealth, iPreviousBossHealth;
 
@@ -118,17 +126,6 @@ mission "translateTowerDefense"
             multi:
         "translateTowerDefenseDifficulty"
     }
-
-    enum comboWaveNumber
-    {
-        "20",
-        "30",
-        "40",
-        "50",
-            multi:
-        "translateTowerDefenseWaveNumber"
-    }
-
 
 
     function void InitAiPlayers()
@@ -162,7 +159,7 @@ mission "translateTowerDefense"
         SetEnemies(rPlayer11, rPlayer14);
         SetEnemies(rPlayer12, rPlayer14);
 
-
+        GiveResearch(rPlayer10, 0, 0, 2);
         GiveResearch(rPlayer11, 0, 0, 1);
         GiveResearch(rPlayer12, 4, 4, 4);
     }
@@ -184,10 +181,10 @@ mission "translateTowerDefense"
     function void InitBossWaveTypes()
     {
         int i, j, iTemp, iTemp2;
-        iBossWaveTypes.Create(5);
+        iBossWaveTypes.Create(6);
         
         // First fill array with sequential numbers
-        for(i=0; i<5; i=i+1)
+        for(i=0; i<6; i=i+1)
         {
             iBossWaveTypes[i] = i;
         }
@@ -209,11 +206,6 @@ mission "translateTowerDefense"
         CreateObjectAtMarker(REWARD_INFO_MARKER, "TOWERDEFENSE_INFO5");
     }
 
-    function void SetTotalWaveNumber()
-    {
-        iTotalWaveNumber = 10 * (comboWaveNumber + 2);
-    }
-
     function void SetDifficulty()
     {
         iDifficulty = comboDifficulty;
@@ -222,7 +214,8 @@ mission "translateTowerDefense"
     function void SetGoal(player rPlayer)
     {
         SetStringBuffTranslate(2, "translateTowerDefenseGoal");
-        SetStringBuff(3, GetStringBuff(2), iTotalWaveNumber);
+        // TODO: zmienić lana
+        SetStringBuff(3, GetStringBuff(2), 50);
         rPlayer.RegisterGoal(0, GetStringBuff(3));
         rPlayer.EnableGoal(0, true, true);
     }
@@ -231,47 +224,12 @@ mission "translateTowerDefense"
     {
         int i;
         unitex uSmoke;
-
-        if(iTotalWaveNumber <= 10)
-        {
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER, "RPG_EGYPT_NECRO");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+1, "QUEENCLONE");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+2, "QUEENCLONE");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+3, "QUEENCLONE");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+4, "QUEENCLONE");
-        }
-        else if(iTotalWaveNumber <= 20)
-        {
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER, "RPG_EGYPT_NECRO2");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+1, "QUEENCLONE");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+2, "QUEENCLONE");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+3, "QUEENCLONE");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+4, "QUEENCLONE");
-        }
-        else if(iTotalWaveNumber <= 30) 
-        {
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER, "RPG_EGYPT_NECRO2");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+1, "QUEENCLONE2");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+2, "QUEENCLONE2");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+3, "QUEENCLONE2");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+4, "QUEENCLONE2");
-        }
-        else if(iTotalWaveNumber <= 40)
-        {
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER, "RPG_EGYPT_NECRO3");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+1, "QUEENCLONE3");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+2, "QUEENCLONE3");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+3, "QUEENCLONE3");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+4, "QUEENCLONE3");
-        }
-        else if(iTotalWaveNumber <= 50)
-        {
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER, "RPG_EGYPT_NECRO3");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+1, "QUEENCLONE4");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+2, "QUEENCLONE4");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+3, "QUEENCLONE4");
-            CreateUnitAtMarker(rPlayer8, BOSS_MARKER+4, "QUEENCLONE4");
-        }
+  
+        uFinalBoss = CreateUnitAtMarker(rPlayer8, BOSS_MARKER, "TD_NECRO");
+        uFinalBossMinion1 = CreateUnitAtMarker(rPlayer8, BOSS_MARKER+1, "TD_QUEENCLONE");
+        uFinalBossMinion2 = CreateUnitAtMarker(rPlayer8, BOSS_MARKER+2, "TD_QUEENCLONE");
+        uFinalBossMinion3 = CreateUnitAtMarker(rPlayer8, BOSS_MARKER+3, "TD_QUEENCLONE");
+        uFinalBossMinion4 = CreateUnitAtMarker(rPlayer8, BOSS_MARKER+4, "TD_QUEENCLONE");
 
 
         for(i=0; i<5; i=i+1)
@@ -297,7 +255,8 @@ mission "translateTowerDefense"
         }
     }
 
-    state Initialize
+
+    state InitializeGame
     {
         player rPlayer;
         int i, j;
@@ -313,7 +272,8 @@ mission "translateTowerDefense"
         iExtraHut = 0;
 
         iCurrentWaveNumber = 1;
-
+        
+		
         bWaveActive = false;
         bIsFinalWave = false;
 
@@ -322,7 +282,7 @@ mission "translateTowerDefense"
         iBreakTimeStart = GetMissionTime() + 7 * MINUTE;
         iBreakTimeStart = iBreakTimeStart - 40 * SECOND * (comboDifficulty - 2);
 
-        InitXorShiftRNG(Rand(10000) + iBreakTimeStart + 10*comboWaveNumber + 100*comboStarter + 1000*comboDifficulty);
+        InitXorShiftRNG(Rand(10000) + iBreakTimeStart);
         iRewardSeed = RandXor(1000000);
 
         InitAiPlayers();
@@ -330,7 +290,6 @@ mission "translateTowerDefense"
         SetDifficulty();
         SetMoneyPerResource100x(40);
         SetResourceGrowSpeed(400);
-        SetTotalWaveNumber();
         InitBossWaveTypes();  
         SetWaveType();
         
@@ -426,7 +385,7 @@ mission "translateTowerDefense"
         SetTimer(7, GetWindTimerTicks());
         StartWind();
 
-        InitializeStatistics();
+        InitializeTDStatistics();
 
         return Nothing;
     }
@@ -488,10 +447,5 @@ mission "translateTowerDefense"
         return true;
     }
     
-    command Combo3(int nMode) button comboWaveNumber
-    {
-        comboWaveNumber = nMode;
-        return true;
-    }
 }
 

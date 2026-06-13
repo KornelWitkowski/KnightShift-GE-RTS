@@ -17,9 +17,9 @@ function void SetWaveType()
     }
 
     if(iCurrentWaveNumber <= 13)
-        iWaveType = RandXor(9);
-    else // smoki później
         iWaveType = RandXor(10);
+    else // smoki później
+        iWaveType = RandXor(11);
 
 }
 
@@ -70,6 +70,16 @@ function void EndWaveTime()
     iCurrentTime = GetMissionTime();
     iWaveLength = GetWaveLength(iCurrentWaveNumber);
     iWaveTimeStart = iCurrentTime - iWaveLength;
+}
+
+function int GetTimeToBreak()
+{
+    int iCurrentTime;
+    int iWaveLength;
+    iCurrentTime = GetMissionTime();
+    iWaveLength = GetWaveLength(iCurrentWaveNumber);
+
+    return iWaveLength - (iCurrentTime - iWaveTimeStart);
 }
 
 function int IsTimeToBreak()
@@ -128,12 +138,32 @@ function void EndCurrentWave()
 {
     bWaveActive = false;
     iBreakTimeStart = GetMissionTime();
+    UpdateWavesStatistics(iCurrentWaveNumber);
+    
     iCurrentWaveNumber = iCurrentWaveNumber + 1;
     SetWaveType();
     UpdateAiResearch(iCurrentWaveNumber);
 
     GiveRewards(iCurrentWaveNumber);
     UpdatedPlayersAfterWave();
+    
+}
+
+function void EndCurrentBossWave()
+{
+    int iRand;
+
+    PlayTrack("Music\\victory.tws");
+    iRand = RandXor(3);
+    
+    if(iRand == 0)
+        PlayWave("Special\\Inter1.wav");
+    else if(iRand == 1)
+        PlayWave("Special\\Inter2.wav");
+    else
+        PlayWave("Special\\Inter3.wav");
+
+    EndCurrentWave();
 }
 
 

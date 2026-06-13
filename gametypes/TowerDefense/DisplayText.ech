@@ -12,7 +12,7 @@ function int GetDisplayTimeToNextWave(int iCurrentWaveNumber, int iBreakTimeStar
 
 function void DisplayWaveInProgress(int iCurrentWaveNumber, int iEnemyUnitNumber)
 {
-    if(iCurrentWaveNumber == iTotalWaveNumber)
+    if(iCurrentWaveNumber == TOTAL_WAVE_NUMBER)
     {
         SetStringBuffTranslate(2, "translateTowerDefenseWaveInProgressFinal");
     }
@@ -36,7 +36,7 @@ function void DisplayFinalWaveInProgress()
 
 function void DisplayWaveStart(int iCurrentWaveNumber)
 {
-    if(iCurrentWaveNumber == iTotalWaveNumber)
+    if(iCurrentWaveNumber == TOTAL_WAVE_NUMBER)
     {
         SetStringBuffTranslate(2, "translateTowerDefenseWaveStartFinal");
     }
@@ -55,7 +55,7 @@ function void DisplayWaveStart(int iCurrentWaveNumber)
 function void DisplayBreakTime(int iCurrentWaveNumber, int iBreakTimeStart)
 {
     int iCurrentTime;
-    if(iCurrentWaveNumber == iTotalWaveNumber)
+    if(iCurrentWaveNumber == TOTAL_WAVE_NUMBER)
     {
         SetStringBuffTranslate(2, "translateTowerDefenseBreakTimeFinal");
         SetStringBuff(3, GetStringBuff(2), iBreakTimeStart);

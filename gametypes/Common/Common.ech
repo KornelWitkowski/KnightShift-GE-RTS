@@ -7,6 +7,8 @@
 #include "EmitUnitEvent.ech"
 #include "Ai.ech"
 
+
+
 function void ImproveHPRegeneration(unitex uUnit, int iHPExtraSpeed)
 {
     /* Funkcja do zwiększenia regeneracji życia jednostek. Wartość `iHPExtraSpeed` odpowiada liczbie
@@ -200,11 +202,12 @@ function void EnableExtraSkirmishPlayersMilkPool()
 function void InitializeStatistics()
 // Funkcja przygotowuje statystyki wykorzystywane na ekranie po zakończonej grze RTS.
 {
-        StatisticReset();
-        StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
-        StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
-        StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
-        StatisticSetSortOrder(0, 3, true);
+
+    StatisticReset();
+    StatisticAddTab("translateStatisticsTabSummary", statisticTabTypeSummary, true);
+    StatisticAddTab("translateStatisticsTabMoney", statisticTabTypeMoney, true);
+    StatisticAddTab("translateStatisticsTabUnitsStat", statisticTabTypeUnits, true);
+
 }
 
 function void CheckMilkPool(int iMaxCowSheds)
@@ -697,32 +700,6 @@ function int GetYToRight(int iAlpha)
     return GetYInFront((iAlpha + 64) % 256);
 }
 
-
-function void TurnOffTier5Items()
-{
-   player rPlayer;
-   int i;
-
-   for(i=0; i<12; i=i+1)
-   {
-        rPlayer = GetPlayer(i);
-        
-        if(rPlayer != null)
-        {
-             rPlayer.EnableResearchUpdate("AXE6", false);
-             rPlayer.EnableResearchUpdate("BOW6", false);
-             rPlayer.EnableResearchUpdate("SPEAR6", false);
-             rPlayer.EnableResearchUpdate("SHIELD3A", false);
-             rPlayer.EnableResearchUpdate("HELMET4",  false);
-             rPlayer.EnableResearchUpdate("ARMOUR4",  false);
-             rPlayer.EnableResearchUpdate("SWORD3A", false);
-
-            rPlayer.EnableResearchUpdate("AMULET_SHIELD_TIER5_ITEM", false);
-            rPlayer.EnableResearchUpdate("AMULET_REGMAGIC_TIER5_ITEM", false);
-        }
-   }
-    
-}
 
 function int PointExists(int i)
 {

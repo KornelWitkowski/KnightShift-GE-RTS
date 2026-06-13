@@ -17,15 +17,15 @@ function void SpawnBandit(int nWaveNumber, int iMarker)
         // Footman variants
         if (iSubRoll < 33)
         {
-            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_FOOTMAN");
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "TD_BANDIT_FOOTMAN");
         }
         else if (iSubRoll < 66)
         {
-            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_FOOTMAN2");
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "TD_BANDIT_FOOTMAN2");
         }
         else
         {
-            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "RPG_BANDIT_FOOTMAN3");
+            uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "TD_BANDIT_FOOTMAN3");
         }
     } 
     else if (iRoll < 40)

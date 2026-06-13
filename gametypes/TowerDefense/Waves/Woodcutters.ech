@@ -1,0 +1,46 @@
+function void SpawnWoodcutter(int nWaveNumber, int iMarker)
+{
+    int iTier;
+    player rPlayerEnemy;
+    unitex uUnit;
+
+    rPlayerEnemy = GetPlayer(11);
+
+    iTier = RandXor(800);
+
+    if(iTier < 100)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "TD_WOODCUTTER1");
+    } 
+    else if (iTier < 200)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "TD_WOODCUTTER2");
+    } 
+    else if (iTier < 300)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "TD_WOODCUTTER3");
+    }
+    else if (iTier < 400)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "TD_WOODCUTTER4");
+    }
+    else if (iTier < 500)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "TD_WOODCUTTER5");
+    }
+    else if (iTier < 600)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "TD_WOODCUTTER6");
+    }
+    else if (iTier < 700)
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "TD_WOODCUTTER7");
+    }
+    else
+    {
+        uUnit = CreateUnitAtMarker(rPlayerEnemy, iMarker, "TD_WOODCUTTER8");
+    }
+
+    CreateObjectAtUnit(uUnit, "CAST_TELEPORT");
+    return;
+}

@@ -3,7 +3,7 @@ function unitex SpawnNecromancerBoss(int nWaveNumber, int iMarker)
     int iX, iY, iZ, iAngle;
     unitex uUnit;
 
-    uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "noonwraith");
+    uUnit = CreateUnitAtMarker(rPlayer10, iMarker, "TD_NOONWRAITH_BOSS");
     
     if(nWaveNumber <= 10)
     {
@@ -28,7 +28,9 @@ function unitex SpawnNecromancerBoss(int nWaveNumber, int iMarker)
 
     GiveCaptureConvertResistance(uUnit);
     SetUnitMaskedScriptData(uUnit, PATH_MASK, FIRST_MARKER_TO_REACH_CENTER);
+    uUnit.CommandSetMakeMagicTeleportationMode(true);
     SetUnitNecromancer(iMarker);
+    SetUnitMaskedScriptData(uUnit, TOWER_DEFENSE_SPECIAL_MASK, SORCERESS_MARKER);
     CreateObjectAtUnit(uUnit, "HIT_GHOST");
 
     return uUnit;

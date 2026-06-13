@@ -110,6 +110,16 @@ function void GiveMilkReward()
 }
 
 
+function void GiveExtraBreakTimeMilk()
+{
+    if(!PointExists(MILK_MARKER))
+        return;
+
+    RemoveArtefact(GetPointX(MILK_MARKER), GetPointY(MILK_MARKER), GetPointZ(MILK_MARKER));
+    CreateObjectAtMarker(MILK_MARKER, "ART_MILK_GE_400");
+}
+
+
 function void UpdatePrisonerPlayerResearch(int iWaveNumber)
 {
     AddResearchAfterWave(rPlayer13, iWaveNumber-1);
@@ -138,21 +148,21 @@ function void GiveRewards(int iWaveNumber)
         if(!PointExists(i))
             continue;
 
-        j = RandXorNoExtraEntropy(5);
+        j = RandXorNoExtraEntropy(100);
 
-        if(j==0)
+        if(j < 25) // 25%
         {
             uReward = RewardUnits(iWaveNumber, i);
         }
-        else if (j==1)
+        else if (j < 55) // 30%
         {
             uReward = RewardSupplement(iWaveNumber, i);
         }
-        else if (j==2)
+        else if (j < 70) // 15%
         {
             uReward = RewardExperience(iWaveNumber, i);
         }
-        else
+        else // 30%
         {
             uReward = RewardEquipment(iWaveNumber, i);
         }

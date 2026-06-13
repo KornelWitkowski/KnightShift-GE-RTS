@@ -1,0 +1,137 @@
+#define MARKER_FIRST_BUILDING_HP 990
+#define MARKER_LAST_BUILDING_HP 1019
+
+unitex uBuildingHp[];
+int iBuildingHpToAddArray[];
+int iPlayerBuildingHpBonus[];
+
+function unitex CreateBuildingHpArtefact(
+    int iMarkerBuildingHp,
+    int iMarkerFirstBuildingHp,
+    int iType    
+)
+{
+    int i, j, iHpToAdd;
+    unitex uBuildingHpItem;
+    
+    if(!PointExist(iMarkerBuildingHp))
+        return null;
+
+    j = iMarkerBuildingHp - iMarkerFirstBuildingHp;
+    
+    if(iType == 0){
+        uBuildingHpItem = CreateObjectAtMarker(
+            iMarkerBuildingHp,
+            "ELEMENT2" // "TD_BUILDING_HP5"
+        );
+        iHpToAdd = 5;
+    }
+    else if(iType == 1){
+        uBuildingHpItem = CreateObjectAtMarker(
+            iMarkerBuildingHp,
+            "ELEMENT3" // "TD_BUILDING_HP10"
+        );
+        iHpToAdd = 10;
+    }
+    else if(iType == 2){
+        uBuildingHpItem = CreateObjectAtMarker(
+            iMarkerBuildingHp,
+            "ELEMENT4" // "TD_BUILDING_HP20"
+        );
+        iHpToAdd = 20;
+    }
+
+    uBuildingHp[j] = uBuildingHpItem; 
+    iBuildingHpToAddArray[j] = iHpToAdd;
+
+    CreateArtefact(
+        "ARTIFACT_INVISIBLE", 
+        GetPointX(iMarkerBuildingHp), 
+        GetPointY(iMarkerBuildingHp),
+        GetPointZ(iMarkerBuildingHp), 
+        MASK_BUILDING_HP|iMarkerBuildingHp
+    );
+
+    return uBuildingHpItem;
+}
+
+function void GrantBuildingHp(unitex uUnit, int iMarkerBuildingHp, int iMarkerFirstBuildingHp)
+{
+    int i, iHpToAdd, iIFF;
+    unitex uBuildingHpItem;
+
+    iIFF = uUnit.GetIFFNumber();
+    if(iIFF >= 8)
+        return;
+
+    i = iMarkerBuildingHp - iMarkerFirstBuildingHp;
+
+    uBuildingHpItem = uBuildingHp[i];
+    iHpToAdd = iBuildingHpToAddArray[i]; 
+
+    if(uBuildingHpItem == null)
+        return;
+
+    uBuildingHpItem.RemoveUnit();
+
+    if(iHpToAdd == 5){
+        CreateObjectAtUnit(uUnit, "GET_GOLD5"); // "GET_BUILDING_HP5"
+    }
+    else if(iHpToAdd == 10){
+        CreateObjectAtUnit(uUnit, "GET_GOLD10"); // "GET_BUILDING_HP10"
+    }
+    else if(iHpToAdd == 20){
+        CreateObjectAtUnit(uUnit, "GET_GOLD20"); // "GET_BUILDING_HP20"
+    }
+
+    iPlayerBuildingHpBonus[iIFF] = iPlayerBuildingHpBonus[iIFF] + iHpToAdd;
+}
+
+function void ApplyBuildingHpBonus(unitex uBuilding)
+{
+    int iIFF, iBonusHP;
+
+    iIFF = uBuilding.GetIFFNumber();
+    if (iIFF >= 8)
+        return;
+
+    if (iPlayerBuildingHpBonus[iIFF] <= 0)
+        return;
+
+    iBonusHP = (uBuilding.GetMaxHP() * iPlayerBuildingHpBonus[iIFF]) / 100;
+    if (iBonusHP <= 0)
+        return;
+
+    uBuilding.AddHP(iBonusHP);
+}
+
+function void InitializeBuildingHp()
+{
+    int i, iType, iSize;
+
+    iSize = MARKER_LAST_BUILDING_HP - MARKER_FIRST_BUILDING_HP + 1;
+
+    uBuildingHp.Create(iSize);
+    iBuildingHpToAddArray.Create(iSize);
+    iPlayerBuildingHpBonus.Create(8);
+
+    for(i=0; i<iSize; ++i)
+    {
+        uBuildingHp[i] = null;
+        iBuildingHpToAddArray[i] = 0;
+    }
+
+    for(i=0; i<8; ++i)
+    {
+        iPlayerBuildingHpBonus[i] = 0;
+    }
+
+    for(i=MARKER_FIRST_BUILDING_HP; i<=MARKER_LAST_BUILDING_HP; ++i)
+    {
+        if(!PointExist(i))
+            continue;
+
+        iType = (i - MARKER_FIRST_BUILDING_HP) / 10;
+        CreateBuildingHpArtefact(i, MARKER_FIRST_BUILDING_HP, iType);
+    }
+}

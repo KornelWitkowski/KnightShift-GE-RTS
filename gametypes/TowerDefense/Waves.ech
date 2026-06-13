@@ -9,6 +9,7 @@
 #include "Waves\Bandits.ech"
 #include "Waves\Dragons.ech"
 #include "Waves\Bombers.ech"
+#include "Waves\Woodcutters.ech"
 
 function int ModifyUnitNumber(int iUnitNumber)
 {
@@ -112,9 +113,9 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
         for(i = 1; i < iWaveNumber; i = i + 1)
         {
             if(i < 10)
-                iSum = iSum + 7;
+                iSum = iSum + 6;
             else if(i < 20)
-                iSum = iSum + 5;
+                iSum = iSum + 4;
             else if(i < 30)
                 iSum = iSum + 2;
             else if(i < 40)
@@ -205,6 +206,25 @@ function int GetUnitNumber(int iWaveType, int iWaveNumber)
         iSum = ModifyUnitNumber(iSum);
         return iSum;
     }
+    else if (iWaveType == WOODCUTTER_WAVE)
+    {
+        iSum = 32;
+        for(i = 1; i < iWaveNumber; i = i + 1)
+        {
+            if(i < 10)
+                iSum = iSum + 8;
+            else if(i < 20)
+                iSum = iSum + 7;
+            else if(i < 30)
+                iSum = iSum + 6;
+            else if(i < 40)
+                iSum = iSum + 5;
+            else if(i < 50)
+                iSum = iSum + 4;
+        }
+        iSum = ModifyUnitNumber(iSum);
+        return iSum;
+    }
     else if (iWaveType == DRAGON_WAVE)
     {
         iSum = 20;
@@ -286,6 +306,8 @@ function int SpawnUnit(int iWaveType, int iWaveNumber)
         SpawnMage(iWaveNumber, iMarker);
     else if (iWaveType == BANDIT_WAVE)
         SpawnBandit(iWaveNumber, iMarker);
+    else if (iWaveType == WOODCUTTER_WAVE)
+        SpawnWoodcutter(iWaveNumber, iMarker);
     else if (iWaveType == DRAGON_WAVE)
     {
         i = GetUnitNumber(iWaveType, iWaveNumber);
